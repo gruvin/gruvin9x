@@ -1,0 +1,74 @@
+Description of files in the folder
+----------------------------------
+
+The file 'readall' is a unix shell script to backup ALL 9X flash,eeprom,fuses 
+and calibrartion data. You should do this with your factory standard unit 
+before attempting any re-flashing what-so-ever. 
+
+The script is easily adapted to Windows by simply renaming it to readall.bat 
+(or readall.cmd on Windows XP and above) and removing the first line 
+containing #!/bin/sh.
+
+
+- - - - - -
+
+The C++ code in 'telemetry-test.cpp' is a bare bones half program I (gruvin) 
+specifically wrote for OS X and my FTDI USB-Serial port.
+
+Compile it using:
+
+   >  g++ telemetry-test.cpp -o telemetry-test
+   
+Its purpose is to interpret telemetry data on the Mac, filtering packets such 
+that only "user data" sent through the Fr-Skry RECEIVER data port winds up on 
+the Mac terminal display.
+
+(Of course, theFr-Sky telemetry transmitter is also connected to the Mac's USB 
+ serial interface for this to work.)
+
+The source also has (commented out) code to display the A1/A2/RSSI values as 
+they arrive. But that scrolls up the screen, which I didn't want.
+
+ - - - - - -
+
+'xbm2lbm.rb' is a Ruby script (presumably originally written by Thomas 
+    Husterer of TH9x) designed to convert an XBM (X-Windows Bit-Map) 
+  monochrome graphic image into an 'lbm' file. The script is run automatically 
+  from the main Makefile. Hence, all you need to do is update one of the .xbm 
+  files (../src/font_6x1.xbm  ../src/s9xsplash.xbm  ../src/sticks_4x1.xbm) and 
+  they will be automatically converted for inclusion in the final .hex output 
+  file.
+
+For this script to work, you must have the 'ruby' language/interpretter 
+installed on your system. It comes standard with Mac OS X and can be 
+downloaded for Windows. (Google is your freind.)
+
+For creating XBM files from other formats under Mac OS X, I use and recommend 
+"ToyViewer" (free) from 
+http://www7a.biglobe.ne.jp/~ogihara/software/OSX/toyv-eng.html.
+
+NOTE: The screen resoution of the '9X is 128x64 pixels.
+
+ - - - - - -
+
+eeprom.rb -- analyses a .bin file containing the contents of the '9X EEPROM 
+data. This can be retrieved using:
+
+  avrdude -p atmega64 -c usbtiny -B1 -U eeprom:r:eeprom.bin
+
+    or from the src/ folder,
+
+  .../src/$ touch myeeprom.bin
+  .../src/$ make reeprom TARGET=myeeprom
+
+Originally written by TH and modified/extended by Gruvin to be ER/gruvin9X 
+aware, including Frsky data.
+
+USAGE:
+
+  ruby eeprom.rb info [path-to-eeprom-bin-file]
+
+I believe the script is also capable of converting earlier TH9X EEPROM data to 
+later file formats, to work with later versions of his code. None of this 
+applies (yet anyway) to gruvin9x though, and I haven't tested it besides.
+

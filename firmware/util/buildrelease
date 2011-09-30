@@ -1,0 +1,43 @@
+#! /bin/bash
+echo "Updating svn tree with current repository version."
+echo "Use CTRL-C to escape if there are problems."
+svn update
+if [ $? != 0 ]; then 
+  exit
+fi
+
+cd src
+
+# Build fully Gruvinized version ...
+make clean 
+make
+mv gruvin9x.hex ../gruvin9x.hex
+
+# Build stock and near-stock hardware versions ...
+make clean
+make EXT=STD BEEPER=BUZZER USART1=STD
+mv gruvin9x.hex ../gruvin9x-stock.hex
+
+make clean
+make BEEPER=SPEAKER USART1=STD
+mv gruvin9x.hex ../gruvin9x-std-speaker.hex
+
+make clean
+make EXT=FRSKY BEEPER=BUZZER USART1=STD
+mv gruvin9x.hex ../gruvin9x-frsky-nospeaker.hex
+
+make clean
+make EXT=FRSKY BEEPER=SPEAKER USART1=STD
+mv gruvin9x.hex ../gruvin9x-frsky-speaker.hex
+
+make clean
+
+cd ..
+# Commit the new build
+echo "Committing latest .hex binary build ..."
+svn commit -m 'Committing latest .hex binary build'
+# Create version info gif file for Google wiki
+./svnversion.sh
+echo "Committing updated svnversion.gif for wiki"
+svn commit -m 'Updating svnversion.gif for wiki'
+

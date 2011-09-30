@@ -1,0 +1,10 @@
+#!/bin/sh
+avrdude -p atmega64 -c usbtiny -B 1 \
+          -U flash:r:"9x_flash.bin":r \
+          -U eeprom:r:"9x_eeprom.bin":r  \
+          -U lfuse:r:"9x_lfuse.bin":r \
+          -U hfuse:r:"9x_hfuse.bin":r \
+          -U lock:r:"9x_lock.bin":r \
+          -U efuse:r:"9x_efuse.bin":r \
+          -U calibration:r:"9x_calibration.bin":r \
+          -U signature:r:"9x_signature.bin":r
