@@ -1,0 +1,122 @@
+Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 15/07/2011 17:23:11
+
+BeginCmp
+TimeStamp = /4D3E3E91;
+Reference = BT1;
+ValeurCmp = CR2032;
+IdModule  = BAT_2032_FARNELL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F944C;
+Reference = C1;
+ValeurCmp = 0u1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D3E3EFB;
+Reference = C2;
+ValeurCmp = 0u1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E10CF22;
+Reference = P1;
+ValeurCmp = SDC_MMC_SOCKET_MULTICOMP;
+IdModule  = SDCARD_SKT_MULTICOMP;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F86A0;
+Reference = P2;
+ValeurCmp = CONN_8;
+IdModule  = CONN_2MM_8x1;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F946A;
+Reference = R1;
+ValeurCmp = 10K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F947B;
+Reference = R2;
+ValeurCmp = 10K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F93EA;
+Reference = R3;
+ValeurCmp = 10K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F9326;
+Reference = R4;
+ValeurCmp = 10K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D3E13E1;
+Reference = R5;
+ValeurCmp = 10K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F9309;
+Reference = R6;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F9178;
+Reference = R7;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D1F93CC;
+Reference = R8;
+ValeurCmp = 1K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D3E691F;
+Reference = R9;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D3E6931;
+Reference = R10;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D3E3DEA;
+Reference = U1;
+ValeurCmp = DS1338-33;
+IdModule  = SO8E;
+EndCmp
+
+BeginCmp
+TimeStamp = /4D3E3E59;
+Reference = X1;
+ValeurCmp = 32768;
+IdModule  = SM0805;
+EndCmp
+
+EndListe
