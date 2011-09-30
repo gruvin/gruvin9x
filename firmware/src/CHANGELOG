@@ -1,0 +1,62 @@
+Changes in v1.2
+
++ Improved CPU efficiency for speaker tone generator. (V2 PCB required this.)
+
++ Changed freq. range of trim tone frequencies to use a divide by 4 instead
+  of 3, for better code efficiency. (Upper tone not so ear piercing now either. 
+  Bonus.)
+
+Committed r479
+
++ Issue 18: Hex value on ANA CALIB set-up page missing pixels, FIXED.
+
+Committed r475
+
++ Issue 17: Fr-Sky Page 1/3 off-screen write causes crash, FIXED.
+
+Committed r452 (trunk/)
+
++ Issue 15: Added make directive 'PPMIN=MOD1' (as default -- use PPMIN=STD to
+  disable) to align with hardware hack to make the '9X compatible with
+  Spektrum (and no doubt others) radio PPM signals (of lower voltage etc).  See
+  http://code.google.com/p/gruvin9x/wiki/PpmIn for details.
+
+  Also updated pcb/hacked/gruvin9x-hacked.sch/pdf circuit schematic files to 
+  include changes made for the above.
+
++ Removed decimal portion of output values in proc0 main page view (they
+  just make things look messy and in fact, less precise, due to rouding
+  errors etc.)
+
++ More minor font edits (dblsize 'G' and 'N' changed slightly)
+
++ ER9X's nice new fonts (contributed by Michael Torrie) include a change where the 
+  @ symbol has been changed to a º (degrees symbol). I moved the little circle in 
+  both font files left, to sit on the left hand edge of the character cell, rather 
+  than the right. (I think it looks better is all.)
+
++ Issue 10: Moved PPM-in pulse processing to pulse capture ISR function to fix
+  buffer overflows and, more importantly, make servo motion considerably smoother
+  when under trainee control.
+
++ Introduced different beep/tone frequencies (BEEPSPKR version only) for mix warning 
+  beeps (1, 2 and 3)
+
++ Issue 11 (invalidated): Added text "[MENU] to refresh" to STAT2 page
+
++ Fixed issue 8: faulty mix warning beeps
+
+Committed r377 (trunk)
+
++ CHANGELOG introduced
+
++ Fr-Sky support v1.0 merged into trunk
+
++ ER9X's better fonts (contributed by Michael Torrie) introduced (with slashes removed 
+  from zeroes.)
+
++ Issue 9: Bug in PPM_IN capture values fixed
+
++ Some minor tweaks in display format of times
++ Resurrected the old sub-version auto-counter in the form of a "build number"
+

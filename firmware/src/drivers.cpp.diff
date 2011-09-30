@@ -1,0 +1,17 @@
+77a78
+> #define KSTATE_RPTDELAY 95 // gruvin: longer dely before key repeating starts
+125c126
+<       m_state   = 16;
+---
+>       m_state   = KSTATE_RPTDELAY;
+127a129,135
+>     case KSTATE_RPTDELAY: // gruvin: longer delay before first key repeat
+>       if(m_cnt == 24) putEvent(EVT_KEY_LONG(enuk)); // need to catch this inside RPTDELAY time
+>       if (m_cnt == 40) {
+>         m_state = 16;
+>         m_cnt = 0;
+>       }
+>       break;
+129,130d136
+<       if(m_cnt == 24)        putEvent(EVT_KEY_LONG(enuk));
+<       //fallthrough
