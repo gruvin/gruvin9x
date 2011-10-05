@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 23/09/2011 18:39:04
+Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 29/09/2011 21:51:38
 
 BeginCmp
 TimeStamp = /4CE748AC;
@@ -435,6 +435,13 @@ IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
+TimeStamp = /4E84DA11;
+Reference = C63;
+ValeurCmp = 0.1uF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
 TimeStamp = /4DC19467;
 Reference = C91;
 ValeurCmp = 0.1uF;
@@ -484,6 +491,13 @@ IdModule  = SM0603_DIODE;
 EndCmp
 
 BeginCmp
+TimeStamp = /4E848531;
+Reference = D2;
+ValeurCmp = 5.1v;
+IdModule  = sod523;
+EndCmp
+
+BeginCmp
 TimeStamp = /4E2AC5A2;
 Reference = D3;
 ValeurCmp = 3.6v;
@@ -495,6 +509,13 @@ TimeStamp = /4E2AC5A9;
 Reference = D4;
 ValeurCmp = 3.6v;
 IdModule  = sod523;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E8485E8;
+Reference = D5;
+ValeurCmp = DIODESCH;
+IdModule  = SM0603_DIODE;
 EndCmp
 
 BeginCmp
@@ -757,20 +778,6 @@ IdModule  = CONN_2MM_4x1;
 EndCmp
 
 BeginCmp
-TimeStamp = /4E2024B2;
-Reference = P16;
-ValeurCmp = CONN_1;
-IdModule  = TP_SML;
-EndCmp
-
-BeginCmp
-TimeStamp = /4E2024B1;
-Reference = P17;
-ValeurCmp = CONN_1;
-IdModule  = TP_SML;
-EndCmp
-
-BeginCmp
 TimeStamp = /4D324737;
 Reference = P18;
 ValeurCmp = CONN_2;
@@ -795,14 +802,14 @@ BeginCmp
 TimeStamp = /4DC18E36;
 Reference = P23;
 ValeurCmp = CONN_1;
-IdModule  = TP;
+IdModule  = TP_SML;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC18E3B;
 Reference = P24;
 ValeurCmp = CONN_1;
-IdModule  = TP;
+IdModule  = TP_SML;
 EndCmp
 
 BeginCmp
@@ -873,6 +880,20 @@ TimeStamp = /4E7B4ABC;
 Reference = Q8;
 ValeurCmp = BC847C;
 IdModule  = SOT23-BCE;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E848340;
+Reference = Q9;
+ValeurCmp = BC847C;
+IdModule  = SOT23-BCE;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E848343;
+Reference = Q10;
+ValeurCmp = Si2319DS;
+IdModule  = SOT23GDS;
 EndCmp
 
 BeginCmp
@@ -1590,6 +1611,13 @@ IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
+TimeStamp = /4E8484D2;
+Reference = R103;
+ValeurCmp = 1k;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
 TimeStamp = /4E2AC5C6;
 Reference = R104;
 ValeurCmp = 68R;
@@ -1635,6 +1663,41 @@ BeginCmp
 TimeStamp = /4E2AE1D6;
 Reference = R110;
 ValeurCmp = 5.1K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E84833F;
+Reference = R111;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E848578;
+Reference = R112;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E848344;
+Reference = R113;
+ValeurCmp = 100K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E848342;
+Reference = R114;
+ValeurCmp = 5K1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E84D9A9;
+Reference = R115;
+ValeurCmp = 100k;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
