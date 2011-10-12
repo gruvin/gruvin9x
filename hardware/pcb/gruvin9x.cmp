@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 10/10/2011 18:19:44
+Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 12/10/2011 00:43:40
 
 BeginCmp
 TimeStamp = /4CE748AC;
@@ -437,6 +437,13 @@ EndCmp
 BeginCmp
 TimeStamp = /4E84DA11;
 Reference = C63;
+ValeurCmp = 0.1uF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E94D484;
+Reference = C64;
 ValeurCmp = 0.1uF;
 IdModule  = SM0603_GRUVIN;
 EndCmp
@@ -1704,7 +1711,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4E9328F9;
 Reference = R116;
-ValeurCmp = 0R;
+ValeurCmp = NC;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 

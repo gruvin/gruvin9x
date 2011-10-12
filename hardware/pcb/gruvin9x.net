@@ -1,4 +1,4 @@
-# EESchema Netlist Version 1.1 created  10/10/2011 18:19:44
+# EESchema Netlist Version 1.1 created  12/10/2011 00:43:41
 (
  ( /4CE748AC SM1206_GRUVIN_POL C1 10uF
   ( 1 GND )
@@ -122,7 +122,7 @@
  )
  ( /4DE3AC28 SM1206_GRUVIN_POL C31 47uF
   ( 1 GND )
-  ( 2 N-000214 )
+  ( 2 N-000212 )
  )
  ( /4DDD61B4 SM1210_GRUVIN_POL C32 22uF
   ( 1 GND )
@@ -134,7 +134,7 @@
  )
  ( /4DE3AEF0 SM0603_GRUVIN C34 0.1uF
   ( 1 GND )
-  ( 2 N-000214 )
+  ( 2 N-000212 )
  )
  ( /4DFF92F5 SM1206_GRUVIN_POL C35 47uF
   ( 1 /Jack_PPM )
@@ -173,15 +173,15 @@
   ( 2 GND )
  )
  ( /4CE74C94 SM0603_GRUVIN C44 1uF
-  ( 1 N-000103 )
+  ( 1 N-000102 )
   ( 2 GND )
  )
  ( /4CE74D5F SM0603_GRUVIN C45 1uF
   ( 1 N-000105 )
-  ( 2 N-000001 )
+  ( 2 N-000002 )
  )
  ( /4CE74DBD SM0603_GRUVIN C46 1uF
-  ( 1 N-000084 )
+  ( 1 N-000108 )
   ( 2 /Vcc_3V3 )
  )
  ( /4CE74DC4 SM0603_GRUVIN C47 1uF
@@ -202,11 +202,11 @@
  )
  ( /4CE74D04 SM0603_GRUVIN C51 1uF
   ( 1 N-000087 )
-  ( 2 N-000034 )
+  ( 2 N-000103 )
  )
  ( /4CE74D00 SM0603_GRUVIN C52 1uF
   ( 1 N-000104 )
-  ( 2 N-000034 )
+  ( 2 N-000103 )
  )
  ( /4E200211 SM0603_GRUVIN C53 0.1uF
   ( 1 /UP )
@@ -238,11 +238,11 @@
  )
  ( /4E203190 SM0603_GRUVIN C60 0.1uF
   ( 1 GND )
-  ( 2 N-000177 )
+  ( 2 N-000171 )
  )
  ( /4E203199 SM0603_GRUVIN C61 0.1uF
   ( 1 GND )
-  ( 2 N-000206 )
+  ( 2 N-000201 )
  )
  ( /4E35BB01 SM0603_GRUVIN C62 1uF
   ( 1 GND )
@@ -251,6 +251,10 @@
  ( /4E84DA11 SM0603_GRUVIN C63 0.1uF
   ( 1 GND )
   ( 2 N-000186 )
+ )
+ ( /4E94D484 SM0603_GRUVIN C64 0.1uF
+  ( 1 VCC )
+  ( 2 GND )
  )
  ( /4DC19467 SM0603_GRUVIN C91 0.1uF
   ( 1 /ROT_ENC_2_A )
@@ -278,7 +282,7 @@
  )
  ( /4CEE07E6 SM0603_DIODE D1 DIODESIL
   ( 1 GND )
-  ( 2 N-000212 )
+  ( 2 N-000151 )
  )
  ( /4E848531 sod523 D2 5.1v
   ( 1 GND )
@@ -286,27 +290,27 @@
  )
  ( /4E2AC5A2 sod523 D3 3.6v
   ( 1 GND )
-  ( 2 N-000190 )
+  ( 2 N-000189 )
  )
  ( /4E2AC5A9 sod523 D4 3.6v
   ( 1 GND )
-  ( 2 N-000191 )
+  ( 2 N-000190 )
  )
  ( /4E8485E8 SM0603_DIODE D5 DIODESCH
   ( 1 /Jack_Presence_TTL )
-  ( 2 N-000181 )
+  ( 2 N-000179 )
  )
  ( /4DDD61E7 SM0603_DIODE D16 DIODESCH
   ( 1 GND )
-  ( 2 N-000214 )
+  ( 2 N-000212 )
  )
  ( /4DFF927D SM0603_DIODE D17 DIODESCH
-  ( 1 N-000070 )
+  ( 1 N-000071 )
   ( 2 /Sim_Ctrl )
  )
  ( /4E7CC3EB SM1206 F1 FUSE
   ( 1 N-000175 )
-  ( 2 N-000177 )
+  ( 2 N-000171 )
  )
  ( /4DC0276C HOLE_M2.5 H1 HOLE_M2.5
   ( 1 ? )
@@ -340,20 +344,20 @@
   ( 2 /TELEM_RX )
   ( 3 /TELEM_TX )
   ( 4 /USB_D- )
-  ( 5 N-000061 )
+  ( 5 N-000064 )
   ( 6 /USB_D+ )
   ( 7 /ROT_ENC_1_A )
   ( 8 /ROT_ENC_1_B )
   ( 9 /PPM_IN )
   ( 10 VCC )
   ( 11 GND )
-  ( 12 N-000068 )
-  ( 13 N-000066 )
+  ( 12 N-000069 )
+  ( 13 N-000067 )
   ( 14 /Vib-PWM-opt )
-  ( 15 N-000062 )
-  ( 16 N-000007 )
-  ( 17 N-000006 )
-  ( 18 N-000004 )
+  ( 15 N-000009 )
+  ( 16 N-000008 )
+  ( 17 N-000007 )
+  ( 18 N-000005 )
   ( 19 /SD_CS )
   ( 20 /SD_SCK )
   ( 21 /SD_MOSI )
@@ -362,7 +366,7 @@
   ( 24 N-000111 )
   ( 25 /PPM_OUT )
   ( 26 /Speaker_TTL )
-  ( 27 N-000005 )
+  ( 27 N-000006 )
   ( 28 N-000113 )
   ( 29 /Sim_Ctrl )
   ( 30 /RESET )
@@ -386,16 +390,16 @@
   ( 48 /ROT_ENC_2_PUSH )
   ( 49 /Spare1\LED-BL-opt )
   ( 50 /Spare2\Vib-opt )
-  ( 51 N-000153 )
+  ( 51 N-000154 )
   ( 52 /RF_Power_TTL )
   ( 53 /Back_Light_EL_TTL )
-  ( 54 N-000145 )
-  ( 55 N-000144 )
-  ( 56 N-000143 )
-  ( 57 N-000142 )
-  ( 58 N-000141 )
+  ( 54 N-000146 )
+  ( 55 N-000145 )
+  ( 56 N-000144 )
+  ( 57 N-000143 )
+  ( 58 N-000142 )
   ( 59 N-000109 )
-  ( 60 N-000139 )
+  ( 60 N-000140 )
   ( 61 VCC )
   ( 62 GND )
   ( 63 /LH_Dwn_P )
@@ -405,15 +409,15 @@
   ( 67 /RV_Dwn_P )
   ( 68 /RV_Up_P )
   ( 69 /RH_Dwn_P )
-  ( 70 N-000138 )
-  ( 71 N-000167 )
-  ( 72 N-000166 )
-  ( 73 N-000165 )
-  ( 74 N-000164 )
-  ( 75 N-000163 )
-  ( 76 N-000162 )
-  ( 77 N-000161 )
-  ( 78 N-000160 )
+  ( 70 N-000139 )
+  ( 71 N-000166 )
+  ( 72 N-000165 )
+  ( 73 N-000164 )
+  ( 74 N-000163 )
+  ( 75 N-000162 )
+  ( 76 N-000161 )
+  ( 77 N-000160 )
+  ( 78 N-000159 )
   ( 79 /RH_Up_P )
   ( 80 VCC )
   ( 81 GND )
@@ -429,22 +433,22 @@
   ( 91 /JTAG_TDO )
   ( 92 /JTAG_TMS )
   ( 93 /JTAG_TCK )
-  ( 94 N-000185 )
+  ( 94 N-000183 )
   ( 95 N-000049 )
   ( 96 N-000048 )
-  ( 97 N-000047 )
+  ( 97 N-000177 )
   ( 98 N-000122 )
   ( 99 AGND )
   ( 100 /AVCC )
  )
  ( /4E2051B8 JUMPER_3PAD J1 JUMPER_2W
-  ( 1 /Spare1\LED-BL-opt )
-  ( 2 N-000173 )
-  ( 3 /Back_Light_EL_TTL )
+  ( 1 /Back_Light_EL_TTL )
+  ( 2 N-000172 )
+  ( 3 /Spare1\LED-BL-opt )
  )
  ( /4DDD597C JUMPER_3PAD J4 JUMPER_2W
   ( 1 /Spare2\Vib-opt )
-  ( 2 N-000075 )
+  ( 2 N-000076 )
   ( 3 /Vib-PWM-opt )
  )
  ( /4CEE0727 CONN_2MM_3x1 K1 CONN_3
@@ -454,8 +458,8 @@
  )
  ( /4CEE0889 CONN_2MM_3x1 K2 CONN_3
   ( 1 GND )
-  ( 2 N-000152 )
-  ( 3 N-000151 )
+  ( 2 N-000153 )
+  ( 3 N-000152 )
  )
  ( /4D3294E5 PIN_ARRAY_3X1_SMP_GRUVIN K3 CONN_3
   ( 1 GND )
@@ -470,11 +474,11 @@
  ( /4E20326D CONN_2MM_3x1 K5 CONN_3
   ( 1 N-000174 )
   ( 2 GND )
-  ( 3 N-000177 )
+  ( 3 N-000171 )
  )
  ( /4E2AC67F CONN_2MM_3x1 K6 CONN_3
-  ( 1 N-000190 )
-  ( 2 N-000191 )
+  ( 1 N-000189 )
+  ( 2 N-000190 )
   ( 3 GND )
  )
  ( /4CE74148 SM0805 L1 10uH
@@ -569,19 +573,19 @@
   ( 14 /LCD_DATA7 )
   ( 15 /Vcc_3V3 )
   ( 16 GND )
-  ( 17 N-000103 )
+  ( 17 N-000102 )
   ( 18 N-000087 )
-  ( 19 N-000034 )
+  ( 19 N-000103 )
   ( 20 N-000104 )
   ( 21 N-000105 )
-  ( 22 N-000001 )
+  ( 22 N-000002 )
   ( 23 N-000106 )
-  ( 24 N-000084 )
+  ( 24 N-000108 )
   ( 25 N-000107 )
   ( 26 N-000085 )
   ( 27 N-000086 )
   ( 28 N-000088 )
-  ( 29 N-000213 )
+  ( 29 N-000210 )
   ( 30 ? )
   ( TAB1 GND )
   ( TAB2 GND )
@@ -603,9 +607,9 @@
  )
  ( /4DBCA512 CONN_2MM_4x1 P12 CONN_4
   ( 1 GND )
-  ( 2 N-000037 )
-  ( 3 N-000036 )
-  ( 4 N-000035 )
+  ( 2 N-000036 )
+  ( 3 N-000035 )
+  ( 4 N-000034 )
  )
  ( /4CF48020 CONN_2MM_8x1 P13 CONN_8
   ( 1 GND )
@@ -618,32 +622,32 @@
   ( 8 /Vcc_3V3 )
  )
  ( /4DDD5217 CONN_2MM_2x1 P14 CONN_2
-  ( 1 N-000214 )
+  ( 1 N-000212 )
   ( 2 GND )
  )
  ( /4DBCA521 CONN_2MM_4x1 P15 CONN_4
   ( 1 GND )
-  ( 2 N-000040 )
-  ( 3 N-000039 )
-  ( 4 N-000038 )
+  ( 2 N-000039 )
+  ( 3 N-000038 )
+  ( 4 N-000037 )
  )
  ( /4D324737 CONN_2MM_2x1 P18 CONN_2
   ( 1 GND )
   ( 2 /Speaker )
  )
  ( /4DC18D59 PIN_ARRAY_4X2_GRUVIN P20 CONN_8
-  ( 1 N-000005 )
-  ( 2 N-000004 )
-  ( 3 N-000006 )
-  ( 4 N-000007 )
-  ( 5 N-000062 )
+  ( 1 N-000006 )
+  ( 2 N-000005 )
+  ( 3 N-000007 )
+  ( 4 N-000008 )
+  ( 5 N-000009 )
   ( 6 /Vib-PWM-opt )
-  ( 7 N-000066 )
-  ( 8 N-000068 )
+  ( 7 N-000067 )
+  ( 8 N-000069 )
  )
  ( /4E35BA77 PIN_ARRAY_3X1_GRUVIN P21 CONN_3
-  ( 1 N-000210 )
-  ( 2 N-000209 )
+  ( 1 N-000208 )
+  ( 2 N-000047 )
   ( 3 N-000050 )
  )
  ( /4DC18E36 TP_SML P23 CONN_1
@@ -664,23 +668,23 @@
   ( E GND )
  )
  ( /4D03FFF9 SOT23-BCE Q2 BC847C
-  ( B N-000212 )
+  ( B N-000151 )
   ( C /TELEM_RX )
   ( E GND )
  )
  ( /4D04001D SOT23-BCE Q3 BC857C
   ( B N-000147 )
-  ( C N-000022 )
+  ( C N-000214 )
   ( E VCC )
  )
  ( /4D315001 SOT23-BCE Q4 BC847C
-  ( B N-000023 )
+  ( B N-000022 )
   ( C /PPM_IN )
   ( E GND )
  )
  ( /4DEB7560 SOT23-BCE Q5 BC847C
-  ( B N-000070 )
-  ( C N-000071 )
+  ( B N-000071 )
+  ( C N-000073 )
   ( E GND )
  )
  ( /4E2031C6 SOT23GDS Q6 Si2319DS
@@ -690,12 +694,12 @@
  )
  ( /4DEB7648 SOT23-BCE Q7 BC847C
   ( B N-000072 )
-  ( C N-000073 )
+  ( C N-000074 )
   ( E GND )
  )
  ( /4E7B4ABC SOT23-BCE Q8 BC847C
-  ( B N-000184 )
-  ( C N-000172 )
+  ( B N-000182 )
+  ( C N-000173 )
   ( E GND )
  )
  ( /4E848340 SOT23-BCE Q9 BC847C
@@ -705,7 +709,7 @@
  )
  ( /4E848343 SOT23GDS Q10 Si2319DS
   ( D /BATT+ )
-  ( G N-000183 )
+  ( G N-000181 )
   ( S /Ext_Power )
  )
  ( /4CE749EC SM0603_GRUVIN R1 5K1
@@ -733,8 +737,8 @@
   ( 2 /Pit_Trim )
  )
  ( /4DDD5235 SM0603_GRUVIN R7 180K
-  ( 1 N-000076 )
-  ( 2 N-000214 )
+  ( 1 N-000077 )
+  ( 2 N-000212 )
  )
  ( /4CE70B35 SM0603_GRUVIN R8 200R
   ( 1 N-000111 )
@@ -766,15 +770,15 @@
  )
  ( /4DDD5224 SM0603_GRUVIN R15 100K
   ( 1 GND )
-  ( 2 N-000076 )
+  ( 2 N-000077 )
  )
  ( /4DEB759C SM0603_GRUVIN R16 5K1
-  ( 1 N-000070 )
+  ( 1 N-000071 )
   ( 2 /PPM_OUT )
  )
  ( /4E00D18A SM0603_GRUVIN R17 5K1
   ( 1 GND )
-  ( 2 N-000047 )
+  ( 2 N-000177 )
  )
  ( /4CE70B25 SM0603_GRUVIN R18 200R
   ( 1 N-000109 )
@@ -802,7 +806,7 @@
  )
  ( /4E37090D SM0603_GRUVIN R24 200R
   ( 1 +1.2V )
-  ( 2 N-000185 )
+  ( 2 N-000183 )
  )
  ( /4CE71B5E SM0603_GRUVIN R25 10K
   ( 1 VCC )
@@ -813,35 +817,35 @@
   ( 2 /IDL1_SW )
  )
  ( /4DEB76CF SM0603_GRUVIN R27 5K1
-  ( 1 N-000071 )
+  ( 1 N-000073 )
   ( 2 VCC )
  )
  ( /4DEB789B SM0603_GRUVIN R28 5K1
-  ( 1 N-000073 )
+  ( 1 N-000074 )
   ( 2 VCC )
  )
  ( /4DEB790F SM0603_GRUVIN R29 100R
-  ( 1 N-000071 )
+  ( 1 N-000073 )
   ( 2 N-000045 )
  )
  ( /4DEB791C SM0603_GRUVIN R30 100R
-  ( 1 N-000073 )
+  ( 1 N-000074 )
   ( 2 /Module_PPM )
  )
  ( /4E00D15A SM0603_GRUVIN R31 10K2
-  ( 1 N-000210 )
-  ( 2 N-000047 )
+  ( 1 N-000208 )
+  ( 2 N-000177 )
  )
  ( /4E7B4AFA SM0603_GRUVIN R32 5K1
-  ( 1 N-000173 )
-  ( 2 N-000184 )
+  ( 1 N-000172 )
+  ( 2 N-000182 )
  )
  ( /4E00F0CA SM0603_GRUVIN R33 5K1
   ( 1 GND )
   ( 2 N-000048 )
  )
  ( /4E00F0A4 SM0603_GRUVIN R34 10K2
-  ( 1 N-000209 )
+  ( 1 N-000047 )
   ( 2 N-000048 )
  )
  ( /4CE76075 SM0603_GRUVIN R35 10K
@@ -866,27 +870,27 @@
  )
  ( /4CE74FB8 SM0603_GRUVIN R40 0R
   ( 1 /Vcc_3V3 )
-  ( 2 N-000213 )
+  ( 2 N-000210 )
  )
  ( /4CE74FBB SM0603_GRUVIN R41 NC
   ( 1 GND )
-  ( 2 N-000213 )
+  ( 2 N-000210 )
  )
  ( /4CE82BB2 SM0603_GRUVIN R42 5K1
   ( 1 /LCD_DATA0 )
-  ( 2 N-000160 )
+  ( 2 N-000159 )
  )
  ( /4CE82BD0 SM0603_GRUVIN R43 5K1
   ( 1 /LCD_DATA2 )
-  ( 2 N-000162 )
+  ( 2 N-000161 )
  )
  ( /4CE82BD8 SM0603_GRUVIN R44 5K1
   ( 1 /LCD_DATA4 )
-  ( 2 N-000164 )
+  ( 2 N-000163 )
  )
  ( /4CE82BE4 SM0603_GRUVIN R45 5K1
   ( 1 /LCD_DATA6 )
-  ( 2 N-000166 )
+  ( 2 N-000165 )
  )
  ( /4CE82C37 SM0603_GRUVIN R46 10K
   ( 1 GND )
@@ -906,19 +910,19 @@
  )
  ( /4CE82BC1 SM0603_GRUVIN R50 5K1
   ( 1 /LCD_DATA1 )
-  ( 2 N-000161 )
+  ( 2 N-000160 )
  )
  ( /4CE82BD3 SM0603_GRUVIN R51 5K1
   ( 1 /LCD_DATA3 )
-  ( 2 N-000163 )
+  ( 2 N-000162 )
  )
  ( /4CE82BE0 SM0603_GRUVIN R52 5K1
   ( 1 /LCD_DATA5 )
-  ( 2 N-000165 )
+  ( 2 N-000164 )
  )
  ( /4CE82BEA SM0603_GRUVIN R53 5K1
   ( 1 /LCD_DATA7 )
-  ( 2 N-000167 )
+  ( 2 N-000166 )
  )
  ( /4CE82C36 SM0603_GRUVIN R54 10K
   ( 1 GND )
@@ -938,23 +942,23 @@
  )
  ( /4CE82E03 SM0603_GRUVIN R58 5K1
   ( 1 /LCD_RES )
-  ( 2 N-000144 )
+  ( 2 N-000145 )
  )
  ( /4CE82E01 SM0603_GRUVIN R59 5K1
   ( 1 /LCD_WR )
-  ( 2 N-000142 )
+  ( 2 N-000143 )
  )
  ( /4CE82E04 SM0603_GRUVIN R60 5K1
   ( 1 /LCD_CS1 )
-  ( 2 N-000145 )
+  ( 2 N-000146 )
  )
  ( /4CE82E02 SM0603_GRUVIN R61 5K1
   ( 1 /LCD_A0 )
-  ( 2 N-000143 )
+  ( 2 N-000144 )
  )
  ( /4CE82E00 SM0603_GRUVIN R62 5K1
   ( 1 /LCD_RD )
-  ( 2 N-000141 )
+  ( 2 N-000142 )
  )
  ( /4CE82E80 SM0603_GRUVIN R63 10K
   ( 1 GND )
@@ -977,7 +981,7 @@
   ( 2 /LCD_WR )
  )
  ( /4CEECBE8 SM0603_GRUVIN R68 200R
-  ( 1 N-000153 )
+  ( 1 N-000154 )
   ( 2 /RudDR_SW )
  )
  ( /4CEE07D3 SM0603_GRUVIN R69 10K
@@ -985,15 +989,15 @@
   ( 2 /TELEM_RX )
  )
  ( /4CE85BBE SM0603_GRUVIN R70 200R
-  ( 1 N-000138 )
+  ( 1 N-000139 )
   ( 2 /TCut_SW )
  )
  ( /4CEDF919 SM0603_GRUVIN R71 200R
   ( 1 /AilDR_SW )
-  ( 2 N-000139 )
+  ( 2 N-000140 )
  )
  ( /4CEE07D9 SM0603_GRUVIN R72 10K
-  ( 1 N-000212 )
+  ( 1 N-000151 )
   ( 2 GND )
  )
  ( /4CF47F1F SM0603_GRUVIN R73 10K
@@ -1001,16 +1005,16 @@
   ( 2 /TELEM_TX )
  )
  ( /4CEE07DF SM0603_GRUVIN R74 10K
-  ( 1 N-000152 )
-  ( 2 N-000212 )
+  ( 1 N-000153 )
+  ( 2 N-000151 )
  )
  ( /4CF47EE6 SM0603_GRUVIN R75 1K
-  ( 1 N-000151 )
-  ( 2 N-000022 )
+  ( 1 N-000152 )
+  ( 2 N-000214 )
  )
  ( /4D015959 SM0603_GRUVIN R76 10K
   ( 1 GND )
-  ( 2 N-000022 )
+  ( 2 N-000214 )
  )
  ( /4E00F205 SM0603_GRUVIN R77 5K1
   ( 1 GND )
@@ -1025,15 +1029,15 @@
   ( 2 N-000049 )
  )
  ( /4D191ECD SM0603_GRUVIN R80 150K
-  ( 1 N-000023 )
+  ( 1 N-000022 )
   ( 2 VCC )
  )
  ( /4D191ECE SM0603_GRUVIN R81 5K1
   ( 1 N-000046 )
-  ( 2 N-000023 )
+  ( 2 N-000022 )
  )
  ( /4D324656 SM0603_GRUVIN R82 1K
-  ( 1 N-000061 )
+  ( 1 N-000064 )
   ( 2 /Buzzer )
  )
  ( /4D324782 SM0603_GRUVIN R83 200R
@@ -1069,27 +1073,27 @@
   ( 2 /LH_Trim_Dwn )
  )
  ( /4DBD87B5 SM0603_GRUVIN R91 200R
-  ( 1 N-000040 )
+  ( 1 N-000039 )
   ( 2 /ROT_ENC_2_A )
  )
  ( /4DC193BF SM0603_GRUVIN R92 200R
-  ( 1 N-000039 )
+  ( 1 N-000038 )
   ( 2 /ROT_ENC_2_B )
  )
  ( /4DC193CE SM0603_GRUVIN R93 200R
-  ( 1 N-000035 )
+  ( 1 N-000034 )
   ( 2 /ROT_ENC_1_PUSH )
  )
  ( /4DC193DB SM0603_GRUVIN R94 200R
-  ( 1 N-000038 )
+  ( 1 N-000037 )
   ( 2 /ROT_ENC_2_PUSH )
  )
  ( /4DC1942D SM0603_GRUVIN R95 200R
-  ( 1 N-000037 )
+  ( 1 N-000036 )
   ( 2 /ROT_ENC_1_A )
  )
  ( /4DC19437 SM0603_GRUVIN R96 200R
-  ( 1 N-000036 )
+  ( 1 N-000035 )
   ( 2 /ROT_ENC_1_B )
  )
  ( /4E200197 SM0603_GRUVIN R97 200R
@@ -1109,11 +1113,11 @@
   ( 2 /LH_Trim_Up )
  )
  ( /4E2033CE SM0603_GRUVIN R101 5K1
-  ( 1 N-000172 )
+  ( 1 N-000173 )
   ( 2 N-000042 )
  )
  ( /4E2072D1 SM0603_GRUVIN R102 200R
-  ( 1 N-000206 )
+  ( 1 N-000201 )
   ( 2 N-000174 )
  )
  ( /4E8484D2 SM0603_GRUVIN R103 1k
@@ -1122,15 +1126,15 @@
  )
  ( /4E2AC5C6 SM0603_GRUVIN R104 68R
   ( 1 /USB_D+ )
-  ( 2 N-000190 )
+  ( 2 N-000189 )
  )
  ( /4E2AC5D2 SM0603_GRUVIN R105 68R
   ( 1 /USB_D- )
-  ( 2 N-000191 )
+  ( 2 N-000190 )
  )
  ( /4E2AC601 SM0603_GRUVIN R106 1.5K
   ( 1 VCC )
-  ( 2 N-000191 )
+  ( 2 N-000190 )
  )
  ( /4E2AE19E SM0603_GRUVIN R107 5.1K
   ( 1 VCC )
@@ -1154,21 +1158,21 @@
  )
  ( /4E848578 SM0603_GRUVIN R112 5K1
   ( 1 N-000186 )
-  ( 2 N-000181 )
+  ( 2 N-000179 )
  )
  ( /4E848344 SM0603_GRUVIN R113 100K
-  ( 1 N-000183 )
+  ( 1 N-000181 )
   ( 2 /Ext_Power )
  )
  ( /4E848342 SM0603_GRUVIN R114 5K1
   ( 1 N-000176 )
-  ( 2 N-000183 )
+  ( 2 N-000181 )
  )
  ( /4E84D9A9 SM0603_GRUVIN R115 100k
   ( 1 GND )
   ( 2 /Jack_Presence )
  )
- ( /4E9328F9 SM0603_GRUVIN R116 0R
+ ( /4E9328F9 SM0603_GRUVIN R116 NC
   ( 1 /BATT+ )
   ( 2 /Jack_Presence )
  )
@@ -1203,8 +1207,8 @@
  )
  ( /4E203182 SOT89_OGI U2 78L05
   ( GND GND )
-  ( VI N-000177 )
-  ( VO N-000206 )
+  ( VI N-000171 )
+  ( VO N-000201 )
  )
  ( /4DC03E78 SOT89_GIO U3 LN-6206-30
   ( GND GND )
@@ -1213,12 +1217,12 @@
  )
  ( /4DDD5203 SO8E U4 TPS77601
   ( 1 GND )
-  ( 2 N-000075 )
+  ( 2 N-000076 )
   ( 3 /BATT+ )
   ( 4 /BATT+ )
-  ( 5 N-000214 )
-  ( 6 N-000214 )
-  ( 7 N-000076 )
+  ( 5 N-000212 )
+  ( 6 N-000212 )
+  ( 7 N-000077 )
   ( 8 ? )
  )
  ( /4E35BAC9 SOT23-IGO U5 REF3012
@@ -1536,6 +1540,11 @@ $component C62
  C1-1
 $endlist
 $component C63
+ SM*
+ C?
+ C1-1
+$endlist
+$component C64
  SM*
  C?
  C1-1
