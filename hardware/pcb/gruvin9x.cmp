@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 12/10/2011 00:43:40
+Cmp-Mod V01 Genere par PcbNew le 14/10/2011 19:24:30
 
 BeginCmp
 TimeStamp = /4CE748AC;
@@ -652,10 +652,10 @@ IdModule  = PIN_ARRAY_3X1_SMP_GRUVIN;
 EndCmp
 
 BeginCmp
-TimeStamp = /4E01DF9A;
+TimeStamp = /4E987DD5;
 Reference = K4;
-ValeurCmp = CONN_3;
-IdModule  = CONN_2MM_3x1;
+ValeurCmp = CONN_5;
+IdModule  = CONN_2MM_5x1;
 EndCmp
 
 BeginCmp

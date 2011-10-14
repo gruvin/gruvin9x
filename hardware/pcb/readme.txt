@@ -28,4 +28,5 @@ Changes between the latest frozen V4.x PCB and this development version are:
 . Up switch moved down 0.2mm.
 . Addition of a fuse to the K5 LED back light header. We really need to implement a fuse to protect the whole board but without a
   total rip up it isn't going to happen. The fuse took the space of R103 which was removed, it was felt it was not needed.
+. Broke the 3.3v rail out and a fused BATT+
 . BOM also updated to reflect changes.
