@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 21/10/2011 01:08:58
+Cmp-Mod V01 Created by CvPCB (2011-07-08 BZR 3044)-stable date = 02/11/2011 19:12:37
 
 BeginCmp
 TimeStamp = /4E9F6061;
@@ -64,6 +64,20 @@ IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
+TimeStamp = /4EB125E6;
+Reference = F1;
+ValeurCmp = FUSE;
+IdModule  = SM1206;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB125EB;
+Reference = F2;
+ValeurCmp = FUSE;
+IdModule  = SM1206;
+EndCmp
+
+BeginCmp
 TimeStamp = /4E9F5A50;
 Reference = IC1;
 ValeurCmp = ATMEGA328-M;
@@ -110,6 +124,27 @@ TimeStamp = /4EA0A41A;
 Reference = P3;
 ValeurCmp = CONN_8X2;
 IdModule  = pin_array_8x2_servo;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB123BE;
+Reference = P4;
+ValeurCmp = CONN_4;
+IdModule  = PIN_ARRAY_4X1_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB12EAB;
+Reference = P5;
+ValeurCmp = CONN_1;
+IdModule  = TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB12EB4;
+Reference = P6;
+ValeurCmp = CONN_1;
+IdModule  = TP;
 EndCmp
 
 BeginCmp
@@ -183,6 +218,13 @@ IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
+TimeStamp = /4EB19577;
+Reference = R11;
+ValeurCmp = 1k;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
 TimeStamp = /4EA0A572;
 Reference = SW1;
 ValeurCmp = SPDT_SW;
@@ -211,9 +253,9 @@ IdModule  = DIP-18__300_ELL;
 EndCmp
 
 BeginCmp
-TimeStamp = /4E9F5A78;
+TimeStamp = /4EA1FB44;
 Reference = U3;
-ValeurCmp = 4017;
+ValeurCmp = 4017_GRUVIN;
 IdModule  = SO16E;
 EndCmp
 
