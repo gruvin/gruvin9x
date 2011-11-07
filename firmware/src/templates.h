@@ -1,5 +1,12 @@
 /*
- * Author - Erez Raviv <erezraviv@gmail.com>
+ * Authors (alphabetical order)
+ * - Bertrand Songis <bsongis@gmail.com>
+ * - Bryan J. Rentoul (Gruvin) <gruvin@gmail.com>
+ *
+ * gruvin9x is based on code named er9x by
+ * Author - Erez Raviv <erezraviv@gmail.com>, which is in turn
+ * was based on the original (and ongoing) project by Thomas Husterer,
+ * th9x -- http://code.google.com/p/th9x/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -9,6 +16,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
+ *
  *
  * ============================================================
  * Templates file
@@ -50,9 +58,6 @@
 #define STK_P1   5
 #define STK_P2   6
 #define STK_P3   7
-#define NUM_TEMPLATES    DIM(n_Templates)
-#define NUM_TEMPLATE_MIX 8
-#define TEMPLATE_NLEN    15
 
 #define TRIM_ON  0
 #define TRIM_OFF 1
@@ -65,23 +70,20 @@
 #define CURVE5(x) ((x)-1)
 #define CURVE9(x) (MAX_CURVE5+(x)-1)
 
-const char n_Templates[][TEMPLATE_NLEN] = {
-  "Simple 4-CH",
-  "T-Cut",
-  "V-Tail",
-  "Elevon\\Delta",
-  "eCCPM",
-  "Heli Setup",
-  "Servo Test"
-};
-
-
-
+#define TEMPLATES_STR "Simple 4-CH ""T-Cut       ""V-Tail      ""Elevon\\Delta""eCCPM       ""Heli Setup  ""Servo Test  "
+#define TEMPLATES_LEN 12
+#define NUM_TEMPLATES 7
 
 void clearMixes();
 void clearCurves();
 void applyTemplate(uint8_t idx);
 
+#ifdef TEMPLATES
+inline void applyDefaultTemplate()
+{
+  applyTemplate(0);
+}
+#endif
 
 #endif //TEMPLATES_H
 

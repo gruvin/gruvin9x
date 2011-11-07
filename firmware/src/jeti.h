@@ -43,6 +43,7 @@ void JETI_puts (char *s);
 void JETI_put_start (void);
 void JETI_put_stop (void);
 
+void menuProcJeti(uint8_t event);
 
 #endif
 

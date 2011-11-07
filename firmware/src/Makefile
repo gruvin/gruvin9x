@@ -25,9 +25,66 @@
 # To rebuild project do "make clean" then "make all".
 #----------------------------------------------------------------------------
 
+#----------- BUILD OPTIONS ---------------------------
+
+#gruvin: PCB version -- OVERRIDES the following settings if not STD
+# Values: STD, V3, V4
+PCB = V4
+#NOTE!: V4 adds to V3, such that both PCBV3 and PCBV4 get defined
+
+# Following options for PCB=STD only (ignored otherwise) ...
+
+# Enable JETI-Telemetry or FrSky Telemetry reception on UART0
+# For this option you need to modify your hardware!
+# More information at [insertURLhere]
+# Values = STD, JETI, FRSKY
+EXT = STD
+
+# Enable heli menu
+# Values = YES, NO
+HELI = NO
+
+# Enable templates menu
+# Values = YES, NO
+TEMPLATES = YES
+
+# gruvin: BEEPER. Values = BUZZER, BUZZER_MOD or SPEAKER
+# (without a mod, BUZZER can make PPM jack output switch from output to input at random)
+# SPEAKER mode actually works on the stock radio, using the stock beeper. Sort of sound OK(ish).
+BEEPER = SPEAKER
+
+# gruvin: Legacy support freeing of USART1 TX/RX pins [DEPRECATED]
+# OPTIONS STD or FREED
+USART1 = STD
+
+# gruvin: PCM-in circuit mod for JR/Spektrum (and others) compatability
+# Values = STD, MOD1
+PPMIN =  STD
+
+# Decimals display in the main view (PPM calibration, 
+# Values = YES, NO
+DECIMALS = NO
+
+# TRANSLATIONS from previous EEPROM formats 
+# Values = YES, NO
+TRANSLATIONS = YES
+
+# DISPLAY_USER_DATA to display on screen data from FrSky module (testing/demo purpose)
+# Values = YES, NO
+DISPLAY_USER_DATA = NO
+
+#------- END BUILD OPTIONS ---------------------------
 
 # MCU name
+ifeq ($(PCB), STD)
 MCU = atmega64
+endif
+ifeq ($(PCB), V3)
+MCU = atmega2561
+endif
+ifeq ($(PCB), V4)
+MCU = atmega2560
+endif
 
 # Processor frequency.
 F_CPU = 16000000
@@ -41,34 +98,24 @@ TARGET = gruvin9x
 # Object files directory
 OBJDIR = obj
 
-#---------------- OPTIONS ---------------------------
-# Enable JETI-Telemetry or FrSky Telemetry reception on UART0
-# For this option you need to modify your hardware!
-# More information at [insertURLhere]
-# Values = STD, JETI, FRSKY
-EXT = FRSKY
-
-# gruvin: BEEPER. Values = BUZZER or SPEAKER
-BEEPER = SPEAKER
-
-# gruvin: Legacy support freeing of USART1 TX/RX pins [DEPRECATED]
-# OPTIONS STD or FREED
-USART1 = FREED
-
-# gruvin: PCM-in circuit mod for JR/Spektrum (and others) compatability
-# Values = STD, MOD1
-PPMIN = MOD1
-
 # List C++ source files here. (C dependencies are automatically generated.)
-CPPSRC = $(TARGET).cpp stamp.cpp menus.cpp pers.cpp file.cpp lcd.cpp drivers.cpp templates.cpp
+CPPSRC = gruvin9x.cpp stamp.cpp menus.cpp model_menus.cpp general_menus.cpp main_views.cpp statistics_views.cpp pers.cpp file.cpp lcd.cpp drivers.cpp 
 
 ifeq ($(EXT), JETI)
  CPPSRC += jeti.cpp
 endif
 
-ifeq ($(EXT), FRSKY)
- CPPSRC += frsky.cpp
+# Disk IO support (PCB V2+ only)
+ifneq ($(PCB), STD)
+  CPPSRC += time.cpp
+  CPPSRC += rtc.cpp
+  CPPSRC += ff.cpp
+  CPPSRC += diskio.cpp
+#  CPPSRC += ffcc932.cpp
 endif
+
+# experiemental stack-overflow / stack-heap-clobber detector
+# CPPSRC += stack-monitor.cpp
 
 # List Assembler source files here.
 #     Make them always end in a capital .S.  Files ending in a lowercase .s
@@ -117,29 +164,98 @@ CPPDEFS = -DF_CPU=$(F_CPU)UL
 #CPPDEFS += -D__STDC_LIMIT_MACROS
 #CPPDEFS += -D__STDC_CONSTANT_MACROS
 
+# NOTE: PCB version now overrides all the earlier individual settings
+#       These individual settings work only for PCB=STD
+
+CPPDEFS += -DEEPROM_ASYNC_WRITE
+
+ifeq ($(PCB), STD)
+# STD PCB, so ...
+
+  CPPDEFS += -DPCBSTD
+  
+# If Hardware PPM mode ( PB0<->BP7) switch the Backlight output with the original PPM to use hardware facility to generate precise PPM (hardware mods)
+# G: TODO This prevents HARDPPM being used with FRSKY. HARDPPM needs its own option XXX
+  ifeq ($(EXT), HARDPPM)
+   CPPDEFS += -DPPMPB7_HARDWARE
+  endif
+
 # If JETI-Support is enabled
-ifeq ($(EXT), JETI)
- CPPDEFS += -DJETI
-endif
+  ifeq ($(EXT), JETI)
+   CPPDEFS += -DJETI
+  endif
 
 # If FRSKY-Support is enabled
-ifeq ($(EXT), FRSKY)
- CPPDEFS += -DFRSKY
-endif
+  ifeq ($(EXT), FRSKY)
+   CPPDEFS += -DFRSKY -DFRSKY_HUB
+   CPPSRC += frsky.cpp
+  endif
+  
+# If FRSKY-Support is enabled
+  ifeq ($(EXT), FRSKY_NOHUB)
+   CPPDEFS += -DFRSKY
+   CPPSRC += frsky.cpp
+  endif
 
 # gruvin: If buzzer speaker replacment supported 
-ifeq ($(BEEPER), SPEAKER)
- CPPDEFS += -DBEEPSPKR
-endif
+  ifeq ($(BEEPER), SPEAKER)
+   CPPDEFS += -DBEEPSPKR
+  endif
+  
+# If buzzer modified (no interference with PPM jack)
+  ifeq ($(BEEPER), BUZZER_MOD)
+   CPPDEFS += -DBUZZER_MOD
+  endif
 
 # gruvin: Legacy support for hardware mod freeing USART1 [DEPRECATED]
-ifeq ($(USART1), FREED)
-  CPPDEFS += -DUSART1FREED
-endif
+  ifeq ($(USART1), FREED)
+    CPPDEFS += -DUSART1FREED
+  endif
 
 # gruvin: PCM-in circuit mod for JR/Spektrum (and others) compatability
-ifeq ($(PPMIN), MOD1)
-  CPPDEFS += -DPPMIN_MOD1
+  ifeq ($(PPMIN), MOD1)
+    CPPDEFS += -DPPMIN_MOD1
+  endif
+else
+# not PCB=STD, so ...
+  CPPSRC += frsky.cpp
+  CPPDEFS += -DPCBV3 -DFRSKY -DFRSKY_HUB
+  ifeq ($(PCB), V3)
+    CPPDEFS += -DBEEPSPKR
+  endif
+  ifeq ($(PCB), V4)
+    CPPDEFS += -DPCBV4 
+#   Temporary hack to get stock beeper working for testing, etc ... make BEEPER=BUZZER_MOD
+    ifeq ($(BEEPER), BUZZER_MOD)
+      CPPDEFS += -DBUZZER_MOD
+    else
+      CPPDEFS += -DBEEPSPKR
+    endif
+  endif
+endif
+
+
+### Global Build-Option Directives ###
+
+ifeq ($(DECIMALS), YES)
+  CPPDEFS += -DDECIMALS_DISPLAYED
+endif
+
+ifeq ($(TRANSLATIONS), YES)
+  CPPDEFS += -DTRANSLATIONS
+endif
+
+ifeq ($(HELI), YES)
+ CPPDEFS += -DHELI
+endif
+
+ifeq ($(TEMPLATES), YES)
+ CPPDEFS += -DTEMPLATES
+ CPPSRC += templates.cpp
+endif
+
+ifeq ($(DISPLAY_USER_DATA), YES)
+ CPPDEFS += -DDISPLAY_USER_DATA
 endif
 
 #---------------- Compiler Options C ----------------
@@ -190,6 +306,7 @@ CPPFLAGS += -O$(OPT)
 #CPPFLAGS += -fno-exceptions
 #CPPFLAGS += -fno-unit-at-a-time
 CPPFLAGS += -Wall
+CPPFLAGS += -Wno-strict-aliasing
 #CPPFLAGS += -Wstrict-prototypes
 #CFLAGS += -Wundef
 #CPPFLAGS += -Wunreachable-code
@@ -198,6 +315,7 @@ CPPFLAGS += -Wall
 CPPFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 #CPPFLAGS += $(CSTANDARD)
 
+AVRGCCFLAGS = -fno-inline-small-functions
 
 
 #---------------- Assembler Options ----------------
@@ -272,11 +390,11 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER = usbtiny
+AVRDUDE_PROGRAMMER = avrispmkII
 
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
-AVRDUDE_PORT = /dev/ttyUSB01
+AVRDUDE_PORT = usb
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex:a
 AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).bin:a
@@ -300,12 +418,14 @@ AVRDUDE_NO_VERIFY = -V
 #AVRDUDE_VERBOSE = -v -v
 
 #AVRDUDE_FLAGS = -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER)
-AVRDUDE_FLAGS = -B 1 -p $(MCU)  -c $(AVRDUDE_PROGRAMMER)
-AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
+AVRDUDE_FLAGS = -B0.25 -p $(MCU) -c $(AVRDUDE_PROGRAMMER) -P $(AVRDUDE_PORT)
+#AVRDUDE_FLAGS += $(AVRDUDE_NO_VERIFY)
 AVRDUDE_FLAGS += $(AVRDUDE_VERBOSE)
 AVRDUDE_FLAGS += $(AVRDUDE_ERASE_COUNTER)
 
-
+ifeq ($(ERAZE), NO)
+  AVRDUDE_FLAGS += -D
+endif
 
 #---------------- Debugging Options ----------------
 
@@ -395,26 +515,32 @@ GENDEPFLAGS = -MD -MP -MF .dep/$(@F).d
 # Combine all necessary flags and optional flags.
 # Add target processor to flags.
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS) $(GENDEPFLAGS)
-ALL_CPPFLAGS = -mmcu=$(MCU) -I. -x c++ $(CPPFLAGS) $(GENDEPFLAGS)
+ALL_CPPFLAGS = -mmcu=$(MCU) -I. -x c++ $(CPPFLAGS) $(GENDEPFLAGS) $(AVRGCCFLAGS)
 ALL_ASFLAGS = -mmcu=$(MCU) -I. -x assembler-with-cpp $(ASFLAGS)
 
 SUB_VER = ${shell sh -c "grep \"SUB_VERS\" gruvin9x.h | cut -d\  -f3 | egrep -o \"[[:digit:]]\""}
 ABUILD_NUM = ${shell sh -c "grep \"BUILD_NUM\" stamp-gruvin9x.h | egrep -o \"[[:digit:]]+\""}
 BUILD_NUM = $(shell echo $$(( $(ABUILD_NUM) + 1 )))
+BUILD_DIR = $(shell pwd | awk -F'/' '{print $$((NF-1))}')
 ifeq "$(USER)" "bryan"
   THEUSER=gruvin
 else 
   THEUSER=$(USER)
 endif
 
+ifneq ($(PCB), STD)
+  SPLASH=s9xsplashv4
+else
+  SPLASH=s9xsplash
+endif
+
 # Default target.
 all: begin gccversion sizebefore build sizeafter end
 
 # Change the build target to build a HEX file or a library.
-build: stamp font.lbm font_dblsize.lbm sticks.lbm s9xsplash.lbm elf hex eep lss sym
+build: stamp font.lbm font_dblsize.lbm sticks.lbm $(SPLASH).lbm elf hex eep lss sym
+	@echo SPLASH = $(SPLASH)
 #build: lib
-
-
 
 
 elf: $(TARGET).elf
@@ -430,14 +556,14 @@ lib: $(LIBNAME)
 stamp:
 	@echo
 	@echo "Generate Version-stamp:"
-	@echo "//Automatically generated file - do not edit" > stamp-gruvin9x.h
-	@echo "#define DATE_STR \"`date +%d.%m.%Y`\"" >> stamp-gruvin9x.h
+	@echo "//Automatically generated file (Makefile) - do not edit" > stamp-gruvin9x.h
+	@echo "#define DATE_STR \"`date +%Y-%m-%d`\"" >> stamp-gruvin9x.h
 	@echo "#define TIME_STR \"`date +%H:%I:%S`\"" >> stamp-gruvin9x.h
-	@echo "#define SUB_VERS $(SUB_VER)-$(THEUSER)" >> stamp-gruvin9x.h
-	@echo "#define SVN_VERS \"trunk-r$(REV)\"" >> stamp-gruvin9x.h
+	@echo "#define TAG_VERS $(SUB_VER)-$(THEUSER)" >> stamp-gruvin9x.h
+	@echo "#define SVN_VERS \"$(BUILD_DIR)-r$(REV)\"" >> stamp-gruvin9x.h
 	@echo "#define BUILD_NUM $(BUILD_NUM)" >> stamp-gruvin9x.h
 	@cat stamp-gruvin9x.h
-
+ 
 font.lbm: font_6x1.xbm
 	@echo
 	@echo "Convert font from xbm to lbm:"
@@ -453,9 +579,9 @@ sticks.lbm: sticks_4x1.xbm
 	@echo "Convert font from xbm to lbm:"
 	$(XBM2LBM) $<
 
-s9xsplash.lbm: s9xsplash.xbm
+$(SPLASH).lbm: $(SPLASH).xbm
 	@echo
-	@echo "Convert font from xbm to lbm:"
+	@echo "Convert splash screen from xbm to lbm:"
 	$(XBM2LBM) $<
 
 # Eye candy.
@@ -474,10 +600,12 @@ end:
 
 # Display size of file.
 HEXSIZE = $(SIZE) --target=$(FORMAT) $(TARGET).hex
-ELFSIZE = $(SIZE) -A $(TARGET).elf
+ELFSIZE = $(SIZE) --mcu=$(MCU) --format=avr $(TARGET).elf
 AVRMEM = avr-mem.sh $(TARGET).elf $(MCU)
 
 sizebefore:
+	@echo "CPPDEFS=$(CPPDEFS)"
+	@echo "CPPSRC=$(CPPSRC)"
 	@if test -f $(TARGET).elf; then echo; echo $(MSG_SIZE_BEFORE); $(ELFSIZE); \
 	$(AVRMEM) 2>/dev/null; echo; fi
 
@@ -522,33 +650,55 @@ gdb-config:
 	@echo end >> $(GDBINIT_FILE)
 	@echo file $(TARGET).elf >> $(GDBINIT_FILE)
 	@echo target remote $(DEBUG_HOST):$(DEBUG_PORT)  >> $(GDBINIT_FILE)
-	ifeq ($(DEBUG_BACKEND),simulavr)
+ifeq ($(DEBUG_BACKEND),simulavr)
 	@echo load  >> $(GDBINIT_FILE)
-	endif
+endif
 	@echo break main >> $(GDBINIT_FILE)
 
+# gruvin: added extra include and lib paths to get simu working on my Mac
+FOXINC=-I/usr/local/include/fox-1.6 -I/usr/include/fox-1.6 \
+       -I$(FOXPATH)/include \
+       -I/opt/local/include/fox-1.6
+FOXLIB=-L/usr/local/lib \
+       -L$(FOXPATH)/src/.libs \
+       -L/opt/local/lib \
+       -lFOX-1.6 \
+       -Wl,-rpath,$(FOXPATH)/src/.libs
+
+LBITS := $(shell getconf LONG_BIT)
+ifeq ($(LBITS),64)
+   ARCH=-arch x86_64
+else
+   ARCH=
+endif
+
+simu: $(CPPSRC) Makefile simu.cpp $(CPPSRC) simpgmspace.cpp *.h *.lbm eeprom.bin
+	g++ simu.cpp $(CPPFLAGS) $(CPPSRC) simpgmspace.cpp $(ARCH) -o simu $(FOXINC) $(FOXLIB) -MD -DSIMU
+
+eeprom.bin:
+	dd if=/dev/zero of=$@ bs=1 count=2048
+
 debug: gdb-config $(TARGET).elf
-	ifeq ($(DEBUG_BACKEND), avarice)
+ifeq ($(DEBUG_BACKEND),avarice)
 	@echo Starting AVaRICE - Press enter when "waiting to connect" message displays.
 	@$(WINSHELL) /c start avarice --jtag $(JTAG_DEV) --erase --program --file \
-$(TARGET).elf $(DEBUG_HOST):$(DEBUG_PORT)
+	  $(TARGET).elf $(DEBUG_HOST):$(DEBUG_PORT)
 	@$(WINSHELL) /c pause
-
-	else
+else
 	@$(WINSHELL) /c start simulavr --gdbserver --device $(MCU) --clock-freq \
-	$(DEBUG_MFREQ) --port $(DEBUG_PORT)
-	endif
+	  $(DEBUG_MFREQ) --port $(DEBUG_PORT)
+endif
 	@$(WINSHELL) /c start avr-$(DEBUG_UI) --command=$(GDBINIT_FILE)
 
 
 
 
 # Convert ELF to COFF for use in debugging / simulating in AVR Studio or VMLAB.
-        COFFCONVERT = $(OBJCOPY) --debugging
-        COFFCONVERT += --change-section-address .data-0x800000
-        COFFCONVERT += --change-section-address .bss-0x800000
-        COFFCONVERT += --change-section-address .noinit-0x800000
-        COFFCONVERT += --change-section-address .eeprom-0x810000
+	COFFCONVERT = $(OBJCOPY) --debugging
+	COFFCONVERT += --change-section-address .data-0x800000
+	COFFCONVERT += --change-section-address .bss-0x800000
+	COFFCONVERT += --change-section-address .noinit-0x800000
+	COFFCONVERT += --change-section-address .eeprom-0x810000
 
 
 coff: $(TARGET).elf
@@ -650,6 +800,10 @@ clean: begin clean_list end
 clean_list :
 	@echo
 	@echo $(MSG_CLEANING)
+	$(REMOVE) simu
+	$(REMOVE) gtests
+	$(REMOVE) gtest.a
+	$(REMOVE) gtest_main.a
 	$(REMOVE) $(TARGET).hex
 	$(REMOVE) $(TARGET).eep
 	$(REMOVE) $(TARGET).cof
@@ -659,7 +813,8 @@ clean_list :
 	$(REMOVE) $(TARGET).lss
 	$(REMOVEDIR) $(OBJDIR)
 	$(REMOVE) $(SRC:.c=.s)
-	$(REMOVE) $(SRC:.c=.d)
+	$(REMOVE) *.o
+	$(REMOVE) *.d
 	$(REMOVEDIR) .dep
 
 
@@ -675,3 +830,56 @@ $(shell mkdir $(OBJDIR) 2>/dev/null)
 .PHONY : all begin finish end sizebefore sizeafter gccversion \
 build elf hex eep lss sym coff extcoff \
 clean clean_list program debug gdb-config stamp
+
+
+#### GOOGLE TESTS 
+
+GTEST_DIR = ../gtest-1.6.0/
+
+# Where to find user code.
+USER_DIR = ./
+
+# Flags passed to the preprocessor.
+CPPFLAGS += -I$(GTEST_DIR)/include
+
+# Flags passed to the C++ compiler.
+CXXFLAGS += -g -Wall -Wextra
+
+# All Google Test headers.  Usually you shouldn't change this
+# definition.
+GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
+                $(GTEST_DIR)/include/gtest/internal/*.h
+
+# House-keeping build targets.
+
+# Builds gtest.a and gtest_main.a.
+
+# Usually you shouldn't tweak such internal variables, indicated by a
+# trailing _.
+GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
+
+# For simplicity and to avoid depending on Google Test's
+# implementation details, the dependencies specified below are
+# conservative and not optimized.  This is fine as Google Test
+# compiles fast and for ordinary users its source rarely changes.
+gtest-all.o : $(GTEST_SRCS_)
+	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
+            $(GTEST_DIR)/src/gtest-all.cc
+
+gtest_main.o : $(GTEST_SRCS_)
+	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
+            $(GTEST_DIR)/src/gtest_main.cc
+
+gtest.a : gtest-all.o
+	$(AR) $(ARFLAGS) $@ $^
+
+gtest_main.a : gtest-all.o gtest_main.o
+	$(AR) $(ARFLAGS) $@ $^
+
+# Builds a sample test.  A test should link with either gtest.a or
+# gtest_main.a, depending on whether it defines its own main()
+# function.
+
+gtests: $(CPPSRC) gtests.cpp simpgmspace.cpp *.h gtest_main.a
+	g++ $(CPPSRC) gtests.cpp simpgmspace.cpp $(CPPFLAGS) -I$(GTEST_DIR) $(ARCH) -o gtests -lpthread -MD -DSIMU gtest_main.a 
+	

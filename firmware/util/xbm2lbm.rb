@@ -12,7 +12,7 @@ def main(xbm)
     rows,cols = $1.to_i,$2.to_i
   end
 
-  File.read(xbm)=~/_width (\d+).*_height (\d+).*\{(.*)\}/m
+  File.read(xbm)=~/_width\s+(\d+).*_height\s+(\d+).*\{(.*)\}/m
   w,h,bits=$1.to_i,$2.to_i,$3
   bits=eval "["+bits+"]"
   #pp w,h,bits

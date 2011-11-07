@@ -1,7 +1,11 @@
 /*
- * Author - Philip Moss
- * Adapted from jeti.h code by Karl Szmutny <shadow@privy.de>
- * 
+ * Authors (alphabetical order)
+ * - Bertrand Songis <bsongis@gmail.com>
+ * - Bryan J. Rentoul (Gruvin) <gruvin@gmail.com>
+ *
+ * Original contributors
+ * - Philip Moss Adapted first frsky functions from jeti.cpp code by 
+ * - Karl Szmutny <shadow@privy.de> 
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -14,51 +18,93 @@
  *
  */
 
-#ifndef frsky_h
-#define frsky_h
+#ifndef FRSKY_H
+#define FRSKY_H
 
-
-#include "menus.h"
+#include <inttypes.h>
 
 // .20 seconds
 #define FRSKY_TIMEOUT10ms 20
 
-extern uint8_t frskyRxBuffer[19];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
-extern uint8_t frskyTxBuffer[19]; // Ditto for transmit buffer
-extern uint8_t FrskyRxBufferReady;  // 1 = received frsky packet (in frskyRxBuffer) is ready for parsing
-extern uint8_t frskyTxBufferCount;   // Number of remaining bytes to transmit. Check if zero before loading a new packet.
+enum AlarmLevel {
+  alarm_off = 0,
+  alarm_yellow = 1,
+  alarm_orange = 2,
+  alarm_red = 3
+};
+
+#define ALARM_GREATER(channel, alarm) ((g_model.frsky.channels[channel].alarms_greater >> alarm) & 1)
+#define ALARM_LEVEL(channel, alarm) ((g_model.frsky.channels[channel].alarms_level >> (2*alarm)) & 3)
+
+struct FrskyData {
+  uint8_t value;
+  uint8_t min;
+  uint8_t max;
+  void set(uint8_t value);
+};
+
+#ifdef FRSKY_HUB
+struct FrskyHubData {
+  int16_t  gpsAltitude_bp;   // before punct
+  int16_t  temperature1;     // -20 .. 250 deg. celcius
+  uint16_t rpm;              // 0..60,000 revs. per minute
+  uint16_t fuelLevel;        // 0, 25, 50, 75, 100 percent
+  int16_t  temperature2;     // -20 .. 250 deg. celcius
+  uint16_t volts;            // 1/500V increments (0..4.2V)
+  int16_t  gpsAltitude_ap;   // after punct
+  uint16_t baroAltitude;     // 0..9,999 meters
+  uint16_t gpsSpeed_bp;      // before punct
+  uint16_t gpsLongitude_bp;  // before punct
+  uint16_t gpsLatitude_bp;   // before punct
+  uint16_t gpsCourse_bp;     // before punct (0..359.99 deg. -- seemingly 2-decimal precision)
+  uint8_t  day;
+  uint8_t  month;
+  uint16_t year;
+  uint8_t  hour;
+  uint8_t  min;
+  uint16_t sec;
+  uint16_t gpsSpeed_ap;
+  uint16_t gpsLongitude_ap;
+  uint16_t gpsLatitude_ap;
+  uint16_t gpsCourse_ap;
+  uint16_t gpsLongitudeEW;   // East/West
+  uint16_t gpsLatitudeNS;    // North/South
+  int16_t  accelX;           // 1/256th gram (-8g ~ +8g)
+  int16_t  accelY;           // 1/256th gram (-8g ~ +8g)
+  int16_t  accelZ;           // 1/256th gram (-8g ~ +8g)
+};
+
+extern FrskyHubData frskyHubData;
+#endif
 
 // Global Fr-Sky telemetry data variables
-extern uint8_t frskyA1;
-extern uint8_t frskyA2;
-extern uint8_t frskyRSSI; // RSSI (virtual 10 slot) running average
-struct FrskyAlarm {
-  uint8_t level;    // The alarm's 'urgency' level. 0=disabled, 1=yellow, 2=orange, 3=red
-  uint8_t greater;  // 1 = 'if greater than'. 0 = 'if less than'
-  uint8_t value;    // The threshold above or below which the alarm will sound
-};
-extern struct FrskyAlarm frskyAlarms[4];
 extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata detected for some time
 
+#define SEND_MODEL_ALARMS 4
+#define SEND_RSSI_ALARMS  (SEND_MODEL_ALARMS + 2)
+extern uint8_t FrskyAlarmSendState;
 
-void processFrskyPacket(uint8_t *packet);
-void frskyWriteAlarm(uint8_t slot);
-void frskyAlarmsRefresh(void);
+extern FrskyData frskyTelemetry[2];
+extern FrskyData frskyRSSI[2];
+extern uint8_t frskyRxBufferIn;
+extern uint8_t frskyRxBufferOut;
+extern uint8_t frskyUserDataIn;
+extern uint8_t frskyUserDataOut;
+
+extern uint16_t frskyComputeVolts(uint8_t rawADC, uint16_t ratio, uint8_t decimals=1); 
+extern void frskyPutAValue(uint8_t x, uint8_t y, uint8_t channel, uint8_t value, uint8_t mode = 0);
 
 void FRSKY_Init(void);
-void FRSKY_DisableTXD (void);
-void FRSKY_EnableTXD (void);
-void FRSKY_DisableRXD (void);
-void FRSKY_EnableRXD (void);
+void FRSKY10mspoll(void);
 
-// Menus
-void menuProcFrsky(uint8_t event);
-void menuProcFrskySettings(uint8_t event);
-void menuProcFrskyAlarms(uint8_t event);
+inline void FRSKY_setModelAlarms(void)
+{
+  FrskyAlarmSendState = SEND_MODEL_ALARMS;
+}
 
-extern MenuFuncP_PROGMEM APM menuTabFrsky[3];
+bool FRSKY_alarmRaised(uint8_t idx);
 
-
+void resetTelemetry();
 
 #endif
 

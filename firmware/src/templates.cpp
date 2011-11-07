@@ -1,7 +1,12 @@
 /*
- * gruvin9x Author Bryan J.Rentoul (Gruvin) <gruvin@gmail.com>
+ * Authors (alphabetical order)
+ * - Bertrand Songis <bsongis@gmail.com>
+ * - Bryan J. Rentoul (Gruvin) <gruvin@gmail.com>
  *
- * templates.cpp original author - Erez Raviv <erezraviv@gmail.com>
+ * gruvin9x is based on code named er9x by
+ * Author - Erez Raviv <erezraviv@gmail.com>, which is in turn
+ * was based on the original (and ongoing) project by Thomas Husterer,
+ * th9x -- http://code.google.com/p/th9x/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -11,6 +16,8 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
+ *
+ *
  *
  * ============================================================
  * Templates file
@@ -42,6 +49,24 @@
 #include "gruvin9x.h"
 #include "templates.h"
 
+const char stn1[] APM =  "Simple 4-CH";
+const char stn2[] APM =  "T-Cut";
+const char stn3[] APM =  "V-Tail";
+const char stn4[] APM =  "Elevon\\Delta";
+const char stn5[] APM =  "eCCPM";
+const char stn6[] APM =  "Heli Setup";
+const char stn7[] APM =  "Servo Test";
+const prog_char* n_Templates[] PROGMEM = 
+{
+  stn1,
+  stn2,
+  stn3,
+  stn4,
+  stn5,
+  stn6,
+  stn7
+};
+
 MixData* setDest(uint8_t dch)
 {
     uint8_t i = 0;
@@ -58,6 +83,7 @@ MixData* setDest(uint8_t dch)
 void clearMixes()
 {
     memset(g_model.mixData,0,sizeof(g_model.mixData)); //clear all mixes
+    STORE_MODELVARS;
 }
 
 void clearCurves()
@@ -66,12 +92,12 @@ void clearCurves()
     memset(g_model.curves9,0,sizeof(g_model.curves9)); //clear all curves
 }
 
-void setCurve(uint8_t c, int8_t ar[])
+void setCurve(uint8_t c, const prog_int8_t ar[])
 {
     if(c<MAX_CURVE5) //5 pt curve
-        for(uint8_t i=0; i<5; i++) g_model.curves5[c][i] = ar[i];
+        for(uint8_t i=0; i<5; i++) g_model.curves5[c][i] = pgm_read_byte(&ar[i]);
     else  //9 pt curve
-        for(uint8_t i=0; i<9; i++) g_model.curves9[c-MAX_CURVE5][i] = ar[i];
+        for(uint8_t i=0; i<9; i++) g_model.curves9[c-MAX_CURVE5][i] = pgm_read_byte(&ar[i]);
 }
 
 void setSwitch(uint8_t idx, uint8_t func, int8_t v1, int8_t v2)
@@ -81,14 +107,13 @@ void setSwitch(uint8_t idx, uint8_t func, int8_t v1, int8_t v2)
     g_model.customSw[idx-1].v2   = v2;
 }
 
+const prog_int8_t APM heli_ar1[] = {-100, 20, 50, 70, 90};
+const prog_int8_t APM heli_ar2[] = {90, 70, 50, 70, 90};
+const prog_int8_t APM heli_ar3[] = {-20, -20, 0, 60, 100};
+const prog_int8_t APM heli_ar4[] = {-100, -60, 0, 60, 100};
+const prog_int8_t APM heli_ar5[] = {-100, 0, 0, 0, 100};
 void applyTemplate(uint8_t idx)
 {
-    int8_t heli_ar1[] = {-100, 20, 50, 70, 90};
-    int8_t heli_ar2[] = {90, 70, 50, 70, 90};
-    int8_t heli_ar3[] = {-20, -20, 0, 60, 100};
-    int8_t heli_ar4[] = {-100, -60, 0, 60, 100};
-    int8_t heli_ar5[] = {-100, 0, 0, 0, 100};
-
 
     MixData *md = &g_model.mixData[0];
 
@@ -178,11 +203,11 @@ void applyTemplate(uint8_t idx)
         md=setDest(11); md->srcRaw=CM(STK_THR);  md->weight=100; md->swtch=DSW_THR; md->curve=CV(5); md->carryTrim=TRIM_OFF;  md->mltpx=MLTPX_REP;
 
         //Set up Curves
-        setCurve(CURVE5(1),heli_ar1);
-        setCurve(CURVE5(2),heli_ar2);
-        setCurve(CURVE5(3),heli_ar3);
-        setCurve(CURVE5(4),heli_ar4);
-        setCurve(CURVE5(5),heli_ar5);
+        setCurve(CURVE5(1), heli_ar1);
+        setCurve(CURVE5(2), heli_ar2);
+        setCurve(CURVE5(3), heli_ar3);
+        setCurve(CURVE5(4), heli_ar4);
+        setCurve(CURVE5(5), heli_ar5);
         break;
 
         //Servo Test

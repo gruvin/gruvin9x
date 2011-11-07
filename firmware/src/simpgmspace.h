@@ -1,7 +1,12 @@
 /*
- * Author - Erez Raviv <erezraviv@gmail.com>
+ * Authors (alphabetical order)
+ * - Bertrand Songis <bsongis@gmail.com>
+ * - Bryan J. Rentoul (Gruvin) <gruvin@gmail.com>
  *
- * Based on th9x -> http://code.google.com/p/th9x/
+ * gruvin9x is based on code named er9x by
+ * Author - Erez Raviv <erezraviv@gmail.com>, which is in turn
+ * was based on the original (and ongoing) project by Thomas Husterer,
+ * th9x -- http://code.google.com/p/th9x/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 as
@@ -30,7 +35,7 @@ typedef const int8_t prog_int8_t;
 #define PROGMEM
 #define pgm_read_byte(address_short) (*(uint8_t*)(address_short))
 #define pgm_read_word(address_short) (*(uint16_t*)(address_short))
-#define pgm_read_adr(address_short) (*(int*)(address_short))
+#define pgm_read_adr(address_short) *address_short
 #define pgm_read_stringP(adr) ((adr))
 #define PSTR(adr) adr
 #define _delay_us(a)
@@ -42,24 +47,40 @@ typedef const int8_t prog_int8_t;
 #define PORTA dummyport
 #define PORTB portb
 #define PORTC dummyport
+#define PORTD dummyport
+#define PORTE dummyport
+#define PORTF dummyport
 #define PORTG dummyport
-#define DDRA   dummyport
-#define DDRB   dummyport
-#define DDRC   dummyport
+#define DDRA  dummyport
+#define DDRB  dummyport
+#define DDRC  dummyport
+#define DDRD  dummyport
+#define DDRE  dummyport
+#define DDRF  dummyport
+#define DDRG  dummyport
 #define PINB  ~pinb
+#define PINC  ~pinc
 #define PIND  ~pind
 #define PINE  ~pine
 #define PING  ~ping
 #define EEMEM
 
-extern unsigned char pinb,pind,pine,ping,portb;
-extern unsigned char dummyport;
-//extern uint16_t anaIn(uint8_t chan);
-//void eeprom_write_block (const void *pointer_ram,
-//                    void *pointer_eeprom,
-//                         size_t size);
+#define UCSR0B dummyport
+#define UDRIE0 dummyport
+#define TXEN0 dummyport
+#define RXEN0 dummyport
+#define DDE0 dummyport
+#define PORTE0 dummyport
+#define RXCIE0 dummyport
+
+extern volatile unsigned char pinb,pinc,pind,pine,ping;
+extern unsigned char portb,dummyport;
+
+extern const char *eepromFile;
 void eeprom_read_block (void *pointer_ram,
                    const void *pointer_eeprom,
                         size_t size);
+
+#undef offsetof
 #define offsetof(st, m) ((size_t) ( (char *)&((st *)(0))->m - (char *)0 ))
 #define wdt_reset()

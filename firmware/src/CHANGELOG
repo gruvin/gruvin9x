@@ -1,20 +1,18 @@
 Changes in v1.2
 
-+ Improved CPU efficiency for speaker tone generator. (V2 PCB required this.)
++ Improved battery voltage calibrartion system. Changes are now instant (instead
+  of waiting for the running average to kick in) and accurate to 2 decimal places,
+  like most digital multimeters.
 
-+ Changed freq. range of trim tone frequencies to use a divide by 4 instead
-  of 3, for better code efficiency. (Upper tone not so ear piercing now either. 
-  Bonus.)
+Committed r485 (/branches/frsky)
 
-Committed r479
++ Fixed double-size outdez decimal point and time colon (again)
 
-+ Issue 18: Hex value on ANA CALIB set-up page missing pixels, FIXED.
++ Added code to allow 4096 byte EEPROM storage space on V2 PCB. Unfortuantely, this
+  breaks compatibility with the 2048 byte EEPROM file format, due to having to 
+  increase the block size from 16 to 32 bytes.
 
-Committed r475
-
-+ Issue 17: Fr-Sky Page 1/3 off-screen write causes crash, FIXED.
-
-Committed r452 (trunk/)
++ Issue 17: Fr-Sky Page 1/3 off-screen write causes crash, fixed.
 
 + Issue 15: Added make directive 'PPMIN=MOD1' (as default -- use PPMIN=STD to
   disable) to align with hardware hack to make the '9X compatible with
@@ -46,8 +44,6 @@ Committed r452 (trunk/)
 
 + Fixed issue 8: faulty mix warning beeps
 
-Committed r377 (trunk)
-
 + CHANGELOG introduced
 
 + Fr-Sky support v1.0 merged into trunk
@@ -58,5 +54,6 @@ Committed r377 (trunk)
 + Issue 9: Bug in PPM_IN capture values fixed
 
 + Some minor tweaks in display format of times
+
 + Resurrected the old sub-version auto-counter in the form of a "build number"
 

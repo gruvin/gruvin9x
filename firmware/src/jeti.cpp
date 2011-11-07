@@ -160,3 +160,41 @@ void JETI_put_stop (void)
         UDR0 = 0xFF;
 }
 
+#include "menus.h"
+void menuProcJeti(uint8_t event)
+{
+  TITLE("JETI");
+
+  switch(event)
+  {
+    //case EVT_KEY_FIRST(KEY_MENU):
+    //  break;
+    case EVT_KEY_FIRST(KEY_EXIT):
+      JETI_DisableRXD();
+      chainMenu(menuProc0);
+      break;
+  }
+
+  for (uint8_t i = 0; i < 16; i++)
+  {
+    lcd_putcAtt((i+2)*FW,   3*FH, JetiBuffer[i], BSS);
+    lcd_putcAtt((i+2)*FW,   4*FH, JetiBuffer[i+16], BSS);
+  }
+
+  if (JetiBufferReady)
+  {
+    JETI_EnableTXD();
+    if (keyState((EnumKeys)(KEY_UP))) jeti_keys &= JETI_KEY_UP;
+    if (keyState((EnumKeys)(KEY_DOWN))) jeti_keys &= JETI_KEY_DOWN;
+    if (keyState((EnumKeys)(KEY_LEFT))) jeti_keys &= JETI_KEY_LEFT;
+    if (keyState((EnumKeys)(KEY_RIGHT))) jeti_keys &= JETI_KEY_RIGHT;
+
+    JetiBufferReady = 0;    // invalidate buffer
+
+    JETI_putw((uint16_t) jeti_keys);
+    _delay_ms (1);
+    JETI_DisableTXD();
+
+    jeti_keys = JETI_KEY_NOCHANGE;
+  }
+}

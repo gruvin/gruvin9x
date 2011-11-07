@@ -1,10 +1,12 @@
 /*
+ * Authors (alpahbetical order)
+ * - Bertrand Songis <bsongis@gmail.com>
+ * - Bryan J. Rentoul (Gruvin) <gruvin@gmail.com>
  *
- * gruvin9x Author Bryan J.Rentoul (Gruvin) <gruvin@gmail.com>
- *
- * frsky.cpp original author - Philip Moss Adapted from jeti.cpp code by Karl
- * Szmutny <shadow@privy.de>
- *
+ * Original contributors
+ * - Philip Moss Adapted first frsky functions from jeti.cpp code by
+ * - Karl Szmutny <shadow@privy.de>
+
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published
  * by the Free Software Foundation.
@@ -18,64 +20,213 @@
 
 #include "gruvin9x.h"
 #include "frsky.h"
+#include "ff.h"
+#include <stdlib.h>
 
-uint8_t frskyRxBuffer[19];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
-uint8_t frskyTxBuffer[19]; // Ditto for transmit buffer
+// Enumerate FrSky packet codes
+#define LINKPKT         0xfe
+#define USRPKT          0xfd
+#define A11PKT          0xfc
+#define A12PKT          0xfb
+#define A21PKT          0xfa
+#define A22PKT          0xf9
+#define ALRM_REQUEST    0xf8
+#define RSSI1PKT        0xf7
+#define RSSI2PKT        0xf6
+
+#define START_STOP      0x7e
+#define BYTESTUFF       0x7d
+#define STUFF_MASK      0x20
+
+#define FRSKY_RX_PACKET_SIZE 19
+#define FRSKY_TX_PACKET_SIZE 12
+
+uint8_t frskyRxBuffer[FRSKY_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
+uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];   // Ditto for transmit buffer
 uint8_t frskyTxBufferCount = 0;
 uint8_t FrskyRxBufferReady = 0;
 uint8_t frskyStreaming = 0;
 
-uint8_t frskyA1;
-uint8_t frskyA2;
-uint8_t frskyRSSI; // RSSI (virtual 10 slot) running average
+uint16_t frskyComputeVolts(uint8_t rawADC, uint16_t ratio/* max cirecuit designed input voltage */, uint8_t decimals/* 1 or 2. defaults to 1 */)
+{
+  uint16_t val;
+  val = (uint32_t)rawADC * ratio / ((decimals == 2) ? 255 : 2550); // result is naturally rounded and will in fact always be <= 16 bits
+  return val;
+}
+
+/*
+   Displays either a voltage or raw formatted value, given raw ADC, calibrartion ratio and optionally type, print mode and decimals
+   type defaults to 0 -- volts
+   mode defaults to 0 -- no special display attributes
+   decimals can be either 1 or 2 and defaults to 1
+  */
+void frskyPutAValue(uint8_t x, uint8_t y, uint8_t channel, uint8_t value, uint8_t mode)
+{
+  if (g_model.frsky.channels[channel].type == 0/*volts*/)
+  {
+    uint16_t val = frskyComputeVolts(value, g_model.frsky.channels[channel].ratio, (mode & PREC2) ? 2 : 1);
+    lcd_outdezNAtt(x, y, val, mode | (mode&PREC2 ? PREC2 : PREC1));
+    lcd_putcAtt(lcd_lastPos, y, 'v', mode);
+  }
+  else /* assume raw */
+  {
+    lcd_outdezNAtt(x, y, value, mode&(~(PREC1|PREC2)), 3|LEADING0);
+  }
+}
+
+FrskyData frskyTelemetry[2];
+FrskyData frskyRSSI[2];
+
+struct FrskyAlarm {
+  uint8_t level;    // The alarm's 'urgency' level. 0=disabled, 1=yellow, 2=orange, 3=red
+  uint8_t greater;  // 1 = 'if greater than'. 0 = 'if less than'
+  uint8_t value;    // The threshold above or below which the alarm will sound
+};
 
 struct FrskyAlarm frskyAlarms[4];
 
+#ifdef FRSKY_HUB
+FrskyHubData frskyHubData;
+#endif
+
+void frskyPushValue(uint8_t *&ptr, uint8_t value)
+{
+  // byte stuff the only byte than might need it
+  if (value == START_STOP) {
+    *ptr++ = 0x5e;
+    *ptr++ = BYTESTUFF;
+  }
+  else if (value == BYTESTUFF) {
+    *ptr++ = 0x5d;
+    *ptr++ = BYTESTUFF;
+  }
+  else {
+    *ptr++ = value;
+  }
+}
+
+#ifdef DISPLAY_USER_DATA
 /*
-   Called from somewhere in the main loop or a low prioirty interrupt
-   routine perhaps. This funtcion processes Fr-Sky telemetry data packets
-   assembled byt he USART0_RX_vect) ISR function (below) and stores
+  Copies all available bytes (up to max bufsize) from frskyUserData circular 
+  buffer into supplied *buffer. Returns number of bytes copied (or zero)
+*/
+uint8_t frskyGetUserData(char *buffer, uint8_t bufSize)
+{
+  uint8_t i = 0;
+  while (!frskyUserData.isEmpty())
+  {
+    buffer[i] = frskyUserData.get();
+    i++;
+  }
+  return i;
+}
+#endif
+
+#ifdef FRSKY_HUB
+int8_t parseTelemHubIndex(uint8_t index)
+{
+  if (index > 0x26)
+    index = 0; // invalid index
+  if (index > 0x21)
+    index -= 5;
+  if (index > 0x0f)
+    index -= 6;
+  if (index > 0x08)
+    index -= 2;
+  return 2*(index-1);
+}
+
+typedef enum {
+  TS_IDLE = 0,  // waiting for 0x5e frame marker
+  TS_DATA_ID,   // waiting for dataID
+  TS_DATA_LOW,  // waiting for data low byte
+  TS_DATA_HIGH, // waiting for data high byte
+  TS_XOR = 0x80 // decode stuffed byte
+} TS_STATE;
+
+void parseTelemHubByte(uint8_t byte)
+{
+  static int8_t structPos;
+  static TS_STATE state = TS_IDLE;
+
+  if (byte == 0x5e) {
+    state = TS_DATA_ID;
+    return;
+  }
+  if (state == TS_IDLE) {
+    return;
+  }
+  if (state & TS_XOR) {
+    byte = byte ^ 0x60;
+    state = (TS_STATE)(state - TS_XOR);
+  }
+  if (byte == 0x5d) {
+    state = (TS_STATE)(state | TS_XOR);
+    return;
+  }
+  if (state == TS_DATA_ID) {
+    structPos = parseTelemHubIndex(byte);
+    state = TS_DATA_LOW;
+    if (structPos < 0)
+      state = TS_IDLE;
+    return;
+  }
+  if (state == TS_DATA_LOW) {
+    ((uint8_t*)&frskyHubData)[structPos] = byte;
+    state = TS_DATA_HIGH;
+    return;
+  }
+  ((uint8_t*)&frskyHubData)[structPos+1] = byte;
+  state = TS_IDLE;
+}
+#endif  
+
+/*
+   Called from somewhere in the main loop or a low priority interrupt
+   routine perhaps. This function processes FrSky telemetry data packets
+   assembled by he USART0_RX_vect) ISR function (below) and stores
    extracted data in global variables for use by other parts of the program.
 
    Packets can be any of the following:
 
-    - A1/A2/RSSI telemtry data
+    - A1/A2/RSSI telemetry data
     - Alarm level/mode/threshold settings for Ch1A, Ch1B, Ch2A, Ch2B
     - User Data packets
-
-   User Data packets are not yet implementedi (they are simply ignored), 
-   but will likely one day contain the likes of GPS long/lat/alt/speed, 
-   AoA, airspeed, etc.
 */
+
 void processFrskyPacket(uint8_t *packet)
 {
-  static uint8_t lastRSSI = 0; // for running average calculation
-
   // What type of packet?
   switch (packet[0])
   {
-    case 0xf9:
-    case 0xfa:
-    case 0xfb:
-    case 0xfc:
-      frskyAlarms[(packet[0]-0xf9)].value = packet[1];
-      frskyAlarms[(packet[0]-0xf9)].greater = packet[2] & 0x01;
-      frskyAlarms[(packet[0]-0xf9)].level = packet[3] & 0x03;
+    case A22PKT:
+    case A21PKT:
+    case A12PKT:
+    case A11PKT:
+      {
+        struct FrskyAlarm *alarmptr ;
+        alarmptr = &frskyAlarms[(packet[0]-A22PKT)] ;
+        alarmptr->value = packet[1];
+        alarmptr->greater = packet[2] & 0x01;
+        alarmptr->level = packet[3] & 0x03;
+      }
       break;
-    case 0xfe: // A1/A2/RSSI values
-      frskyA1 = packet[1];
-      frskyA2 = packet[2];
-
-      if (lastRSSI == 0)
-        frskyRSSI = packet[3];
-      else
-        frskyRSSI = ((uint16_t)packet[3] + ((uint16_t)lastRSSI * 15)) >> 4; // >>4 = divide by 16 the fast way
-      lastRSSI = frskyRSSI;
-      break;
-
-    case 0xfd: // User Data packet -- not yet implemented
+    case LINKPKT: // A1/A2/RSSI values
+      frskyTelemetry[0].set(packet[1]);
+      frskyTelemetry[1].set(packet[2]);
+      frskyRSSI[0].set(packet[3]);
+      frskyRSSI[1].set(packet[4] / 2);
       break;
 
+    case USRPKT: // User Data packet
+#ifdef FRSKY_HUB
+      uint8_t numBytes = 3 + (packet[1] & 0x07); // sanitize in case of data corruption leading to buffer overflow
+      for (uint8_t i=3; i<numBytes; i++) {
+        parseTelemHubByte(packet[i]);
+      }
+      // TODO frskyUsrStreaming = FRSKY_TIMEOUT10ms*3; // reset counter only if valid frsky packets are being detected
+#endif
+      break;
   }
 
   FrskyRxBufferReady = 0;
@@ -100,6 +251,8 @@ void processFrskyPacket(uint8_t *packet)
    If this proves a problem in the future, then I'll just have to implement
    a second buffer to receive data while one buffer is being processed (slowly).
 */
+
+#ifndef SIMU
 ISR(USART0_RX_vect)
 {
   uint8_t stat;
@@ -107,10 +260,13 @@ ISR(USART0_RX_vect)
   
   static uint8_t numPktBytes = 0;
   static uint8_t dataState = frskyDataIdle;
+  
+  UCSR0B &= ~(1 << RXCIE0); // disable Interrupt
+  sei() ;
 
   stat = UCSR0A; // USART control and Status Register 0 A
 
-    /*
+  /*
               bit      7      6      5      4      3      2      1      0
                       RxC0  TxC0  UDRE0    FE0   DOR0   UPE0   U2X0  MPCM0
              
@@ -122,8 +278,8 @@ ISR(USART0_RX_vect)
               UPE0:   USART Parity Error
               U2X0:   Double Tx Speed
               PCM0:   MultiProcessor Comms Mode
-    */
-    // rh = UCSR0B; //USART control and Status Register 0 B
+   */
+  // rh = UCSR0B; //USART control and Status Register 0 B
 
     /*
               bit      7      6      5      4      3      2      1      0
@@ -153,36 +309,37 @@ ISR(USART0_RX_vect)
       switch (dataState) 
       {
         case frskyDataStart:
-          if (data == 0x7e) break; // Remain in userDataStart if possible 0x7e,0x7e doublet found. 
+          if (data == START_STOP) break; // Remain in userDataStart if possible 0x7e,0x7e doublet found.
 
-          if (numPktBytes < 19)
+          if (numPktBytes < FRSKY_RX_PACKET_SIZE)
             frskyRxBuffer[numPktBytes++] = data;
           dataState = frskyDataInFrame;
           break;
 
         case frskyDataInFrame:
-          if (data == 0x7d) 
+          if (data == BYTESTUFF)
           { 
               dataState = frskyDataXOR; // XOR next byte
               break; 
           }
-          if (data == 0x7e) // end of frame detected
+          if (data == START_STOP) // end of frame detected
           {
             processFrskyPacket(frskyRxBuffer); // FrskyRxBufferReady = 1;
             dataState = frskyDataIdle;
             break;
           }
-          frskyRxBuffer[numPktBytes++] = data;
+          if (numPktBytes < FRSKY_RX_PACKET_SIZE)
+            frskyRxBuffer[numPktBytes++] = data;
           break;
 
         case frskyDataXOR:
-          if (numPktBytes < 19)
-            frskyRxBuffer[numPktBytes++] = data ^ 0x20;
+          if (numPktBytes < FRSKY_RX_PACKET_SIZE)
+            frskyRxBuffer[numPktBytes++] = data ^ STUFF_MASK;
           dataState = frskyDataInFrame;
           break;
 
         case frskyDataIdle:
-          if (data == 0x7e)
+          if (data == START_STOP)
           {
             numPktBytes = 0;
             dataState = frskyDataStart;
@@ -192,425 +349,226 @@ ISR(USART0_RX_vect)
       } // switch
     } // if (FrskyRxBufferReady == 0)
   }
+  cli() ;
+  UCSR0B |= (1 << RXCIE0); // enable Interrupt
 }
 
 /*
-   USART0 (transmit) Data Register Emtpy ISR
-   Usef to transmit FrSky data packets, which are buffered in frskyTXBuffer. 
+   USART0 Transmit Data Register Emtpy ISR
+   Used to transmit FrSky data packets
 */
-uint8_t frskyTxISRIndex = 0;
 ISR(USART0_UDRE_vect)
 {
-  if (frskyTxBufferCount > 0) 
-  {
-    UDR0 = frskyTxBuffer[frskyTxISRIndex++];
-    frskyTxBufferCount--;
-  } else
+  if (frskyTxBufferCount > 0) {
+    UDR0 = frskyTxBuffer[--frskyTxBufferCount];
+  }
+  else {
     UCSR0B &= ~(1 << UDRIE0); // disable UDRE0 interrupt
+  }
 }
+#endif
 
 /******************************************/
 
-
 void frskyTransmitBuffer()
 {
-  frskyTxISRIndex = 0;
   UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
 }
 
-//   Write out an alarm settings programming packet for given alarm slot (0-4)
-void frskyWriteAlarm(uint8_t slot)
+uint8_t FrskyAlarmSendState = 0 ;
+void FRSKY10mspoll(void)
 {
-  uint8_t i = 0;
-  uint8_t buf;
+  if (frskyTxBufferCount)
+    return; // we only have one buffer. If it's in use, then we can't send yet.
 
-  if (frskyTxBufferCount) return; // we only have one buffer. If it's in use, then we can't send. Sorry.
+  uint8_t *ptr = &frskyTxBuffer[0];
 
-  frskyTxBuffer[i++] = 0x7e; // Start of packet
-  frskyTxBuffer[i++] = (0xf9+slot); // Analog 1 alarm 1
-  buf = frskyAlarms[slot].value;
+  *ptr++ = START_STOP;        // End of packet
+  *ptr++ = 0x00;
+  *ptr++ = 0x00;
+  *ptr++ = 0x00;
+  *ptr++ = 0x00;
+  *ptr++ = 0x00;
 
-  // byte stuff the only byte than might need it
-  if (buf == 0x7e) {
-    frskyTxBuffer[i++] = 0x7d;
-    frskyTxBuffer[i++] = 0x5e;
-  } else if (buf == 0x7d) {
-    frskyTxBuffer[i++] = 0x7d;
-    frskyTxBuffer[i++] = 0x5d;
-  } else
-    frskyTxBuffer[i++] = buf;
+  // Now send a packet
+  FrskyAlarmSendState -= 1 ;
+  uint8_t alarm = 1 - (FrskyAlarmSendState % 2);
+  if (FrskyAlarmSendState < SEND_MODEL_ALARMS) {
+    uint8_t channel = 1 - (FrskyAlarmSendState / 2);
+    *ptr++ = ALARM_LEVEL(channel, alarm);
+    *ptr++ = ALARM_GREATER(channel, alarm);
+    frskyPushValue(ptr, g_model.frsky.channels[channel].alarms_value[alarm]);
+    *ptr++ = (A22PKT + FrskyAlarmSendState); // fc - fb - fa - f9
+  }
 
-  frskyTxBuffer[i++] = frskyAlarms[slot].greater;
-  frskyTxBuffer[i++] = frskyAlarms[slot].level;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x7e; // End of packet
+  *ptr++ = START_STOP;        // Start of packet
 
-  frskyTxBufferCount = i;
-  frskyTransmitBuffer(); 
+  frskyTxBufferCount = ptr - &frskyTxBuffer[0];
+  frskyTransmitBuffer();
 }
 
-// Send packet requesting all alarm settings be sent back to us
-void frskyAlarmsRefresh()
+bool FRSKY_alarmRaised(uint8_t idx)
 {
-  uint8_t i = 0;
+  for (int i=0; i<2; i++) {
+    if (ALARM_LEVEL(idx, i) != alarm_off) {
+      if (ALARM_GREATER(idx, i)) {
+        if (frskyTelemetry[idx].value > g_model.frsky.channels[idx].alarms_value[i])
+          return true;
+      }
+      else {
+        if (frskyTelemetry[idx].value < g_model.frsky.channels[idx].alarms_value[i])
+          return true;
+      }
+    }
+  }
+  return false;
+}
 
-  if (frskyTxBufferCount) return; // we only have one buffer. If it's in use, then we can't send. Sorry.
+inline void FRSKY_EnableTXD(void)
+{
+  frskyTxBufferCount = 0;
+  UCSR0B |= (1 << TXEN0); // enable TX
+}
 
-  frskyTxBuffer[i++] = 0x7e; // Start of packet
-  frskyTxBuffer[i++] = 0xf8;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x00;
-  frskyTxBuffer[i++] = 0x7e; // End of packet
-
-  frskyTxBufferCount = i;
-  frskyTransmitBuffer();
+inline void FRSKY_EnableRXD(void)
+{
+  UCSR0B |= (1 << RXEN0);  // enable RX
+  UCSR0B |= (1 << RXCIE0); // enable Interrupt
 }
 
 void FRSKY_Init(void)
 {
-  // clear alarm variables
+  // clear frsky variables
   memset(frskyAlarms, 0, sizeof(frskyAlarms));
+  resetTelemetry();
 
   DDRE &= ~(1 << DDE0);    // set RXD0 pin as input
   PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
 
 #undef BAUD
 #define BAUD 9600
+#ifndef SIMU
 #include <util/setbaud.h>
 
   UBRR0H = UBRRH_VALUE;
   UBRR0L = UBRRL_VALUE;
   UCSR0A &= ~(1 << U2X0); // disable double speed operation.
 
-  // set 8 N1
+  // set 8N1
   UCSR0B = 0 | (0 << RXCIE0) | (0 << TXCIE0) | (0 << UDRIE0) | (0 << RXEN0) | (0 << TXEN0) | (0 << UCSZ02);
   UCSR0C = 0 | (1 << UCSZ01) | (1 << UCSZ00);
 
   
   while (UCSR0A & (1 << RXC0)) UDR0; // flush receive buffer
 
+#endif
+
   // These should be running right from power up on a FrSky enabled '9X.
   FRSKY_EnableTXD(); // enable FrSky-Telemetry reception
   FRSKY_EnableRXD(); // enable FrSky-Telemetry reception
 }
 
-
-void FRSKY_DisableTXD(void)
+void FrskyData::set(uint8_t value)
 {
-  UCSR0B &= ~((1 << TXEN0) | (1 << UDRIE0)); // disable TX pin and interrupt
-}
+   this->value = value;
+   if (!max || max < value)
+     max = value;
+   if (!min || min > value)
+     min = value;
+ }
 
-
-void FRSKY_EnableTXD(void)
+#if defined (PCBV3)
+char g_logFilename[21]; //  "/G9XLOGS/M00_000.TXT\0" max required length = 21
+// These global so we can close any open file from anywhere
+FATFS FATFS_Obj;
+FIL g_oLogFile;
+#endif
+void resetTelemetry()
 {
-  frskyTxBufferCount = 0;
-  UCSR0B |= (1 << TXEN0) | (1 << UDRIE0); // enable TX and TX interrupt
-}
+  memset(frskyTelemetry, 0, sizeof(frskyTelemetry));
+  memset(frskyRSSI, 0, sizeof(frskyRSSI));
 
+#if defined (PCBV3)
 
-void FRSKY_DisableRXD(void)
-{
-  UCSR0B &= ~(1 << RXEN0);  // disable RX
-  UCSR0B &= ~(1 << RXCIE0); // disable Interrupt
-}
-
-
-void FRSKY_EnableRXD(void)
-{
-
-  UCSR0B |= (1 << RXEN0);  // enable RX
-  UCSR0B |= (1 << RXCIE0); // enable Interrupt
-}
-
-/*
-   FRSKY MENUS BEGIN HERE
-   FRSKY MENUS BEGIN HERE
-   FRSKY MENUS BEGIN HERE
-*/
-
-/*
-uint8_t hex2dec(uint16_t number, uint8_t multiplier)
-{
-	uint16_t value = 0;
-	
-	switch (multiplier)
-	{
-		case 1:
-			value = number%100;
-			value = value%10;
-			break;
-			
-		case 10:
-			value = number%100;
-			value = value /10;
-			break;
-			
-		case 100:
-			value = number/100;
-			break;
-			
-		default:
-			
-			break;
-	}
-	
-	value += 48; // convert to ASCII digit
-	return value;
-	
-}
-*/
-MenuFuncP_PROGMEM APM menuTabFrsky[] = {
-  menuProcFrsky,
-  menuProcFrskySettings,
-  menuProcFrskyAlarms
-};
-
-// FRSKY menu
-void menuProcFrsky(uint8_t event)
-{
-  static uint8_t blinkCount = 0; // let's blink the data on and off if there's no data stream
-  static MState2 mstate2;
-  TITLE("FRSKY");
-  MSTATE_CHECK_V(1,menuTabFrsky,1); // curr,menuTab,numRows(including the page counter [1/2] etc)
-  // int8_t  sub    = mstate2.m_posVert; // alias sub to m_posvert. Clever Mr. TH :-D
-
-  if (!frskyStreaming)
-  {
-    lcd_putsAtt(32, 0, PSTR("NO"), DBLSIZE);
-    lcd_putsAtt(62, 0, PSTR("DATA"), DBLSIZE);
-
-  }
-
-
-  uint8_t y = 2*FH;
-
-  // Data labels
-  lcd_puts_P(2*FW, y, PSTR("A1:"));
-  lcd_puts_P(11*FW, y, PSTR("A2:"));
-
-  y+=FH; lcd_puts_P(2*FW, y, PSTR("Rx RSSI:   dB"));
-
-  // Display RX Batt Volts only if a valid channel (A1/A2) has been selected
-  if (g_eeFrsky.rxVoltsChannel >0)
-  {
-    y+=FH; lcd_puts_P(2*FW, y, PSTR("Rx Batt:"));
-    // Rx batt voltage bar frame
-
-    // Minimum voltage
-    lcd_vline(3, 58, 6);  // marker
-
-    y = 6*FH;
-    uint8_t t = 1+NUM_OFSP1(g_eeFrsky.rxVoltsBarMin);
-    lcd_outdezAtt(t, y, g_eeFrsky.rxVoltsBarMin, 0|PREC1);
-    lcd_putc(t, y, 'v');
-
-    uint8_t middleVolts = g_eeFrsky.rxVoltsBarMin+(g_eeFrsky.rxVoltsBarMax - g_eeFrsky.rxVoltsBarMin)/2;
-    t = 64+((FW+NUM_OFS(middleVolts))>>1);
-    lcd_outdezAtt(t, y, middleVolts, 0|PREC1);
-    lcd_putc(t, y, 'v');
-    lcd_vline(64, 58, 6);  // marker
-
-    lcd_outdezAtt(128-FW, y, g_eeFrsky.rxVoltsBarMax, 0|PREC1);
-    lcd_putc(128-FW, y, 'v');
-    lcd_vline(125, 58, 6); // marker
-  }
-
-  // blinking if no data stream
-  if (frskyStreaming || ((blinkCount++ % 128) > 25)) // 50:255 off:on ratio at double speed
-  {
-
-    // A1 raw value, zero padded
-    lcd_outdezAtt(8*FW, 2*FH, frskyA1, 0);
-
-    // A2 raw value, zero padded
-    lcd_outdezAtt(17*FW, 2*FH, frskyA2, 0);
-
-    // RSSI value 
-    lcd_outdezAtt(13*FW, 3*FH, frskyRSSI, 0);
-
-    uint8_t voltsVal = 0;
-    switch (g_eeFrsky.rxVoltsChannel) {
-      case 1:
-        voltsVal = frskyA1;
-        break;
-      case 2:
-        voltsVal = frskyA2;
-    }
-
-    if (g_eeFrsky.rxVoltsChannel > 0)
-    {
-      // Rx Batt: volts (255 == g_eefrsky.rxVoltsMax) 
-      uint16_t centaVolts = (voltsVal > 0) ? (10 * (uint16_t)g_eeFrsky.rxVoltsMax * (uint32_t)(voltsVal) / 255) + g_eeFrsky.rxVoltsOfs : 0;
-      lcd_outdezAtt(13*FW, 4*FH, centaVolts, 0|PREC2);
-      lcd_putc(13*FW, 4*FH, 'v');
-      
-      // draw the actual voltage bar
-      uint16_t centaVoltsMin = 10 * g_eeFrsky.rxVoltsBarMin;
-      if (centaVolts >= centaVoltsMin)
-      {
-        uint8_t vbarLen = (centaVolts - (10 * (uint16_t)g_eeFrsky.rxVoltsBarMin))  * 12 
-                            / (g_eeFrsky.rxVoltsBarMax - g_eeFrsky.rxVoltsBarMin);
-        for (uint8_t i = 59; i < 63; i++) // Bar 4 pixels thick (high)
-          lcd_hline(4, i, (vbarLen > 120) ? 120 : vbarLen);
-      }
-    }
-  } // if data streaming / blink choice
-    
-}
-
-// FRSKY Settings menu
-void menuProcFrskySettings(uint8_t event)
-{
-#define COUNT_ITEMS 5
-#define PARAM_OFS   17*FW
-
-  static MState2 mstate2;
-  TITLE("FRSKY SETTINGS");
-  MSTATE_CHECK_V(2,menuTabFrsky,7); // current page=2, 7 rows of settings including page counter top/right
-
-  int8_t  sub    = mstate2.m_posVert; // 0 = page/pages at top right
+  // Determine and set log file filename
   
-  EEFrskyData *fs = &g_eeFrsky;
-  switch(event)
+  FRESULT result;
+
+  // close any file left open. E.G. Changing models with log switch still on.
+  if (g_oLogFile.fs) f_close(&g_oLogFile); 
+
+  strcpy(g_logFilename, "/G9XLOGS/M00_000.TXT");
+
+  uint8_t num = g_eeGeneral.currModel + 1;
+  char *n = &g_logFilename[11];
+  *n = (char)((num % 10) + '0');
+  *(--n) = (char)((num / 10) + '0');
+
+  result = f_mount(0, &FATFS_Obj);
+  if (result!=FR_OK)
   {
-    case EVT_ENTRY:
-      s_editMode = false;
-      break;
-    case EVT_KEY_FIRST(KEY_MENU):
-      if(sub>=0) s_editMode = !s_editMode;
-      break;
+    strcpy(g_logFilename, "FILE SYSTEM ERROR");
   }
-
-  uint8_t y = 2*FH;
-  uint8_t subN = 1;
-  lcd_puts_P(0, y,PSTR("Rx Volts Channel"));
-  lcd_putsnAtt(PARAM_OFS, y, PSTR("--""A1""A2")+2*fs->rxVoltsChannel,2,(sub==subN ? INVERS:0));
-  if(sub==subN) checkIncDecGen2( event, &fs->rxVoltsChannel, 0, 2, EE_FRSKY); 
-
-  y+=FH; subN++;
-  lcd_puts_P(0, y, PSTR("Rx Max Volts"));
-  uint8_t t = PARAM_OFS + NUM_OFSP1(fs->rxVoltsMax);
-  lcd_outdezAtt(t, y, fs->rxVoltsMax,(sub==subN ? INVERS:0)|PREC1);
-  lcd_putcAtt(  t, y, 'v', 0);
-  if(sub==subN) checkIncDecGen2( event, &fs->rxVoltsMax, 0, 255, _FL_UNSIGNED8 | EE_FRSKY); 
-
-  y+=FH; subN++;
-  lcd_puts_P(0, y, PSTR("Volts Calibrate"));
-  t = PARAM_OFS + NUM_OFSP1(fs->rxVoltsOfs);
-  lcd_outdezAtt(t, y, fs->rxVoltsOfs,(sub==subN ? INVERS:0)|PREC1);
-  lcd_putcAtt(  t, y, 'v', 0);
-  if(sub==subN) checkIncDecGen2( event, &fs->rxVoltsOfs, -127, 127, EE_FRSKY); 
-
-  y+=FH; subN++;
-  lcd_puts_P(0, y, PSTR("VBar Min Volts"));
-  t = PARAM_OFS + NUM_OFSP1(fs->rxVoltsBarMin);
-  lcd_outdezAtt(t, y, fs->rxVoltsBarMin,(sub==subN ? INVERS:0)|PREC1);
-  lcd_putcAtt(  t, y, 'v', 0);
-  if(sub==subN) checkIncDecGen2( event, &fs->rxVoltsBarMin, 0, 255, _FL_UNSIGNED8 | EE_FRSKY); 
-
-  y+=FH; subN++;
-  lcd_puts_P(0, y, PSTR("VBar Max Volts"));
-  t = PARAM_OFS + NUM_OFSP1(fs->rxVoltsBarMax);
-  lcd_outdezAtt(t, y, fs->rxVoltsBarMax,(sub==subN ? INVERS:0)|PREC1);
-  lcd_putcAtt(  t, y, 'v', 0);
-  if(sub==subN) checkIncDecGen2( event, &fs->rxVoltsBarMax, 0, 255, _FL_UNSIGNED8 | EE_FRSKY); 
-
-  y+=FH; subN++;
-  lcd_puts_P(0, y, PSTR("No Data Alarm"));
-  lcd_putsnAtt(PARAM_OFS, y, PSTR("No ""Yes")+3*(fs->noDataAlarm&1),3,(sub==subN ? INVERS:0));
-  if(sub==subN) checkIncDecGen2( event, &fs->noDataAlarm, 0, 1, EE_FRSKY); 
-
-}
-
-// FRSKY Alarms menu
-void menuProcFrskyAlarms(uint8_t event)
-{
-  static MState2 mstate2;
-  TITLE("FRSKY ALARMS");
-  MSTATE_TAB = {1,3}; // horizontal column counts for MSTAT_CHECK_VxH (1 is the page/pages field I think.)
-  MSTATE_CHECK_VxH(3,menuTabFrsky,5); // current page=3, 5 rows of settings including page counter top/right
-
-  int8_t  sub    = mstate2.m_posVert - 1; // vertical position (1 = page counter, top/right)
-  uint8_t subSub = mstate2.m_posHorz;     // horizontal position
-
-  static uint8_t refreshAlarmsFlag = 0; // The functions is repeatedly called. So this makes our refresh request a one-shot
-  if (!refreshAlarmsFlag)
+  else
   {
-    frskyAlarmsRefresh();
-    refreshAlarmsFlag = 1;
-  }
-
-  switch(event)
-  {
-    case EVT_ENTRY:
-      s_editMode = false;
-      break;
-    case EVT_KEY_LONG(KEY_MENU):
-        frskyAlarmsRefresh();
-        killEvents(event);
-      break;
-    case EVT_KEY_FIRST(KEY_MENU):
-      if(sub>=0) s_editMode = !s_editMode;
-      if (!s_editMode) frskyWriteAlarm(sub); // update Fr-Sky module when edit mode exited
-      break;
-    case EVT_KEY_FIRST(KEY_EXIT):
-      if(s_editMode)
-      {
-        frskyWriteAlarm(sub); // update Fr-Sky module when edit mode exited
-        s_editMode = false;
-        killEvents(event);
-      }
-      refreshAlarmsFlag = 0;
-      break;
-  }
-
-  lcd_puts_P(0, 2*FH,PSTR("Slot Level > < Value"));
-  for(uint8_t i=0; i<4; i++) // 4 alarm slots
-  {
-    uint8_t y=(i+3)*FH;
-    FrskyAlarm *ad = &frskyAlarms[i];
-
-    for(uint8_t j=0; j<4;j++) // 4 settings each slot
+    // Skip over any existing log files ... _000, _001, etc. (or find first gap in numbering)
+    while (1)
     {
-      uint8_t attr = ((sub==i && (subSub+1)==j) ? (s_editMode ? BLINK : INVERS) : 0);
-      switch(j)
+      result = f_open(&g_oLogFile, g_logFilename, FA_OPEN_EXISTING | FA_READ);
+
+      if (result == FR_OK)
       {
-        case 0:
-          lcd_putsnAtt(0,y,PSTR("A2a""A2b""A1a""A1b")+i*3,3, (sub==i) ? INVERS : 0);
-          break;
-        case 1:
-          lcd_putsnAtt(5*FW,y,PSTR("---""Yel""Org""Red")+ad->level*3,3, attr);
-          if(attr && (s_editMode || p1valdiff)) // p1valdiff is analog user input via Pot 1 (rear/left)
-            checkIncDecGen2( event, &ad->level, 0, 3, _FL_UNSIGNED8); 
-          break;
-        case 2:
-          lcd_putsnAtt(11*FW,y,PSTR("LT<""GT>")+ad->greater*3,3, attr);
-          if(attr && s_editMode)
-            checkIncDecGen2( event, &ad->greater, 0, 1, _FL_UNSIGNED8);
-          break;
-        case 3:
-          if ((g_eeFrsky.rxVoltsChannel-1) == ((i>>1)^1)) {
-            uint16_t centaVolts = (ad->value > 0) ? 
-                (10 * (uint16_t)g_eeFrsky.rxVoltsMax * (uint32_t)(ad->value) / 255) + g_eeFrsky.rxVoltsOfs : 0;
-            lcd_outdezAtt(19*FW, y, centaVolts, attr|PREC2);
-            lcd_putc(     19*FW, y, 'v');
-          } else
-            lcd_outdezAtt(19*FW,y, ad->value, attr);
-          if(attr && (s_editMode || p1valdiff))
-            checkIncDecGen2( event, &ad->value, 0, 255, _FL_UNSIGNED8);
-          break;
+        f_close(&g_oLogFile);
+
+        // bump log file counter (file extension)
+        n = &g_logFilename[15];
+        if (++*n > '9')
+        {
+          *n='0';
+          n--;
+          if (++*n > '9')
+          {
+            *n='0';
+            n--;
+            if (++*n > '9')
+            {
+              *n='0';
+              break; // Wow. We looped back around past 999 to 000! abort loop
+            }
+          }
+        }
       }
+      else if (result == FR_NO_PATH)
+      {
+        if (f_mkdir("/G9XLOGS") != FR_OK)
+        {
+          result = FR_NO_PATH;
+          break;
+        }
+        else
+          continue;
+      }
+      else
+        break;
+    }
+
+    switch (result)
+    {
+      case FR_NO_PATH:
+        strcpy(g_logFilename, "Check /G9XLOGS folder");
+        break;
+      case FR_NOT_READY:
+        strcpy(g_logFilename, "DATA CARD NOT PRESENT");
+        break;
+
+      default:
+        break;
     }
   }
+
+  // g_logFilename should now be set appropriately.
+
+#endif
+
 }
 
