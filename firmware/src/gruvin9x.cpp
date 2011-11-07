@@ -1069,7 +1069,6 @@ uint16_t isqrt32(uint32_t n)
 
 // static variables used in perOut - moved here so they don't interfere with the stack
 // It's also easier to initialize them here.
-uint16_t pulses2MHz[120] = {0};
 int16_t  anas [NUM_XCHNRAW] = {0};
 int16_t  trims[NUM_STICKS] = {0};
 int32_t  chans[NUM_CHNOUT] = {0};
@@ -1737,103 +1736,6 @@ int16_t g_ppmIns[8];
 uint8_t ppmInState = 0; //0=unsync 1..8= wait for value i-1
 
 #ifndef SIMU
-
-#define HEART_TIMER2Mhz 1;
-#define HEART_TIMER10ms 2;
-
-uint8_t heartbeat;
-
-
-ISR(TIMER1_COMPA_vect) //2MHz pulse generation
-{
-  static uint8_t   pulsePol;
-  static uint16_t *pulsePtr = pulses2MHz;
-
-  // Latency -- how far further on from interrupt trigger has the timer counted?
-  // (or -- how long did it take to get to this function)
-  uint8_t i = 0;
-  uint8_t dt;
-  do{
-    dt=TCNT1L;//-OCR1A;
-    i++;
-  }while(dt<1 && i<5);
-
-  g_tmr1Latency_max = max(dt,g_tmr1Latency_max);
-  g_tmr1Latency_min = min(dt,g_tmr1Latency_min);
-
-//vinceofdrink@gmail harwared ppm
-//Orginal bitbang for PPM
-#if !defined (DPPMPB7_HARDWARE) && !defined (PCBV4)
-  if(pulsePol)
-  {
-    PORTB |=  (1<<OUT_B_PPM); // GCC optimisation should result in a single SBI instruction
-    pulsePol = 0;
-  }else{
-    PORTB &= ~(1<<OUT_B_PPM); // GCC optimisation should result in a single CBI instruction
-    pulsePol = 1;
-  }
-#endif
-  OCR1A = *pulsePtr; // Schedule next interrupt vector (to this handler)
-
-#if defined (PCBV4)
-  OCR1B = *pulsePtr; /* G: Using timer in CTC mode, restricted to using OCR1A for interrupt triggering.  
-                        So we actually have to handle the OCR1B register separately in this way. */
-
-  // We cannot read the status of the PPM_OUT pin when OC1B is connected to it on the ATmega2560.
-  // So the only way to set polarity is to manually control set/reset mode in COM1B0/1
-  if (pulsePol)
-  {
-    TCCR1A = (3<<COM1B0); // SET the state of PB6(OC1B) on next TCNT1==OCR1B
-    pulsePol = 0;
-  }
-  else
-  {
-    TCCR1A = (2<<COM1B0); // CLEAR the state of PB6(OC1B) on next TCNT1==OCR1B
-    pulsePol = 1;
-  }
-
-//vinceofdrink@gmail harwared ppm
-#elif defined (DPPMPB7_HARDWARE)
-  OCR1C = *pulsePtr;  // just copy the value of the OCR1A to OCR1C to test PPM out without too 
-                      // much change in the code not optimum but will not alter ppm precision
-#endif
-
-  *pulsePtr++;
-
-  if( *pulsePtr == 0)
-  {
-    //currpulse=0;
-    pulsePtr = pulses2MHz;
-    pulsePol = g_model.pulsePol;//0;
-
-    cli();
-#if defined (PCBV3)
-    TIMSK1 &= ~(1<<OCIE1A); //stop reentrance
-#else
-    TIMSK &= ~(1<<OCIE1A); //stop reentrance
-#endif
-    sei();
-
-    setupPulses();
-
-#if !defined (PCBV3) && defined (DPPMPB7_HARDWARE)
-  // G: NOTE: This strategy does not work on the '2560 becasue you can't 
-  //          read the PPM out pin when connected to OC1B. Vincent says
-  //          it works on the '64A. I haven't personally tested it.
-  if(PINB & (1<<OUT_B_PPM) && g_model.pulsePol)
-       TCCR1C=(1<<FOC1C);
-#endif
-
-    cli();
-#if defined (PCBV3)
-    TIMSK1 |= (1<<OCIE1A);
-#else
-    TIMSK |= (1<<OCIE1A);
-#endif
-    sei();
-  }
-  heartbeat |= HEART_TIMER2Mhz;
-}
 
 volatile uint8_t g_tmr16KHz; //continuous timer 16ms (16MHz/1024/256) -- 8-bit counter overflow
 #if defined (PCBV3)

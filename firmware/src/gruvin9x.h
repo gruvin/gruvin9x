@@ -408,6 +408,8 @@ enum EnumKeys {
 #define EVT_ENTRY_UP            (0xfe - _MSK_KEY_REPT)
 #define EVT_KEY_MASK             0x0f
 
+#define HEART_TIMER2Mhz 1;
+#define HEART_TIMER10ms 2;
 
 #define TMRMODE_NONE     0
 #define TMRMODE_ABS      1
@@ -420,9 +422,13 @@ enum EnumKeys {
 #define PROTO_SILV_B     2
 #define PROTO_SILV_C     3
 #define PROTO_TRACER_CTP1009 4
-#define PROT_MAX         4
-#define PROT_STR "PPM   SILV_ASILV_BSILV_CTRAC09"
+// #define PROTO_PXX        5
+#define PROTO_DSM2       5
+#define PROT_MAX         5
+#define PROT_STR "PPM   SILV_ASILV_BSILV_CTRAC09DSM2  "
 #define PROT_STR_LEN     6
+
+extern uint8_t heartbeat;
 
 typedef void (*getADCp)();
 
@@ -565,6 +571,7 @@ template<class t> inline t min(t a, t b){ return a<b?a:b; }
 /// liefert das Maximum der Argumente
 template<class t> inline t max(t a, t b){ return a>b?a:b; }
 template<class t> inline int8_t sgn(t a){ return a>0 ? 1 : (a < 0 ? -1 : 0); }
+template<class t> inline t limit(t mi, t x, t ma){ return min(max(mi,x),ma); }
 
 /// Markiert einen EEPROM-Bereich als dirty. der Bereich wird dann in
 /// eeCheck ins EEPROM zurueckgeschrieben.
@@ -622,6 +629,7 @@ void setupPulses();
 void setupPulsesPPM();
 void setupPulsesSilver();
 void setupPulsesTracerCtp1009();
+void setupPulsesDsm2(uint8_t chns);
 
 void initTemplates();
 
