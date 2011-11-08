@@ -283,9 +283,9 @@ void applyExpos(int16_t *anas)
       }
     }
     if (getSwitch(ed.swtch, 1)) {
-      cur_chn = ed.chn;
-      int16_t v = anas2[cur_chn];
+      int16_t v = anas2[ed.chn];
       if((v<0 && ed.mode&1) || (v>=0 && ed.mode&2)) {
+        cur_chn = ed.chn;
         int16_t k = ed.expo;
         if (IS_THROTTLE(cur_chn) && g_model.thrExpo)
           v = 2*expo((v+RESX)/2, k);
