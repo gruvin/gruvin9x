@@ -34,20 +34,14 @@ uint8_t heartbeat;
 
 ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 {
-  static uint8_t   pulsePol;
+  static uint8_t   pulsePol; // TODO strange, it's always 0 at first, shouldn't it be initialized properly in setupPulses?
   static uint16_t *pulsePtr = pulses2MHz;
 
   // Latency -- how far further on from interrupt trigger has the timer counted?
   // (or -- how long did it take to get to this function)
-  uint8_t i = 0;
-  uint8_t dt;
-  do {
-    dt=TCNT1L;//-OCR1A;
-    i++;
-  } while (dt<1 && i<5);
-
-  g_tmr1Latency_max = max(dt,g_tmr1Latency_max);    // max has leap, therefore vary in length
-  g_tmr1Latency_min = min(dt,g_tmr1Latency_min);    // min has leap, therefore vary in length
+  uint8_t dt = TCNT1L;
+  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 
   // vinceofdrink@gmail harwared ppm
   // Orginal bitbang for PPM
@@ -85,9 +79,7 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
                       // much change in the code not optimum but will not alter ppm precision
 #endif
 
-  *pulsePtr++; // TODO why *
-
-  if (*pulsePtr == 0) {
+  if (*(++pulsePtr) == 0) {
     //currpulse=0;
     pulsePtr = pulses2MHz;
     pulsePol = g_model.pulsePol;//0;
@@ -120,29 +112,6 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
     // sei(); TODO I remove this sei
   }
   heartbeat |= HEART_TIMER2Mhz;
-}
-
-void setupPulses()
-{
-  switch(g_model.protocol) {
-    case PROTO_PPM:
-      setupPulsesPPM();
-      break;
-    case PROTO_SILV_A:
-    case PROTO_SILV_B:
-    case PROTO_SILV_C:
-      setupPulsesSilver();
-      break;
-    case PROTO_TRACER_CTP1009:
-      setupPulsesTracerCtp1009();
-      break;
-    /* case PROTO_PXX:
-        setupPulsesPXX();
-        break; */
-    case PROTO_DSM2:
-      setupPulsesDsm2(6);
-      break;
-  }
 }
 
 //inline int16_t reduceRange(int16_t x)  // for in case we want to have room for subtrims
@@ -222,7 +191,7 @@ normal:
 
 inline void _send_1(uint16_t v)
 {
-    *pulses2MHzPtr++ = v;
+  *pulses2MHzPtr++ = v;
 }
 
 #define BITLEN_DSM2 (8*2) //125000 Baud
@@ -235,9 +204,9 @@ void sendByteDsm2(uint8_t b) //max 10changes 0 10 10 10 10 1
         if(lev == nlev){
             len += BITLEN_DSM2;
         }else{
-            _send_1(len -1);
-            len  = BITLEN_DSM2;
-            lev  = nlev;
+            _send_1(len-1);
+            len = BITLEN_DSM2;
+            lev = nlev;
         }
         b = (b>>1) | 0x80; //shift in stop bit
     }
@@ -250,6 +219,8 @@ void setupPulsesDsm2(uint8_t chns)
     static uint8_t dsmDat[2+6*2]={0x80,0,  0x00,0xAA,  0x05,0xFF,  0x09,0xFF,  0x0D,0xFF,  0x13,0x54,  0x14,0xAA};
 
     static uint8_t state = 0;
+
+    pulses2MHzPtr = pulses2MHz;
 
     if(state==0){
 
@@ -422,5 +393,27 @@ void setupPulsesTracerCtp1009()
   if((pulses2MHzPtr-pulses2MHz) >= (signed)DIM(pulses2MHz)) alert(PSTR("pulse tab overflow"));
 }
 
+void setupPulses()
+{
+  switch(g_model.protocol) {
+    case PROTO_PPM:
+      setupPulsesPPM();
+      break;
+    case PROTO_SILV_A:
+    case PROTO_SILV_B:
+    case PROTO_SILV_C:
+      setupPulsesSilver();
+      break;
+    case PROTO_TRACER_CTP1009:
+      setupPulsesTracerCtp1009();
+      break;
+    /* case PROTO_PXX:
+        setupPulsesPXX();
+        break; */
+    case PROTO_DSM2:
+      setupPulsesDsm2(6);
+      break;
+  }
+}
 #endif
 
