@@ -24,7 +24,7 @@
 #ifndef SIMU
 
 uint16_t pulses2MHz[120/*TODO it's 70 in er9x!!!*/] = {0};
-uint16_t *pulses2MHzPtr = pulses2MHz;
+uint16_t *pulses2MHzWPtr = pulses2MHz;
 uint8_t heartbeat;
 
 #define CTRL_END 0
@@ -35,7 +35,7 @@ uint8_t heartbeat;
 ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 {
   static uint8_t   pulsePol; // TODO strange, it's always 0 at first, shouldn't it be initialized properly in setupPulses?
-  static uint16_t *pulsePtr = pulses2MHz;
+  static uint16_t *pulses2MHzRPtr = pulses2MHz;
 
   // Latency -- how far further on from interrupt trigger has the timer counted?
   // (or -- how long did it take to get to this function)
@@ -56,10 +56,10 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
   }
 #endif
 
-  OCR1A = *pulsePtr; // Schedule next interrupt vector (to this handler)
+  OCR1A = *pulses2MHzRPtr; // Schedule next interrupt vector (to this handler)
 
 #if defined (PCBV4)
-  OCR1B = *pulsePtr; /* G: Using timer in CTC mode, restricted to using OCR1A for interrupt triggering.
+  OCR1B = *pulses2MHzRPtr; /* G: Using timer in CTC mode, restricted to using OCR1A for interrupt triggering.
                           So we actually have to handle the OCR1B register separately in this way. */
 
   // We cannot read the status of the PPM_OUT pin when OC1B is connected to it on the ATmega2560.
@@ -75,13 +75,15 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 
   //vinceofdrink@gmail harwared ppm
 #elif defined (DPPMPB7_HARDWARE)
-  OCR1C = *pulsePtr;  // just copy the value of the OCR1A to OCR1C to test PPM out without too
+  OCR1C = *pulses2MHzRPtr;  // just copy the value of the OCR1A to OCR1C to test PPM out without too
                       // much change in the code not optimum but will not alter ppm precision
 #endif
 
-  if (*(++pulsePtr) == 0) {
+  ++pulses2MHzRPtr;
+
+  if (pulses2MHzRPtr == pulses2MHzWPtr) {
     //currpulse=0;
-    pulsePtr = pulses2MHz;
+    pulses2MHzRPtr = pulses2MHz;
     pulsePol = g_model.pulsePol;//0;
     //    channel = 0 ;
     //    PulseTotal = 0 ;
@@ -148,7 +150,8 @@ void setupPulsesPPM() // changed 10/05/2010 by dino Issue 128
     }
     *ptr=q;
     *(ptr+1)=rest;
-    *(ptr+2)=0;
+    *(ptr+2)=0; // TODO this line is not any more needed if I am right!
+    pulses2MHzWPtr = ptr+2;
 }
 
 /*
@@ -191,7 +194,7 @@ normal:
 
 inline void _send_1(uint16_t v)
 {
-  *pulses2MHzPtr++ = v;
+  *pulses2MHzWPtr++ = v;
 }
 
 #define BITLEN_DSM2 (8*2) //125000 Baud
@@ -220,7 +223,7 @@ void setupPulsesDsm2(uint8_t chns)
 
     static uint8_t state = 0;
 
-    pulses2MHzPtr = pulses2MHz;
+    pulses2MHzWPtr = pulses2MHz;
 
     if(state==0){
 
@@ -236,7 +239,7 @@ void setupPulsesDsm2(uint8_t chns)
     sendByteDsm2(dsmDat[state++]);
     sendByteDsm2(dsmDat[state++]);
     if(state >= 2+chns*2){
-        pulses2MHzPtr-=3; //remove last stopbits and
+        pulses2MHzWPtr--; //remove last stopbits and
         _send_1(20000u*2 -1); //prolong them
         state=0;
     }
@@ -245,7 +248,7 @@ void setupPulsesDsm2(uint8_t chns)
 #define BITLEN (600u*2)
 void _send_hilo(uint16_t hi,uint16_t lo)
 {
-  *pulses2MHzPtr++=hi; *pulses2MHzPtr++=lo;
+  *pulses2MHzWPtr++=hi; *pulses2MHzWPtr++=lo;
 }
 #define send_hilo_silv( hi, lo) _send_hilo( (hi)*BITLEN,(lo)*BITLEN )
 
@@ -289,7 +292,7 @@ void setupPulsesSilver()
   if (m2 > m1+9) m1=m2-9;
   if (m1 > m2+9) m2=m1-9;
   //uint8_t i=0;
-  pulses2MHzPtr=pulses2MHz;
+  pulses2MHzWPtr=pulses2MHz;
   send_hilo_silv(5,1); //idx 0 erzeugt pegel=0 am Ausgang, wird  als high gesendet
   send2BitsSilv(0);
   send_hilo_silv(2,1);
@@ -311,7 +314,7 @@ void setupPulsesSilver()
   send2BitsSilv(sum); //chk
 
   sendBitSilv(0);
-  pulses2MHzPtr--;
+  pulses2MHzWPtr--;
   send_hilo_silv(50,0); //low-impuls (pegel=1) ueberschreiben
 
 
@@ -365,7 +368,7 @@ void sendByteTra(uint8_t val)
 }
 void setupPulsesTracerCtp1009()
 {
-  pulses2MHzPtr=pulses2MHz;
+  pulses2MHzWPtr=pulses2MHz;
   static bool phase;
   if( (phase=!phase) ){
     uint8_t thr = min(127u,(uint16_t)(g_chans512[0]+1024+8) /  16u);
@@ -389,8 +392,8 @@ void setupPulsesTracerCtp1009()
     sendByteTra( (chk>>4) | (chk<<4) );
     _send_hilo( 7000*2, 2000*2 );
   }
-  *pulses2MHzPtr++=0;
-  if((pulses2MHzPtr-pulses2MHz) >= (signed)DIM(pulses2MHz)) alert(PSTR("pulse tab overflow"));
+  *pulses2MHzWPtr++=0;
+  if((pulses2MHzWPtr-pulses2MHz) >= (signed)DIM(pulses2MHz)) alert(PSTR("pulse tab overflow"));
 }
 
 void setupPulses()
