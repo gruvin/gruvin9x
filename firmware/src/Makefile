@@ -73,6 +73,18 @@ TRANSLATIONS = YES
 # Values = YES, NO
 DISPLAY_USER_DATA = NO
 
+# PXX (FrSky PCM) protocol
+PXX = NO
+
+# DSM2 (Spektrum) protocol
+DSM2 = YES
+
+# Silver protocol
+SILVER = NO
+
+# CTP-1009 protocol
+CTP1009 = NO
+
 #------- END BUILD OPTIONS ---------------------------
 
 # MCU name
@@ -256,6 +268,22 @@ endif
 
 ifeq ($(DISPLAY_USER_DATA), YES)
  CPPDEFS += -DDISPLAY_USER_DATA
+endif
+
+ifeq ($(PXX), YES)
+  CPPDEFS += -DPXX
+endif
+
+ifeq ($(DSM2), YES)
+  CPPDEFS += -DDSM2
+endif
+
+ifeq ($(SILVER), YES)
+  CPPDEFS += -DSILVER
+endif
+
+ifeq ($(CTP1009), YES)
+  CPPDEFS += -DCTP1009
 endif
 
 #---------------- Compiler Options C ----------------

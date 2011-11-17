@@ -408,8 +408,8 @@ enum EnumKeys {
 #define EVT_ENTRY_UP            (0xfe - _MSK_KEY_REPT)
 #define EVT_KEY_MASK             0x0f
 
-#define HEART_TIMER2Mhz 1;
-#define HEART_TIMER10ms 2;
+#define HEART_TIMER2Mhz  1
+#define HEART_TIMER10ms  2
 
 #define TMRMODE_NONE     0
 #define TMRMODE_ABS      1
@@ -418,14 +418,14 @@ enum EnumKeys {
 #define MAX_ALERT_TIME   60
 
 #define PROTO_PPM        0
-#define PROTO_SILV_A     1
-#define PROTO_SILV_B     2
-#define PROTO_SILV_C     3
-#define PROTO_TRACER_CTP1009 4
-// #define PROTO_PXX        5
-#define PROTO_DSM2       5
-#define PROT_MAX         5
-#define PROT_STR "PPM   SILV_ASILV_BSILV_CTRAC09DSM2  "
+#define PROTO_PXX        1
+#define PROTO_DSM2       2
+#define PROTO_SILV_A     3
+#define PROTO_SILV_B     4
+#define PROTO_SILV_C     5
+#define PROTO_CTP1009    6
+#define PROT_MAX         6
+#define PROT_STR "PPM   PXX   DSM2  SILV_ASILV_BSILV_CTRAC09"
 #define PROT_STR_LEN     6
 
 extern uint8_t heartbeat;
@@ -480,7 +480,7 @@ extern void perOut(int16_t *chanOut, uint8_t att);
 ///     1.. MAX_SWITCH : SW_ON .. SW_Trainer
 ///    -1..-MAX_SWITCH : negierte Werte
 ///   \param nc Wert, der bei swtch==0 geliefert wird.
-bool    getSwitch(int8_t swtch, bool nc, uint8_t level=0);
+bool    getSwitch(int8_t swtch, bool nc);
 /// Zeigt den Namen des Switches 'swtch' im display an
 ///   \param x     x-koordinate 0..127
 ///   \param y     y-koordinate 0..63 (nur durch 8 teilbar)
@@ -624,10 +624,6 @@ extern inline uint16_t get_tmr10ms()
 #define SUB_MODE_H_DBL 3
 
 void setupPulses();
-void setupPulsesPPM();
-void setupPulsesSilver();
-void setupPulsesTracerCtp1009();
-void setupPulsesDsm2(uint8_t chns);
 
 void initTemplates();
 
@@ -644,7 +640,6 @@ extern volatile uint8_t   g_blinkTmr10ms;
 extern uint8_t            g_beepCnt;
 extern uint8_t            g_beepVal[5];
 extern const PROGMEM char modi12x3[];
-extern uint16_t           pulses2MHz[120];
 extern int16_t            g_ppmIns[8];
 extern int16_t            g_chans512[NUM_CHNOUT];
 extern volatile uint8_t   tick10ms;

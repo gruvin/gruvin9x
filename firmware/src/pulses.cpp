@@ -23,9 +23,14 @@
 
 #ifndef SIMU
 
-uint16_t pulses2MHz[120/*TODO it's 70 in er9x!!!*/] = {0};
+#ifdef CTP1009
+uint16_t pulses2MHz[50] = {0};
+#else
+uint16_t pulses2MHz[40] = {0};
+#endif
+
+uint16_t *pulses2MHzRPtr = pulses2MHz;
 uint16_t *pulses2MHzWPtr = pulses2MHz;
-uint8_t heartbeat;
 
 #define CTRL_END 0
 #define CTRL_CNT 1
@@ -35,7 +40,6 @@ uint8_t heartbeat;
 ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 {
   static uint8_t   pulsePol; // TODO strange, it's always 0 at first, shouldn't it be initialized properly in setupPulses?
-  static uint16_t *pulses2MHzRPtr = pulses2MHz;
 
   // Latency -- how far further on from interrupt trigger has the timer counted?
   // (or -- how long did it take to get to this function)
@@ -83,7 +87,6 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 
   if (pulses2MHzRPtr == pulses2MHzWPtr) {
     //currpulse=0;
-    pulses2MHzRPtr = pulses2MHz;
     pulsePol = g_model.pulsePol;//0;
     //    channel = 0 ;
     //    PulseTotal = 0 ;
@@ -137,30 +140,32 @@ void setupPulsesPPM() // changed 10/05/2010 by dino Issue 128
     // to produce quite exactly this, to my eye. *shrug*
     //   http://www.aerodesign.de/peter/2000/PCM/frame_ppm.gif
     uint16_t *ptr = pulses2MHz ; // TODO check this saves flash
-    uint8_t p=8+g_model.ppmNCH*2; //Channels *2
-    uint16_t q=(g_model.ppmDelay*50+300)*2; //Stoplen *2
-    uint16_t rest=22500u*2-q; //Minimum Framelen=22.5 ms
+    uint8_t p = 8+(g_model.ppmNCH*2); // channels count
+    uint16_t q = (g_model.ppmDelay*50+300)*2; //Stoplen *2
+    uint16_t rest = 22500u*2-q; //Minimum Framelen=22.5 ms
     // TODO in er9x this line replaces the next one: rest += (int16_t(g_model.ppmFrameLength))*1000;
     if(p>9) rest=p*(1720u*2 + q) + 4000u*2; //for more than 9 channels, frame must be longer
-    for(uint8_t i=0;i<p;i++){ //NUM_CHNOUT
-        int16_t v = max(min(g_chans512[i],PPM_range),-PPM_range) + PPM_CENTER;
-        rest-=(v+q);
-        *ptr++ = q;
-        *ptr++ = v - q + 600; /* as Pat MacKenzie suggests */
+    for (uint8_t i=0; i<p; i++) {
+      int16_t v = max(min(g_chans512[i], PPM_range), -PPM_range) + PPM_CENTER;
+      rest -= (v+q);
+      *ptr++ = q;
+      *ptr++ = v - q + 600; /* as Pat MacKenzie suggests */
     }
-    *ptr=q;
-    *(ptr+1)=rest;
-    *(ptr+2)=0; // TODO this line is not any more needed if I am right!
+    *ptr = q;
+    *(ptr+1) = rest;
     pulses2MHzWPtr = ptr+2;
 }
 
-/*
+#ifdef PXX
+
 void setupPulsesPXX()
 {
 
 }
-*/
 
+#endif
+
+#ifdef DSM2
 
 // DSM2 protocol pulled from th9x - Thanks thus!!!
 
@@ -223,8 +228,6 @@ void setupPulsesDsm2(uint8_t chns)
 
     static uint8_t state = 0;
 
-    pulses2MHzWPtr = pulses2MHz;
-
     if(state==0){
 
         if((dsmDat[0] == 0) || ! keyState(SW_Trainer) ){ //init - bind!
@@ -245,11 +248,19 @@ void setupPulsesDsm2(uint8_t chns)
     }
 }
 
-#define BITLEN (600u*2)
+#endif
+
+#if defined(SILVER) || defined(CTP1009)
 void _send_hilo(uint16_t hi,uint16_t lo)
 {
-  *pulses2MHzWPtr++=hi; *pulses2MHzWPtr++=lo;
+  *pulses2MHzWPtr++=hi;
+  *pulses2MHzWPtr++=lo;
 }
+#endif
+
+#ifdef SILVER
+
+#define BITLEN (600u*2)
 #define send_hilo_silv( hi, lo) _send_hilo( (hi)*BITLEN,(lo)*BITLEN )
 
 void sendBitSilv(uint8_t val)
@@ -292,7 +303,7 @@ void setupPulsesSilver()
   if (m2 > m1+9) m1=m2-9;
   if (m1 > m2+9) m2=m1-9;
   //uint8_t i=0;
-  pulses2MHzWPtr=pulses2MHz;
+
   send_hilo_silv(5,1); //idx 0 erzeugt pegel=0 am Ausgang, wird  als high gesendet
   send2BitsSilv(0);
   send_hilo_silv(2,1);
@@ -316,11 +327,11 @@ void setupPulsesSilver()
   sendBitSilv(0);
   pulses2MHzWPtr--;
   send_hilo_silv(50,0); //low-impuls (pegel=1) ueberschreiben
-
-
 }
 
+#endif
 
+#ifdef CTP1009
 
 /*
   TRACE CTP-1009
@@ -368,7 +379,6 @@ void sendByteTra(uint8_t val)
 }
 void setupPulsesTracerCtp1009()
 {
-  pulses2MHzWPtr=pulses2MHz;
   static bool phase;
   if( (phase=!phase) ){
     uint8_t thr = min(127u,(uint16_t)(g_chans512[0]+1024+8) /  16u);
@@ -392,30 +402,42 @@ void setupPulsesTracerCtp1009()
     sendByteTra( (chk>>4) | (chk<<4) );
     _send_hilo( 7000*2, 2000*2 );
   }
-  *pulses2MHzWPtr++=0;
   if((pulses2MHzWPtr-pulses2MHz) >= (signed)DIM(pulses2MHz)) alert(PSTR("pulse tab overflow"));
 }
 
+#endif
+
 void setupPulses()
 {
+  pulses2MHzWPtr = pulses2MHz;
+  pulses2MHzRPtr = pulses2MHz;
+
   switch(g_model.protocol) {
     case PROTO_PPM:
       setupPulsesPPM();
       break;
+#ifdef SILVER
     case PROTO_SILV_A:
     case PROTO_SILV_B:
     case PROTO_SILV_C:
       setupPulsesSilver();
       break;
-    case PROTO_TRACER_CTP1009:
+#endif
+#ifdef CTP1009
+    case PROTO_CTP1009:
       setupPulsesTracerCtp1009();
       break;
-    /* case PROTO_PXX:
-        setupPulsesPXX();
-        break; */
+#endif
+#ifdef PXX
+    case PROTO_PXX:
+      setupPulsesPXX();
+      break;
+#endif
+#ifdef DSM2
     case PROTO_DSM2:
       setupPulsesDsm2(6);
       break;
+#endif
   }
 }
 #endif

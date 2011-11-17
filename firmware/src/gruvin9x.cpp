@@ -60,6 +60,8 @@ uint8_t toneOn = false;
 
 bool warble = false;
 
+uint8_t heartbeat;
+
 const prog_char APM modi12x3[]=
   "RUD ELE THR AIL "
   "RUD THR ELE AIL "
@@ -300,8 +302,8 @@ void applyExpos(int16_t *anas)
   }
 }
 
-static bool s_noStickInputs = false;
-inline int16_t getValue(uint8_t i)
+bool s_noStickInputs = false;
+inline int16_t __attribute__ ((always_inline)) getValue(uint8_t i)
 {
     if(i<NUM_STICKS+NUM_POTS) return (s_noStickInputs ? 0 : calibratedStick[i]);
     else if(i<MIX_FULL/*srcRaw is shifted +1!*/) return 1024; //FULL/MAX
@@ -312,6 +314,118 @@ inline int16_t getValue(uint8_t i)
     else if(i<CHOUT_BASE+NUM_CHNOUT+NUM_TELEMETRY) return frskyTelemetry[i-CHOUT_BASE-NUM_CHNOUT].value;
 #endif
     else return 0;
+}
+
+volatile uint16_t s_last_switch_used;
+volatile uint16_t s_last_switch_value;
+bool __getSwitch(int8_t swtch)
+{
+  bool result;
+
+  if (swtch == 0)
+    return s_last_switch_used & (1<<15);
+
+  uint8_t cs_idx = abs(swtch);
+
+  if (cs_idx == MAX_SWITCH) {
+    result = true;
+  }
+  else if (cs_idx < MAX_SWITCH-NUM_CSW) {
+    result = keyState((EnumKeys)(SW_BASE+cs_idx-1));
+  }
+  else {
+    cs_idx -= MAX_SWITCH-NUM_CSW;
+    volatile CustomSwData &cs = g_model.customSw[cs_idx];
+    if (cs.func == CS_OFF) return false;
+
+    uint8_t s = CS_STATE(cs.func);
+    if (s == CS_VBOOL) {
+      uint16_t mask = (1 << cs_idx);
+      if (s_last_switch_used & mask) {
+        result = (s_last_switch_value & mask);
+      }
+      else {
+        s_last_switch_used |= mask;
+        bool res1 = __getSwitch(cs.v1);
+        bool res2 = __getSwitch(cs.v2);
+        switch (cs.func) {
+          case CS_AND:
+            result = (res1 && res2);
+            break;
+          case CS_OR:
+            result = (res1 || res2);
+            break;
+          // case CS_XOR:
+          default:
+            result = (res1 ^ res2);
+            break;
+        }
+      }
+      if (result)
+        s_last_switch_value |= (1<<cs_idx);
+      else
+        s_last_switch_value &= ~(1<<cs_idx);
+    }
+    else {
+      int16_t x = getValue(cs.v1-1);
+      int16_t y;
+      if (s == CS_VOFS) {
+#ifdef FRSKY
+        if (cs.v1 > CHOUT_BASE+NUM_CHNOUT)
+          y = 125+cs.v2;
+        else
+#endif
+          y = calc100toRESX(cs.v2);
+
+        switch (cs.func) {
+          case CS_VPOS:
+            result = (x>y);
+            break;
+          case CS_VNEG:
+            result = (x<y);
+            break;
+          case CS_APOS:
+            result = (abs(x)>y);
+            break;
+          // case CS_ANEG:
+          default:
+            result = (abs(x)<y);
+        }
+      }
+      else {
+        y = getValue(cs.v2-1);
+
+        switch (cs.func) {
+          case CS_EQUAL:
+            result = (x==y);
+            break;
+          case CS_NEQUAL:
+            result = (x!=y);
+            break;
+          case CS_GREATER:
+            result = (x>y);
+            break;
+          case CS_LESS:
+            result = (x<y);
+            break;
+          case CS_EGREATER:
+            result = (x>=y);
+            break;
+          // case CS_ELESS:
+          default:
+            result = (x<=y);
+        }
+      }
+    }
+  }
+
+  return swtch > 0 ? result : !result;
+}
+
+bool getSwitch(int8_t swtch, bool nc)
+{
+  s_last_switch_used = (nc<<15);
+  return __getSwitch(swtch);
 }
 
 uint8_t getFlightPhase()
@@ -353,120 +467,6 @@ uint8_t getTrimFlightPhase(uint8_t idx, int8_t phase) // TODO uint8_t phase?
   }
   return 0;
 }
-
-bool getSwitch(int8_t swtch, bool nc, uint8_t level)
-{
-  if(level>5) return false; //prevent recursive loop going too deep
-
-  switch(swtch){
-    case  0:            return  nc;
-    case  MAX_SWITCH: return  true;
-    case -MAX_SWITCH: return  false;
-  }
-
-  uint8_t dir = swtch>0;
-  if(abs(swtch)<(MAX_SWITCH-NUM_CSW)) {
-    if(!dir) return ! keyState((EnumKeys)(SW_BASE-swtch-1));
-    return            keyState((EnumKeys)(SW_BASE+swtch-1));
-  }
-
-  //custom switch, Issue 78
-  //use putsChnRaw
-  //input -> 1..4 -> sticks,  5..8 pots
-  //MAX,FULL - disregard
-  //ppm
-  CustomSwData &cs = g_model.customSw[abs(swtch)-(MAX_SWITCH-NUM_CSW)];
-  if(!cs.func) return false;
-
-
-  int8_t a = cs.v1;
-  int8_t b = cs.v2;
-  int16_t x = 0;
-  int16_t y = 0;
-
-  // init values only if needed
-  uint8_t s = CS_STATE(cs.func);
-  if(s == CS_VOFS)
-  {
-      x = getValue(cs.v1-1);
-#ifdef FRSKY
-      if (cs.v1 > CHOUT_BASE+NUM_CHNOUT)
-        y = 125+cs.v2;
-      else
-#endif
-        y = calc100toRESX(cs.v2);
-  }
-  else if(s == CS_VCOMP)
-  {
-      x = getValue(cs.v1-1);
-      y = getValue(cs.v2-1);
-  }
-
-  switch (cs.func) {
-  case (CS_VPOS):
-      return swtch>0 ? (x>y) : !(x>y);
-      break;
-  case (CS_VNEG):
-      return swtch>0 ? (x<y) : !(x<y);
-      break;
-  case (CS_APOS):
-      {
-        bool res = (abs(x)>y) ;
-        return swtch>0 ? res : !res ;
-      }
-      break;
-  case (CS_ANEG):
-      {
-        bool res = (abs(x)<y) ;
-        return swtch>0 ? res : !res ;
-      }
-      break;
-
-  case (CS_AND):
-  case (CS_OR):
-  case (CS_XOR):
-  {
-    bool res1 = getSwitch(a,0,level+1) ;
-    bool res2 = getSwitch(b,0,level+1) ;
-    if ( cs.func == CS_AND )
-    {
-      return res1 && res2 ;
-    }
-    else if ( cs.func == CS_OR )
-    {
-      return res1 || res2 ;
-    }
-    else  // CS_XOR
-    {
-      return res1 ^ res2 ;
-    }
-  }
-  break;
-  case (CS_EQUAL):
-      return (x==y);
-  case (CS_NEQUAL):
-      return (x!=y);
-  case (CS_GREATER):
-      return (x>y);
-  case (CS_LESS):
-      return (x<y);
-  case (CS_EGREATER):
-      return (x>=y);
-  case (CS_ELESS):
-      return (x<=y);
-  default:
-      return false;
-  }
-
-}
-
-
-//#define CS_EQUAL     8
-//#define CS_NEQUAL    9
-//#define CS_GREATER   10
-//#define CS_LESS      11
-//#define CS_EGREATER  12
-//#define CS_ELESS     13
 
 #if defined (PCBV3) && !defined (PCBV4)
 // The ugly scanned keys thing should be gone for PCBV4+. In the meantime ...
