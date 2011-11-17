@@ -201,8 +201,8 @@ typedef struct t_PhaseData {
 #define TRIM_EXTENDED_MIN (-TRIM_EXTENDED_MAX)
 #define TRIM_MAX 125
 #define TRIM_MIN (-TRIM_MAX)
-  int8_t trim[4];     // -125..125 => trim value, 127 => use trim of phase 0, -128, -127, -126 => use trim of phases 1|2|3|4 instead
-  int8_t trim_ext:8;
+  int8_t trim[4];     // -500..500 => trim value, 501 => use trim of phase 0, 502, 503, 504 => use trim of phases 1|2|3|4 instead
+  int8_t trim_ext:8;  // 2 less significant extra bits per trim (10bits trims)
   int8_t swtch;       // swtch of phase[0] is not used
   char name[6];
   uint8_t fadeIn:4;
@@ -217,7 +217,7 @@ typedef struct t_PhaseData {
 #define MAX_CURVE9 8
 
 #define NUM_CHNOUT   16 // number of real output channels CH1-CH16
-#define NUM_CSW      12  // number of custom switches
+#define NUM_CSW      12 // number of custom switches
 #define NUM_FSW      12 // number of functions assigned to switches
 
 typedef struct t_ModelData {
@@ -226,11 +226,10 @@ typedef struct t_ModelData {
   uint8_t   tmrDir:1;             // 0=>Count Down, 1=>Count Up
   uint16_t  tmrVal;
   uint8_t   protocol:3;
-  int8_t    ppmNCH:3;
   uint8_t   thrTrim:1;            // Enable Throttle Trim
-  uint8_t   thrExpo:1;            // Enable Throttle Expo
+  int8_t    ppmNCH:4;
   uint8_t   trimInc:3;            // Trim Increments
-  uint8_t   spare1:1;
+  uint8_t   thrExpo:1;            // Enable Throttle Expo
   uint8_t   pulsePol:1;
   uint8_t   extendedLimits:1;
   uint8_t   extendedTrims:1;
