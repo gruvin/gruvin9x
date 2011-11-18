@@ -215,7 +215,7 @@ void menuMainView(uint8_t event)
     if (s_timerState != TMR_OFF) {
       uint8_t att = DBLSIZE | (s_timerState==TMR_BEEPING ? BLINK : 0);
       putsTime(12*FW+3, FH*2, s_timerVal, att, att);
-      putsTmrMode(s_timerVal >= 0 ? 9*FW-FW/2+5 : 9*FW-FW/2-2, FH*3, 0);
+      putsTmrMode(s_timerVal >= 0 ? 9*FW-FW/2+5 : 9*FW-FW/2-2, FH*3, g_model.timer1.mode, SHRT_TM_MODE);
     }
 
     // trim sliders

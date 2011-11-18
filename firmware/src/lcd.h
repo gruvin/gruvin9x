@@ -63,6 +63,7 @@
 
 /* time & telemetry flags */
 #define NO_UNIT       UNSIGN
+#define SHRT_TM_MODE  LEFT
 
 extern uint8_t displayBuf[DISPLAY_W*DISPLAY_H/8];
 extern uint8_t lcd_lastPos;
@@ -87,7 +88,7 @@ extern void putsModelName(uint8_t x, uint8_t y, char *name, uint8_t id, uint8_t 
 extern void putsSwitches(uint8_t x, uint8_t y, int8_t swtch, uint8_t att=0);
 extern void putsFlightPhase(uint8_t x, uint8_t y, int8_t idx, uint8_t att=0);
 extern void putsCurve(uint8_t x, uint8_t y, uint8_t idx, uint8_t att=0);
-extern void putsTmrMode(uint8_t x, uint8_t y, uint8_t attr);
+extern void putsTmrMode(uint8_t x, uint8_t y, int8_t mode, uint8_t att);
 
 extern void putsChnRaw(uint8_t x,uint8_t y,uint8_t idx1,uint8_t att);
 extern void putsChn(uint8_t x,uint8_t y,uint8_t idx1,uint8_t att);

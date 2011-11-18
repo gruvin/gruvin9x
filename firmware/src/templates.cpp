@@ -56,7 +56,7 @@ const char stn4[] APM =  "Elevon\\Delta";
 const char stn5[] APM =  "eCCPM";
 const char stn6[] APM =  "Heli Setup";
 const char stn7[] APM =  "Servo Test";
-const prog_char* n_Templates[] PROGMEM = 
+const prog_char* n_Templates[] =
 {
   stn1,
   stn2,
@@ -114,7 +114,6 @@ const prog_int8_t APM heli_ar4[] = {-100, -60, 0, 60, 100};
 const prog_int8_t APM heli_ar5[] = {-100, 0, 0, 0, 100};
 void applyTemplate(uint8_t idx)
 {
-
     MixData *md = &g_model.mixData[0];
 
     //CC(STK)   -> vSTK
@@ -124,39 +123,39 @@ void applyTemplate(uint8_t idx)
     for(uint8_t i=1; i<=4; i++) //generate inverse array
         for(uint8_t j=1; j<=4; j++) if(CC(i)==j) icc[j-1]=i;
 
-
     switch (idx){
-        //Simple 4-Ch
-    case (0):
+      // Simple 4-Ch
+      case (0):
+        clearMixes();
         md=setDest(ICC(STK_RUD));  md->srcRaw=CM(STK_RUD);  md->weight=100;
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_ELE);  md->weight=100;
         md=setDest(ICC(STK_THR));  md->srcRaw=CM(STK_THR);  md->weight=100;
         md=setDest(ICC(STK_AIL));  md->srcRaw=CM(STK_AIL);  md->weight=100;
         break;
 
-        //T-Cut
-    case (1):
+      // T-Cut
+      case (1):
         md=setDest(ICC(STK_THR));  md->srcRaw=MIX_MAX;  md->weight=-100;  md->swtch=DSW_THR;  md->mltpx=MLTPX_REP;
         break;
 
-        //V-Tail
-    case (2):
+      // V-Tail
+      case (2):
         md=setDest(ICC(STK_RUD));  md->srcRaw=CM(STK_RUD);  md->weight= 100;
         md=setDest(ICC(STK_RUD));  md->srcRaw=CM(STK_ELE);  md->weight=-100;
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_RUD);  md->weight= 100;
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_ELE);  md->weight= 100;
         break;
 
-        //Elevon\\Delta
-    case (3):
+      // Elevon\\Delta
+      case (3):
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_ELE);  md->weight= 100;
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_AIL);  md->weight= 100;
         md=setDest(ICC(STK_AIL));  md->srcRaw=CM(STK_ELE);  md->weight= 100;
         md=setDest(ICC(STK_AIL));  md->srcRaw=CM(STK_AIL);  md->weight=-100;
         break;
 
-        //eCCPM
-    case (4):
+      // eCCPM
+      case (4):
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_ELE);  md->weight= 72;
         md=setDest(ICC(STK_ELE));  md->srcRaw=CM(STK_THR);  md->weight= 55;
         md=setDest(ICC(STK_AIL));  md->srcRaw=CM(STK_ELE);  md->weight=-36;
@@ -167,8 +166,8 @@ void applyTemplate(uint8_t idx)
         md=setDest(6);             md->srcRaw=CM(STK_THR);  md->weight= 55;
         break;
 
-        //Heli Setup
-    case (5):
+      // Heli Setup
+      case (5):
         clearMixes();  //This time we want a clean slate
         clearCurves();
 
@@ -210,8 +209,8 @@ void applyTemplate(uint8_t idx)
         setCurve(CURVE5(5), heli_ar5);
         break;
 
-        //Servo Test
-    case (6):
+      // Servo Test
+      case (6):
         md=setDest(15); md->srcRaw=CH(16);   md->weight= 100; md->speedUp = 8; md->speedDown = 8;
         md=setDest(16); md->srcRaw=MIX_FULL; md->weight= 110; md->swtch=DSW_SW1;
         md=setDest(16); md->srcRaw=MIX_MAX;  md->weight=-110; md->swtch=DSW_SW2; md->mltpx=MLTPX_REP;
@@ -227,6 +226,6 @@ void applyTemplate(uint8_t idx)
         break;
 
     }
-    STORE_MODELVARS;
 
+    STORE_MODELVARS;
 }

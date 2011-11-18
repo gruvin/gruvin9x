@@ -462,22 +462,25 @@ void putsCurve(uint8_t x, uint8_t y, uint8_t idx, uint8_t att)
     putsStrIdx(x, y, PSTR("c"), idx-CURVE_BASE+1, att);
 }
 
-void putsTmrMode(uint8_t x, uint8_t y, uint8_t attr)
+void putsTmrMode(uint8_t x, uint8_t y, int8_t mode, uint8_t att)
 {
-  int8_t tm = g_model.tmrMode;
-  if(abs(tm)<TMR_VAROFS) {
-    lcd_putsnAtt(  x, y, PSTR("OFFABSRUsRU%ELsEL%THsTH%ALsAL%P1 P1%P2 P2%P3 P3%")+3*abs(tm),3,attr);
-    if(tm<(-TMRMODE_ABS)) lcd_putcAtt(x-1*FW, y, '!', attr);
+  if (mode < 0) {
+    mode = -mode;
+    lcd_putcAtt(x-1*FW, y, '!', att);
+  }
+
+  if (mode < TMR_VAROFS) {
+    lcd_putsnAtt(x, y, PSTR("OFFABSRUsRU%ELsEL%THsTH%ALsAL%P1 P1%P2 P2%P3 P3%")+3*mode, 3, att);
     return;
   }
 
-  if(abs(tm)<(TMR_VAROFS+MAX_SWITCH-1)) { //normal on-off
-    putsSwitches( x,y,tm>0 ? tm-(TMR_VAROFS-1) : tm+(TMR_VAROFS-1),attr);
+  if (mode < TMR_VAROFS+MAX_SWITCH-1) { // normal on-off
+    putsSwitches(x, y, mode-(TMR_VAROFS-1), att);
     return;
   }
 
-  putsSwitches( x,y,tm>0 ? tm-(TMR_VAROFS+MAX_SWITCH-1-1) : tm+(TMR_VAROFS+MAX_SWITCH-1-1),attr);//momentary on-off
-  lcd_putcAtt(x+3*FW,  y,'m',attr);
+  putsSwitches(x, y, mode-(TMR_VAROFS+MAX_SWITCH-1-1), att); // momentary on-off
+  if (~att & SHRT_TM_MODE) lcd_putcAtt(x+3*FW, y, 'm', att);
 }
 
 #ifdef FRSKY

@@ -373,9 +373,10 @@ void EditName(uint8_t x, uint8_t y, char *name, uint8_t size, uint8_t event, boo
   }
 }
 
+#define PARAM_OFS (9*FW+2)
 void menuProcModel(uint8_t event)
 {
-  MENU("SETUP", menuTabModel, e_Model, 13, {0,sizeof(g_model.name)-1,1,0,0,0,0,0,0,0,6,2/*,0*/});
+  MENU("SETUP", menuTabModel, e_Model, (g_model.protocol ? 9 : 10), {0,sizeof(g_model.name)-1,3,0,0,0,1,6,2,1});
 
   uint8_t  sub    = m_posVert;
   uint8_t y = 1*FH;
@@ -385,92 +386,89 @@ void menuProcModel(uint8_t event)
   uint8_t subN = 1;
   if(s_pgOfs<subN) {
     lcd_puts_P(0*FW, y, PSTR("Name"));
-    EditName(10*FW, y, g_model.name, sizeof(g_model.name), event, sub==subN, m_posHorz);
+    EditName(PARAM_OFS, y, g_model.name, sizeof(g_model.name), event, sub==subN, m_posHorz);
     if((y+=FH)>7*FH) return;
   }subN++;
 
-  if(s_pgOfs<subN) {
-    lcd_puts_P(0*FW, y, PSTR("Timer"));
-    putsTime(10*FW+1, y, g_model.tmrVal,
-        (sub==subN && m_posHorz==0 ? (s_editMode ? BLINK : INVERS):0),
-        (sub==subN && m_posHorz==1 ? (s_editMode ? BLINK : INVERS):0) );
-
-    if(sub==subN && (s_editMode || p1valdiff))
-      switch (m_posHorz) {
-       case 0:
-          {
-          int8_t min=g_model.tmrVal/60;
-          CHECK_INCDEC_MODELVAR( event,min ,0,59);
-          g_model.tmrVal = g_model.tmrVal%60 + min*60;
-         break;
-          }
-        case 1:
-          {
-          int8_t sec=g_model.tmrVal%60;
-          sec -= checkIncDecModel( event,sec+2 ,1,62)-2;
-          g_model.tmrVal -= sec ;
-          if((int16_t)g_model.tmrVal < 0) g_model.tmrVal=0;
-          break;
-          }
+  TimerData *timer = &g_model.timer1;
+  for (uint8_t i=0; i<1/*TODO*/; i++, timer=&g_model.timer2) {
+    if (s_pgOfs<subN) {
+      lcd_putsnAtt(0*FW, y, PSTR("Timer Timer2")+6*i, 6, 0);
+      putsTmrMode(PARAM_OFS, y, timer->mode, sub==subN && m_posHorz==0 ? (s_editMode ? BLINK : INVERS) : 0);
+      putsTime(14*FW-3, y, timer->val,
+          (sub==subN && m_posHorz==1 ? (s_editMode ? BLINK : INVERS):0),
+          (sub==subN && m_posHorz==2 ? (s_editMode ? BLINK : INVERS):0) );
+      lcd_putsnAtt(19*FW, y, PSTR("\x7e\x7f")+1-timer->dir,1,sub==subN && m_posHorz==3 ? (s_editMode ? BLINK : INVERS) : 0);
+      if (sub==subN && (s_editMode || p1valdiff)) {
+        switch (m_posHorz) {
+         case 0:
+           CHECK_INCDEC_MODELVAR(event, timer->mode, -(13+2*MAX_SWITCH),(13+2*MAX_SWITCH));
+           break;
+         case 1:
+         {
+           int8_t min = timer->val/60;
+           CHECK_INCDEC_MODELVAR(event, min, 0, 59);
+           timer->val = timer->val%60 + min*60;
+           break;
+         }
+         case 2:
+         {
+           int8_t sec = timer->val%60;
+           sec -= checkIncDecModel(event, sec+2, 1, 62)-2;
+           timer->val -= sec ;
+           if ((int16_t)timer->val < 0) timer->val=0;
+           break;
+         }
+         case 3:
+           CHECK_INCDEC_MODELVAR(event, timer->dir, 0, 1);
+           break;
+        }
       }
-    if((y+=FH)>7*FH) return;
-  }subN++;
-
-  if(s_pgOfs<subN) { //timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw, chx(value > or < than tmrChVal), ch%
-    lcd_puts_P(    0,    y, PSTR("Trigger"));
-    uint8_t attr = (sub==subN ?  INVERS : 0);
-    putsTmrMode(10*FW,y,attr);
-
-    if(sub==subN)
-      CHECK_INCDEC_MODELVAR( event,g_model.tmrMode ,-(13+2*MAX_SWITCH),(13+2*MAX_SWITCH));
-    if((y+=FH)>7*FH) return;
-  }subN++;
+      if ((y+=FH)>7*FH) return;
+    } subN++;
+  }
 
   if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("Timer "));
-    lcd_putsnAtt(  10*FW, y, PSTR("Count DownCount Up  ")+10*g_model.tmrDir,10,(sub==subN ? INVERS:0));
-    if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.tmrDir,0,1);
-    if((y+=FH)>7*FH) return;
-  }subN++;
-
-  if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("T-Trim"));
-    menu_lcd_onoff( 10*FW, y, g_model.thrTrim, sub==subN ) ;
-    if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.thrTrim,0,1);
-    if((y+=FH)>7*FH) return;
-  }subN++;
-
-  if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("T-Expo"));
-    menu_lcd_onoff( 10*FW, y, g_model.thrExpo, sub==subN ) ;
-    if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.thrExpo,0,1);
-    if((y+=FH)>7*FH) return;
-  }subN++;
-
-  if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("Trim Inc"));
-    lcd_putsnAtt(  10*FW, y, PSTR("Exp   ExFineFine  MediumCoarse")+6*g_model.trimInc,6,(sub==subN ? INVERS:0));
-    if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.trimInc,0,4);
-    if((y+=FH)>7*FH) return;
-  }subN++;
-
-  if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("E. Limits"));
-    menu_lcd_onoff( 10*FW, y, g_model.extendedLimits, sub==subN ) ;
+    lcd_puts_P(    0,    y, PSTR("E.Limits"));
+    menu_lcd_onoff( PARAM_OFS, y, g_model.extendedLimits, sub==subN ) ;
     if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.extendedLimits,0,1);
     if((y+=FH)>7*FH) return;
   }subN++;
 
   if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("E. Trims"));
-    menu_lcd_onoff( 10*FW, y, g_model.extendedTrims, sub==subN ) ;
+    lcd_puts_P(    0,    y, PSTR("E.Trims"));
+    menu_lcd_onoff( PARAM_OFS, y, g_model.extendedTrims, sub==subN ) ;
     if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.extendedTrims,0,1);
     if((y+=FH)>7*FH) return;
   }subN++;
-  
+
+  if(s_pgOfs<subN) {
+    lcd_puts_P(    0,    y, PSTR("Trim Inc"));
+    lcd_putsnAtt(  PARAM_OFS, y, PSTR("Exp   ExFineFine  MediumCoarse")+6*g_model.trimInc,6,(sub==subN ? INVERS:0));
+    if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.trimInc,0,4);
+    if((y+=FH)>7*FH) return;
+  }subN++;
+
+  if(s_pgOfs<subN) {
+    lcd_puts_P(    0,    y, PSTR("T-Trim"));
+    menu_lcd_onoff(PARAM_OFS, y, g_model.thrTrim, sub==subN && m_posHorz==0) ;
+    lcd_putsnAtt(PARAM_OFS+4*FW, y, PSTR("LinearExp   ")+6*g_model.thrExpo,6,(sub==subN && m_posHorz==1) ? INVERS : 0);
+    if (sub==subN && (s_editMode || p1valdiff)) {
+      switch (m_posHorz) {
+        case 0:
+          CHECK_INCDEC_MODELVAR(event,g_model.thrTrim,0,1);
+          break;
+        case 1:
+          CHECK_INCDEC_MODELVAR(event,g_model.thrExpo,0,1);
+          break;
+      }
+    }
+    if((y+=FH)>7*FH) return;
+  }subN++;
+
   if(s_pgOfs<subN) {
     lcd_puts_P(    0,    y, PSTR("Beep Ctr"));
-    for(uint8_t i=0;i<7;i++) lcd_putsnAtt((10+i)*FW, y, PSTR("RETA123")+i,1, ((m_posHorz==i) && (sub==subN)) ? BLINK : ((g_model.beepANACenter & (1<<i)) ? INVERS : 0 ) );
+    for(uint8_t i=0;i<7;i++) lcd_putsnAtt(PARAM_OFS+i*FW, y, PSTR("RETA123")+i,1, ((m_posHorz==i) && (sub==subN)) ? BLINK : ((g_model.beepANACenter & (1<<i)) ? INVERS : 0 ) );
     if(sub==subN){
       if((event==EVT_KEY_FIRST(KEY_MENU)) || p1valdiff) {
         killEvents(event);
@@ -483,16 +481,20 @@ void menuProcModel(uint8_t event)
   }subN++;
 
   if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("Proto"));
-    lcd_putsnAtt(  6*FW, y, PSTR(PROT_STR)+PROT_STR_LEN*g_model.protocol,PROT_STR_LEN,
+    lcd_puts_P(0, y, PSTR("Proto"));
+    lcd_putsnAtt(PARAM_OFS, y, PSTR(PROT_STR)+PROT_STR_LEN*g_model.protocol,PROT_STR_LEN,
                   (sub==subN && m_posHorz==0 ? (s_editMode ? BLINK : INVERS):0));
     if(!g_model.protocol) {
-      lcd_putsnAtt(  10*FW, y, PSTR("4CH 6CH 8CH 10CH12CH14CH16CH")+4*(g_model.ppmNCH+2),4,(sub==subN && m_posHorz==1  ? (s_editMode ? BLINK : INVERS):0));
-      lcd_putsAtt(    17*FW,    y, PSTR("uSec"),0);
-      lcd_outdezAtt(  17*FW, y,  (g_model.ppmDelay*50)+300, (sub==subN && m_posHorz==2 ? (s_editMode ? BLINK : INVERS):0));
+      lcd_putsnAtt(PARAM_OFS+4*FW, y, PSTR("4CH 6CH 8CH 10CH12CH14CH16CH")+4*(g_model.ppmNCH+2),4,(sub==subN && m_posHorz==1  ? (s_editMode ? BLINK : INVERS):0));
+      lcd_putsAtt(PARAM_OFS+11*FW, y, PSTR("u"),0);
+      lcd_outdezAtt(PARAM_OFS+11*FW, y, (g_model.ppmDelay*50)+300, (sub==subN && m_posHorz==2 ? (s_editMode ? BLINK : INVERS):0));
     }
-    if(sub==subN && (s_editMode || p1valdiff))
-      switch (m_posHorz){
+    else if (sub==subN) {
+      m_posHorz = 0;
+      CHECK_INCDEC_MODELVAR(event,g_model.protocol,0,PROT_MAX);
+    }
+    if(sub==subN && (s_editMode || p1valdiff)) {
+      switch (m_posHorz) {
         case 0:
             CHECK_INCDEC_MODELVAR(event,g_model.protocol,0,PROT_MAX);
             break;
@@ -503,14 +505,30 @@ void menuProcModel(uint8_t event)
             CHECK_INCDEC_MODELVAR(event,g_model.ppmDelay,-4,10);
             break;
       }
+    }
     if((y+=FH)>7*FH) return;
   }subN++;
 
   if(s_pgOfs<subN) {
-    lcd_puts_P(    0,    y, PSTR("Shift Sel"));
-    lcd_putsnAtt(  10*FW, y, PSTR("POSNEG")+3*g_model.pulsePol,3,(sub==subN ? INVERS:0));
-    if(sub==subN) CHECK_INCDEC_MODELVAR(event,g_model.pulsePol,0,1);
-    if((y+=FH)>7*FH) return;
+    if (!g_model.protocol) {
+      lcd_puts_P(0, y, PSTR("PPM frame"));
+      lcd_puts_P(PARAM_OFS+3*FW, y, PSTR("ms"));
+      lcd_outdezAtt(PARAM_OFS, y, (int16_t)g_model.ppmFrameLength*5 + 225, ((sub==subN && m_posHorz==0) ? INVERS:0) | PREC1|LEFT);
+      lcd_putsnAtt(PARAM_OFS+6*FW, y, PSTR("POSNEG")+3*g_model.pulsePol,3,(sub==subN && m_posHorz==1 ? (s_editMode ? BLINK : INVERS):0));
+      if(sub==subN && (s_editMode || p1valdiff)) {
+        switch (m_posHorz) {
+          case 0:
+            CHECK_INCDEC_MODELVAR(event, g_model.ppmFrameLength, -20, 20);
+            break;
+          case 1:
+            CHECK_INCDEC_MODELVAR(event,g_model.pulsePol,0,1);
+            break;
+        }
+      }
+    }
+    else {
+
+    }
   }
 }
 

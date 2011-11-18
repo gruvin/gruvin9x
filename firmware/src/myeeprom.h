@@ -220,11 +220,15 @@ typedef struct t_PhaseData {
 #define NUM_CSW      12 // number of custom switches
 #define NUM_FSW      12 // number of functions assigned to switches
 
+typedef struct t_TimerData {
+  int8_t    mode:7;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
+  uint8_t   dir:1;             // 0=>Count Down, 1=>Count Up
+  uint16_t  val;
+} __attribute__((packed)) TimerData;
+
 typedef struct t_ModelData {
   char      name[10];             // 10 must be first for eeLoadModelName
-  int8_t    tmrMode:7;            // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
-  uint8_t   tmrDir:1;             // 0=>Count Down, 1=>Count Up
-  uint16_t  tmrVal;
+  TimerData timer1;               // TODO timers array
   uint8_t   protocol:3;
   uint8_t   thrTrim:1;            // Enable Throttle Trim
   int8_t    ppmNCH:4;
@@ -236,9 +240,7 @@ typedef struct t_ModelData {
   uint8_t   spare2:1;
   int8_t    ppmDelay;
   uint8_t   beepANACenter;        // 1<<0->A1.. 1<<6->A7
-  int8_t    tmr2Mode:7;           // timer trigger source -> off, abs, stk, stk%, sw/!sw, !m_sw/!m_sw
-  uint8_t   tmr2Dir:1;            // 0=>Count Down, 1=>Count Up
-  uint16_t  tmr2Val;
+  TimerData timer2;
   MixData   mixData[MAX_MIXERS];
   LimitData limitData[NUM_CHNOUT];
   ExpoData  expoData[MAX_EXPOS];
@@ -249,7 +251,8 @@ typedef struct t_ModelData {
   FuncSwData    funcSw[NUM_FSW];
   SwashRingData swashR;
   PhaseData phaseData[MAX_PHASES];
-  FrSkyData     frsky;
+  FrSkyData frsky;
+  int8_t    ppmFrameLength;       // 0=22.5ms  (10ms-30ms) 0.5msec increments
 } __attribute__((packed)) ModelData;
 
 extern EEGeneral g_eeGeneral;

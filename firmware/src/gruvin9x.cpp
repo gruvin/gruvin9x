@@ -766,69 +766,71 @@ uint16_t anaIn(uint8_t chan)
 #define ADC_VREF_TYPE 0x40 // AVCC with external capacitor at AREF pin
 void getADC_filt()
 {
-  static uint16_t t_ana[3][8];
-  for (uint8_t adc_input=0;adc_input<8;adc_input++)
-  {
-      ADMUX=adc_input|ADC_VREF_TYPE;
-      // Start the AD conversion
-      ADCSRA|=0x40;
-      // Wait for the AD conversion to complete
-      while ((ADCSRA & 0x10)==0);
-      ADCSRA|=0x10;
+  static uint16_t t_ana[2][8];
+  for (uint8_t adc_input=0; adc_input<8; adc_input++) {
+    ADMUX = adc_input|ADC_VREF_TYPE;
+    // Start the AD conversion
+    ADCSRA |= 0x40;
 
-      s_anaFilt[adc_input] = (s_anaFilt[adc_input]/2 + t_ana[1][adc_input]) & 0xFFFE; //gain of 2 on last conversion - clear last bit
-      //t_ana[2][adc_input]  =  (t_ana[2][adc_input]  + t_ana[1][adc_input]) >> 1;
-      t_ana[1][adc_input]  = (t_ana[1][adc_input]  + t_ana[0][adc_input]) >> 1;
-      t_ana[0][adc_input]  = (t_ana[0][adc_input]  + ADCW               ) >> 1;
+    // Do this while waiting
+    s_anaFilt[adc_input] = (s_anaFilt[adc_input]/2 + t_ana[1][adc_input]) & 0xFFFE; //gain of 2 on last conversion - clear last bit
+    t_ana[1][adc_input]  = (t_ana[1][adc_input] + t_ana[0][adc_input]) >> 1;
+
+    // Wait for the AD conversion to complete
+    while ((ADCSRA & 0x10)==0);
+    ADCSRA |= 0x10;
+
+    t_ana[0][adc_input] = (t_ana[0][adc_input]  + ADCW) >> 1;
   }
 }
-/*
-  s_anaFilt[chan] = (s_anaFilt[chan] + sss_ana[chan]) >> 1;
-  sss_ana[chan] = (sss_ana[chan] + ss_ana[chan]) >> 1;
-  ss_ana[chan] = (ss_ana[chan] + s_ana[chan]) >> 1;
-  s_ana[chan] = (ADC + s_ana[chan]) >> 1;
-  */
 
 void getADC_osmp()
 {
-  uint16_t temp_ana[8] = {0};
-  for (uint8_t adc_input=0;adc_input<8;adc_input++)
-  {
-    ADMUX=adc_input|ADC_VREF_TYPE;
-    for (uint8_t i=0; i<4;i++) {  // Going from 10bits to 11 bits.  Addition = n.  Loop 4^n times
+  uint16_t temp_ana;
+
+  for (uint8_t adc_input=0; adc_input<8; adc_input++) {
+    temp_ana = 0;
+    ADMUX = adc_input|ADC_VREF_TYPE;
+    for (uint8_t i=0; i<4; i++) {  // Going from 10bits to 11 bits.  Addition = n.  Loop 4^n times
       // Start the AD conversion
-      ADCSRA|=0x40;
+      ADCSRA |= 0x40;
       // Wait for the AD conversion to complete
       while ((ADCSRA & 0x10)==0);
-      ADCSRA|=0x10;
-      temp_ana[adc_input] += ADCW;
+      ADCSRA |= 0x10;
+      temp_ana += ADCW;
     }
-    s_anaFilt[adc_input] = temp_ana[adc_input] / 2; // divide by 2^n to normalize result.
+    s_anaFilt[adc_input] = temp_ana / 2; // divide by 2^n to normalize result.
   }
 }
 
 void getADC_single()
 {
-  for (uint8_t adc_input=0;adc_input<8;adc_input++)
-  {
-      ADMUX=adc_input|ADC_VREF_TYPE;
-      // Start the AD conversion
-      ADCSRA|=0x40;
-      // Wait for the AD conversion to complete
-      while ((ADCSRA & 0x10)==0);
-      ADCSRA|=0x10;
-      s_anaFilt[adc_input]= ADCW * 2; // use 11 bit numbers
-    }
+  for (uint8_t adc_input=0; adc_input<8; adc_input++) {
+    ADMUX = adc_input|ADC_VREF_TYPE;
+    // Start the AD conversion
+    ADCSRA |= 0x40;
+    // Wait for the AD conversion to complete
+    while ((ADCSRA & 0x10)==0);
+    ADCSRA |= 0x10;
+    s_anaFilt[adc_input] = ADCW * 2; // use 11 bit numbers
+  }
 }
+
+getADCp getADC[3] = {
+  getADC_single,
+  getADC_osmp,
+  getADC_filt
+};
 
 void getADC_bandgap()
 {
 #if defined(PCBSTD)
-  ADMUX=0x1E|ADC_VREF_TYPE; // Switch MUX to internal 1.22V reference
-  _delay_us(5); // short delay to stablise reference voltage
-  // ADCSRA|=0x40; while ((ADCSRA & 0x10)==0); ADCSRA|=0x10; // grab a sample
-  ADCSRA|=0x40; while ((ADCSRA & 0x10)==0); ADCSRA|=0x10; // again becasue first one is usually inaccurate
-  BandGap=ADCW;
+  ADMUX = 0x1E|ADC_VREF_TYPE; // Switch MUX to internal 1.22V reference
+  _delay_us(5); // short delay to stabilise reference voltage
+  ADCSRA |= 0x40;
+  while ((ADCSRA & 0x10)==0);
+  ADCSRA |= 0x10; // again becasue first one is usually inaccurate
+  BandGap = ADCW;
 #elif defined (PCBV4)
   // For PCB V4, use our own 1.2V, external reference (connected to ADC3)
   ADCSRB &= ~(1<<MUX5);
@@ -855,11 +857,6 @@ void getADC_bandgap()
 #endif
 }
 
-getADCp getADC[3] = {
-  getADC_single,
-  getADC_osmp,
-  getADC_filt
-};
 #else
 uint16_t BandGap = 225;
 #endif
@@ -928,13 +925,13 @@ void resetTimer2()
 
 inline void timer(uint8_t val)
 {
-  int8_t tm = g_model.tmrMode;
+  int8_t tm = g_model.timer1.mode;
   static uint16_t s_time;
   static uint16_t s_cnt;
   static uint16_t s_sum;
   static uint8_t sw_toggled;
 
-  if(abs(tm)>=(TMR_VAROFS+MAX_SWITCH-1)){ //toggeled switch//abs(g_model.tmrMode)<(10+MAX_SWITCH-1)
+  if(abs(tm)>=(TMR_VAROFS+MAX_SWITCH-1)){ //toggeled switch//abs(g_model.timer1.mode)<(10+MAX_SWITCH-1)
     static uint8_t lastSwPos;
     if(!(sw_toggled | s_sum | s_cnt | s_time | lastSwPos)) lastSwPos = tm < 0;  // if initializing then init the lastSwPos
     uint8_t swPos = getSwitch(tm>0 ? tm-(TMR_VAROFS+MAX_SWITCH-1-1) : tm+(TMR_VAROFS+MAX_SWITCH-1-1) ,0);
@@ -959,8 +956,8 @@ inline void timer(uint8_t val)
   if(sw_toggled) s_timeCumSw += 1;
   s_timeCum16ThrP            += val/2;
 
-  s_timerVal = g_model.tmrVal;
-  uint8_t tmrM = abs(g_model.tmrMode);
+  s_timerVal = g_model.timer1.val;
+  uint8_t tmrM = abs(g_model.timer1.mode);
   if(tmrM==TMRMODE_NONE) s_timerState = TMR_OFF;
   else if(tmrM==TMRMODE_ABS) s_timerVal -= s_timeCumAbs;
   else if(tmrM<TMR_VAROFS) s_timerVal -= (tmrM&1) ? s_timeCum16ThrP/16 : s_timeCumThr;// stick% : stick
@@ -969,14 +966,14 @@ inline void timer(uint8_t val)
   switch(s_timerState)
   {
     case TMR_OFF:
-      if(g_model.tmrMode != TMRMODE_NONE) s_timerState=TMR_RUNNING;
+      if(g_model.timer1.mode != TMRMODE_NONE) s_timerState=TMR_RUNNING;
       break;
     case TMR_RUNNING:
-      if(s_timerVal<=0 && g_model.tmrVal) s_timerState=TMR_BEEPING;
+      if(s_timerVal<=0 && g_model.timer1.val) s_timerState=TMR_BEEPING;
       break;
     case TMR_BEEPING:
       if(s_timerVal <= -MAX_ALERT_TIME)   s_timerState=TMR_STOPPED;
-      if(g_model.tmrVal == 0)             s_timerState=TMR_RUNNING;
+      if(g_model.timer1.val == 0)             s_timerState=TMR_RUNNING;
       break;
     case TMR_STOPPED:
       break;
@@ -988,7 +985,7 @@ inline void timer(uint8_t val)
   {
       if(s_timerState==TMR_RUNNING)
       {
-          if(g_eeGeneral.preBeep && g_model.tmrVal) // beep when 30, 15, 10, 5,4,3,2,1 seconds remaining
+          if(g_eeGeneral.preBeep && g_model.timer1.val) // beep when 30, 15, 10, 5,4,3,2,1 seconds remaining
           {
               if(s_timerVal==30) {beepAgain=2; beepWarn2();} //beep three times
               if(s_timerVal==20) {beepAgain=1; beepWarn2();} //beep two times
@@ -999,7 +996,7 @@ inline void timer(uint8_t val)
                   g_LightOffCounter = FLASH_DURATION;
           }
 
-          if(g_eeGeneral.minuteBeep && (((g_model.tmrDir ? g_model.tmrVal-s_timerVal : s_timerVal)%60)==0)) //short beep every minute
+          if(g_eeGeneral.minuteBeep && (((g_model.timer1.dir ? g_model.timer1.val-s_timerVal : s_timerVal)%60)==0)) //short beep every minute
           {
               beepWarn2();
               if(g_eeGeneral.flashBeep) g_LightOffCounter = FLASH_DURATION;
@@ -1012,7 +1009,7 @@ inline void timer(uint8_t val)
       }
   }
   last_tmr = s_timerVal;
-  if(g_model.tmrDir) s_timerVal = g_model.tmrVal-s_timerVal; //if counting backwards - display backwards
+  if(g_model.timer1.dir) s_timerVal = g_model.timer1.val-s_timerVal; //if counting backwards - display backwards
 }
 
 uint8_t s_traceBuf[MAXTRACE];
@@ -1020,12 +1017,12 @@ uint16_t s_traceWr;
 uint16_t s_traceCnt;
 inline void trace()   // called in perOut - once envery 0.01sec
 {
-  //value for time described in g_model.tmrMode
+  //value for time described in g_model.timer1.mode
   //OFFABSRUsRU%ELsEL%THsTH%ALsAL%P1P1%P2P2%P3P3%
   uint16_t v = 0;
-  if((abs(g_model.tmrMode)>1) && (abs(g_model.tmrMode)<TMR_VAROFS)) {
-    v = calibratedStick[CONVERT_MODE(abs(g_model.tmrMode)/2)-1];
-    v = (g_model.tmrMode<0 ? RESX-v : v+RESX ) / (RESX/16);
+  if((abs(g_model.timer1.mode)>1) && (abs(g_model.timer1.mode)<TMR_VAROFS)) {
+    v = calibratedStick[CONVERT_MODE(abs(g_model.timer1.mode)/2)-1];
+    v = (g_model.timer1.mode<0 ? RESX-v : v+RESX ) / (RESX/16);
   }
   timer(v);
 
@@ -1088,9 +1085,9 @@ inline void evalTrims()
     int32_t vv = 2*RESX;
     int16_t trim = getTrimValue(getTrimFlightPhase(i), i);
     if (IS_THROTTLE(i) && g_model.thrTrim) {
-      vv = (g_eeGeneral.throttleReversed) ?
-                ((int32_t)trim+TRIM_MIN)*(RESX+v)/(2*RESX) :
-                ((int32_t)trim-TRIM_MIN)*(RESX-v)/(2*RESX);
+      if (g_eeGeneral.throttleReversed)
+        trim = -trim;
+      vv = ((int32_t)trim-TRIM_MIN)*(RESX-v)/(2*RESX);
     }
     else if (trimsCheckTimer > 0) {
       trim = 0;
@@ -1131,6 +1128,10 @@ uint8_t evalSticks()
 
     if(v <= -RESX) v = -RESX;
     if(v >=  RESX) v =  RESX;
+
+    if (g_eeGeneral.throttleReversed && i==THR_STICK)
+      v = -v;
+
     calibratedStick[i] = v; //for show in expo
     if(!(v/16)) anaCenter |= 1<<(CONVERT_MODE((i+1))-1);
 
@@ -1351,13 +1352,15 @@ void perOut(int16_t *chanOut)
           if(diff) sDelay[i] = (diff<0 ? md->delayUp :  md->delayDown) * 100;
         }
 
-        if(sDelay[i]){ // perform delay
-            if(tick10ms) sDelay[i]--;
-            v = act[i]/DEL_MULT;
+        if (sDelay[i]){ // perform delay
+          if (tick10ms) sDelay[i]--;
+          if (sDelay[i] != 0) {
+            v = act[i]/DEL_MULT; // Stay in old position until delay over
             diff = 0;
+          }
         }
 
-        if(diff && (md->speedUp || md->speedDown)){
+        if (diff && (md->speedUp || md->speedDown)) {
           //rate = steps/sec => 32*1024/100*md->speedUp/Down
           //act[i] += diff>0 ? (32768)/((int16_t)100*md->speedUp) : -(32768)/((int16_t)100*md->speedDown);
           //-100..100 => 32768 ->  100*83886/256 = 32768,   For MAX we divide by 2 sincde it's asymmetrical
@@ -1370,6 +1373,9 @@ void perOut(int16_t *chanOut)
 
           if(((diff>0) && (v<(act[i]/DEL_MULT))) || ((diff<0) && (v>(act[i]/DEL_MULT)))) act[i]=(int32_t)v*DEL_MULT; //deal with overflow
           v = act[i]/DEL_MULT;
+        }
+        else if (diff) {
+          act[i]=(int32_t)v*DEL_MULT;
         }
       }
 

@@ -105,9 +105,9 @@ uint8_t Translate()
         int8_t trimSw = v3->trimSw;
         for (uint8_t i=0; i<10; i++)
           g_model.name[i] = char2idx(g_model.name[i]);
-        g_model.tmrMode = v3->tmrMode;
-        g_model.tmrDir = v3->tmrDir;
-        g_model.tmrVal = v3->tmrVal;
+        g_model.timer1.mode = v3->tmrMode;
+        g_model.timer1.dir = v3->tmrDir;
+        g_model.timer1.val = v3->tmrVal;
         g_model.protocol = v3->protocol;
         g_model.ppmNCH = v3->ppmNCH;
         g_model.thrTrim = v3->thrTrim;
@@ -122,9 +122,9 @@ uint8_t Translate()
         g_model.spare2 = 0;
         g_model.ppmDelay = v3->ppmDelay;
         g_model.beepANACenter = v3->beepANACenter;
-        g_model.tmr2Mode = 0;
-        g_model.tmr2Dir = 0;
-        g_model.tmr2Val = 0;
+        g_model.timer2.mode = 0;
+        g_model.timer2.dir = 0;
+        g_model.timer2.val = 0;
         for (uint8_t i=0; i<MAX_MIXERS; i++) {
           memmove(&g_model.mixData[i], &v3->mixData[i], sizeof(MixData)); // MixData size changed!
           g_model.mixData[i].mixWarn = g_model.mixData[i].phase;
@@ -202,6 +202,7 @@ uint8_t Translate()
         }
         for (uint8_t i=0; i<NUM_STICKS; i++)
           setTrimValue(0, i, trims[i]);
+        g_model.ppmFrameLength = 0;
         theFile.writeRlc(FILE_MODEL(id), FILE_TYP_MODEL, (uint8_t*)&g_model, sizeof(g_model), 200);
       }
     }
