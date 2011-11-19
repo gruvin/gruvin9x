@@ -255,6 +255,10 @@ bool keyState(EnumKeys enuk)
 
     case SW_Trainer: return PINB & (1<<INP_B_Trainer);
 
+    case SW_RE1: return (~PIND & 0b00100000);
+
+    case SW_RE2: return (~PIND & 0b00010000);
+
     default:;
   }
 #else

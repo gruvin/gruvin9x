@@ -250,6 +250,20 @@ TEST(getSwitch, circularCSW) {
   EXPECT_EQ(getSwitch(-(1+MAX_SWITCH-NUM_CSW), 0), true);
 }
 
+extern uint16_t pulses2MHz[40];
+extern uint16_t *pulses2MHzWPtr;
+
+TEST(DSM2Protocol, sendByteDsm2) {
+  memset(&g_model, 0, sizeof(g_model));
+  memset(pulses2MHz, 0, sizeof(pulses2MHz));
+  g_model.protocol = PROTO_DSM2;
+  pine &= ~(1<<INP_E_Trainer);
+  setupPulses();
+  EXPECT_EQ(pulses2MHzWPtr - pulses2MHz, 4);
+  //printf("%04X ", pulses2MHz[0]); printf("%04X ", pulses2MHz[1]); printf("%04X ", pulses2MHz[2]); printf("%04X ", pulses2MHz[3]);
+  printf("%d ", pulses2MHz[0]); printf("%d ", pulses2MHz[1]); printf("%d ", pulses2MHz[2]); printf("%d ", pulses2MHz[3]);
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

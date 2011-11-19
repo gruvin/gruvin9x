@@ -451,6 +451,14 @@ void menuProcDiagKeys(uint8_t event)
     lcd_putcAtt(5*FW+2, y, t+'0', t);
   }
 
+#if defined (PCBV4)
+  for(uint8_t i=0; i<2; i++) {
+    uint8_t y = i*FH + FH;
+    lcd_putsn_P(14*FW, y, PSTR("RE1RE2")+3*i, 3);
+    lcd_outdezNAtt(18*FW, y, g_rotenc[i], LEFT|(keyState((EnumKeys)(SW_RE1+i)) ? INVERS : 0));
+  }
+#endif
+
   lcd_putsn_P(14*FW, 3*FH, PSTR("Trim- +"), 7);
   for(uint8_t i=0; i<4; i++)
   {

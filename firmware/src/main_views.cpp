@@ -510,15 +510,6 @@ void menuMainView(uint8_t event)
       if (g_eeGeneral.view == e_telemetry+ALTERNATE) // if on first alternate telemetry view
       {
         lcd_putsAtt(0, FH*2, g_logFilename, BSS); // Show log filename (or error msg)
-        
-        /*** DEBUG XXX TODO REMOVE ME ***/
-#if defined (PCBV4)
-        lcd_outdezNAtt(FW*5, FH*3, g_rotenc1);
-        lcd_outdezNAtt(FW*10, FH*3, g_rotenc2);
-        if (~PIND & 0b00100000) lcd_putc(FW*5, FH*3,'X');
-        if (~PIND & 0b00010000) lcd_putc(FW*10, FH*3,'X');
-#endif
-        /*************/
       }
 
 #endif

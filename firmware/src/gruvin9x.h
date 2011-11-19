@@ -306,7 +306,9 @@ enum EnumKeys {
   SW_ID2    ,
   SW_AileDR ,
   SW_Gear   ,
-  SW_Trainer
+  SW_Trainer,
+  SW_RE1,
+  SW_RE2
 };
 
 #define CURVE_BASE 7
@@ -739,11 +741,9 @@ extern FIL g_oLogFile; // pers.cpp::resetTelemetry()
 #endif
 
 #if defined (PCBV4)
-// Global rotary encoer registers -- 8-bit, 0-255
-extern volatile uint8_t g_rotenc1;
-extern volatile uint8_t g_rotenc2;
+// Global rotary encoder registers -- 8-bit, 0-255
+extern volatile uint8_t g_rotenc[2];
 #endif
-
 
 #endif // gruvin9x_h
 /*eof*/

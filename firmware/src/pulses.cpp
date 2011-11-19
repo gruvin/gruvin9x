@@ -21,8 +21,6 @@
 
 #include "gruvin9x.h"
 
-#ifndef SIMU
-
 #ifdef CTP1009
 uint16_t pulses2MHz[50] = {0};
 #else
@@ -36,6 +34,8 @@ uint16_t *pulses2MHzWPtr = pulses2MHz;
 #define CTRL_CNT 1
 #define CTRL_REP_1CMD -3
 #define CTRL_REP_2CMD -6
+
+#ifndef SIMU
 
 ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 {
@@ -119,6 +119,8 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
   heartbeat |= HEART_TIMER2Mhz;
 }
 
+#endif
+
 //inline int16_t reduceRange(int16_t x)  // for in case we want to have room for subtrims
 //{
 //    return x-(x/4);  //512+128 =? 640,  640 - 640/4  == 640 * 3/4 => 480 (just below 500msec - it can still reach 500 with offset)
@@ -146,7 +148,7 @@ inline void __attribute__ ((always_inline)) setupPulsesPPM() // changed 10/05/20
     rest += (int16_t(g_model.ppmFrameLength))*1000;
     if(p>9) rest=p*(1720u*2 + q) + 4000u*2; //for more than 9 channels, frame must be longer
     for (uint8_t i=0; i<p; i++) {
-      int16_t v = max(min(g_chans512[i], PPM_range), -PPM_range) + PPM_CENTER;
+      int16_t v = max(min(g_chans512[i], (int16_t)PPM_range), (int16_t)-PPM_range) + PPM_CENTER; // TODO max(min) = limit!!!
       rest -= (v+q);
       *ptr++ = q;
       *ptr++ = v - q + 600; /* as Pat MacKenzie suggests */
@@ -203,22 +205,27 @@ inline void __attribute__ ((always_inline)) _send_1(uint16_t v)
 }
 
 #define BITLEN_DSM2 (8*2) //125000 Baud
-inline void __attribute__ ((always_inline)) sendByteDsm2(uint8_t b) //max 10changes 0 10 10 10 10 1
+inline void __attribute__ ((always_inline)) sendByteDsm2(uint8_t b, bool delay) //max 10changes 0 10 10 10 10 1
 {
     bool    lev = 0;
     uint8_t len = BITLEN_DSM2; //max val: 9*16 < 256
     for( uint8_t i=0; i<=8; i++){ //8Bits + Stop=1
+        // printf("len=%d b=0x%02X\n", len, b);
         bool nlev = b & 1; //lsb first
-        if(lev == nlev){
+        if (lev == nlev) {
             len += BITLEN_DSM2;
-        }else{
-            _send_1(len-1);
+        }
+        else {
+            _send_1(len);
             len = BITLEN_DSM2;
             lev = nlev;
         }
         b = (b>>1) | 0x80; //shift in stop bit
     }
-    _send_1(len + 10*BITLEN_DSM2 -1); //some more space-time for security
+    if (delay)
+      _send_1(len + 10*BITLEN_DSM2); //some more space-time for security
+    else
+      _send_1(len); //some more space-time for security
 }
 
 
@@ -239,11 +246,11 @@ inline void __attribute__ ((always_inline)) setupPulsesDsm2(uint8_t chns)
             }
         }
     }
-    sendByteDsm2(dsmDat[state++]);
-    sendByteDsm2(dsmDat[state++]);
+    sendByteDsm2(dsmDat[state++], false);
+    sendByteDsm2(dsmDat[state++], true);
     if(state >= 2+chns*2){
-        pulses2MHzWPtr--; //remove last stopbits and
-        _send_1(20000u*2 -1); //prolong them
+        /* pulses2MHzWPtr--; //remove last stopbits and
+        _send_1(20000u*2 -1); //prolong them */
         state=0;
     }
 }
@@ -441,5 +448,4 @@ void setupPulses()
 #endif
   }
 }
-#endif
 

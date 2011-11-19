@@ -2084,27 +2084,27 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
 
 #if defined (PCBV4)
 // Rotary encoder interrupts
-uint8_t volatile g_rotenc1, g_rotenc2 = 0;
+volatile uint8_t g_rotenc[2] = {0};
 ISR(INT2_vect)
 {
   uint8_t input = PIND & 0b00001100;
-  if (input == 0 || input == 0b00001100) g_rotenc1--;
+  if (input == 0 || input == 0b00001100) g_rotenc[0]--;
 }
 ISR(INT3_vect)
 {
   uint8_t input = PIND & 0b00001100;
-  if (input == 0 || input == 0b00001100) g_rotenc1++;
+  if (input == 0 || input == 0b00001100) g_rotenc[0]++;
 }
 
 ISR(INT5_vect)
 {
   uint8_t input = PINE & 0b01100000;
-  if (input == 0 || input == 0b01100000) g_rotenc2++;
+  if (input == 0 || input == 0b01100000) g_rotenc[1]++;
 }
 ISR(INT6_vect)
 {
   uint8_t input = PINE & 0b01100000;
-  if (input == 0 || input == 0b01100000) g_rotenc2--;
+  if (input == 0 || input == 0b01100000) g_rotenc[1]--;
 }
 #endif
 
