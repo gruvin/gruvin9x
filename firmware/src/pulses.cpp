@@ -205,7 +205,7 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 #else
     TIMSK |= (1<<OCIE1A);
 #endif
-    // sei(); TODO I remove this sei
+    sei();
   }
 #endif
   heartbeat |= HEART_TIMER2Mhz;
