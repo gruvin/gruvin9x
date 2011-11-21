@@ -21,6 +21,10 @@
 
 #include "gruvin9x.h"
 
+#ifdef DSM2
+static uint8_t  pulses2MHz[50*3];
+static uint8_t *pulses2MHzPtr;
+#else
 #ifdef CTP1009
 uint16_t pulses2MHz[50] = {0};
 #else
@@ -29,6 +33,7 @@ uint16_t pulses2MHz[40] = {0};
 
 uint16_t *pulses2MHzRPtr = pulses2MHz;
 uint16_t *pulses2MHzWPtr = pulses2MHz;
+#endif
 
 #define CTRL_END 0
 #define CTRL_CNT 1
@@ -39,6 +44,10 @@ uint16_t *pulses2MHzWPtr = pulses2MHz;
 
 ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 {
+#ifdef DSM2
+  static uint8_t *pulsePtr = pulses2MHz;
+#endif
+
   static uint8_t   pulsePol; // TODO strange, it's always 0 at first, shouldn't it be initialized properly in setupPulses?
 
   // Latency -- how far further on from interrupt trigger has the timer counted?
@@ -59,6 +68,88 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
     pulsePol = 1;
   }
 #endif
+
+#ifdef DSM2
+  int8_t ctrl,dmy;
+    asm volatile(
+      " ld   %[ctrl],Z+        \n\t"
+      " ld   %[dmy],Z+        \n\t"
+      " out  %B[ocr1a],%[dmy]      \n\t"
+      " out  %A[ocr1a],%[ctrl]      \n\t"
+      " ld   %[ctrl],Z+        \n\t"
+      " sbrs %[ctrl],7         \n\t" //skip if neg
+      " jmp  1f                \n\t"
+      //neg value -> loop
+      " ld   %[dmy],Z+         \n\t" //counter
+      " subi %[dmy],1          \n\t" //counter--
+      " breq 2f                \n\t"
+
+
+      //counter != 0
+      " st   -Z,%[dmy]         \n\t" //store counter--
+      " add  r30,%[ctrl]       \n\t"
+      " brcs 1f                \n\t"
+      " subi r31,1             \n\t" //add ff+carry
+      " jmp  1f                \n\t" //!! ctrl != 0
+
+      //counter == 0
+      " 2:                     \n\t"
+      " ld   %[ctrl],Z+        \n\t"
+
+      " 1:                     \n\t"
+      : [p]   "=z"  (pulsePtr)
+      , [ctrl]"=r"  (ctrl)
+      , [dmy] "=r"  (dmy)
+      :       "%[p]"(pulsePtr)
+      , [ocr1a]   "I"(_SFR_IO_ADDR(OCR1A))
+              //    : "r30", "r31"
+    );
+    // if( ctrl < 0 ) {
+    //   uint8_t cnt=*pulsePtr++;
+    //   if(--cnt){
+    //     *--pulsePtr   = cnt;
+    //     pulsePtr     += ctrl;
+    //   }else{
+    //     ctrl=*pulsePtr++;
+    //   }
+    // }
+    if( ctrl == 0) {
+      //TIMSK &= ~(1<<OCIE1A); //stop reentrance
+      //sei();
+      //http://www.nongnu.org/avr-libc/user-manual/FAQ.html#faq_reg_usage
+      //Call-used registers (r18-r27, r30-r31)
+      asm volatile(
+        " push   r18              \n\t"
+        " push   r19              \n\t"
+        " push   r20              \n\t"
+        " push   r21              \n\t"
+        " push   r22              \n\t"
+        " push   r23              \n\t" //r24,25 r30,r31 are already saved
+        " push   r26              \n\t"
+        " push   r27              \n\t"
+        " call   setupPulses      \n\t"
+        " sts    %A[pulsePtr],r24 \n\t"
+        " sts    %B[pulsePtr],r25 \n\t"
+        " pop    r27              \n\t"
+        " pop    r26              \n\t"
+        " pop    r23              \n\t"
+        " pop    r22              \n\t"
+        " pop    r21              \n\t"
+        " pop    r20              \n\t"
+        " pop    r19              \n\t"
+        " pop    r18              \n\t"
+        : [pulsePtr]"=m"(pulsePtr)
+        :
+        : "r24","r25"
+      );
+      //uint16_t ret=*pulsePtr;
+
+      //cli();
+      //TIMSK |= (1<<OCIE1A);
+      //for(int j=0; j<600; j++){asm("");  }
+
+    }
+#else
 
   OCR1A = *pulses2MHzRPtr; // Schedule next interrupt vector (to this handler)
 
@@ -116,6 +207,7 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 #endif
     // sei(); TODO I remove this sei
   }
+#endif
   heartbeat |= HEART_TIMER2Mhz;
 }
 
@@ -128,6 +220,8 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 //int16_t PPM_range = 512*2;   //range of 0.7..1.7msec
 //uint16_t PPM_gap = 300 * 2; //Stoplen *2
 //uint16_t PPM_frame ;
+
+#ifndef DSM2
 
 inline void __attribute__ ((always_inline)) setupPulsesPPM() // changed 10/05/2010 by dino Issue 128
 {
@@ -157,7 +251,7 @@ inline void __attribute__ ((always_inline)) setupPulsesPPM() // changed 10/05/20
     *(ptr+1) = rest;
     pulses2MHzWPtr = ptr+2;
 }
-
+#endif
 #ifdef PXX
 
 inline void __attribute__ ((always_inline)) setupPulsesPXX()
@@ -199,62 +293,79 @@ normal:
 
  */
 
-inline void __attribute__ ((always_inline)) _send_1(uint16_t v)
+static void _send_u16(uint16_t u16)
 {
-  *pulses2MHzWPtr++ = v;
+#ifdef  SIM
+  *(*(uint16_t**)&pulses2MHzPtr)++=u16;
+#else
+  asm volatile(
+    " st   Z+,%A[t0]        \n\t"
+    " st   Z+,%B[t0]        \n\t"
+
+    : [p]"=z"(pulses2MHzPtr)
+    :    "%[p]"(pulses2MHzPtr)
+    , [t0]"r"(u16)
+  );
+
+#endif
+}
+
+static void _send_1(uint16_t t0)
+{
+  //  *(*(uint16_t**)&pulses2MHzPtr)++=t0;
+  _send_u16(t0);
+  *pulses2MHzPtr++=CTRL_CNT;
+  //_send_u8(CTRL_CNT);
 }
 
 #define BITLEN_DSM2 (8*2) //125000 Baud
-inline void __attribute__ ((always_inline)) sendByteDsm2(uint8_t b, bool delay) //max 10changes 0 10 10 10 10 1
+static void sendByteDsm2(uint8_t b) //max 10changes 0 10 10 10 10 1
 {
-    bool    lev = 0;
-    uint8_t len = BITLEN_DSM2; //max val: 9*16 < 256
-    for( uint8_t i=0; i<=8; i++){ //8Bits + Stop=1
-        // printf("len=%d b=0x%02X\n", len, b);
-        bool nlev = b & 1; //lsb first
-        if (lev == nlev) {
-            len += BITLEN_DSM2;
-        }
-        else {
-            _send_1(len);
-            len = BITLEN_DSM2;
-            lev = nlev;
-        }
-        b = (b>>1) | 0x80; //shift in stop bit
+  bool    lev = 0;
+  uint8_t len = BITLEN_DSM2; //max val: 9*16 < 256
+  //printf("%02x,",b);
+  //if(b==0) printf("\n");
+  for( uint8_t i=0; i<=8; i++){ //8Bits + Stop=1
+    bool nlev = b & 1; //lsb first
+    if(lev == nlev){
+      len += BITLEN_DSM2;
+    }else{
+      //*pulses2MHzPtr++ = len -1;
+      _send_1(len -1);
+      len  = BITLEN_DSM2;
+      lev  = nlev;
     }
-    if (delay)
-      _send_1(len + 10*BITLEN_DSM2); //some more space-time for security
-    else
-      _send_1(len); //some more space-time for security
+    b = (b>>1) | 0x80; //shift in stop bit
+  }
+  _send_1(len + 10*BITLEN_DSM2 -1); //some more space-time for security
 }
 
 
-inline void __attribute__ ((always_inline)) setupPulsesDsm2(uint8_t chns)
+static void setupPulsesDsm2(uint8_t chns)
 {
-    static uint8_t dsmDat[2+6*2]={0x80,0,  0x00,0xAA,  0x05,0xFF,  0x09,0xFF,  0x0D,0xFF,  0x13,0x54,  0x14,0xAA};
+  static uint8_t dsmDat[2+6*2]={0x80,0,  0x00,0xAA,  0x05,0xFF,  0x09,0xFF,  0x0D,0xFF,  0x13,0x54,  0x14,0xAA};
 
-    static uint8_t state = 0;
+  static uint8_t state = 0;
 
-    if(state==0){
+  if(state==0){
 
-        if((dsmDat[0] == 0) || ! keyState(SW_Trainer) ){ //init - bind!
-            dsmDat[0]=0; dsmDat[1]=0;  //DSM2_Header = 0,0;
-            for(uint8_t i=0; i<chns; i++){
-                uint16_t pulse = limit(0, g_chans512[i]+512,1023);
-                dsmDat[2+2*i] = (i<<2) | ((pulse>>8)&0x03);
-                dsmDat[3+2*i] = pulse & 0xff;
-            }
-        }
+    if((dsmDat[0] == 0) || ! keyState(SW_Trainer) ){
+      dsmDat[0]=0; dsmDat[1]=0;  //DSM2_Header = 0,0;
+      for(uint8_t i=0; i<chns; i++){
+        uint16_t pulse = limit(0, g_chans512[i]+512,1023);
+        dsmDat[2+2*i] = (i<<2) | ((pulse>>8)&0x03);
+        dsmDat[3+2*i] = pulse & 0xff;
+      }
     }
-    sendByteDsm2(dsmDat[state++], false);
-    sendByteDsm2(dsmDat[state++], true);
-    if(state >= 2+chns*2){
-        /* pulses2MHzWPtr--; //remove last stopbits and
-        _send_1(20000u*2 -1); //prolong them */
-        state=0;
-    }
+  }
+  sendByteDsm2(dsmDat[state++]);
+  sendByteDsm2(dsmDat[state++]);
+  if(state >= 2+chns*2){
+    pulses2MHzPtr-=3; //remove last stopbits and
+    _send_1(20000u*2 -1); //prolong them
+    state=0;
+  }
 }
-
 #endif
 
 #if defined(SILVER) || defined(CTP1009)
@@ -415,6 +526,81 @@ inline void __attribute__ ((always_inline)) setupPulsesTracerCtp1009()
 
 #endif
 
+#ifdef DSM2
+uint8_t* setupPulses()
+{
+  uint8_t  stbyLevel     = 1; //default
+  pulses2MHzPtr = pulses2MHz;
+  //  uint16_t* ret = pulses2MHz;
+  switch(g_model.protocol)
+  {
+    /*case PROTO_SILV:         // Achtung !! 0 am Ausgang = sendesignal high
+      setupPulsesSilver(g_model.protocolPar);
+      break;
+    case PROTO_TRACER_CTP1009: // Achtung !! 0 am Ausgang = sendesignal high
+      setupPulsesTracerCtp1009();
+      break;
+    case PROTO_SILV_PICCOZ:
+      setupPulsesPiccoZ(g_model.protocolPar);
+      stbyLevel=0; //start with 1
+       break;
+    case PROTO_HELI_SWIFT:
+      setupPulsesHeliSwift(g_model.protocolPar);
+      stbyLevel=0; //start with 1
+      break;*/
+    case PROTO_DSM2:
+      setupPulsesDsm2(6);
+      break;
+    /*case PROTO_PPM:
+    default:
+      setupPulsesPPM();
+      break;*/
+  }
+  uint16_t n=pulses2MHzPtr-pulses2MHz;
+  if( n > DIM(pulses2MHz)) alert(PSTR("pulse tab overflow"));
+  pulses2MHzPtr[-1] = CTRL_END;
+
+
+#ifdef xSIM
+  static int s_cnt;
+  if(s_cnt++%100==0){
+    //if(s_cnt++<40){
+    uint8_t *p=pulses2MHz;
+    bool lev = (stbyLevel&1)^1;
+    while(1){
+      uint16_t val=*(*(uint16_t**)&p)++;
+      int8_t   ctl=*p++;
+      printf(" %d:%d",lev,val);
+      if(ctl<0){
+        uint8_t   cnt=*p++;
+//      if(--cnt){
+//        *--p=cnt;
+//           p+=ctl;
+//        printf("r");
+//      }else{
+//        printf("R");
+//        ctl=*p++;
+//      }
+        printf("x%d,r=%d",cnt,-ctl/3);
+        if(((ctl/3 * cnt)&1) == 0) lev=!lev;
+        ctl=*p++;
+      }
+      if(ctl==0) break;
+      lev=!lev;
+    }
+
+    printf("f\n\n");
+  }
+#endif
+  if( stbyLevel&1 ) { //start with 0
+    PORTB |=  (1<<OUT_B_PPM);
+  }else{
+    PORTB &= ~(1<<OUT_B_PPM);
+  }
+
+  return pulses2MHz;
+}
+#else
 void setupPulses()
 {
   pulses2MHzWPtr = pulses2MHz;
@@ -448,4 +634,4 @@ void setupPulses()
 #endif
   }
 }
-
+#endif

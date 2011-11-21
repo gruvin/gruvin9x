@@ -625,7 +625,11 @@ extern inline uint16_t get_tmr10ms()
 #define SUB_MODE_H     2
 #define SUB_MODE_H_DBL 3
 
+#ifdef DSM2
+extern "C" uint8_t* setupPulses();
+#else
 void setupPulses();
+#endif
 
 void initTemplates();
 

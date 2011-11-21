@@ -77,7 +77,7 @@ DISPLAY_USER_DATA = NO
 PXX = NO
 
 # DSM2 (Spektrum) protocol
-DSM2 = YES
+DSM2 = NO
 
 # Silver protocol
 SILVER = NO
