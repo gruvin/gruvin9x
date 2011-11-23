@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 23/11/2011 2:39:53 p.m.
+EESchema Schematic File Version 2  date 23/11/2011 3:01:04 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -354,11 +354,11 @@ F 1 "+5V" H 4200 4040 30  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L ATMEGA48P U?
+L ATMEGA48P IC1
 U 1 1 4ECC4939
 P 4200 5350
-F 0 "U?" H 4200 5350 60  0000 C CNN
-F 1 "ATMEGA48P" H 4200 5550 60  0000 C CNN
+F 0 "IC1" H 4200 5800 60  0000 C CNN
+F 1 "ATMEGA48P" H 4200 5950 60  0000 C CNN
 	1    4200 5350
 	1    0    0    -1  
 $EndComp

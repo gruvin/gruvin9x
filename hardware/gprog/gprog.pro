@@ -1,4 +1,4 @@
-update=23/11/2011 2:14:38 p.m.
+update=23/11/2011 3:00:07 p.m.
 version=1
 last_client=eeschema
 [cvpcb]
@@ -141,4 +141,4 @@ LibName27=opto
 LibName28=atmel
 LibName29=contrib
 LibName30=valves
-LibName31=share/library/atmega48p
+LibName31=atmega48p
