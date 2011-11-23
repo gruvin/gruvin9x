@@ -300,7 +300,7 @@ void eeLoadModel(uint8_t id)
   }
 }
 
-int8_t eeDuplicateModel(uint8_t id, bool down)
+int8_t eeFindEmptyModel(uint8_t id, bool down)
 {
   int8_t i = id;
   for (;;) {
@@ -308,26 +308,30 @@ int8_t eeDuplicateModel(uint8_t id, bool down)
     if (!EFile::exists(FILE_MODEL(i))) break;
     if (i == id) return -1; // no free space in directory left
   }
+  return i;
+}
 
+int8_t eeCopyModel(uint8_t dst, uint8_t src)
+{
   EFile theFile2;
-  theFile2.openRd(FILE_MODEL(id));
+  theFile2.openRd(FILE_MODEL(src));
 
 #ifdef EEPROM_ASYNC_WRITE
-  theFile.create(FILE_MODEL(i), FILE_TYP_MODEL, true);
+  theFile.create(FILE_MODEL(dst), FILE_TYP_MODEL, true);
 #else
-  theFile.create(FILE_MODEL(i), FILE_TYP_MODEL, 600);
+  theFile.create(FILE_MODEL(dst), FILE_TYP_MODEL, 600);
 #endif
   uint8_t buf[15];
   uint8_t len;
   while((len=theFile2.read(buf, 15)))
   {
     theFile.write(buf, len);
-    if (errno() != 0) {
+    if (errno() != 0) { // TODO to be tested
       return false;
     }
   }
   theFile.close();
-  return i;
+  return true;
 }
 
 void eeReadAll()
