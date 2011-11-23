@@ -585,7 +585,8 @@ void eeReadAll();
 bool eeModelExists(uint8_t id);
 uint16_t eeLoadModelName(uint8_t id, char *name);
 void eeLoadModel(uint8_t id);
-int8_t eeDuplicateModel(uint8_t id, bool down=true);
+int8_t eeFindEmptyModel(uint8_t id, bool down);
+int8_t eeCopyModel(uint8_t dst, uint8_t src);
 
 ///number of real input channels (1-9) plus virtual input channels X1-X4
 #define NUM_XCHNRAW (NUM_STICKS+NUM_POTS+2/*MAX/FULL*/+3/*CYC1-CYC3*/+NUM_PPM+NUM_CHNOUT+NUM_TELEMETRY)
