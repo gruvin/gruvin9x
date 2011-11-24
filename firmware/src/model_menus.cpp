@@ -207,7 +207,7 @@ void menuProcModelSelect(uint8_t event)
 #ifdef EEPROM_ASYNC_WRITE
           s_sync_write = true;
 #endif
-          uint8_t cur = (sub + s_copyTgtOfs) % 16;
+          uint8_t cur = (16 + sub + s_copyTgtOfs) % 16;
           if (s_copySrcRow == g_eeGeneral.currModel || cur == g_eeGeneral.currModel) {
             g_eeGeneral.currModel = sub;
             STORE_GENERALVARS;
@@ -219,10 +219,15 @@ void menuProcModelSelect(uint8_t event)
           if (s_copyMode == COPY_MODE) {
             eeCopyModel(cur, s_copySrcRow);
           }
+#ifdef EEPROM_ASYNC_WRITE
+          s_sync_write = true;
+#endif
           while (sub != cur) {
             uint8_t src = cur;
-            EFile::swap(FILE_MODEL(src), FILE_MODEL(sub > src ? ++cur : --cur));
+            cur = (s_copyTgtOfs > 0 ? cur+15 : cur+1) % 16;
+            EFile::swap(FILE_MODEL(src), FILE_MODEL(cur));
           }
+
 #ifdef EEPROM_ASYNC_WRITE
           s_sync_write = false;
 #endif
