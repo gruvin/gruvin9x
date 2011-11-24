@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 23/11/2011 3:01:04 p.m.
+EESchema Schematic File Version 2  date 24/11/2011 2:36:36 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
-Date "23 nov 2011"
+Date "24 nov 2011"
 Rev "1.0"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
@@ -139,8 +139,6 @@ Wire Wire Line
 Connection ~ 3250 2600
 Wire Wire Line
 	4150 2400 4150 2350
-Wire Wire Line
-	3250 2050 3250 2000
 Connection ~ 3800 1800
 Wire Wire Line
 	3800 1950 3800 1800
@@ -167,8 +165,6 @@ Wire Wire Line
 	3600 2600 3250 2600
 Wire Wire Line
 	3250 2600 3050 2600
-Wire Wire Line
-	3250 2550 3250 2600
 Wire Wire Line
 	3250 2600 3250 2650
 Wire Wire Line
@@ -554,24 +550,6 @@ F 1 "GND" H 3250 3080 30  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L +5V #PWR?
-U 1 1 4E9129FB
-P 3250 2000
-F 0 "#PWR?" H 3250 2090 20  0001 C CNN
-F 1 "+5V" H 3250 2090 30  0000 C CNN
-	1    3250 2000
-	1    0    0    -1  
-$EndComp
-$Comp
-L R R4
-U 1 1 4E9129C4
-P 3250 2300
-F 0 "R4" V 3330 2300 50  0000 C CNN
-F 1 "5K6" V 3250 2300 50  0000 C CNN
-	1    3250 2300
-	1    0    0    -1  
-$EndComp
-$Comp
 L R R5
 U 1 1 4E912987
 P 4750 2600
@@ -594,7 +572,7 @@ L R R3
 U 1 1 4E91296B
 P 4150 1400
 F 0 "R3" V 4230 1400 50  0000 C CNN
-F 1 "5K6" V 4150 1400 50  0000 C CNN
+F 1 "3K9" V 4150 1400 50  0000 C CNN
 	1    4150 1400
 	1    0    0    -1  
 $EndComp
