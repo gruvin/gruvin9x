@@ -468,10 +468,6 @@ void    per10ms();
 /// Erzeugt periodisch alle Outputs ausser Bildschirmausgaben.
 void zeroVariables();
 
-#define NO_TRAINER 0x01
-#define NO_INPUT   0x02
-extern void perOut(int16_t *chanOut, uint8_t att);
-
 ///   Liefert den Zustand des Switches 'swtch'. Die Numerierung erfolgt ab 1
 ///   (1=SW_ON, 2=SW_ThrCt, 10=SW_Trainer). 0 Bedeutet not conected.
 ///   Negative Werte  erzeugen invertierte Ergebnisse.
@@ -491,7 +487,7 @@ bool    getSwitch(int8_t swtch, bool nc);
 ///
 
 uint8_t getFlightPhase();
-uint8_t getTrimFlightPhase(uint8_t idx, int8_t phase=-1);
+uint8_t getTrimFlightPhase(uint8_t idx, uint8_t phase);
 extern int16_t getTrimValue(uint8_t phase, uint8_t idx);
 extern void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim);
 
@@ -577,16 +573,13 @@ template<class t> inline t limit(t mi, t x, t ma){ return min(max(mi,x),ma); }
 /// eeCheck ins EEPROM zurueckgeschrieben.
 void eeWriteBlockCmp(const void *i_pointer_ram, void *i_pointer_eeprom, size_t size);
 void eeDirty(uint8_t msk);
-#ifdef EEPROM_ASYNC_WRITE
 inline void eeFlush() { theFile.flush(); }
-#endif
 void eeCheck(bool immediately=false);
 void eeReadAll();
 bool eeModelExists(uint8_t id);
 uint16_t eeLoadModelName(uint8_t id, char *name);
 void eeLoadModel(uint8_t id);
 int8_t eeFindEmptyModel(uint8_t id, bool down);
-int8_t eeCopyModel(uint8_t dst, uint8_t src);
 
 ///number of real input channels (1-9) plus virtual input channels X1-X4
 #define NUM_XCHNRAW (NUM_STICKS+NUM_POTS+2/*MAX/FULL*/+3/*CYC1-CYC3*/+NUM_PPM+NUM_CHNOUT+NUM_TELEMETRY)
@@ -656,7 +649,7 @@ extern uint16_t expou(uint16_t x, uint16_t k);
 extern int16_t expo(int16_t x, int16_t k);
 extern int16_t intpol(int16_t, uint8_t);
 extern int16_t applyCurve(int16_t, uint8_t, uint8_t srcRaw);
-extern void applyExpos(int16_t *anas);
+extern void applyExpos(int16_t *anas, uint8_t phase=255);
 
 extern uint16_t anaIn(uint8_t chan);
 extern int16_t calibratedStick[7];

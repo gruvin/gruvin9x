@@ -148,10 +148,8 @@ void menuProcModelSelect(uint8_t event)
 
   TITLE("MODELSEL");
 
-#ifdef EEPROM_ASYNC_WRITE
-    // flush eeprom write
-    eeFlush();
-#endif
+  // flush eeprom write
+  eeFlush();
 
   if (s_confirmation) {
     EFile::rm(FILE_MODEL(m_posVert)); // delete file
@@ -204,9 +202,7 @@ void menuProcModelSelect(uint8_t event)
       case EVT_KEY_BREAK(KEY_MENU):
         if (s_copyMode && (s_copyTgtOfs || s_copySrcRow>=0)) {
           eeCheck(true); // force writing of current model data before this is changed
-#ifdef EEPROM_ASYNC_WRITE
-          s_sync_write = true;
-#endif
+
           uint8_t cur = (16 + sub + s_copyTgtOfs) % 16;
           if (s_copySrcRow == g_eeGeneral.currModel || cur == g_eeGeneral.currModel) {
             g_eeGeneral.currModel = sub;
@@ -216,21 +212,18 @@ void menuProcModelSelect(uint8_t event)
             g_eeGeneral.currModel = cur;
             STORE_GENERALVARS;
           }
+
           if (s_copyMode == COPY_MODE) {
-            eeCopyModel(cur, s_copySrcRow);
+            if (!theFile.copy(FILE_MODEL(cur), FILE_MODEL(s_copySrcRow)))
+              cur = sub;
           }
-#ifdef EEPROM_ASYNC_WRITE
-          s_sync_write = true;
-#endif
+
           while (sub != cur) {
             uint8_t src = cur;
             cur = (s_copyTgtOfs > 0 ? cur+15 : cur+1) % 16;
             EFile::swap(FILE_MODEL(src), FILE_MODEL(cur));
           }
 
-#ifdef EEPROM_ASYNC_WRITE
-          s_sync_write = false;
-#endif
           s_copyMode = 0; // TODO only this one?
           s_copySrcRow = -1;
           s_copyTgtOfs = 0;

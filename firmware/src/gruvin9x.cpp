@@ -261,12 +261,13 @@ int16_t  Expo::expo(int16_t x)
 #endif
 
 
-void applyExpos(int16_t *anas)
+void applyExpos(int16_t *anas, uint8_t phase)
 {
   static int16_t anas2[4]; // values before expo, to ensure same expo base when multiple expo lines are used
   memcpy(anas2, anas, sizeof(anas2));
 
-  uint8_t phase = getFlightPhase();
+  if (phase == 255)
+    phase = getFlightPhase();
 
   int8_t cur_chn = -1;
   for (uint8_t i=0; i<DIM(g_model.expoData); i++) {
@@ -453,10 +454,8 @@ void setTrimValue(uint8_t phase, uint8_t idx, int16_t trim)
   STORE_MODELVARS;
 }
 
-uint8_t getTrimFlightPhase(uint8_t idx, int8_t phase) // TODO uint8_t phase?
+uint8_t getTrimFlightPhase(uint8_t idx, uint8_t phase)
 {
-  if (phase == -1) phase = getFlightPhase();
-
   for (uint8_t i=0; i<MAX_PHASES; i++) {
     if (phase == 0) return 0;
     int16_t trim = getTrimValue(phase, idx);
@@ -683,7 +682,7 @@ uint8_t checkTrim(uint8_t event)
   if (k>=0 && k<8) { // && (event & _MSK_KEY_REPT))
     //LH_DWN LH_UP LV_DWN LV_UP RV_DWN RV_UP RH_DWN RH_UP
     uint8_t idx = k/2;
-    uint8_t phase = getTrimFlightPhase(idx);
+    uint8_t phase = getTrimFlightPhase(idx, getFlightPhase());
     int16_t before = getTrimValue(phase, idx);
     int8_t  v = (s==0) ? min(32, abs(before)/4+1) : 1 << (s-1); // 1=>1  2=>2  3=>4  4=>8
     bool thro = (((2-(g_eeGeneral.stickMode&1)) == idx) && g_model.thrTrim);
@@ -1077,13 +1076,13 @@ int32_t  act   [MAX_MIXERS] = {0};
 uint8_t  swOn  [MAX_MIXERS] = {0};
 uint8_t mixWarning;
 
-inline void evalTrims()
+inline void evalTrims(uint8_t phase)
 {
   for (uint8_t i=0; i<NUM_STICKS; i++) {
     // do trim -> throttle trim if applicable
     int16_t v = anas[i];
     int32_t vv = 2*RESX;
-    int16_t trim = getTrimValue(getTrimFlightPhase(i), i);
+    int16_t trim = getTrimValue(getTrimFlightPhase(i, phase), i);
     if (IS_THROTTLE(i) && g_model.thrTrim) {
       if (g_eeGeneral.throttleReversed)
         trim = -trim;
@@ -1097,7 +1096,7 @@ inline void evalTrims()
   }
 }
 
-uint8_t evalSticks()
+uint8_t evalSticks(uint8_t phase)
 {
 #ifdef HELI
   uint16_t d = 0;
@@ -1162,10 +1161,10 @@ uint8_t evalSticks()
   }
 
   /* EXPOs */
-  applyExpos(anas);
+  applyExpos(anas, phase);
 
   /* TRIMs */
-  evalTrims();
+  evalTrims(phase);
 
   return anaCenter;
 }
@@ -1188,10 +1187,9 @@ void evalFunctions()
   }
 }
 
-void perOut(int16_t *chanOut)
+void perOut(int16_t *chanOut, uint8_t phase)
 {
-  uint8_t phase = getFlightPhase();
-  uint8_t anaCenter = evalSticks();
+  uint8_t anaCenter = evalSticks(phase);
 
   //===========BEEP CENTER================
   anaCenter &= g_model.beepANACenter;
@@ -1466,50 +1464,101 @@ void perMain()
   tick10ms = (get_tmr10ms() != lastTMR);
   lastTMR = get_tmr10ms();
 
-  static int32_t last_chans512[NUM_CHNOUT];
-  int16_t next_chans512[NUM_CHNOUT];
-
-  static uint8_t last_phase = 0;
+#define MAX_ACT 0xffff
+  static uint16_t fp_act[MAX_PHASES] = {0};
+  static uint8_t s_fade_flight_phases = 0;
+  static uint8_t s_last_phase = 255;
   uint8_t phase = getFlightPhase();
 
-  static uint16_t fading_out_timer = 0;
-  if (last_phase != phase) {
-    for (uint8_t i=0; i<NUM_CHNOUT; i++)
-      last_chans512[i] = 100 * g_chans512[i];
-    fading_out_timer = 100 * max(g_model.phaseData[last_phase].fadeOut, g_model.phaseData[phase].fadeIn);
-    last_phase = phase;
-  }
-
-  perOut(next_chans512);
-
-  for (uint8_t i=0; i<NUM_CHNOUT; i++) {
-    int16_t output;
-    if (fading_out_timer) {
-      last_chans512[i] += (100*next_chans512[i] - last_chans512[i]) / fading_out_timer;
-      output = last_chans512[i] / 100;
+  if (s_last_phase != phase) {
+    if (s_last_phase == 255) {
+      fp_act[phase] = MAX_ACT;
     }
     else {
-      output = next_chans512[i];
+      if (g_model.phaseData[s_last_phase].fadeOut) {
+        s_fade_flight_phases |= (1<<s_last_phase);
+      }
+      else {
+        fp_act[s_last_phase] = 0;
+        s_fade_flight_phases &= ~(1<<s_last_phase);
+      }
+      if (g_model.phaseData[phase].fadeIn) {
+        s_fade_flight_phases |= (1<<phase);
+      }
+      else {
+        fp_act[phase] = MAX_ACT;
+        s_fade_flight_phases &= ~(1<<phase);
+      }
     }
+    s_last_phase = phase;
+    // printf("s_fade_flight_phases=%d\n", s_fade_flight_phases); fflush(stdout);
+  }
 
+  int16_t next_chans512[NUM_CHNOUT];
+
+  if (s_fade_flight_phases) {
+    int32_t sum_chans512[NUM_CHNOUT] = {0};
+    int32_t weight = 0;
+    for (uint8_t p=0; p<MAX_PHASES; p++) {
+      if (s_fade_flight_phases & (1<<p)) {
+        perOut(next_chans512, p);
+        // printf("perOut(%d - %d)=>%d\n", p, fp_act[p], next_chans512[2]);
+        for (uint8_t i=0; i<NUM_CHNOUT; i++) {
+          sum_chans512[i] += (int32_t)next_chans512[i] * fp_act[p];
+        }
+        weight += fp_act[p];
+      }
+    }
+    // printf("sum=%d, weight=%d ", sum_chans512[2], weight); fflush(stdout);
+    assert(weight);
+    for (uint8_t i=0; i<NUM_CHNOUT; i++) {
+      next_chans512[i] = ((int32_t)sum_chans512[i] / weight);
+    }
+    // printf("output = %d\n", next_chans512[2]); fflush(stdout);
+  }
+  else {
+    perOut(next_chans512, phase);
+  }
+
+  for (uint8_t i=0; i<NUM_CHNOUT; i++) {
     cli();
-    g_chans512[i] = output;
+    g_chans512[i] = next_chans512[i];
     sei();
   }
 
-#ifdef EEPROM_ASYNC_WRITE
   if (!eeprom_buffer_size) {
     if (theFile.isWriting())
       theFile.nextWriteStep();
     else if (s_eeDirtyMsk)
       eeCheck();
   }
-#endif
 
   if(!tick10ms) return; //make sure the rest happen only every 10ms.
 
-  if (fading_out_timer) {
-    fading_out_timer--;
+  if (s_fade_flight_phases) {
+    for (uint8_t p=0; p<MAX_PHASES; p++) {
+      // printf("f_act[%d]=%d\n", p, fp_act[p]);
+      if (s_fade_flight_phases & (1<<p)) {
+        if (p == phase) {
+          uint16_t delta = (MAX_ACT / 100) / g_model.phaseData[p].fadeIn;
+          if (MAX_ACT - fp_act[p] > delta)
+            fp_act[p] += delta;
+          else {
+            fp_act[p] = MAX_ACT;
+            s_fade_flight_phases -= (1<<p);
+          }
+        }
+        else {
+          uint16_t delta = (MAX_ACT / 100) / g_model.phaseData[p].fadeOut;
+          if (fp_act[p] > delta)
+            fp_act[p] -= delta;
+          else {
+            fp_act[p] = 0;
+            s_fade_flight_phases -= (1<<p);
+          }
+        }
+      }
+    }
   }
 
   if ( Timer2_running ) {
@@ -1536,10 +1585,6 @@ void perMain()
   
   if (trimsCheckTimer > 0)
     trimsCheckTimer -= 1;
-
-#ifndef EEPROM_ASYNC_WRITE
-  eeCheck();
-#endif
 
 #if defined (FRSKY)
 
@@ -2038,22 +2083,23 @@ uint16_t DEBUG2 = 0;
 
 void instantTrim()
 {
+  uint8_t phase = getFlightPhase();
+
   for (uint8_t i=0; i<NUM_STICKS; i++) {
     if (!IS_THROTTLE(i)) {
       // don't instant trim the throttle stick
-      uint8_t phase = getTrimFlightPhase(i);
+      uint8_t trim_phase = getTrimFlightPhase(i, phase);
       s_noStickInputs = true;
-      evalSticks();
+      evalSticks(phase);
       s_noStickInputs = false;
       int16_t trim = (anas[i] + trims[i]) / 2;
-      // printf("anas[%d]=%d, trims[%d]=%d, trim=%d, subtrim=%d => trim=%d\n", i, anas[i], i, trims[i], g_model.phaseData[phase].trim[i], g_model.subtrim[i], trim);
       if (trim < TRIM_EXTENDED_MIN) {
         trim = TRIM_EXTENDED_MIN;
       }
       if (trim > TRIM_EXTENDED_MAX) {
         trim = TRIM_EXTENDED_MAX;
       }
-      setTrimValue(phase, i, trim);
+      setTrimValue(trim_phase, i, trim);
     }
   }
 
@@ -2066,7 +2112,7 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
   int16_t zero_chans512[NUM_CHNOUT];
 
   s_noStickInputs = true;
-  perOut(zero_chans512); // do output loop - zero input sticks
+  perOut(zero_chans512, getFlightPhase()); // do output loop - zero input sticks
   s_noStickInputs = false;
 
   for (uint8_t i=0; i<NUM_CHNOUT; i++)
@@ -2277,7 +2323,7 @@ int main(void)
 
   clearKeyEvents(); //make sure no keys are down before proceeding
 
-  perOut(g_chans512);
+  perOut(g_chans512, getFlightPhase());
 
   lcdSetRefVolt(g_eeGeneral.contrast);
   g_LightOffCounter = g_eeGeneral.lightAutoOff*500; //turn on light for x seconds - no need to press key Issue 152

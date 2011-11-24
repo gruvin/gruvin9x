@@ -179,8 +179,6 @@ CPPDEFS = -DF_CPU=$(F_CPU)UL
 # NOTE: PCB version now overrides all the earlier individual settings
 #       These individual settings work only for PCB=STD
 
-CPPDEFS += -DEEPROM_ASYNC_WRITE
-
 ifeq ($(PCB), STD)
 # STD PCB, so ...
 
