@@ -271,12 +271,6 @@ void menuProcModelSelect(uint8_t event)
             next_ofs = 0;
             sub = m_posVert;
           }
-          else {
-            if (s_copySrcRow == sub) {
-              s_copySrcRow = -1;
-              next_ofs = 0;
-            }
-          }
           s_copyTgtOfs = next_ofs;
         }
         break;
@@ -292,23 +286,20 @@ void menuProcModelSelect(uint8_t event)
     uint8_t k=i+s_pgOfs;
     lcd_outdezNAtt(3*FW+2, y, k+1, LEADING0+((!s_copyMode && sub==k) ? INVERS : 0), 2);
 
-    if (s_copyMode == COPY_MODE && s_copySrcRow >= 0) {
+    if (s_copyMode == MOVE_MODE || (s_copyMode == COPY_MODE && s_copySrcRow >= 0)) {
       if (k == sub) {
-        k = s_copySrcRow;
-        lcd_putc(20*FW+2, y, '+');
+        if (s_copyMode == COPY_MODE) {
+          k = s_copySrcRow;
+          lcd_putc(20*FW+2, y, '+');
+        }
+        else {
+          k = sub + s_copyTgtOfs;
+        }
       }
-      else if (k < sub && k >= sub+s_copyTgtOfs)
-        k += 1;
-      else if (k > sub && k <= sub+s_copyTgtOfs)
-        k += 15;
-    }
-    if (s_copyMode == MOVE_MODE) {
-      if (k == sub)
-        k = sub + s_copyTgtOfs;
       else if (s_copyTgtOfs < 0 && ((k < sub && k >= sub+s_copyTgtOfs) || (k-16 < sub && k-16 >= sub+s_copyTgtOfs)))
         k += 1;
       else if (s_copyTgtOfs > 0 && ((k > sub && k <= sub+s_copyTgtOfs) || (k+16 > sub && k+16 <= sub+s_copyTgtOfs)))
-        k += 15;;
+        k += 15;
     }
 
     k %= 16;
