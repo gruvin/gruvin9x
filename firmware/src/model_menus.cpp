@@ -191,7 +191,7 @@ void menuProcModelSelect(uint8_t event)
         // no break
       case EVT_KEY_BREAK(KEY_EXIT):
         if (s_copyMode) {
-          sub = m_posVert = (s_copyMode == MOVE_MODE || s_copySrcRow<0) ? sub+s_copyTgtOfs : s_copySrcRow; // TODO reset s_copySrcRow?
+          sub = m_posVert = (s_copyMode == MOVE_MODE || s_copySrcRow<0) ? (16+sub+s_copyTgtOfs) % 16 : s_copySrcRow; // TODO reset s_copySrcRow?
           s_copyMode = 0; // TODO only this one?
           s_copySrcRow = -1;
           s_copyTgtOfs = 0;
@@ -204,24 +204,26 @@ void menuProcModelSelect(uint8_t event)
           eeCheck(true); // force writing of current model data before this is changed
 
           uint8_t cur = (16 + sub + s_copyTgtOfs) % 16;
-          if (s_copySrcRow == g_eeGeneral.currModel || cur == g_eeGeneral.currModel) {
-            g_eeGeneral.currModel = sub;
-            STORE_GENERALVARS;
-          }
-          else if (sub == g_eeGeneral.currModel) {
-            g_eeGeneral.currModel = cur;
-            STORE_GENERALVARS;
-          }
 
           if (s_copyMode == COPY_MODE) {
             if (!theFile.copy(FILE_MODEL(cur), FILE_MODEL(s_copySrcRow)))
               cur = sub;
           }
 
+          s_copySrcRow = g_eeGeneral.currModel; // to update the currModel value
           while (sub != cur) {
             uint8_t src = cur;
             cur = (s_copyTgtOfs > 0 ? cur+15 : cur+1) % 16;
             EFile::swap(FILE_MODEL(src), FILE_MODEL(cur));
+            if (src == s_copySrcRow)
+              s_copySrcRow = cur;
+            else if (cur == s_copySrcRow)
+              s_copySrcRow = src;
+          }
+
+          if (s_copySrcRow != g_eeGeneral.currModel) {
+            g_eeGeneral.currModel = s_copySrcRow;
+            STORE_GENERALVARS;
           }
 
           s_copyMode = 0; // TODO only this one?
@@ -308,7 +310,7 @@ void menuProcModelSelect(uint8_t event)
       uint16_t size = eeLoadModelName(k, name);
       putsModelName(4*FW, y, name, k, 0);
       lcd_outdezAtt(20*FW, y, size, 0);
-      if (k==g_eeGeneral.currModel && (s_copySrcRow<0 || i+s_pgOfs==sub)) lcd_putc(1, y, '*');
+      if (k==g_eeGeneral.currModel && (s_copySrcRow<0 || i+s_pgOfs!=sub)) lcd_putc(1, y, '*');
     }
 
     if (s_copyMode && sub==i+s_pgOfs) {

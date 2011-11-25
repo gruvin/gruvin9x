@@ -127,30 +127,31 @@ int8_t EeFsck()
     uint8_t *startP = i==MAXFILES ? &eeFs.freeList : &eeFs.files[i].startBlk;
     uint8_t lastBlk = 0;
     blk = *startP;
-    while(blk){
-      if( (   blk <  FIRSTBLK ) //goto err_1; //bad blk index
-          || (blk >= BLOCKS   ) //goto err_2; //bad blk index
-          || (bufp[blk]       ))//goto err_3; //blk double usage
+    while (blk) {
+      if (blk < FIRSTBLK || // bad blk index
+          blk >= BLOCKS  || // bad blk index
+          bufp[blk])        // blk double usage
       {
-        if(lastBlk) {
-          EeFsSetLink(lastBlk,0);
+        if (lastBlk) {
+          EeFsSetLink(lastBlk, 0);
         }
         else {
-          *startP = 0; //interrupt chain at startpos
+          *startP = 0; // interrupt chain at startpos
           EeFsFlush();
         }
-        blk=0; //abort
-      }else{
+        blk = 0; // abort
+      }
+      else {
         bufp[blk] = i+1;
         lastBlk   = blk;
         blk       = EeFsGetLink(blk);
       }
     }
   }
-  for(blk = FIRSTBLK; blk < BLOCKS; blk++){
-    if(bufp[blk]==0) {       //goto err_4; //unused block
-      EeFsSetLink(blk,eeFs.freeList);
-      eeFs.freeList = blk; //chain in front
+  for (blk=FIRSTBLK; blk<BLOCKS; blk++) {
+    if (!bufp[blk]) { // unused block
+      EeFsSetLink(blk, eeFs.freeList);
+      eeFs.freeList = blk; // chain in front
       EeFsFlushFreelist();
     }
   }
@@ -184,6 +185,7 @@ void EeFsFormat()
 bool EeFsOpen()
 {
   eeprom_read_block(&eeFs,0,sizeof(eeFs));
+
 #ifdef SIMU
   if(eeFs.version != EEFS_VERS)    printf("bad eeFs.version\n");
   if(eeFs.mySize  != sizeof(eeFs)) printf("bad eeFs.mySize\n");

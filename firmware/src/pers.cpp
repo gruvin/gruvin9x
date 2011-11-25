@@ -46,9 +46,7 @@ void generalDefault()
     g_eeGeneral.calibSpanNeg[i] = 0x180;
     g_eeGeneral.calibSpanPos[i] = 0x180;
   }
-  int16_t sum=0;
-  for(int i=0; i<12;i++) sum+=g_eeGeneral.calibMid[i];
-  g_eeGeneral.chkSum = sum;
+  g_eeGeneral.chkSum = (0x200 * 7) + (0x180 * 5);
 }
 
 #ifdef TRANSLATIONS

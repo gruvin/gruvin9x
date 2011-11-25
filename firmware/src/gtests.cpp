@@ -140,7 +140,7 @@ TEST(EEPROM, eeCheckImmediately) {
   EXPECT_EQ(sz, 300);
 }
 
-TEST(EEPROM, eeDuplicateModel) {
+TEST(EEPROM, copy) {
   eepromFile = NULL; // in memory
 
   uint8_t buf[1000];
@@ -151,7 +151,7 @@ TEST(EEPROM, eeDuplicateModel) {
 
   theFile.writeRlc(5, 6, buf, 300, true);
 
-  eeDuplicateModel(4);
+  theFile.copy(6, 5);
 
   theFile.openRd(6);
   uint16_t sz=0;
@@ -250,18 +250,11 @@ TEST(getSwitch, circularCSW) {
   EXPECT_EQ(getSwitch(-(1+MAX_SWITCH-NUM_CSW), 0), true);
 }
 
-extern uint16_t pulses2MHz[40];
-extern uint16_t *pulses2MHzWPtr;
-
-TEST(DSM2Protocol, sendByteDsm2) {
+TEST(getSwitch, nullSW) {
   memset(&g_model, 0, sizeof(g_model));
-  memset(pulses2MHz, 0, sizeof(pulses2MHz));
-  g_model.protocol = PROTO_DSM2;
-  pine &= ~(1<<INP_E_Trainer);
-  setupPulses();
-  EXPECT_EQ(pulses2MHzWPtr - pulses2MHz, 4);
-  //printf("%04X ", pulses2MHz[0]); printf("%04X ", pulses2MHz[1]); printf("%04X ", pulses2MHz[2]); printf("%04X ", pulses2MHz[3]);
-  printf("%d ", pulses2MHz[0]); printf("%d ", pulses2MHz[1]); printf("%d ", pulses2MHz[2]); printf("%d ", pulses2MHz[3]);
+  EXPECT_EQ(getSwitch(0, 0), false);
+  EXPECT_EQ(getSwitch(0, true), true);
+  EXPECT_EQ(getSwitch(0, 0), false);
 }
 
 int main(int argc, char **argv) {
