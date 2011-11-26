@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 27/11/2011 12:33:56 a.m.
+EESchema Schematic File Version 2  date 27/11/2011 11:14:15 a.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -45,24 +45,37 @@ Comment2 "Based on USBasp http://www.fischl.de/usbasp/"
 Comment3 ""
 Comment4 ""
 $EndDescr
+$Comp
+L +5V #PWR?
+U 1 1 4ED164AA
+P 8800 2400
+F 0 "#PWR?" H 8800 2490 20  0001 C CNN
+F 1 "+5V" H 8800 2490 30  0000 C CNN
+	1    8800 2400
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	8600 5150 8600 4750
 Wire Wire Line
-	6850 3200 7700 3200
+	6850 3200 7150 3200
+Wire Wire Line
+	7150 3200 7700 3200
 Connection ~ 7150 3200
 Wire Wire Line
 	7700 3200 7700 3300
 Wire Wire Line
-	1750 3450 1750 3700
+	1750 3450 1750 3550
+Wire Wire Line
+	1750 3550 1750 3700
 Wire Wire Line
 	2150 3550 2150 3700
 Wire Wire Line
-	2150 3550 1350 3550
+	2150 3550 1750 3550
+Wire Wire Line
+	1750 3550 1350 3550
 Wire Wire Line
 	1350 3550 1350 3700
 Connection ~ 1750 4250
-Wire Wire Line
-	7100 2400 8800 2400
 Wire Wire Line
 	6600 2400 6500 2400
 Wire Wire Line
@@ -70,18 +83,24 @@ Wire Wire Line
 Wire Wire Line
 	2350 6950 2350 6900
 Wire Wire Line
-	2350 6950 3100 6950
+	2350 6950 2750 6950
+Wire Wire Line
+	2750 6950 3100 6950
 Wire Wire Line
 	3100 6950 3100 6900
 Connection ~ 2350 6350
 Wire Wire Line
-	2350 6500 2350 6150
+	2350 6500 2350 6350
+Wire Wire Line
+	2350 6350 2350 6150
 Wire Wire Line
 	2350 6150 3200 6150
 Wire Wire Line
 	2550 5150 2550 5250
 Wire Wire Line
-	2100 5850 3200 5850
+	2100 5850 2550 5850
+Wire Wire Line
+	2550 5850 3200 5850
 Wire Wire Line
 	3200 5250 2900 5250
 Wire Wire Line
@@ -92,7 +111,9 @@ Wire Wire Line
 	4200 7000 4200 6850
 Connection ~ 4200 4100
 Wire Wire Line
-	4300 4100 4100 4100
+	4300 4100 4200 4100
+Wire Wire Line
+	4200 4100 4100 4100
 Wire Wire Line
 	9300 5800 9300 5550
 Wire Wire Line
@@ -112,7 +133,9 @@ Wire Wire Line
 Wire Wire Line
 	8800 4300 8450 4300
 Wire Wire Line
-	8050 2250 8050 2550
+	8050 2250 8050 2400
+Wire Wire Line
+	8050 2400 8050 2550
 Wire Wire Line
 	8800 2400 8800 2750
 Wire Wire Line
@@ -122,7 +145,11 @@ Wire Wire Line
 Wire Wire Line
 	2600 1800 2500 1800
 Wire Wire Line
-	4500 1800 3100 1800
+	4500 1800 4150 1800
+Wire Wire Line
+	4150 1800 3800 1800
+Wire Wire Line
+	3800 1800 3100 1800
 Wire Wire Line
 	4150 1200 4150 1150
 Wire Wire Line
@@ -153,7 +180,11 @@ Connection ~ 4150 1800
 Wire Wire Line
 	3800 2350 3800 2400
 Wire Wire Line
-	3050 2600 4500 2600
+	3050 2600 3250 2600
+Wire Wire Line
+	3250 2600 3600 2600
+Wire Wire Line
+	3600 2600 4500 2600
 Wire Wire Line
 	3250 2600 3250 2650
 Wire Wire Line
@@ -164,7 +195,9 @@ Wire Wire Line
 Wire Wire Line
 	5000 1800 5300 1800
 Wire Wire Line
-	4150 1950 4150 1700
+	4150 1950 4150 1800
+Wire Wire Line
+	4150 1800 4150 1700
 Wire Wire Line
 	2550 2600 2500 2600
 Wire Wire Line
@@ -191,7 +224,9 @@ Wire Wire Line
 Wire Wire Line
 	7600 1950 6750 1950
 Wire Wire Line
-	9600 5150 8600 5150
+	9600 5150 8850 5150
+Wire Wire Line
+	8850 5150 8600 5150
 Wire Wire Line
 	9600 5350 9000 5350
 Wire Wire Line
@@ -199,7 +234,9 @@ Wire Wire Line
 Wire Wire Line
 	4200 3950 4200 4100
 Wire Wire Line
-	4300 6850 4100 6850
+	4300 6850 4200 6850
+Wire Wire Line
+	4200 6850 4100 6850
 Connection ~ 4200 6850
 Wire Wire Line
 	5150 5550 5450 5550
@@ -213,7 +250,9 @@ Wire Wire Line
 	2550 5750 2550 5850
 Connection ~ 2550 5850
 Wire Wire Line
-	3200 6350 3050 6350
+	3200 6350 3100 6350
+Wire Wire Line
+	3100 6350 3050 6350
 Wire Wire Line
 	2450 6350 2350 6350
 Wire Wire Line
@@ -225,18 +264,24 @@ Connection ~ 2750 6950
 Wire Wire Line
 	2150 4250 2150 4100
 Wire Wire Line
-	2150 4250 1350 4250
+	2150 4250 1750 4250
+Wire Wire Line
+	1750 4250 1350 4250
 Wire Wire Line
 	1350 4250 1350 4100
 Wire Wire Line
-	1750 4350 1750 4100
+	1750 4350 1750 4250
+Wire Wire Line
+	1750 4250 1750 4100
 Connection ~ 1750 3550
 Wire Wire Line
 	8000 4000 8000 3950
 Wire Wire Line
 	7150 3950 8000 3950
 Wire Wire Line
-	7150 2400 7150 3950
+	7150 2400 7150 3200
+Wire Wire Line
+	7150 3200 7150 3950
 Connection ~ 7150 2400
 Wire Wire Line
 	6000 3450 6000 3200
