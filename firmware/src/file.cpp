@@ -571,4 +571,12 @@ void RlcFile::flush()
   s_sync_write = false;
 }
 
+void RlcFile::DisplayProgressBar()
+{
+  if (s_eeDirtyMsk || m_rlc_len || eeprom_buffer_size) {
+    uint8_t len = (s_eeDirtyMsk ? 123 : min((uint8_t)123, (uint8_t)((m_rlc_len) / 5 + eeprom_buffer_size)));
+    lcd_filled_rect(2, 1, 125, 5, WHITE);
+    lcd_filled_rect(3, 2, 123-len, 3);
+  }
+}
 

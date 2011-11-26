@@ -103,9 +103,7 @@ class RlcFile: public EFile
 #define WRITE_FREE_UNUSED_BLOCKS_STEP2 0x30
 #define WRITE_FINAL_DIRENT_STEP        0x40
 #define WRITE_TMP_DIRENT_STEP          0x50
-#define WRITE_END_STEP                 0x60
   uint8_t m_write_step;
-
   uint16_t m_rlc_len;
   uint8_t * m_rlc_buf;
   uint8_t m_cur_rlc_len;
@@ -145,6 +143,7 @@ public:
   uint16_t readRlc(uint8_t*buf, uint16_t i_len); // TODO should be like writeRlc?
 #endif
 
+  void DisplayProgressBar();
 };
 
 #endif
