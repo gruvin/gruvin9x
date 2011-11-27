@@ -1,8 +1,8 @@
-# EESchema Netlist Version 1.1 created  27/11/2011 11:14:24 a.m.
+# EESchema Netlist Version 1.1 created  27/11/2011 8:31:14 p.m.
 (
  ( /4ED0AC1E $noname  JP1 ENABLE {Lib=JUMPER}
   (    1 GND )
-  (    2 N-000034 )
+  (    2 N-000036 )
  )
  ( /4ED087CB $noname  C2 22u {Lib=CAPAPOL}
   (    1 +5V )
@@ -17,11 +17,11 @@
   (    2 GND )
  )
  ( /4ECC4D7D $noname  R8 5K6 {Lib=R}
-  (    1 ? )
+  (    1 N-000036 )
   (    2 +5V )
  )
  ( /4ECC4B64 $noname  C3 18p {Lib=C}
-  (    1 N-000038 )
+  (    1 N-000034 )
   (    2 GND )
  )
  ( /4ECC4B5C $noname  C4 18p {Lib=C}
@@ -29,7 +29,7 @@
   (    2 GND )
  )
  ( /4ECC4B2B $noname  X1 12MHz {Lib=CRYSTAL}
-  (    1 N-000038 )
+  (    1 N-000034 )
   (    2 N-000035 )
  )
  ( /4ECC49EE $noname  R7 5K6 {Lib=R}
@@ -44,7 +44,7 @@
   (    5 GND )
   (    6 +5V )
   (    7 N-000035 )
-  (    8 N-000038 )
+  (    8 N-000034 )
   (    9 ? )
   (   10 ? )
   (   11 ? )
@@ -79,27 +79,27 @@
   (    6 GND )
  )
  ( /4ECB2C14 $noname  P1 ISP_x2560 {Lib=CONN_6}
-  (    1 N-000030 )
+  (    1 N-000031 )
   (    2 +5V )
-  (    3 N-000028 )
-  (    4 N-000024 )
-  (    5 N-000027 )
+  (    3 N-000032 )
+  (    4 N-000030 )
+  (    5 N-000028 )
   (    6 GND )
  )
  ( /4ECB2B38 $noname  U1 74HC126 {Lib=74LS126}
-  (    1 N-000037 )
+  (    1 N-000036 )
   (    2 /SCK )
-  (    3 N-000028 )
-  (    4 N-000034 )
+  (    3 N-000032 )
+  (    4 N-000036 )
   (    5 /RST )
-  (    6 N-000027 )
+  (    6 N-000028 )
   (    7 GND )
-  (    8 N-000024 )
+  (    8 N-000030 )
   (    9 /MOSI )
-  (   10 N-000034 )
+  (   10 N-000036 )
   (   11 /MISO )
-  (   12 N-000030 )
-  (   13 N-000037 )
+  (   12 N-000031 )
+  (   13 N-000036 )
   (   14 +5V )
  )
  ( /4E912A5F $noname  D2 Sctky {Lib=DIODE}
@@ -108,11 +108,11 @@
  )
  ( /4E912A59 $noname  D1 Sctky {Lib=DIODE}
   (    1 GND )
-  (    2 N-000032 )
+  (    2 N-000024 )
  )
  ( /4E912A4B $noname  D4 3.6v_Zen {Lib=ZENER}
   (    1 GND )
-  (    2 N-000032 )
+  (    2 N-000024 )
  )
  ( /4E912A33 $noname  D3 3.6v_Zen {Lib=ZENER}
   (    1 GND )
@@ -120,7 +120,7 @@
  )
  ( /4E912987 $noname  R5 47R {Lib=R}
   (    1 /D+ )
-  (    2 N-000032 )
+  (    2 N-000024 )
  )
  ( /4E91297A $noname  R6 47R {Lib=R}
   (    1 /D- )
@@ -131,17 +131,17 @@
   (    2 N-000033 )
  )
  ( /4E912959 $noname  R1 27R {Lib=R}
-  (    1 N-000032 )
-  (    2 N-000031 )
+  (    1 N-000024 )
+  (    2 N-000026 )
  )
  ( /4E91294D $noname  R2 27R {Lib=R}
   (    1 N-000033 )
-  (    2 N-000029 )
+  (    2 N-000025 )
  )
  ( /4E9128F0 $noname  P2 USB {Lib=CONN_4}
   (    1 +5V )
-  (    2 N-000029 )
-  (    3 N-000031 )
+  (    2 N-000025 )
+  (    3 N-000026 )
   (    4 GND )
  )
 )
@@ -241,107 +241,107 @@ $endlist
 $endfootprintlist
 }
 { Pin List by Nets
-Net 1 "GND" "GND"
- U1 7
+Net 6 "GND" "GND"
+ IC1 5
+ IC1 21
  P1 6
+ U1 7
  P2 4
  D2 1
  D1 1
  D4 1
  D3 1
- C5 2
- C1 2
- C3 2
- C4 2
- JP1 1
  C2 2
  P3 6
+ C5 2
+ C1 2
+ JP1 1
  IC1 3
- IC1 5
- IC1 21
+ C3 2
+ C4 2
 Net 7 "/RESET" "RESET"
  P3 5
  IC1 29
  R7 2
 Net 8 "/MOSI" "MOSI"
- U1 9
  IC1 15
+ U1 9
  P3 4
 Net 9 "/SCK" "SCK"
+ U1 2
  IC1 17
  P3 3
- U1 2
 Net 10 "/MISO" "MISO"
  U1 11
  IC1 16
  P3 1
 Net 15 "/D+" "D+"
- R5 1
  IC1 32
  IC1 13
+ R5 1
 Net 17 "/D-" "D-"
- IC1 12
  R6 1
+ IC1 12
 Net 24 "" ""
- U1 8
- P1 4
-Net 25 "+5V" "+5V"
- P1 2
- R8 2
- C1 1
- IC1 18
- C5 1
- C2 1
- IC1 4
- R3 1
- P2 1
- R7 1
- P3 2
- U1 14
- IC1 6
-Net 26 "/RST" "RST"
- U1 5
- IC1 14
-Net 27 "" ""
- P1 5
- U1 6
-Net 28 "" ""
- U1 3
- P1 3
-Net 29 "" ""
- R2 2
- P2 2
-Net 30 "" ""
- U1 12
- P1 1
-Net 31 "" ""
- P2 3
- R1 2
-Net 32 "" ""
- R1 1
- R5 2
  D1 2
  D4 2
+ R1 1
+ R5 2
+Net 25 "" ""
+ R2 2
+ P2 2
+Net 26 "" ""
+ P2 3
+ R1 2
+Net 27 "+5V" "+5V"
+ R8 2
+ IC1 4
+ C5 1
+ P1 2
+ C1 1
+ P3 2
+ R7 1
+ C2 1
+ U1 14
+ IC1 18
+ P2 1
+ R3 1
+ IC1 6
+Net 28 "" ""
+ P1 5
+ U1 6
+Net 29 "/RST" "RST"
+ IC1 14
+ U1 5
+Net 30 "" ""
+ U1 8
+ P1 4
+Net 31 "" ""
+ U1 12
+ P1 1
+Net 32 "" ""
+ P1 3
+ U1 3
 Net 33 "" ""
+ R3 2
+ R6 2
+ R2 1
  D2 2
  D3 2
- R6 2
- R3 2
- R2 1
 Net 34 "" ""
- U1 10
- U1 4
- JP1 2
+ X1 1
+ C3 1
+ IC1 8
 Net 35 "" ""
+ X1 2
  IC1 7
  C4 1
- X1 2
-Net 37 "" ""
+Net 36 "" ""
+ U1 4
+ U1 10
  U1 13
  U1 1
-Net 38 "" ""
- C3 1
- X1 1
- IC1 8
+ R8 1
+ JP1 2
 }
 #End
