@@ -110,7 +110,7 @@ void displayPopup(const prog_char * pstr)
   s_warning = pstr;
   displayBox();
   s_warning = 0;
-  refreshDiplay();
+  refreshDisplay();
 }
 
 void displayWarning(uint8_t event)
