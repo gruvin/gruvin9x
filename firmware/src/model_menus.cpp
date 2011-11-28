@@ -240,6 +240,7 @@ void menuProcModelSelect(uint8_t event)
           s_copyMode = 0; // TODO only this one?
           s_copySrcRow = -1;
           s_copyTgtOfs = 0;
+          return;
         }
         else if (_event == EVT_KEY_LONG(KEY_MENU)) {
           displayPopup(PSTR("Loading model..."));
@@ -249,6 +250,7 @@ void menuProcModelSelect(uint8_t event)
             STORE_GENERALVARS;
             eeLoadModel(sub);
           }
+          s_copyMode = 0;
           killEvents(event);
           return;
         }
