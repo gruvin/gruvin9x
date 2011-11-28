@@ -1,0 +1,2 @@
+make PCB=STD BEEPER=SPEAKER
+
