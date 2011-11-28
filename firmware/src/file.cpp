@@ -599,7 +599,7 @@ void RlcFile::DisplayProgressBar(uint8_t x)
       }
     }
 #elif defined (PROGRESS_VERTICAL_BAR)
-    uint8_t len = s_eeDirtyMsk ? 1 : limit(1, 7 - (m_rlc_len/m_ratio), 7);
+    uint8_t len = s_eeDirtyMsk ? 1 : limit((int8_t)1, (int8_t)(7 - (m_rlc_len/m_ratio)), (int8_t)7);
     lcd_filled_rect(x+1, 0, 5, FH, WHITE);
     lcd_filled_rect(x+2, 7-len, 3, len);
 #elif defined (PROGRESS_FIXED_CIRCLE)
