@@ -428,27 +428,33 @@ void per10ms()
 
 #if defined (FRSKY)
 
-  // Attempt to transmit any waiting Fr-Sky alarm set packets every 50ms (subject to packet buffer availability)
-  static uint8_t FrskyDelay = 5;
-  if (FrskyAlarmSendState && (--FrskyDelay == 0))
-  {
-    FrskyDelay = 5; // 50ms
-    FRSKY10mspoll();
-  }
-  
-  if (frskyStreaming > 0)
-    frskyStreaming--;
-  else if (g_eeGeneral.enableTelemetryAlarm && (g_model.frsky.channels[0].ratio || g_model.frsky.channels[1].ratio)) {
-#if defined (BEEPSPKR)
-    if (!(g_tmr10ms % 30)) beepWarn2Spkr((g_tmr10ms % 60) ? 25 : 20);
-#else
-    if (!(g_tmr10ms % 30)) 
-    {
-      warble = !(g_tmr10ms % 60);
-      beepWarn2();
-    }
+#if defined (DSM2)
+  if (g_model.protocol == PROTO_PPM) {
 #endif
+    // Attempt to transmit any waiting Fr-Sky alarm set packets every 50ms (subject to packet buffer availability)
+    static uint8_t FrskyDelay = 5;
+    if (FrskyAlarmSendState && (--FrskyDelay == 0))
+    {
+      FrskyDelay = 5; // 50ms
+      FRSKY10mspoll();
+    }
+
+    if (frskyStreaming > 0)
+      frskyStreaming--;
+    else if (g_eeGeneral.enableTelemetryAlarm && (g_model.frsky.channels[0].ratio || g_model.frsky.channels[1].ratio)) {
+#if defined (BEEPSPKR)
+      if (!(g_tmr10ms % 30)) beepWarn2Spkr((g_tmr10ms % 60) ? 25 : 20);
+#else
+      if (!(g_tmr10ms % 30))
+      {
+        warble = !(g_tmr10ms % 60);
+        beepWarn2();
+      }
+#endif
+    }
+#if defined (DSM2)
   }
+#endif
 #endif
 
   // These moved here from perOut() [gruvin9x.cpp] to improve beep trigger reliability.

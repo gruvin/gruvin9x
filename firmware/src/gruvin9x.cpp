@@ -2074,8 +2074,55 @@ uint16_t DEBUG1 = 0;
 uint16_t DEBUG2 = 0;
 #endif
 
+/*
+   USART0 Transmit Data Register Emtpy ISR
+   Used to transmit FrSky data packets and DSM2 protocol
+*/
+
+#if defined (FRSKY)
+inline void __attribute__ ((always_inline)) FRSKY_USART0_vect()
+{
+  if (frskyTxBufferCount > 0) {
+    UDR0 = frskyTxBuffer[--frskyTxBufferCount];
+  }
+  else {
+    UCSR0B &= ~(1 << UDRIE0); // disable UDRE0 interrupt
+  }
+}
 #endif
 
+#if defined (DSM2)
+inline void __attribute__ ((always_inline)) DSM2_USART0_vect()
+{
+  UDR0 = *pulses2MHzRPtr;
+
+  if (++pulses2MHzRPtr == pulses2MHzWPtr) {
+    setupPulses();
+  }
+
+  heartbeat |= HEART_TIMER2Mhz;
+}
+#endif
+
+#if defined (FRSKY) or defined(DSM2)
+ISR(USART0_UDRE_vect)
+{
+#if defined (FRSKY) and defined (DSM2)
+  if (g_model.protocol == PROTO_DSM2) {
+    DSM2_USART0_vect();
+  }
+  else {
+    FRSKY_USART0_vect();
+  }
+#elif defined (FRSKY)
+  FRSKY_USART0_vect();
+#else
+  DSM2_USART0_vect();
+#endif
+}
+#endif
+
+#endif
 
 void instantTrim()
 {
@@ -2283,20 +2330,24 @@ int main(void)
     }
   }
 
-  sei(); // interrupts needed for eeReadAll function (soon).
-
   g_menuStack[0] = menuMainView;
   g_menuStack[1] = menuProcModelSelect;
 
   lcdSetRefVolt(25);
 
-#if defined (FRSKY)
+#if defined (FRSKY) and !defined (DSM2)
   FRSKY_Init();
+#endif
+
+#if defined (DSM2) and !defined (FRSKY)
+  DSM2_Init();
 #endif
 
 #ifdef JETI
   JETI_Init();
 #endif
+
+  sei(); // interrupts needed for eeReadAll function.
 
   eeReadAll();
 
@@ -2361,28 +2412,8 @@ EIMSK = (3<<INT5) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
 /***************************************************/
 #endif
 
-/***********************************************************/
-/*** Keep this code block directly before the main loop ****/
-  
-  setupPulses();
-
-#if defined (PCBV4)
-    OCR1B = 0xffff; /* Prevent any PPM_PUT pin toggle before the TCNT1 interrupt 
-                       fires for the first time and sets up the pulse period. */
-    // TCCR1A |= (1<<COM1B0); // (COM1B1=0 and COM1B0=1 in TCCR1A)  toogle the state of PB6(OC1B) on each TCNT1==OCR1B
-    TCCR1A = (3<<COM1B0); // Connect OC1B to PPM_OUT pin (SET the state of PB6(OC1B) on next TCNT1==OCR1B)
-#else
-//addon Vinceofdrink@gmail (hardware ppm)
-#  if defined (DPPMPB7_HARDWARE)
-    OCR1C = 0xffff; // See comment for PCBV4, above
-    TCCR1A |= (1<<COM1C0); // (COM1C1=0 and COM1C0=1 in TCCR1A)  toogle the state of PB7(OC1C) on each TCNT1==OCR1C
-#  endif
-#endif
-
-#if defined (PCBV3)
-  TIMSK1 |= (1<<OCIE1A); // Pulse generator enable immediately before mainloop
-#else
-  TIMSK |= (1<<OCIE1A); // Pulse generator enable immediately before mainloop
+#ifndef DSM2
+  startPulses();
 #endif
 
   wdt_enable(WDTO_500MS);

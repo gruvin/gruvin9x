@@ -76,6 +76,9 @@ extern sem_t eeprom_write_sem;
 #define DDE0 dummyport
 #define PORTE0 dummyport
 #define RXCIE0 dummyport
+#define TIMSK dummyport
+
+#define OCIE1A 0
 
 extern volatile unsigned char pinb,pinc,pind,pine,ping;
 extern unsigned char portb,dummyport;

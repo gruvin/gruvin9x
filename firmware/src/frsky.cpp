@@ -38,9 +38,6 @@
 #define BYTESTUFF       0x7d
 #define STUFF_MASK      0x20
 
-#define FRSKY_RX_PACKET_SIZE 19
-#define FRSKY_TX_PACKET_SIZE 12
-
 uint8_t frskyRxBuffer[FRSKY_RX_PACKET_SIZE];   // Receive buffer. 9 bytes (full packet), worst case 18 bytes with byte-stuffing (+1)
 uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];   // Ditto for transmit buffer
 uint8_t frskyTxBufferCount = 0;
@@ -353,19 +350,6 @@ ISR(USART0_RX_vect)
   UCSR0B |= (1 << RXCIE0); // enable Interrupt
 }
 
-/*
-   USART0 Transmit Data Register Emtpy ISR
-   Used to transmit FrSky data packets
-*/
-ISR(USART0_UDRE_vect)
-{
-  if (frskyTxBufferCount > 0) {
-    UDR0 = frskyTxBuffer[--frskyTxBufferCount];
-  }
-  else {
-    UCSR0B &= ~(1 << UDRIE0); // disable UDRE0 interrupt
-  }
-}
 #endif
 
 /******************************************/

@@ -21,6 +21,28 @@
 
 #include "gruvin9x.h"
 
+
+void startPulses()
+{
+  setupPulses();
+
+#if defined (PCBV4)
+  OCR1B = 0xffff; /* Prevent any PPM_PUT pin toggle before the TCNT1 interrupt
+                     fires for the first time and sets up the pulse period. */
+  // TCCR1A |= (1<<COM1B0); // (COM1B1=0 and COM1B0=1 in TCCR1A)  toogle the state of PB6(OC1B) on each TCNT1==OCR1B
+  TCCR1A = (3<<COM1B0); // Connect OC1B to PPM_OUT pin (SET the state of PB6(OC1B) on next TCNT1==OCR1B)
+#elif defined (DPPMPB7_HARDWARE) // addon Vinceofdrink@gmail (hardware ppm)
+  OCR1C = 0xffff; // See comment for PCBV4, above
+  TCCR1A |= (1<<COM1C0); // (COM1C1=0 and COM1C0=1 in TCCR1A)  toogle the state of PB7(OC1C) on each TCNT1==OCR1C
+#endif
+
+#if defined (PCBV3)
+  TIMSK1 |= (1<<OCIE1A); // Pulse generator enable immediately before mainloop
+#else
+  TIMSK |= (1<<OCIE1A); // Pulse generator enable immediately before mainloop
+#endif
+}
+
 #ifdef CTP1009
 uint16_t pulses2MHz[50] = {0};
 #else
@@ -84,9 +106,7 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
   if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
   if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
 
-  ++pulses2MHzRPtr;
-
-  if (pulses2MHzRPtr == pulses2MHzWPtr) {
+  if (++pulses2MHzRPtr == pulses2MHzWPtr) {
     //currpulse=0;
     pulsePol = g_model.pulsePol;//0;
     //    channel = 0 ;
@@ -99,18 +119,6 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 #endif
     sei();
     setupPulses();
-
-    // For DSM2 problem, missed interrupt
-    if (g_model.protocol == PROTO_DSM2) {
-#ifdef PCBV3
-      if ( TIFR1 & (1 << OCF1A ) )             // Interrupt pending
-#else
-      if ( TIFR & (1 << OCF1A ) )             // Interrupt pending
-#endif
-      {
-        TCNT1 = 0 ;
-      }
-    }
 
 #if !defined (PCBV3) && defined (DPPMPB7_HARDWARE)
     // G: NOTE: This strategy does not work on the '2560 becasue you can't
@@ -160,7 +168,7 @@ inline void __attribute__ ((always_inline)) setupPulsesPPM() // changed 10/05/20
     rest += (int16_t(g_model.ppmFrameLength))*1000;
     if(p>9) rest=p*(1720u*2 + q) + 4000u*2; //for more than 9 channels, frame must be longer
     for (uint8_t i=0; i<p; i++) {
-      int16_t v = max(min(g_chans512[i], (int16_t)PPM_range), (int16_t)-PPM_range) + PPM_CENTER; // TODO max(min) = limit!!!
+      int16_t v = limit((int16_t)-PPM_range, g_chans512[i], (int16_t)PPM_range) + PPM_CENTER;
       rest -= (v+q);
       *ptr++ = q;
       *ptr++ = v - q + 600; /* as Pat MacKenzie suggests */
@@ -211,55 +219,73 @@ normal:
 
  */
 
-inline void __attribute__ ((always_inline)) _send_1(uint16_t v)
+#define DSM2_CHANS 6
+const prog_uint8_t APM dsm2_bind[] = {0x80,0,  0x00,0xAA,  0x05,0xFF,  0x09,0xFF,  0x0D,0xFF,  0x13,0x54,  0x14,0xAA};
+
+inline void __attribute__ ((always_inline)) setupPulsesDsm2()
 {
-  *pulses2MHzWPtr++ = v;
+  if (keyState(SW_Trainer)) {
+    for (uint8_t i=0; i<sizeof(dsm2_bind); i++) {
+      *pulses2MHzWPtr++ = dsm2_bind[i];
+    }
+  }
+  else {
+    *pulses2MHzWPtr++ = 0;
+    *pulses2MHzWPtr++ = 0;
+    for (uint8_t i=0; i<DSM2_CHANS; i++) {
+      uint16_t pulse = limit(0, g_chans512[i]+512, 1023);
+      *pulses2MHzWPtr++ = (i<<2) | ((pulse>>8)&0x03);
+      *pulses2MHzWPtr++ = pulse & 0xff;
+    }
+  }
 }
 
-#define BITLEN_DSM2 (8*2) //125000 Baud
-inline void __attribute__ ((always_inline)) sendByteDsm2(uint8_t b) //max 10changes 0 10 10 10 10 1
+void stopPulses()
 {
-    bool    lev = 0;
-    uint8_t len = BITLEN_DSM2; //max val: 9*16 < 256
-    for( uint8_t i=0; i<=8; i++){ //8Bits + Stop=1
-        bool nlev = b & 1; //lsb first
-        if(lev == nlev){
-            len += BITLEN_DSM2;
-        }else{
-            _send_1(len-1);
-            len = BITLEN_DSM2;
-            lev = nlev;
-        }
-        b = (b>>1) | 0x80; //shift in stop bit
-    }
-    _send_1(len + 10*BITLEN_DSM2 -1); //some more space-time for security
+#if defined (PCBV3)
+  TIMSK1 &= ~(1<<OCIE1A); // Pulse generator enable immediately before mainloop
+#else
+  TIMSK &= ~(1<<OCIE1A); // Pulse generator enable immediately before mainloop
+#endif
 }
 
-
-inline void __attribute__ ((always_inline)) setupPulsesDsm2(uint8_t chns)
+inline void DSM2_EnableTXD(void)
 {
-    static uint8_t dsmDat[2+6*2]={0x80,0,  0x00,0xAA,  0x05,0xFF,  0x09,0xFF,  0x0D,0xFF,  0x13,0x54,  0x14,0xAA};
+  UCSR0B |= (1 << TXEN0); // enable TX
+  UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
+}
 
-    static uint8_t state = 0;
+void DSM2_Done()
+{
+  UCSR0B &= ~((1 << TXEN0) | (1 << UDRIE0)); // disable TX pin and interrupt
+}
 
-    if(state==0){
+void DSM2_Init(void)
+{
+  DDRE &= ~(1 << DDE0);    // set RXD0 pin as input
+  PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
 
-        if((dsmDat[0] == 0) || ! keyState(SW_Trainer) ){ //init - bind!
-            dsmDat[0]=0; dsmDat[1]=0;  //DSM2_Header = 0,0;
-            for(uint8_t i=0; i<chns; i++){
-                uint16_t pulse = limit(0, g_chans512[i]+512,1023);
-                dsmDat[2+2*i] = (i<<2) | ((pulse>>8)&0x03);
-                dsmDat[3+2*i] = pulse & 0xff;
-            }
-        }
-    }
-    sendByteDsm2(dsmDat[state++]);
-    sendByteDsm2(dsmDat[state++]);
-    if(state >= 2+chns*2){
-        pulses2MHzWPtr--; //remove last stopbits and
-        _send_1(20000u*2 -1); //prolong them
-        state=0;
-    }
+#undef BAUD
+#define BAUD 125000
+
+#include <util/setbaud.h>
+
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
+  UCSR0A &= ~(1 << U2X0); // disable double speed operation.
+
+  // set 8N1
+  UCSR0B = 0 | (0 << RXCIE0) | (0 << TXCIE0) | (0 << UDRIE0) | (0 << RXEN0) | (0 << TXEN0) | (0 << UCSZ02);
+  UCSR0C = 0 | (1 << UCSZ01) | (1 << UCSZ00);
+
+  while (UCSR0A & (1 << RXC0)) UDR0; // flush receive buffer
+
+  pulses2MHzWPtr = pulses2MHz;
+  pulses2MHzRPtr = pulses2MHz;
+  setupPulsesDsm2();
+
+  // These should be running right from power up on a FrSky enabled '9X.
+  DSM2_EnableTXD(); // enable FrSky-Telemetry reception
 }
 
 #endif
@@ -428,9 +454,6 @@ void setupPulses()
   pulses2MHzRPtr = pulses2MHz;
 
   switch(g_model.protocol) {
-    case PROTO_PPM:
-      setupPulsesPPM();
-      break;
 #ifdef SILVER
     case PROTO_SILV_A:
     case PROTO_SILV_B:
@@ -450,9 +473,11 @@ void setupPulses()
 #endif
 #ifdef DSM2
     case PROTO_DSM2:
-      setupPulsesDsm2(6);
+      setupPulsesDsm2();
       break;
 #endif
+    default:
+      setupPulsesPPM();
+      break;
   }
 }
-

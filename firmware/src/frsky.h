@@ -21,6 +21,9 @@
 #ifndef FRSKY_H
 #define FRSKY_H
 
+#define FRSKY_RX_PACKET_SIZE 19
+#define FRSKY_TX_PACKET_SIZE 12
+
 #include <inttypes.h>
 
 // .20 seconds
@@ -90,6 +93,9 @@ extern uint8_t frskyRxBufferIn;
 extern uint8_t frskyRxBufferOut;
 extern uint8_t frskyUserDataIn;
 extern uint8_t frskyUserDataOut;
+
+extern uint8_t frskyTxBuffer[FRSKY_TX_PACKET_SIZE];
+extern uint8_t frskyTxBufferCount;
 
 extern uint16_t frskyComputeVolts(uint8_t rawADC, uint16_t ratio, uint8_t decimals=1); 
 extern void frskyPutAValue(uint8_t x, uint8_t y, uint8_t channel, uint8_t value, uint8_t mode = 0);
