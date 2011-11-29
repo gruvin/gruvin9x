@@ -2335,6 +2335,8 @@ int main(void)
 
   lcdSetRefVolt(25);
 
+  sei(); // interrupts needed for FRSKY_Init and eeReadAll.
+
 #if defined (FRSKY) and !defined (DSM2)
   FRSKY_Init();
 #endif
@@ -2346,8 +2348,6 @@ int main(void)
 #ifdef JETI
   JETI_Init();
 #endif
-
-  sei(); // interrupts needed for eeReadAll function.
 
   eeReadAll();
 
