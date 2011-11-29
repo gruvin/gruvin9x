@@ -825,7 +825,7 @@ void getADC_bandgap()
 {
 #if defined(PCBSTD)
   ADMUX = 0x1E|ADC_VREF_TYPE; // Switch MUX to internal 1.22V reference
-  _delay_us(5); // short delay to stabilise reference voltage
+  _delay_us(7); // short delay to stabilise reference voltage
   ADCSRA |= 0x40;
   while ((ADCSRA & 0x10)==0);
   ADCSRA |= 0x10; // again becasue first one is usually inaccurate
