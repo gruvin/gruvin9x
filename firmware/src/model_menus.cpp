@@ -386,7 +386,7 @@ void EditName(uint8_t x, uint8_t y, char *name, uint8_t size, uint8_t event, boo
 void menuProcModel(uint8_t event)
 {
   lcd_outdezNAtt(7*FW,0,g_eeGeneral.currModel+1,INVERS+LEADING0,2);
-  MENU("SETUP", menuTabModel, e_Model, (g_model.protocol ? 9 : 10), {0,sizeof(g_model.name)-1,3,3,0,0,0,1,6,2,1});
+  MENU("SETUP", menuTabModel, e_Model, (g_model.protocol ? 9 : 10), {0,sizeof(g_model.name)-1,3,0,0,0,1,6,2,1});
 
   uint8_t  sub    = m_posVert;
   uint8_t y = 1*FH;
