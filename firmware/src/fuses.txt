@@ -18,7 +18,7 @@ erased during chip erase prior to re-programming  ... respectively.
 
 - - - - - - - - - - - - - - - - - - - - - -
 
-Fuse defaults for ATmega2560/1 are:
+Fuse defaults for ATmega2560/1 are ... (BUT SEE BELOW FOR PREFERRED values)
 
   hfuse = 0b10011001 (0x99)
   lfuse = 0b01100010 (0x62)
@@ -27,10 +27,16 @@ Fuse defaults for ATmega2560/1 are:
 The bit assignments ae quite different from the AT'64A in all cases. 
 
 Preferred vale es for ATmega2560/1 are:
-  hfuse = 0b10011001 (0x11) [OCD enabled, JTAG enabled, WDT disabled :(, 
+  hfuse = 0b10011001 (0x11) [OCD enabled, JTAG enabled, WDT disabled (we enable it in the firmware), 
                              EESAVE enabled, BOOT at 0x0000] 
   lfuse = 0b01101110 (0xd7) [CKDIV8 disabled, CKOUT disabled, 
                              Full Swing Xtal Osc, 16K CK + 0ms reset,
                              BOD enabled]
   efuse = 0b11111111 (0xfc) [ Brown out detector (BOD) = 4.3V ]
+
+BOOT_LOADER enabled mode:
+  hfuse = 0b10011001 (0x10) [OCD enabled, JTAG enabled, WDT disabled (we enable it in the firmware), 
+                             EESAVE enabled, BOOT at 0x1F000 (BOOTRST enabled)] 
+
+
 
