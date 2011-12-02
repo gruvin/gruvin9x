@@ -737,7 +737,7 @@ extern char userDataDisplayBuf[TELEM_SCREEN_BUFFER_SIZE]; // text buffer for frs
 #endif
 
 #if defined (PCBV3)
-extern char g_logFilename[21]; // pers.cpp::resetTelemetry()
+extern char g_logFilename[22]; // pers.cpp::resetTelemetry()
 extern FATFS FATFS_Obj; // pers.cpp::resetTelemetry()
 extern FIL g_oLogFile; // pers.cpp::resetTelemetry()
 #endif
