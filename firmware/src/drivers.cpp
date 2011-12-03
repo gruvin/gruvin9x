@@ -429,7 +429,7 @@ void per10ms()
 #if defined (FRSKY)
 
 #if defined (DSM2)
-  if (g_model.protocol == PROTO_PPM) {
+  if (g_model.protocol != PROTO_DSM2) {
 #endif
     // Attempt to transmit any waiting Fr-Sky alarm set packets every 50ms (subject to packet buffer availability)
     static uint8_t FrskyDelay = 5;
