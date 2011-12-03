@@ -27,7 +27,11 @@
 
 #include <inttypes.h>
 #include <string.h>
+
+#if defined(PCBV3)
 #include "ff.h"
+#include "gtime.h"
+#endif
 
 #ifdef SIMU
 #include "simpgmspace.h"
@@ -77,10 +81,6 @@ extern uint16_t jeti_keys;
 #if defined (FRSKY)
 // FrSky Telemetry
 #include "frsky.h"
-#endif
-
-#if defined(PCBV3)
-#include "time.h"
 #endif
 
 extern RlcFile theFile;  //used for any file operation
@@ -294,6 +294,10 @@ enum EnumKeys {
   TRM_RV_UP   ,
   TRM_RH_DWN  ,
   TRM_RH_UP   ,
+#ifdef PCBV4
+  BTN_RE1,
+  BTN_RE2,
+#endif
   //SW_NC     ,
   //SW_ON     ,
   SW_ThrCt  ,
@@ -305,8 +309,8 @@ enum EnumKeys {
   SW_AileDR ,
   SW_Gear   ,
   SW_Trainer,
-  SW_RE1,
-  SW_RE2
+  NUM_KEYS = SW_ThrCt
+
 };
 
 #define CURVE_BASE 7
@@ -390,7 +394,6 @@ enum EnumKeys {
 #define THRCHK_DEADBAND 16
 #define SPLASH_TIMEOUT  (4*100)  //400 msec - 4 seconds
 
-#define NUM_KEYS TRM_RH_UP+1
 #define TRM_BASE TRM_LH_DWN
 
 //#define _MSK_KEY_FIRST (_MSK_KEY_REPT|0x20)

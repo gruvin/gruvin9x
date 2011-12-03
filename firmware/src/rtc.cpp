@@ -22,11 +22,7 @@
 /*--------------------------------------------------------------------------*/
 /*  RTC controls                                                            */
 
-#include <avr/io.h>
-#include <string.h>
-#include "rtc.h"
-
-
+#include "gruvin9x.h"
 
 #if defined (PCBV4)
 #define SCL_LOW()	DDRD |=	0x01		/* SCL = LOW */

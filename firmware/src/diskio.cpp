@@ -26,10 +26,8 @@
 /* are platform dependent.                                               */
 /*-----------------------------------------------------------------------*/
 
-
-#include <avr/io.h>
+#include "gruvin9x.h"
 #include "diskio.h"
-
 
 /* Definitions for MMC/SDC command */
 #define CMD0	(0)			/* GO_IDLE_STATE */
@@ -180,7 +178,9 @@ static
 void power_on (void)
 {
 	// PORTE &= ~0x80;			// Socket power on
+#ifndef SIMU
 	for (Timer1 = 2; Timer1; );	// Wait for 20ms
+#endif
 	//PORTB = 0b10110101;		// Enable drivers
 	//DDRB  = 0b11000111;
 	
