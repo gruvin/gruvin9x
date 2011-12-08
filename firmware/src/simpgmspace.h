@@ -130,8 +130,9 @@ extern sem_t eeprom_write_sem;
 
 extern volatile unsigned char pinb,pinc,pind,pine,ping,pinj,pinl;
 extern unsigned char portb,dummyport;
+extern uint8_t main_thread_running;
 
-void StartMainThread();
+void StartMainThread(bool tests=true);
 void StartEepromThread(const char *filename="eeprom.bin");
 
 extern const char *eepromFile;
