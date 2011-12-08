@@ -307,8 +307,8 @@ void menuMainView(uint8_t event)
   }
   else if (view == e_inputs) {
     doMainScreenGrphics();
-    int8_t a = (view == e_inputs) ? 1 : 4+(view/ALTERNATE)*6;
-    int8_t b = (view == e_inputs) ? 7 : 7+(view/ALTERNATE)*6;
+    int8_t a = (g_eeGeneral.view == e_inputs) ? 1 : 4+(g_eeGeneral.view/ALTERNATE)*6;
+    int8_t b = (g_eeGeneral.view == e_inputs) ? 7 : 7+(g_eeGeneral.view/ALTERNATE)*6;
     for(int8_t i=a; i<(a+3); i++) putsSwitches(2*FW-2,  (i-a)*FH+4*FH, i, getSwitch(i, 0) ? INVERS : 0);
     for(int8_t i=b; i<(b+3); i++) putsSwitches(17*FW-1, (i-b)*FH+4*FH, i, getSwitch(i, 0) ? INVERS : 0);
   }
