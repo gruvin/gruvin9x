@@ -403,12 +403,12 @@ void menuProcModel(uint8_t event)
   for (uint8_t i=0; i<1/*TODO*/; i++, timer=&g_model.timer2) {
     if (s_pgOfs<subN) {
       lcd_putsnAtt(0*FW, y, PSTR("Timer Timer2")+6*i, 6, 0);
-      putsTmrMode(PARAM_OFS, y, timer->mode, sub==subN && m_posHorz==0 ? (s_editMode ? BLINK : INVERS) : 0);
+      putsTmrMode(PARAM_OFS, y, timer->mode, sub==subN && m_posHorz==0 ? ((s_editMode>0) ? BLINK : INVERS) : 0);
       putsTime(14*FW-3, y, timer->val,
-          (sub==subN && m_posHorz==1 ? (s_editMode ? BLINK : INVERS):0),
-          (sub==subN && m_posHorz==2 ? (s_editMode ? BLINK : INVERS):0) );
-      lcd_putsnAtt(19*FW, y, PSTR("\x7e\x7f")+1-timer->dir,1,sub==subN && m_posHorz==3 ? (s_editMode ? BLINK : INVERS) : 0);
-      if (sub==subN && (s_editMode || p1valdiff)) {
+          (sub==subN && m_posHorz==1 ? ((s_editMode>0) ? BLINK : INVERS):0),
+          (sub==subN && m_posHorz==2 ? ((s_editMode>0) ? BLINK : INVERS):0) );
+      lcd_putsnAtt(19*FW, y, PSTR("\x7e\x7f")+1-timer->dir,1,sub==subN && m_posHorz==3 ? ((s_editMode>0) ? BLINK : INVERS) : 0);
+      if (sub==subN && (s_editMode>0 || p1valdiff)) {
         switch (m_posHorz) {
          case 0:
            CHECK_INCDEC_MODELVAR(event, timer->mode, -(13+2*MAX_SWITCH),(13+2*MAX_SWITCH));
@@ -770,7 +770,7 @@ void menuProcCurveOne(uint8_t event)
       break;
     case EVT_KEY_FIRST(KEY_EXIT):
       killEvents(event);
-      if (s_editMode) {
+      if (s_editMode>0) {
         m_posHorz = 0;
         s_editMode = 0;
       }
@@ -801,7 +801,7 @@ void menuProcCurveOne(uint8_t event)
   }
 
   lcd_puts_P(0*FW, 7*FH, PSTR("MODE"));
-  lcd_putsnAtt(5*FW-2, 7*FH, PSTR("EDIT ""PRSET")+5*(!s_editMode)*m_posHorz, 5, s_editMode ? 0 : INVERS);
+  lcd_putsnAtt(5*FW-2, 7*FH, PSTR("EDIT ""PRSET")+5*(s_editMode<=0)*m_posHorz, 5, (s_editMode>0) ? 0 : INVERS);
 
   if (s_editMode > 0) {
     for (uint8_t i=0; i<points; i++) {
