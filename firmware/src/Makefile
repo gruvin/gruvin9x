@@ -34,7 +34,7 @@ PCB = V4
 
 # Following options for PCB=STD only (ignored otherwise) ...
 
-# Enable JETI-Telemetry or FrSky Telemetry reception on UART0
+# Enable JETI-Telemetry or FrSky Telemetry reception on UART0 (prior to V3 PCB only)
 # For this option you need to modify your hardware!
 # More information at [insertURLhere]
 # Values = STD, JETI, FRSKY

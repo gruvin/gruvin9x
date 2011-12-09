@@ -2234,7 +2234,7 @@ int main(void)
   DDRH = 0x00;  PORTH = 0xff; // 7:0 Spare port -- all inputs for now [Bit 2:VIB_OPTION -- setting to input for now]
   DDRJ = 0x00;  PORTJ = 0xff; // 7-0:Trim switch inputs
   DDRK = 0x00;  PORTK = 0x00; // anain. No pull-ups!
-  DDRL = 0x00;  PORTL = 0xff; // 7-6:Spare6/5 (inputs), 5-0: User Button inputs
+  DDRL = 0x80;  PORTL = 0x7f; // 7: Hold_PWR_On (1=On, default Off), 6:Jack_Presence_TTL, 5-0: User Button inputs
 #else
 #  if defined (PCBV3)
   DDRB = 0x97;  PORTB = 0x1e; // 7:AUDIO, SD_CARD[6:SDA 5:SCL 4:CS 3:MISO 2:MOSI 1:SCK], 0:PPM_OUT
