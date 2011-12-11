@@ -1,0 +1,27 @@
+USBasp Firmware, modified for use with gruvin9x custom controller board.
+
+The USBasp original author's project site is at: http://www.fischl.de/usbasp/
+
+NOTES ...
+
+This version of USBasp is based on the original 2009-02-28 version -- the last
+one to fit in the ATmega48P -- with the support added from the 2011-05-28
+version to implement extended addressing for target AVR chips with greater than
+128KBytes Flash, like the ATmega2560 that we use.
+
+There was (still is as at 2011-05-28 version) a bug  in the original USBasp
+code for extended addressing in that it assumed that the target chip's extended
+address would be automatically reset to 0x00 after power-up and/or entering
+programming mode. This is not the case. In fact, I found the extended addresses
+contents to be somewhat random, usually causing all the programmed code to wind
+up 64KBytes higher in address space than it should have been.
+
+The default SCK clock speed has been increased from 375KHz to 1.5MHz, although
+the gain is not that much, due to the software implemented USB stack taking up
+quite a lot of CPU time.
+
+Strangely, having the brown-out detector on the ATmega48 enabled causes my
+(Gruvin) Mac (running OS X 10.7) to not detect the USBasp device. So I've
+disabled the BOD feature, apaprently without ill effect.
+
+
