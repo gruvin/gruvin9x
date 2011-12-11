@@ -59,7 +59,7 @@ extern sem_t eeprom_write_sem;
 
 #define PORTA dummyport
 #define PORTB portb
-#define PORTC dummyport
+#define PORTC portc
 #define PORTD dummyport
 #define PORTE dummyport
 #define PORTF dummyport
@@ -129,7 +129,7 @@ extern sem_t eeprom_write_sem;
 #define INP_P_KEY_DWN   0
 
 extern volatile unsigned char pinb,pinc,pind,pine,ping,pinj,pinl;
-extern uint8_t portb, dummyport;
+extern uint8_t portb, portc, dummyport;
 extern uint16_t dummyport16;
 extern uint8_t main_thread_running;
 

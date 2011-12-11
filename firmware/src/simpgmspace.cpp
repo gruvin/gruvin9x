@@ -28,7 +28,7 @@
 #include "menus.h"
 
 volatile uint8_t pinb=0, pinc=0xff, pind, pine=0xff, ping=0xff, pinj=0xff, pinl=0;
-uint8_t portb, dummyport;
+uint8_t portb, portc, dummyport;
 uint16_t dummyport16;
 const char *eepromFile;
 
