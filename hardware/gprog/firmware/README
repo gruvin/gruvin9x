@@ -4,6 +4,10 @@ The USBasp original author's project site is at: http://www.fischl.de/usbasp/
 
 NOTES ...
 
+As at 2011-12-11, GPROG is NOT ready for use. There's a problem with the buffer
+chip tying up the MOSI/MISO/SCK/RESET lines. The fix will required changed to the
+hardware design.
+
 This version of USBasp is based on the original 2009-02-28 version -- the last
 one to fit in the ATmega48P -- with the support added from the 2011-05-28
 version to implement extended addressing for target AVR chips with greater than
