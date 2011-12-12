@@ -168,7 +168,7 @@ void menuProcModelSelect(uint8_t event)
   }
 
   uint8_t _event = (s_warning ? 0 : event);
-  uint8_t __event = _event;
+  uint8_t __event = (IS_RE1_EVT(_event) ? 0 : _event);
 
   if (s_copyMode || !EFile::exists(FILE_MODEL(g_eeGeneral.currModel))) {
     if ((_event & 0x1f) == KEY_EXIT)
@@ -182,7 +182,14 @@ void menuProcModelSelect(uint8_t event)
   lcd_puts_P(     9*FW, 0, PSTR("free"));
   lcd_outdezAtt(  17*FW, 0, EeFsGetFree(),0);
 
-  DisplayScreenIndex(e_ModelSelect, DIM(menuTabModel), INVERS);
+  DisplayScreenIndex(e_ModelSelect, DIM(menuTabModel), (sub == g_eeGeneral.currModel) ? INVERS : 0);
+
+#ifdef NAVIGATION_RE1
+  if (scrollRE > 0 && s_editMode < 0) {
+    chainMenu(menuProcModel);
+    return;
+  }
+#endif
 
   switch(_event)
   {
@@ -191,6 +198,7 @@ void menuProcModelSelect(uint8_t event)
         s_copyMode = 0; // TODO only this one?
         s_copyTgtOfs = 0;
         s_copySrcRow = -1;
+        s_editMode = -1;
         break;
       case EVT_KEY_LONG(KEY_EXIT):
         if (s_copyMode && s_copyTgtOfs == 0 && g_eeGeneral.currModel != sub && EFile::exists(FILE_MODEL(sub))) {
@@ -208,6 +216,12 @@ void menuProcModelSelect(uint8_t event)
           killEvents(_event);
         }
         break;
+#ifdef NAVIGATION_RE1
+      case EVT_KEY_BREAK(BTN_RE1):
+        s_editMode = (s_editMode == 0 && sub == g_eeGeneral.currModel) ? -1 : 0;
+        break;
+      case EVT_KEY_LONG(BTN_RE1):
+#endif
       case EVT_KEY_LONG(KEY_MENU):
       case EVT_KEY_BREAK(KEY_MENU):
         if (s_copyMode && (s_copyTgtOfs || s_copySrcRow>=0)) {
@@ -242,7 +256,10 @@ void menuProcModelSelect(uint8_t event)
           s_copyTgtOfs = 0;
           return;
         }
-        else if (_event == EVT_KEY_LONG(KEY_MENU)) {
+        else if (_event == EVT_KEY_LONG(KEY_MENU) || IS_RE1_EVT_TYPE(_event, EVT_KEY_LONG)) {
+#ifdef NAVIGATION_RE1
+          s_editMode = -1;
+#endif
           displayPopup(PSTR("Loading model..."));
           eeCheck(true); // force writing of current model data before this is changed
           if (g_eeGeneral.currModel != sub) {
@@ -344,41 +361,52 @@ void menuProcModelSelect(uint8_t event)
 
 void EditName(uint8_t x, uint8_t y, char *name, uint8_t size, uint8_t event, bool active, uint8_t & cur)
 {
+  lcd_putsnAtt(x, y, name, size, ZCHAR | (active ? ((s_editMode>0) ? 0 : INVERS) : 0));
+
   if (active) {
     if (s_editMode>0) {
+      uint8_t next = cur;
+      char c = name[next];
+      char v = c;
+      if (p1valdiff || event==EVT_KEY_FIRST(KEY_DOWN) || event==EVT_KEY_FIRST(KEY_UP)
+          || event==EVT_KEY_REPT(KEY_DOWN) || event==EVT_KEY_REPT(KEY_UP)) {
+         v = checkIncDec(event, abs(v), 0, ZCHAR_MAX, 0);
+         if (c < 0) v = -v;
+         STORE_MODELVARS;
+      }
+
       switch(event) {
         case EVT_KEY_BREAK(KEY_LEFT):
-          if (cur>0) cur--;
+          if (next>0) next--;
           break;
         case EVT_KEY_BREAK(KEY_RIGHT):
-          if (cur<size-1) cur++;
+          if (next<size-1) next++;
           break;
+#ifdef NAVIGATION_RE1
+        case EVT_KEY_LONG(BTN_RE1):
+          if (v==0) {
+            s_editMode = 0;
+            killEvents(BTN_RE1);
+            break;
+          }
+#endif
+        case EVT_KEY_LONG(KEY_LEFT):
+        case EVT_KEY_LONG(KEY_RIGHT):
+        if (v>=-26 && v<=26) {
+          v = -v; // toggle case
+          STORE_MODELVARS; // TODO optim if (c!=v) at the end
+          if (event==EVT_KEY_LONG(KEY_LEFT))
+            killEvents(KEY_LEFT);
+        }
       }
+
+      name[cur] = v;
+      lcd_putcAtt(x+cur*FW, y, idx2char(v), INVERS);
+      cur = next;
     }
     else {
-      cur = m_posHorz = 0;
+      cur = 0;
     }
-  }
-
-  lcd_putsnAtt(x, y, name, size, ZCHAR | (active ? ((s_editMode>0) ? 0 : INVERS) : 0));
-  if (active && s_editMode>0) {
-    char c = name[cur];
-    char v = c;
-    if (p1valdiff || event==EVT_KEY_FIRST(KEY_DOWN) || event==EVT_KEY_FIRST(KEY_UP)
-        || event==EVT_KEY_REPT(KEY_DOWN) || event==EVT_KEY_REPT(KEY_UP)) {
-       v = checkIncDec(event, abs(v), 0, ZCHAR_MAX, 0);
-       if (c < 0) v = -v;
-       STORE_MODELVARS;
-    }
-
-    if (v>=-26 && v<=26 && (event==EVT_KEY_LONG(KEY_RIGHT) || event==EVT_KEY_LONG(KEY_LEFT))) {
-        v = -v; // toggle case
-        STORE_MODELVARS;
-        if (event==EVT_KEY_LONG(KEY_LEFT))
-          killEvents(KEY_LEFT);
-    }
-    name[cur] = v;
-    lcd_putcAtt(x+cur*FW, y, idx2char(v), INVERS);
   }
 }
 
@@ -387,7 +415,7 @@ void EditName(uint8_t x, uint8_t y, char *name, uint8_t size, uint8_t event, boo
 void menuProcModel(uint8_t event)
 {
   lcd_outdezNAtt(7*FW,0,g_eeGeneral.currModel+1,INVERS+LEADING0,2);
-  MENU("SETUP", menuTabModel, e_Model, (g_model.protocol ? 9 : 10), {0,sizeof(g_model.name)-1,3,0,0,0,0,6,2,1});
+  MENU("SETUP", menuTabModel, e_Model, (g_model.protocol ? 9 : 10), {0,ZCHAR|sizeof(g_model.name)-1,3,0,0,0,0,6,2,1});
 
   uint8_t  sub    = m_posVert;
   uint8_t y = 1*FH;
@@ -539,7 +567,7 @@ void menuProcPhaseOne(uint8_t event)
   PhaseData *phase = phaseaddress(s_currIdx);
   putsFlightPhase(13*FW, 0, s_currIdx+1, 0);
 
-  SUBMENU("FLIGHT PHASE", (s_currIdx==0 ? 3 : 5), {6, 0, 3/*, 0, 0*/});
+  SUBMENU("FLIGHT PHASE", (s_currIdx==0 ? 3 : 5), {ZCHAR|sizeof(phase->name)-1, 0, 3, 0/*, 0*/});
 
   int8_t sub = m_posVert;
 
@@ -600,7 +628,11 @@ void menuProcPhasesAll(uint8_t event)
 
   switch (event) {
     case EVT_KEY_FIRST(KEY_MENU):
+#ifdef NAVIGATION_RE1
+    case EVT_KEY_BREAK(BTN_RE1):
+#endif
       if (sub == MAX_PHASES) {
+        s_editMode = 0;
         trimsCheckTimer = 200; // 2 seconds
       }
       // no break
