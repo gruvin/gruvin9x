@@ -28,7 +28,6 @@
 #define DISPLAY_H  64
 #define FW          6
 #define FWNUM       5
-#define FWDP        2 /* DP=decimal point */
 #define FH          8
 
 /* lcd common flags */
@@ -122,11 +121,8 @@ inline void lcd_square(uint8_t x, uint8_t y, uint8_t w, uint8_t att=0) { lcd_rec
     lcd_vline(xx  ,yy-ll,ll); \
     lcd_vline(xx+1,yy-ll,ll);
 
-extern void lcd_img_f(unsigned char x,unsigned char y);
-extern void lcd_img(uint8_t i_x,uint8_t i_y,const prog_uchar * imgdat,uint8_t idx,uint8_t mode);
-
+extern void lcd_img(uint8_t x, uint8_t y, const prog_uchar * img, uint8_t idx, uint8_t mode);
 extern void lcdSetRefVolt(unsigned char val);
-
 extern void lcd_init();
 extern void lcd_clear();
 
@@ -135,10 +131,10 @@ extern void refreshDisplay();
 #define BLINK_ON_PHASE (g_blinkTmr10ms & (1<<6))
 #define BLINK_SYNC      g_blinkTmr10ms = (3<<5)
 
-
 #ifdef SIMU
 extern bool lcd_refresh;
 extern uint8_t lcd_buf[DISPLAY_W*DISPLAY_H/8];
 #endif
+
 #endif
 /*eof*/
