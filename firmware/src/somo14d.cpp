@@ -38,14 +38,17 @@
 #define	SOMOBUSY		(PINH & 0x40)	/* SOMO14D Busy flag */
 #define	SOMOCLK 		(PINH & 0x10)	/* SOMO14D CLK */
 
-uint16_t somo14playlist[10] = {0};
+#define QUEUE_LENGTH  10
+uint16_t somo14playlist[QUEUE_LENGTH] = {0};
 uint16_t somo14command = 0;
-uint16_t *somo14RPtr = somo14playlist;
-uint16_t volatile *somo14WPtr = somo14playlist;
+uint8_t somo14RIdx = 0;
+volatile uint8_t somo14WIdx = 0;
 
 #ifdef SIMU
-void TIMER4_COMPA_vect()
+#define BUSY busy
+bool TIMER4_COMPA_vect()
 #else
+#define BUSY
 ISR(TIMER4_COMPA_vect) //Every 0.5ms
 #endif
 {
@@ -56,14 +59,9 @@ ISR(TIMER4_COMPA_vect) //Every 0.5ms
 
   OCR4A = 0x7d; //another 0.5ms 
 
-  if (somo14RPtr == somo14WPtr) { //Buffer written reset both pointers
-    somo14WPtr = somo14playlist;
-    somo14RPtr = somo14playlist;
-  }
+  printf("startstop=%d i=%d\n", startstop, i); fflush(stdout);
 
   // Send no data unless we are either not busy or it's a command
-
-  else {
 
     // Only when stop bit is sent do we increment read pointer
     // This will happen before the SOMO14D busy flag gets set
@@ -73,7 +71,12 @@ ISR(TIMER4_COMPA_vect) //Every 0.5ms
         somo14_current=somo14command;
       }
       else if (!SOMOBUSY) {
-        somo14_current = *somo14RPtr;
+        if (somo14RIdx == somo14WIdx) {
+          // TODO disable the interrupt (and re-enable when a new prompt is pushed)?
+          return BUSY;
+        }
+        somo14_current = somo14playlist[somo14RIdx];
+        somo14RIdx = (somo14RIdx + 1) % QUEUE_LENGTH;
       }
       busy = 1;
     }
@@ -88,25 +91,25 @@ ISR(TIMER4_COMPA_vect) //Every 0.5ms
           PORTH &= ~(1<<OUT_H_14DCLK); // Start Bit, CLK low for 2ms
         }
         startstop--;
-        return;
+        return BUSY;
       }
       // Stop bit
       if (i==16) {
         PORTH &= ~(1<<OUT_H_14DDATA); // Data low
         PORTH |= (1<<OUT_H_14DCLK); // Stop Bit, CLK high for 2ms
         startstop--;
-        return;
+        return BUSY;
       }
     }
 
     // After stop bit is sent
     // we are done sending so prepair for next
     if (i==16 && !startstop) {
-      somo14RPtr++;
+      // Cam, here I think there is a bug (if we send a "command") somo14RPtr++;
       i=0;
       busy=0;
       startstop=SOMOSTART;
-      return;
+      return BUSY;
     }
 
     // Send the data
@@ -128,5 +131,12 @@ ISR(TIMER4_COMPA_vect) //Every 0.5ms
         PORTH &= ~(1<<OUT_H_14DDATA); // Data low
       }
     }
-  }
+    
+    return BUSY;
+}
+
+void somoPushPrompt(uint16_t prompt)
+{
+  somo14playlist[somo14WIdx] = prompt;
+  somo14WIdx = (somo14WIdx + 1) % QUEUE_LENGTH;
 }

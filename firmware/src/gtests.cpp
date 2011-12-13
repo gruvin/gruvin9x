@@ -21,6 +21,7 @@
 
 #include <gtest/gtest.h>
 #include "gruvin9x.h"
+#include "somo14d.h" // TODO included inside gruvin9x?
 
 uint16_t anaIn(uint8_t chan)
 {
@@ -264,6 +265,54 @@ TEST(phases, nullFadeOut_posFadeIn) {
   perMain();
   setSwitch(DSW_ID1);
   perMain();
+}
+
+extern bool TIMER4_COMPA_vect();
+
+TEST(somo14d, pushPrompt) {
+  const int count = 1024;
+  bool data[count];
+  bool clk[count];
+  int idx=0;
+
+  for (uint8_t p=0; p<2; p++) {
+    somoPushPrompt(100+p);
+    for (; idx<count; idx++) {
+      PORTH &= ~(1<<OUT_H_14DDATA);
+      PORTH &= ~(1<<OUT_H_14DCLK);
+      bool busy = TIMER4_COMPA_vect();
+      // pinh ^= 0x10;
+      data[idx] = PORTH & (1<<OUT_H_14DDATA);
+      clk[idx]  = PORTH & (1<<OUT_H_14DCLK);
+      if (!busy) break;
+    }
+  }
+
+  // display
+  for (int k=0; k<=idx; k+=40) {
+    for (int i=k; i<=idx && i<k+40; i++) printf("%d", data[i]); printf("\n");
+    for (int i=k; i<=idx && i<k+40; i++) printf("%d", clk[i]); printf("\n");
+    printf("\n");
+  }
+
+/* here is the result:
+
+0000000000000110010000000000000000000000
+0000111111111111111111111111111111111111
+
+0000000000000000000000000000000000000000
+1111111111111111111111111111000000000000
+
+0000000000000000000000000000000000000000
+0000000000000000000000000000000000000000
+
+0000000000000000011001010000000000000000
+0000000011111111111111111111111111111111
+
+000000000000000000000000000000000
+111111111111111111111111111111110
+
+*/
 }
 
 int main(int argc, char **argv) {
