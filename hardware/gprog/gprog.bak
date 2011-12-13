@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 13/12/2011 4:03:32 p.m.
+EESchema Schematic File Version 2  date 13/12/2011 4:09:18 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -45,8 +45,17 @@ Comment2 "Based on USBasp http://www.fischl.de/usbasp/"
 Comment3 ""
 Comment4 ""
 $EndDescr
+$Comp
+L VCC #PWR?
+U 1 1 4EE6C1C8
+P 8800 2400
+F 0 "#PWR?" H 8800 2500 30  0001 C CNN
+F 1 "VCC" H 8800 2500 30  0000 C CNN
+	1    8800 2400
+	1    0    0    -1  
+$EndComp
 Text Notes 7300 5350 0    60   ~ 0
-Vcc is for the \n74HC125 only
+Target Vcc is \n74HC125 only
 Wire Wire Line
 	8000 5150 7750 5150
 Connection ~ 5500 3150
@@ -267,10 +276,10 @@ Wire Wire Line
 	8400 5150 9600 5150
 Connection ~ 8600 5150
 $Comp
-L DIODESCH D?
+L DIODESCH D7
 U 1 1 4EE6C02E
 P 8200 5150
-F 0 "D?" H 8200 5250 40  0000 C CNN
+F 0 "D7" H 8200 5250 40  0000 C CNN
 F 1 "DIODESCH" H 8200 5050 40  0000 C CNN
 	1    8200 5150
 	-1   0    0    1   
@@ -324,15 +333,6 @@ Text Label 6450 3200 0    60   ~ 0
 BUF_ENABLE
 Text Label 5250 4850 0    60   ~ 0
 BUF_ENABLE
-$Comp
-L +5V #PWR02
-U 1 1 4ED164AA
-P 8800 2400
-F 0 "#PWR02" H 8800 2490 20  0001 C CNN
-F 1 "+5V" H 8800 2490 30  0000 C CNN
-	1    8800 2400
-	1    0    0    -1  
-$EndComp
 $Comp
 L VCC #PWR03
 U 1 1 4ED0B44E

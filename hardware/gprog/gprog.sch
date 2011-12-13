@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 13/12/2011 4:09:18 p.m.
+EESchema Schematic File Version 2  date 13/12/2011 6:23:52 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -46,16 +46,16 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L VCC #PWR?
+L VCC #PWR01
 U 1 1 4EE6C1C8
 P 8800 2400
-F 0 "#PWR?" H 8800 2500 30  0001 C CNN
+F 0 "#PWR01" H 8800 2500 30  0001 C CNN
 F 1 "VCC" H 8800 2500 30  0000 C CNN
 	1    8800 2400
 	1    0    0    -1  
 $EndComp
 Text Notes 7300 5350 0    60   ~ 0
-Target Vcc is \n74HC125 only
+Target & 74HC125 \nVcc. x48 uses +5V
 Wire Wire Line
 	8000 5150 7750 5150
 Connection ~ 5500 3150
@@ -285,10 +285,10 @@ F 1 "DIODESCH" H 8200 5050 40  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L +5V #PWR01
+L +5V #PWR02
 U 1 1 4EE6B3E0
 P 5500 3050
-F 0 "#PWR01" H 5500 3140 20  0001 C CNN
+F 0 "#PWR02" H 5500 3140 20  0001 C CNN
 F 1 "+5V" H 5500 3140 30  0000 C CNN
 	1    5500 3050
 	1    0    0    -1  
