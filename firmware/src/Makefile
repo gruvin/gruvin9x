@@ -98,6 +98,9 @@ SILVER = NO
 # CTP-1009 protocol
 CTP1009 = NO
 
+# SOMO-14D module
+SOMO = NO
+
 #------- END BUILD OPTIONS ---------------------------
 
 # MCU name
@@ -275,6 +278,10 @@ else
     else
       CPPDEFS += -DBEEPSPKR
     endif
+  endif
+  ifeq ($(SOMO), YES)
+    CPPSRC += somo14d.cpp
+    CPPDEFS += -DSOMO
   endif
 endif
 

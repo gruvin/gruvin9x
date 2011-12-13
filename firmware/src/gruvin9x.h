@@ -190,6 +190,11 @@ extern uint16_t DEBUG2;
 #  define INP_B_Trainer  5
 #  define INP_B_ID2      4
 
+#ifdef SOMO
+#  define OUT_H_14DCLK   4
+#  define OUT_H_14DDATA  5
+#  define OUT_H_14DBUSY  6
+#endif
 
 #else // boards prior to v4 ...
 
