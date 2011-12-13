@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPCB (2011-07-04 BZR 3037)-stable date = 13/12/2011 4:04:31 p.m.
+Cmp-Mod V01 Genere par PcbNew le 14/12/2011 7:34:13 a.m.
 
 BeginCmp
 TimeStamp = /4ED087A6;
@@ -81,7 +81,7 @@ BeginCmp
 TimeStamp = /4EE6C02E;
 Reference = D7;
 ValeurCmp = DIODESCH;
-IdModule  = SM0603;
+IdModule  = SM1206;
 EndCmp
 
 BeginCmp
