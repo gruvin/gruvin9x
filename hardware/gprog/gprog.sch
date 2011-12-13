@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 13/12/2011 6:23:52 p.m.
+EESchema Schematic File Version 2  date 13/12/2011 6:57:31 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -45,6 +45,15 @@ Comment2 "Based on USBasp http://www.fischl.de/usbasp/"
 Comment3 ""
 Comment4 ""
 $EndDescr
+$Comp
+L VCC #PWR?
+U 1 1 4EE6E93E
+P 6500 2150
+F 0 "#PWR?" H 6500 2250 30  0001 C CNN
+F 1 "VCC" H 6500 2250 30  0000 C CNN
+	1    6500 2150
+	1    0    0    -1  
+$EndComp
 $Comp
 L VCC #PWR01
 U 1 1 4EE6C1C8
@@ -543,15 +552,6 @@ P 9450 3550
 F 0 "#PWR012" H 9450 3550 30  0001 C CNN
 F 1 "GND" H 9450 3480 30  0001 C CNN
 	1    9450 3550
-	1    0    0    -1  
-$EndComp
-$Comp
-L +5V #PWR013
-U 1 1 4ECB2C7C
-P 6500 2150
-F 0 "#PWR013" H 6500 2240 20  0001 C CNN
-F 1 "+5V" H 6500 2240 30  0000 C CNN
-	1    6500 2150
 	1    0    0    -1  
 $EndComp
 $Comp
