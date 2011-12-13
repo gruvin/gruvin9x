@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 27/11/2011 8:31:10 p.m.
+EESchema Schematic File Version 2  date 13/12/2011 4:09:18 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,24 +37,41 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
-Date "27 nov 2011"
-Rev "1.0"
+Date "13 dec 2011"
+Rev "0.2"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
 Comment2 "Based on USBasp http://www.fischl.de/usbasp/"
 Comment3 ""
 Comment4 ""
 $EndDescr
+$Comp
+L VCC #PWR?
+U 1 1 4EE6C1C8
+P 8800 2400
+F 0 "#PWR?" H 8800 2500 30  0001 C CNN
+F 1 "VCC" H 8800 2500 30  0000 C CNN
+	1    8800 2400
+	1    0    0    -1  
+$EndComp
+Text Notes 7300 5350 0    60   ~ 0
+Target Vcc is \n74HC125 only
+Wire Wire Line
+	8000 5150 7750 5150
+Connection ~ 5500 3150
+Wire Wire Line
+	5500 3050 5500 3150
+Wire Wire Line
+	5700 3750 5700 3850
+Wire Wire Line
+	5700 4250 5700 4650
+Wire Wire Line
+	5700 4650 5150 4650
+Wire Wire Line
+	5150 4850 5800 4850
 Connection ~ 7150 2400
 Wire Wire Line
-	8050 2400 7100 2400
-Connection ~ 8850 5150
-Wire Wire Line
-	8850 4750 8850 5150
-Wire Wire Line
-	6250 3200 6000 3200
-Wire Wire Line
-	6000 3200 6000 3450
+	7100 2400 8050 2400
 Wire Wire Line
 	7150 2400 7150 3950
 Wire Wire Line
@@ -101,8 +118,6 @@ Wire Wire Line
 Wire Wire Line
 	9600 5350 9000 5350
 Wire Wire Line
-	9600 5150 8600 5150
-Wire Wire Line
 	7600 1950 6750 1950
 Wire Wire Line
 	7250 3600 6750 3600
@@ -135,9 +150,9 @@ Wire Wire Line
 	3250 3150 3250 3050
 Connection ~ 3600 2600
 Wire Wire Line
-	3600 2650 3600 2600
+	3600 2600 3600 2650
 Wire Wire Line
-	3250 2600 3250 2650
+	3250 2650 3250 2600
 Wire Wire Line
 	3050 2600 4500 2600
 Wire Wire Line
@@ -158,7 +173,7 @@ Wire Wire Line
 Wire Wire Line
 	2500 2150 1950 2150
 Wire Wire Line
-	3800 1950 3800 1800
+	3800 1800 3800 1950
 Connection ~ 3800 1800
 Wire Wire Line
 	4150 2400 4150 2350
@@ -242,44 +257,90 @@ Wire Wire Line
 	7700 3300 7700 3200
 Connection ~ 7150 3200
 Wire Wire Line
-	7700 3200 6850 3200
+	7700 3200 6450 3200
 Wire Wire Line
 	8600 5150 8600 4750
+Wire Wire Line
+	5150 4550 5300 4550
+Wire Wire Line
+	5300 4550 5300 4250
+Wire Wire Line
+	5300 3850 5300 3750
+Wire Wire Line
+	5300 3250 5300 3150
+Wire Wire Line
+	5300 3150 5700 3150
+Wire Wire Line
+	5700 3150 5700 3250
+Wire Wire Line
+	8400 5150 9600 5150
+Connection ~ 8600 5150
+$Comp
+L DIODESCH D7
+U 1 1 4EE6C02E
+P 8200 5150
+F 0 "D7" H 8200 5250 40  0000 C CNN
+F 1 "DIODESCH" H 8200 5050 40  0000 C CNN
+	1    8200 5150
+	-1   0    0    1   
+$EndComp
 $Comp
 L +5V #PWR01
-U 1 1 4ED164AA
-P 8800 2400
-F 0 "#PWR01" H 8800 2490 20  0001 C CNN
-F 1 "+5V" H 8800 2490 30  0000 C CNN
-	1    8800 2400
+U 1 1 4EE6B3E0
+P 5500 3050
+F 0 "#PWR01" H 5500 3140 20  0001 C CNN
+F 1 "+5V" H 5500 3140 30  0000 C CNN
+	1    5500 3050
 	1    0    0    -1  
 $EndComp
 $Comp
-L VCC #PWR02
+L R R9
+U 1 1 4EE6B3BF
+P 5700 3500
+F 0 "R9" V 5780 3500 50  0000 C CNN
+F 1 "1K" V 5700 3500 50  0000 C CNN
+	1    5700 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R4
+U 1 1 4EE6B3B8
+P 5300 3500
+F 0 "R4" V 5380 3500 50  0000 C CNN
+F 1 "1K" V 5300 3500 50  0000 C CNN
+	1    5300 3500
+	-1   0    0    1   
+$EndComp
+$Comp
+L LED D6
+U 1 1 4EE6B3A6
+P 5700 4050
+F 0 "D6" H 5700 4150 50  0000 C CNN
+F 1 "LED" H 5700 3950 50  0000 C CNN
+	1    5700 4050
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D5
+U 1 1 4EE6B39B
+P 5300 4050
+F 0 "D5" H 5300 4150 50  0000 C CNN
+F 1 "LED" H 5300 3950 50  0000 C CNN
+	1    5300 4050
+	0    1    1    0   
+$EndComp
+Text Label 6450 3200 0    60   ~ 0
+BUF_ENABLE
+Text Label 5250 4850 0    60   ~ 0
+BUF_ENABLE
+$Comp
+L VCC #PWR03
 U 1 1 4ED0B44E
-P 8850 4750
-F 0 "#PWR02" H 8850 4850 30  0001 C CNN
-F 1 "VCC" H 8850 4850 30  0000 C CNN
-	1    8850 4750
-	1    0    0    -1  
-$EndComp
-$Comp
-L GND #PWR03
-U 1 1 4ED0AC2D
-P 6000 3450
-F 0 "#PWR03" H 6000 3450 30  0001 C CNN
-F 1 "GND" H 6000 3380 30  0001 C CNN
-	1    6000 3450
-	1    0    0    -1  
-$EndComp
-$Comp
-L JUMPER JP1
-U 1 1 4ED0AC1E
-P 6550 3200
-F 0 "JP1" H 6550 3350 60  0000 C CNN
-F 1 "ENABLE" H 6550 3120 40  0000 C CNN
-	1    6550 3200
-	1    0    0    -1  
+P 7750 5150
+F 0 "#PWR03" H 7750 5250 30  0001 C CNN
+F 1 "VCC" H 7750 5250 30  0000 C CNN
+	1    7750 5150
+	0    -1   -1   0   
 $EndComp
 $Comp
 L +5V #PWR04
@@ -503,38 +564,38 @@ F 1 "ISP x2560" V 10000 2900 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS126 U1
+L 74LS125 U1
 U 2 1 4ECB2B38
 P 7700 3600
 F 0 "U1" H 7800 3800 60  0000 C CNN
-F 1 "74HC126" H 7950 3450 60  0000 C CNN
+F 1 "74HC125" H 7950 3450 60  0000 C CNN
 	2    7700 3600
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS126 U1
+L 74LS125 U1
 U 3 1 4ECB2B37
 P 8000 4300
 F 0 "U1" H 8100 4500 60  0000 C CNN
-F 1 "74HC126" H 8250 4150 60  0000 C CNN
+F 1 "74HC125" H 8250 4150 60  0000 C CNN
 	3    8000 4300
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS126 U1
+L 74LS125 U1
 U 1 1 4ECB2B35
 P 8050 2850
 F 0 "U1" H 8150 3050 60  0000 C CNN
-F 1 "74HC126" H 8300 2700 60  0000 C CNN
+F 1 "74HC125" H 8300 2700 60  0000 C CNN
 	1    8050 2850
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS126 U1
+L 74LS125 U1
 U 4 1 4ECB2AFA
 P 8050 1950
 F 0 "U1" H 8150 2150 60  0000 C CNN
-F 1 "74HC126" H 8300 1800 60  0000 C CNN
+F 1 "74HC125" H 8300 1800 60  0000 C CNN
 	4    8050 1950
 	-1   0    0    -1  
 $EndComp
