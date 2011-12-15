@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 14/12/2011 8:17:28 a.m.
+EESchema Schematic File Version 2  date 14/12/2011 10:47:55 a.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -38,7 +38,7 @@ encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
 Date "13 dec 2011"
-Rev "0.2"
+Rev "1.0"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
 Comment2 "Based on USBasp http://www.fischl.de/usbasp/"

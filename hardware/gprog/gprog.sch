@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 14/12/2011 10:47:55 a.m.
+EESchema Schematic File Version 2  date 15/12/2011 12:23:25 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
-Date "13 dec 2011"
+Date "14 dec 2011"
 Rev "1.0"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
@@ -325,7 +325,7 @@ L LED D6
 U 1 1 4EE6B3A6
 P 5700 4050
 F 0 "D6" H 5700 4150 50  0000 C CNN
-F 1 "LED" H 5700 3950 50  0000 C CNN
+F 1 "GRN" H 5700 3950 50  0000 C CNN
 	1    5700 4050
 	0    1    1    0   
 $EndComp
@@ -334,7 +334,7 @@ L LED D5
 U 1 1 4EE6B39B
 P 5300 4050
 F 0 "D5" H 5300 4150 50  0000 C CNN
-F 1 "LED" H 5300 3950 50  0000 C CNN
+F 1 "RED" H 5300 3950 50  0000 C CNN
 	1    5300 4050
 	0    1    1    0   
 $EndComp
