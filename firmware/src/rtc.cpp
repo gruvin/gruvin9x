@@ -50,7 +50,9 @@ void iic_delay (void)
 {
 	int n;
 
+#ifndef SIMU
 	for (n = 4; n; n--) PINB;
+#endif
 }
 
 

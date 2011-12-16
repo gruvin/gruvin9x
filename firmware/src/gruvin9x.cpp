@@ -32,7 +32,7 @@
 #if defined (PCBV3)
 #include "integer.h"
 #include "diskio.h"
-time_t g_unixTime; // Global date/time register, incremented each second in per10ms()
+gtime_t g_unixTime; // Global date/time register, incremented each second in per10ms()
 #endif
 
 /*
@@ -297,7 +297,7 @@ void applyExpos(int16_t *anas, uint8_t phase)
 }
 
 bool s_noStickInputs = false;
-inline int16_t __attribute__ ((always_inline)) getValue(uint8_t i)
+FORCEINLINE int16_t getValue(uint8_t i)
 {
     if(i<NUM_STICKS+NUM_POTS) return (s_noStickInputs ? 0 : calibratedStick[i]);
     else if(i<MIX_FULL/*srcRaw is shifted +1!*/) return 1024; //FULL/MAX

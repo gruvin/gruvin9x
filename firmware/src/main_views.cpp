@@ -21,8 +21,7 @@
 
 #include "menus.h"
 
-#undef ALTERNATE
-#define ALTERNATE 0x10
+#define ALTERNATE_VIEW 0x10
 
 enum MainViews {
   e_outputValues,
@@ -85,7 +84,7 @@ void menuMainView(uint8_t event)
   static bool instantTrimSwLock;
   static bool trim2OfsSwLock;
   
-  uint8_t view = g_eeGeneral.view & 0x0f; // mask out ALTERNATE views
+  uint8_t view = g_eeGeneral.view & 0x0f; // mask out ALTERNATE_VIEW views
 
   switch(event)
   {
@@ -102,7 +101,7 @@ void menuMainView(uint8_t event)
     case EVT_KEY_BREAK(KEY_RIGHT):
     case EVT_KEY_BREAK(KEY_LEFT):
       g_eeGeneral.view = (g_eeGeneral.view + (event == EVT_KEY_BREAK(KEY_RIGHT) ? 
-            ALTERNATE : tabViews[view]*ALTERNATE-ALTERNATE)) % (tabViews[view]*ALTERNATE);
+            ALTERNATE_VIEW : tabViews[view]*ALTERNATE_VIEW-ALTERNATE_VIEW)) % (tabViews[view]*ALTERNATE_VIEW);
       eeDirty(EE_GENERAL);
       beepKey();
       break;
@@ -188,7 +187,7 @@ void menuMainView(uint8_t event)
   ///////////////////////////////////////////////////////////////////////
   /// Upper Section of Display common to all but telemetry alt. views ///
 #if defined (FRSKY)
-  if (view == e_telemetry && ((g_eeGeneral.view & 0xf0) >= ALTERNATE)) { // If view is a telemetry ALTERNATE view
+  if (view == e_telemetry && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // If view is a telemetry ALTERNATE_VIEW view
     putsModelName(0, 0, g_model.name, g_eeGeneral.currModel, 0);
     uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
     putsVBat(14*FW,0,att);
@@ -198,13 +197,13 @@ void menuMainView(uint8_t event)
     }
     // The timer is in the way ... but more important than a screen title
     else {
-      lcd_putsnAtt(17*FW-4, 0, PSTR(" MAIN  GPSOTHER") + 5 * (g_eeGeneral.view - e_telemetry) / ALTERNATE - 5, 5, 0);
+      lcd_putsnAtt(17*FW-4, 0, PSTR(" MAIN  GPSOTHER") + 5 * (g_eeGeneral.view - e_telemetry) / ALTERNATE_VIEW - 5, 5, 0);
     }
     lcd_filled_rect(0, 0, DISPLAY_W, 8);
   }
   else 
 #endif
-  { // not in a telemetry ALTERNATE view
+  { // not in a telemetry ALTERNATE_VIEW view
     uint8_t phase = getFlightPhase();
     lcd_putsnAtt(6*FW+4, 2*FH, g_model.phaseData[phase].name, sizeof(g_model.phaseData[phase].name), ZCHAR);
 
@@ -307,8 +306,8 @@ void menuMainView(uint8_t event)
   }
   else if (view == e_inputs) {
     doMainScreenGrphics();
-    int8_t a = (g_eeGeneral.view == e_inputs) ? 1 : 4+(g_eeGeneral.view/ALTERNATE)*6;
-    int8_t b = (g_eeGeneral.view == e_inputs) ? 7 : 7+(g_eeGeneral.view/ALTERNATE)*6;
+    int8_t a = (g_eeGeneral.view == e_inputs) ? 1 : 4+(g_eeGeneral.view/ALTERNATE_VIEW)*6;
+    int8_t b = (g_eeGeneral.view == e_inputs) ? 7 : 7+(g_eeGeneral.view/ALTERNATE_VIEW)*6;
     for(int8_t i=a; i<(a+3); i++) putsSwitches(2*FW-2,  (i-a)*FH+4*FH, i, getSwitch(i, 0) ? INVERS : 0);
     for(int8_t i=b; i<(b+3); i++) putsSwitches(17*FW-1, (i-b)*FH+4*FH, i, getSwitch(i, 0) ? INVERS : 0);
   }
@@ -330,7 +329,7 @@ void menuMainView(uint8_t event)
         }
       }
       displayCount = (displayCount+1) % 50;
-      if (g_eeGeneral.view == e_telemetry+ALTERNATE) { // if on first alternate telemetry view
+      if (g_eeGeneral.view == e_telemetry+ALTERNATE_VIEW) { // if on first alternate telemetry view
 
 #ifdef DISPLAY_USER_DATA
         // this screen line buffer is currently always empty
@@ -374,7 +373,7 @@ void menuMainView(uint8_t event)
         lcd_outdezAtt(17 * FW - 2, 7*FH, frskyRSSI[1].max, LEFT);
       }
 #ifdef FRSKY_HUB
-      else if (g_eeGeneral.view == e_telemetry+2*ALTERNATE) { // if on second alternate telemetry view
+      else if (g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) { // if on second alternate telemetry view
         // Date
         lcd_outdezNAtt(1*FW, 1*FH, frskyHubData.year+2000, LEFT, 4);
         lcd_putc(lcd_lastPos, 1*FH, '-');
@@ -427,7 +426,7 @@ void menuMainView(uint8_t event)
         lcd_outdezAtt(lcd_lastPos+2, 7*FH, frskyHubData.gpsAltitude_ap, LEFT|UNSIGN); // after '.'
         lcd_putc(lcd_lastPos, 7*FH, 'm');
       }
-      else if (g_eeGeneral.view == e_telemetry+3*ALTERNATE) { // if on second alternate telemetry view
+      else if (g_eeGeneral.view == e_telemetry+3*ALTERNATE_VIEW) { // if on second alternate telemetry view
 
         uint8_t y = 2*FH;
 
@@ -508,7 +507,7 @@ void menuMainView(uint8_t event)
     }
     else {
 #if defined (PCBV3)
-      if (g_eeGeneral.view == e_telemetry+ALTERNATE) // if on first alternate telemetry view
+      if (g_eeGeneral.view == e_telemetry+ALTERNATE_VIEW) // if on first alternate telemetry view
       {
         lcd_putsAtt(0, FH*2, g_logFilename, BSS); // Show log filename (or error msg)
       }

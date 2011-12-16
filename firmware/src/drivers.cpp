@@ -302,8 +302,8 @@ void per10ms()
 
 #  if defined (PCBV4)
 
-  keys[BTN_RE1].input(~PIND & 0b00100000, BTN_RE1);
-  keys[BTN_RE2].input(~PIND & 0b00010000, BTN_RE2);
+  keys[BTN_RE1].input(~PIND & 0x20, BTN_RE1);
+  keys[BTN_RE2].input(~PIND & 0x10, BTN_RE2);
 
   uint8_t tin = ~PINL;
   uint8_t in;
