@@ -25,6 +25,7 @@
 #include <inttypes.h>
 #include <limits.h>
 
+#undef CHAR_BIT
 #define CHAR_BIT 8
 
 typedef long int gtime_t;
