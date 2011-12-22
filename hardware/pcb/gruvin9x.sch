@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 14/10/2011 19:30:27
+EESchema Schematic File Version 2  date 21/12/2011 7:18:59 a.m.
 LIBS:device
 LIBS:transistors
 LIBS:linear
@@ -37,7 +37,7 @@ $Descr A2 23400 16535
 encoding utf-8
 Sheet 1 1
 Title "Main Controller PCB for 100pin ATMega"
-Date "14 oct 2011"
+Date "20 dec 2011"
 Rev "4.1"
 Comp ""
 Comment1 ""
@@ -5112,7 +5112,7 @@ P 15400 3200
 F 0 "SW6" H 15550 3310 50  0000 C CNN
 F 1 "SW_PUSH" H 15400 3120 50  0000 C CNN
 	1    15400 3200
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L SW_PUSH SW3
@@ -5121,7 +5121,7 @@ P 14850 3050
 F 0 "SW3" H 15000 3160 50  0000 C CNN
 F 1 "SW_PUSH" H 14850 2970 50  0000 C CNN
 	1    14850 3050
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L SW_PUSH SW5
@@ -5130,7 +5130,7 @@ P 15400 2900
 F 0 "SW5" H 15550 3010 50  0000 C CNN
 F 1 "SW_PUSH" H 15400 2820 50  0000 C CNN
 	1    15400 2900
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L SW_PUSH SW2
@@ -5139,7 +5139,7 @@ P 14850 2750
 F 0 "SW2" H 15000 2860 50  0000 C CNN
 F 1 "SW_PUSH" H 14850 2670 50  0000 C CNN
 	1    14850 2750
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L SW_PUSH SW4
@@ -5148,7 +5148,7 @@ P 15400 2550
 F 0 "SW4" H 15550 2660 50  0000 C CNN
 F 1 "SW_PUSH" H 15400 2470 50  0000 C CNN
 	1    15400 2550
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 $Comp
 L SW_PUSH SW1
@@ -5157,7 +5157,7 @@ P 14850 2400
 F 0 "SW1" H 15000 2510 50  0000 C CNN
 F 1 "SW_PUSH" H 14850 2320 50  0000 C CNN
 	1    14850 2400
-	1    0    0    -1  
+	-1   0    0    -1  
 $EndComp
 Text Label 15850 2400 0    60   ~ 0
 MENU
