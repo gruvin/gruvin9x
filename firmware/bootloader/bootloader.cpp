@@ -17,7 +17,7 @@ int main(void)
   // Set up I/O port data directions and initial states
   DDRA = 0xff;  PORTA = 0x00; // LCD data
   DDRC = 0x3f;  PORTC = 0xc0; // 7:N/A, 6:N/A, LCD[5,4,3,2,1], 0:N/A
-  DDRL = 0x00;  PORTL = 0xff; // 7-6:Spare6/5 (inputs), 5-0: User Button inputs
+  DDRL = 0x80;  PORTL = 0x7f; // 7: Hold_PWR_On (1=On, default Off), 6:Jack_Presence_TTL, 5-0: User Button inputs
   DDRE = 0x04;  PORTE = 0x04; // Bit 3=BUZZER
 
   uint8_t buttons = 0;
