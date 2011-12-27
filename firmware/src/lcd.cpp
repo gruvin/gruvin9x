@@ -69,6 +69,7 @@ void lcd_putcAtt(uint8_t x, uint8_t y, const char c, uint8_t mode)
      * by ten bottom bytes (20 bytes per * char) */
     q = &font_10x16_x20_x7f[(c-0x20)*10 + ((c-0x20)/16)*160];
     for(char i=5; i>=0; i--) {
+      if (mode & CONDENSED && i==0) break;
       /*top byte*/
       uint8_t b1 = i>0 ? pgm_read_byte(q) : 0;
       /*bottom byte*/
@@ -244,6 +245,7 @@ void lcd_outdezNAtt(uint8_t x, uint8_t y, int16_t val, uint8_t flags, uint8_t le
 
   for (uint8_t i=1; i<=len; i++) {
     c = ((uint16_t)val % 10) + '0';
+    if (c=='1' && flags&DBLSIZE && i==len) { x+=2; flags|=CONDENSED; }
     lcd_putcAtt(x, y, c, flags);
     if (mode==i) {
       flags &= ~PREC2; // TODO not needed but removes 64bytes, could be improved for sure, check asm
