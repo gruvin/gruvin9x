@@ -2047,7 +2047,7 @@ uint16_t DEBUG2 = 0;
 */
 
 #if defined (FRSKY)
-inline void __attribute__ ((always_inline)) FRSKY_USART0_vect()
+FORCEINLINE void FRSKY_USART0_vect()
 {
   if (frskyTxBufferCount > 0) {
     UDR0 = frskyTxBuffer[--frskyTxBufferCount];
@@ -2059,7 +2059,7 @@ inline void __attribute__ ((always_inline)) FRSKY_USART0_vect()
 #endif
 
 #if defined (DSM2)
-inline void __attribute__ ((always_inline)) DSM2_USART0_vect()
+FORCEINLINE void DSM2_USART0_vect()
 {
   UDR0 = *pulses2MHzRPtr;
 
