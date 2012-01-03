@@ -37,7 +37,7 @@ enum MainViews {
 uint8_t tabViews[] = {
   1, /*e_outputValues*/
   1, /*e_outputBars*/
-  3, /*e_inputs*/
+  2, /*e_inputs*/
   1, /*e_timer2*/
 #if defined(FRSKY_HUB)
   4, /*e_telemetry*/
@@ -187,7 +187,7 @@ void menuMainView(uint8_t event)
   ///////////////////////////////////////////////////////////////////////
   /// Upper Section of Display common to all but telemetry alt. views ///
 #if defined (FRSKY)
-  if (view == e_telemetry && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // If view is a telemetry ALTERNATE_VIEW view
+  if (view == e_telemetry && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // if view is a telemetry ALTERNATE_VIEW view
     putsModelName(0, 0, g_model.name, g_eeGeneral.currModel, 0);
     uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
     putsVBat(14*FW,0,att);
@@ -305,13 +305,28 @@ void menuMainView(uint8_t event)
     }
   }
   else if (view == e_inputs) {
-    doMainScreenGrphics();
-    int8_t a = (g_eeGeneral.view == e_inputs) ? 1 : 4+(g_eeGeneral.view/ALTERNATE_VIEW)*6;
-    int8_t b = (g_eeGeneral.view == e_inputs) ? 7 : 7+(g_eeGeneral.view/ALTERNATE_VIEW)*6;
-    for(int8_t i=a; i<(a+3); i++) putsSwitches(2*FW-2,  (i-a)*FH+4*FH, i, getSwitch(i, 0) ? INVERS : 0);
-    for(int8_t i=b; i<(b+3); i++) putsSwitches(17*FW-1, (i-b)*FH+4*FH, i, getSwitch(i, 0) ? INVERS : 0);
+    if (g_eeGeneral.view == e_inputs) {
+      // hardware inputs
+      doMainScreenGrphics();
+      for (uint8_t i=0; i<6; i++) {
+        int8_t sw1 = (i<3 ? 1+i : 4+i);
+        int8_t sw2 = (sw1 == 9 ? (getSwitch(4, 0) ? 4 : (getSwitch(5, 0) ? 5 : 6)) : sw1);
+        putsSwitches(i<3 ? 2*FW-2: 17*FW-1, (i%3)*FH+4*FH, sw2, getSwitch(sw1, 0) ? INVERS : 0);
+      }
+    }
+    else {
+      // virtual inputs
+      for (uint8_t i=0; i<8; i++) {
+        int16_t val = g_chans512[8+i];
+        int8_t len = limit((int16_t)0, (int16_t)(((val+1024) * BAR_HEIGHT) / 2048), (int16_t)BAR_HEIGHT);
+        V_BAR(SCREEN_WIDTH/2-5*4+2+i*5, SCREEN_HEIGHT-8, len)
+      }
+      for (uint8_t i=0; i<12; i++) {
+        if ((i%6) < 3) lcd_puts_P(i<6 ? 2*FW-2 : 16*FW-2, (i%3)*FH+4*FH, PSTR("SW"));
+        lcd_putcAtt((i<6 ? 2*FW-2 : 16*FW-2) + 2 * FW + ((i%6) < 3 ? 0 : FW), (i%3)*FH+4*FH, i<9 ? '1'+i : 'A'+i-9, getSwitch(10+i, 0) ? INVERS : 0);
+      }
+    }
   }
-
 #if defined(FRSKY)
   else if (view == e_telemetry) {
     static uint8_t displayCount = 0;
