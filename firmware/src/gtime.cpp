@@ -137,7 +137,7 @@ __offtime (
       rem += SECS_PER_DAY;
       --days;
     }
-  while (rem >= SECS_PER_DAY)
+  while (rem >= (long int)SECS_PER_DAY)
     {
       rem -= SECS_PER_DAY;
       ++days;
