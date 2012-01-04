@@ -135,30 +135,32 @@ uint8_t Translate()
         memset(&g_model.expoData[0], 0, sizeof(expo4));
         // expos conversion
         uint8_t e = 0;
-        for (uint8_t ch=0; ch<4 && e<MAX_EXPOS; ch++) {
-          for (int8_t dr=2; dr>=0 && e<MAX_EXPOS; dr--) {
-            if ((dr==2 && !expo4[ch].drSw2) ||
-                (dr==1 && !expo4[ch].drSw1) ||
-                (dr==0 && !expo4[ch].expo[0][0][0] && !expo4[ch].expo[0][0][1] && !expo4[ch].expo[0][1][0] && !expo4[ch].expo[0][1][1])) continue;
-            g_model.expoData[e].swtch = (dr == 2 ? expo4[ch].drSw2 : (dr == 1 ? expo4[ch].drSw1 : 0));
+        for (uint8_t ch = 0; ch < 4 && e < MAX_EXPOS; ch++) {
+          for (uint8_t dr = 0, pos = 0; dr < 3 && e < MAX_EXPOS; dr++, pos++) {
+            if ((dr == 0 && !expo4[ch].drSw1) || (dr == 1 && !expo4[ch].drSw2))
+              dr = 2;
+            if (dr == 2 && !expo4[ch].expo[0][0][0] && !expo4[ch].expo[0][0][1] && !expo4[ch].expo[0][1][0] && !expo4[ch].expo[0][1][1])
+              break;
+            g_model.expoData[e].swtch = (dr == 0 ? -expo4[ch].drSw1 : (dr == 1 ? -expo4[ch].drSw2 : 0));
             g_model.expoData[e].chn = ch;
-            g_model.expoData[e].expo = expo4[ch].expo[dr][0][0];
-            g_model.expoData[e].weight = 100 + expo4[ch].expo[dr][1][0];
-            if (expo4[ch].expo[dr][0][0] == expo4[ch].expo[dr][0][1] && expo4[ch].expo[dr][1][0] == expo4[ch].expo[dr][1][1]) {
+            g_model.expoData[e].expo = expo4[ch].expo[pos][0][0];
+            g_model.expoData[e].weight = 100 + expo4[ch].expo[pos][1][0];
+            if (expo4[ch].expo[pos][0][0] == expo4[ch].expo[pos][0][1] && expo4[ch].expo[pos][1][0] == expo4[ch].expo[pos][1][1]) {
               g_model.expoData[e++].mode = 3;
             }
             else {
-              g_model.expoData[e].mode = 1;
-              if (e < MAX_EXPOS-1) {
-                g_model.expoData[e+1].swtch = g_model.expoData[e].swtch;
+              g_model.expoData[e].mode = 2;
+              if (e < MAX_EXPOS - 1) {
+                g_model.expoData[e + 1].swtch = g_model.expoData[e].swtch;
                 g_model.expoData[++e].chn = ch;
-                g_model.expoData[e].mode = 2;
-                g_model.expoData[e].expo = expo4[ch].expo[dr][0][1];
-                g_model.expoData[e++].weight = 100 + expo4[ch].expo[dr][1][1];
+                g_model.expoData[e].mode = 1;
+                g_model.expoData[e].expo = expo4[ch].expo[pos][0][1];
+                g_model.expoData[e++].weight = 100 + expo4[ch].expo[pos][1][1];
               }
             }
           }
         }
+
         assert((char *)&g_model.curves5[0][0] < (char *)&v3->curves5[0][0]);
         memmove(&g_model.curves5[0][0], &v3->curves5[0][0], 5*MAX_CURVE5);
         assert((char *)&g_model.curves9[0][0] < (char *)&v3->curves9[0][0]);
@@ -281,7 +283,7 @@ void eeLoadModel(uint8_t id)
 
 #ifdef SIMU
     if (sz > 0 && sz != sizeof(g_model)) {
-      printf("Model data read=%d bytes vs %lu bytes\n", sz, sizeof(ModelData));
+      printf("Model data read=%d bytes vs %d bytes\n", sz, (int)sizeof(ModelData));
     }
 #endif
 
