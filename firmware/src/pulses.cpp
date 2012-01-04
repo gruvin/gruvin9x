@@ -21,20 +21,37 @@
 
 #include "gruvin9x.h"
 
+#ifdef DSM2
+inline void DSM2_EnableTXD(void)
+{
+  UCSR0B |= (1 << TXEN0); // enable TX
+  UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
+}
+#endif
 
 void startPulses()
 {
   setupPulses();
-
-#if defined (PCBV4)
-  OCR1B = 0xffff; /* Prevent any PPM_PUT pin toggle before the TCNT1 interrupt
-                     fires for the first time and sets up the pulse period. */
-  // TCCR1A |= (1<<COM1B0); // (COM1B1=0 and COM1B0=1 in TCCR1A)  toogle the state of PB6(OC1B) on each TCNT1==OCR1B
-  TCCR1A = (3<<COM1B0); // Connect OC1B to PPM_OUT pin (SET the state of PB6(OC1B) on next TCNT1==OCR1B)
-#elif defined (DPPMPB7_HARDWARE) // addon Vinceofdrink@gmail (hardware ppm)
-  OCR1C = 0xffff; // See comment for PCBV4, above
-  TCCR1A |= (1<<COM1C0); // (COM1C1=0 and COM1C0=1 in TCCR1A)  toogle the state of PB7(OC1C) on each TCNT1==OCR1C
+  
+#ifdef DSM2
+  if (g_model.protocol == PROTO_DSM2) {
+    DSM2_EnableTXD();
+    OCR1A = 40000;
+  }
+  else
 #endif
+
+  {
+#if defined (PCBV4)
+    OCR1B = 0xffff; /* Prevent any PPM_PUT pin toggle before the TCNT1 interrupt
+                      fires for the first time and sets up the pulse period. */
+    // TCCR1A |= (1<<COM1B0); // (COM1B1=0 and COM1B0=1 in TCCR1A)  toogle the state of PB6(OC1B) on each TCNT1==OCR1B
+    TCCR1A = (3<<COM1B0); // Connect OC1B to PPM_OUT pin (SET the state of PB6(OC1B) on next TCNT1==OCR1B)
+#elif defined (DPPMPB7_HARDWARE) // addon Vinceofdrink@gmail (hardware ppm)
+    OCR1C = 0xffff; // See comment for PCBV4, above
+    TCCR1A |= (1<<COM1C0); // (COM1C1=0 and COM1C0=1 in TCCR1A)  toogle the state of PB7(OC1C) on each TCNT1==OCR1C
+#endif
+  }
 
 #if defined (PCBV3)
   TIMSK1 |= (1<<OCIE1A); // Pulse generator enable immediately before mainloop
@@ -61,81 +78,91 @@ uint16_t *pulses2MHzWPtr = pulses2MHz;
 
 ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 {
-  static uint8_t   pulsePol; // TODO strange, it's always 0 at first, shouldn't it be initialized properly in setupPulses?
+  static uint8_t pulsePol;
 
   // Latency -- how far further on from interrupt trigger has the timer counted?
   // (or -- how long did it take to get to this function)
   uint8_t dt = TCNT1L;
-
-  // vinceofdrink@gmail harwared ppm
-  // Orginal bitbang for PPM
-#if !defined (DPPMPB7_HARDWARE) && !defined (PCBV4)
-  if (pulsePol) {
-    PORTB |=  (1<<OUT_B_PPM); // GCC optimisation should result in a single SBI instruction
-    pulsePol = 0;
-  }
-  else {
-    PORTB &= ~(1<<OUT_B_PPM);
-    pulsePol = 1;
-  }
-#endif
-
-  OCR1A = *pulses2MHzRPtr; // Schedule next interrupt vector (to this handler)
-
-#if defined (PCBV4)
-  OCR1B = *pulses2MHzRPtr; /* G: Using timer in CTC mode, restricted to using OCR1A for interrupt triggering.
-                          So we actually have to handle the OCR1B register separately in this way. */
-
-  // We cannot read the status of the PPM_OUT pin when OC1B is connected to it on the ATmega2560.
-  // So the only way to set polarity is to manually control set/reset mode in COM1B0/1
-  if (pulsePol) {
-    TCCR1A = (3<<COM1B0); // SET the state of PB6(OC1B) on next TCNT1==OCR1B
-    pulsePol = 0;
-  }
-  else {
-    TCCR1A = (2<<COM1B0); // CLEAR the state of PB6(OC1B) on next TCNT1==OCR1B
-    pulsePol = 1;
-  }
-
-  //vinceofdrink@gmail harwared ppm
-#elif defined (DPPMPB7_HARDWARE)
-  OCR1C = *pulses2MHzRPtr;  // just copy the value of the OCR1A to OCR1C to test PPM out without too
-                      // much change in the code not optimum but will not alter ppm precision
-#endif
-
-  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
-  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
-
-  if (++pulses2MHzRPtr == pulses2MHzWPtr) {
-    //currpulse=0;
-    pulsePol = g_model.pulsePol;//0;
-    //    channel = 0 ;
-    //    PulseTotal = 0 ;
-
-#if defined (PCBV3)
-    TIMSK1 &= ~(1<<OCIE1A); //stop reentrance
-#else
-    TIMSK &= ~(1<<OCIE1A); //stop reentrance
-#endif
+  
+  if (g_model.protocol == PROTO_DSM2) {
+    OCR1A = 40000;
     sei();
     setupPulses();
+    cli();
+    UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
+  }
+  else {
+    // vinceofdrink@gmail harwared ppm
+    // Orginal bitbang for PPM
+#if !defined (DPPMPB7_HARDWARE) && !defined (PCBV4)
+    if (pulsePol) {
+      PORTB |=  (1<<OUT_B_PPM); // GCC optimisation should result in a single SBI instruction
+      pulsePol = 0;
+    }
+    else {
+      PORTB &= ~(1<<OUT_B_PPM);
+      pulsePol = 1;
+    }
+#endif
+
+    OCR1A = *pulses2MHzRPtr; // Schedule next interrupt vector (to this handler)
+
+#if defined (PCBV4)
+    OCR1B = *pulses2MHzRPtr; /* G: Using timer in CTC mode, restricted to using OCR1A for interrupt triggering.
+                                So we actually have to handle the OCR1B register separately in this way. */
+
+    // We cannot read the status of the PPM_OUT pin when OC1B is connected to it on the ATmega2560.
+    // So the only way to set polarity is to manually control set/reset mode in COM1B0/1
+    if (pulsePol) {
+      TCCR1A = (3<<COM1B0); // SET the state of PB6(OC1B) on next TCNT1==OCR1B
+      pulsePol = 0;
+    }
+    else {
+      TCCR1A = (2<<COM1B0); // CLEAR the state of PB6(OC1B) on next TCNT1==OCR1B
+      pulsePol = 1;
+    }
+
+    //vinceofdrink@gmail harwared ppm
+#elif defined (DPPMPB7_HARDWARE)
+    OCR1C = *pulses2MHzRPtr;  // just copy the value of the OCR1A to OCR1C to test PPM out without too
+                              // much change in the code not optimum but will not alter ppm precision
+#endif
+  
+    if (++pulses2MHzRPtr == pulses2MHzWPtr) {
+      //currpulse=0;
+      pulsePol = g_model.pulsePol;//0;
+      //    channel = 0 ;
+      //    PulseTotal = 0 ;
+
+#if defined (PCBV3)
+      TIMSK1 &= ~(1<<OCIE1A); //stop reentrance
+#else
+      TIMSK &= ~(1<<OCIE1A); //stop reentrance
+#endif
+      sei();
+      setupPulses();
 
 #if !defined (PCBV3) && defined (DPPMPB7_HARDWARE)
-    // G: NOTE: This strategy does not work on the '2560 becasue you can't
-    //          read the PPM out pin when connected to OC1B. Vincent says
-    //          it works on the '64A. I haven't personally tested it.
-    if (PINB & (1<<OUT_B_PPM) && g_model.pulsePol)
-      TCCR1C=(1<<FOC1C);
+      // G: NOTE: This strategy does not work on the '2560 becasue you can't
+      //          read the PPM out pin when connected to OC1B. Vincent says
+      //          it works on the '64A. I haven't personally tested it.
+      if (PINB & (1<<OUT_B_PPM) && g_model.pulsePol)
+        TCCR1C=(1<<FOC1C);
 #endif
 
-    cli();
+      cli();
 #if defined (PCBV3)
-    TIMSK1 |= (1<<OCIE1A);
+      TIMSK1 |= (1<<OCIE1A);
 #else
-    TIMSK |= (1<<OCIE1A);
+      TIMSK |= (1<<OCIE1A);
 #endif
-    sei();
+      sei();
+    }
   }
+  
+  if (dt > g_tmr1Latency_max) g_tmr1Latency_max = dt;
+  if (dt < g_tmr1Latency_min) g_tmr1Latency_min = dt;
+    
   heartbeat |= HEART_TIMER2Mhz;
 }
 
@@ -238,21 +265,6 @@ inline void __attribute__ ((always_inline)) setupPulsesDsm2()
       *pulses2MHzWPtr++ = pulse & 0xff;
     }
   }
-}
-
-void stopPulses()
-{
-#if defined (PCBV3)
-  TIMSK1 &= ~(1<<OCIE1A); // Pulse generator enable immediately before mainloop
-#else
-  TIMSK &= ~(1<<OCIE1A); // Pulse generator enable immediately before mainloop
-#endif
-}
-
-inline void DSM2_EnableTXD(void)
-{
-  UCSR0B |= (1 << TXEN0); // enable TX
-  UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
 }
 
 void DSM2_Done()

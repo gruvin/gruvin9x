@@ -281,7 +281,7 @@ void eeLoadModel(uint8_t id)
 
 #ifdef SIMU
     if (sz > 0 && sz != sizeof(g_model)) {
-      printf("Model data read=%d bytes vs %d bytes\n", sz, (int)sizeof(ModelData));
+      printf("Model data read=%d bytes vs %lu bytes\n", sz, sizeof(ModelData));
     }
 #endif
 
@@ -301,7 +301,6 @@ void resetProto() // TODO inline this if !DSM2
 #ifdef DSM2
   if (g_model.protocol == PROTO_DSM2) {
     cli();
-    stopPulses();
 #ifdef FRSKY
     DSM2_Init();
 #endif
@@ -309,7 +308,6 @@ void resetProto() // TODO inline this if !DSM2
   }
   else {
     cli();
-    startPulses();
 #ifdef FRSKY
     FRSKY_Init();
 #else

@@ -2064,10 +2064,8 @@ FORCEINLINE void DSM2_USART0_vect()
   UDR0 = *pulses2MHzRPtr;
 
   if (++pulses2MHzRPtr == pulses2MHzWPtr) {
-    setupPulses();
+    UCSR0B &= ~(1 << UDRIE0); // disable UDRE0 interrupt
   }
-
-  heartbeat |= HEART_TIMER2Mhz;
 }
 #endif
 
@@ -2387,28 +2385,26 @@ int main(void)
 #endif
 
 #if defined (PCBV4)
-/***************************************************/
-/* Rotary encoder interrupt set-up (V4 board only) */
+  /***************************************************/
+  /* Rotary encoder interrupt set-up (V4 board only) */
 
-// All external interrupts initialise to disabled. But maybe not after 
-// a WDT or BOD event? So to be safe ...
-EIMSK = 0; // disable ALL external interrupts.
+  // All external interrupts initialise to disabled. But maybe not after 
+  // a WDT or BOD event? So to be safe ...
+  EIMSK = 0; // disable ALL external interrupts.
 
-// encoder 1
-EICRB = (1<<ISC60) | (1<<ISC50); // 01 = interrupt on any edge
-EIFR = (3<<INTF5); // clear the int. flag in case it got set when changing modes
+  // encoder 1
+  EICRB = (1<<ISC60) | (1<<ISC50); // 01 = interrupt on any edge
+  EIFR = (3<<INTF5); // clear the int. flag in case it got set when changing modes
 
-// encoder 2
-EICRA = (1<<ISC30) | (1<<ISC20); // do the same for encoder 1
-EIFR = (3<<INTF2);
+  // encoder 2
+  EICRA = (1<<ISC30) | (1<<ISC20); // do the same for encoder 1
+  EIFR = (3<<INTF2);
 
-EIMSK = (3<<INT5) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
-/***************************************************/
+  EIMSK = (3<<INT5) | (3<<INT2); // enable the two rot. enc. ext. int. pairs.
+  /***************************************************/
 #endif
 
-#ifndef DSM2
   startPulses();
-#endif
 
   wdt_enable(WDTO_500MS);
 /*** Keep this code block directly before the main loop ****/
