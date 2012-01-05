@@ -424,7 +424,7 @@ void menuProcDiagVers(uint8_t event)
 
   lcd_puts_P(0, 2*FH,stamp4 );
   lcd_puts_P(0, 3*FH,stamp1 );
-  lcd_puts_P(0, 4*FH,stamp5 );
+  lcd_puts_P(0, 4*FH,stamp6 );
   lcd_puts_P(0, 5*FH,stamp2 );
   lcd_puts_P(0, 6*FH,stamp3 );
   lcd_puts_P(0, 7*FH,PSTR("EEPROM v"));
