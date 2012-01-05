@@ -41,6 +41,8 @@ uint8_t tabViews[] = {
   1, /*e_timer2*/
 #if defined(FRSKY_HUB)
   4, /*e_telemetry*/
+#elif defined(WS_HOW_HIGH)
+  3, /*e_telemetry*/
 #elif defined(FRSKY)
   2, /*e_telemetry*/
 #endif
@@ -100,6 +102,15 @@ void menuMainView(uint8_t event)
       break;
     case EVT_KEY_BREAK(KEY_RIGHT):
     case EVT_KEY_BREAK(KEY_LEFT):
+#if defined(FRSKY)
+#if defined(FRSKY_HUB) && defined(WS_HOW_HIGH)
+      tabViews[e_telemetry] = (g_model.frsky.usrProto == 0 ? 2 : (g_model.frsky.usrProto == 1 ? 4 : 3));
+#elif defined(FRSKY_HUB)
+      tabViews[e_telemetry] = (g_model.frsky.usrProto == 1 ? 4 : 2);
+#elif defined(WS_HOW_HIGH)
+      tabViews[e_telemetry] = (g_model.frsky.usrProto == 2 ? 3 : 2);
+#endif
+#endif
       g_eeGeneral.view = (g_eeGeneral.view + (event == EVT_KEY_BREAK(KEY_RIGHT) ? 
             ALTERNATE_VIEW : tabViews[view]*ALTERNATE_VIEW-ALTERNATE_VIEW)) % (tabViews[view]*ALTERNATE_VIEW);
       eeDirty(EE_GENERAL);
@@ -187,17 +198,13 @@ void menuMainView(uint8_t event)
   ///////////////////////////////////////////////////////////////////////
   /// Upper Section of Display common to all but telemetry alt. views ///
 #if defined (FRSKY)
-  if (view == e_telemetry && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // if view is a telemetry ALTERNATE_VIEW view
+  if (view == e_telemetry && frskyStreaming && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // if view is a telemetry ALTERNATE_VIEW view
     putsModelName(0, 0, g_model.name, g_eeGeneral.currModel, 0);
     uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
     putsVBat(14*FW,0,att);
     if(s_timerState != TMR_OFF){
       att = (s_timerState==TMR_BEEPING ? BLINK : 0);
       putsTime(17*FW, 0, s_timerVal, att, att);
-    }
-    // The timer is in the way ... but more important than a screen title
-    else {
-      lcd_putsnAtt(17*FW-4, 0, PSTR(" MAIN  GPSOTHER") + 5 * (g_eeGeneral.view - e_telemetry) / ALTERNATE_VIEW - 5, 5, 0);
     }
     lcd_filled_rect(0, 0, DISPLAY_W, 8);
   }
@@ -229,7 +236,7 @@ void menuMainView(uint8_t event)
       xm = x[i];
 
       uint8_t att = 0;
-      int16_t val = getTrimValue(getTrimFlightPhase(i, phase), i);;
+      int16_t val = getTrimValue(getTrimFlightPhase(i, phase), i);
 
       if (val < -125 || val > 125)
         att = BLINK;
@@ -387,8 +394,16 @@ void menuMainView(uint8_t event)
         lcd_outdezAtt(15 * FW - 2, 7*FH, frskyRSSI[1].min, 0);
         lcd_outdezAtt(17 * FW - 2, 7*FH, frskyRSSI[1].max, LEFT);
       }
+#ifdef WS_HOW_HIGH
+      else if (g_model.frsky.usrProto == PROTO_WS_HOW_HIGH && g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) {
+        lcd_puts_P(0, 4*FH, PSTR("Alt:"));
+        uint16_t value = frskyHubData.baroAltitude;
+        lcd_outdezAtt(4*FW, 3*FH, (value * 32) / 105, DBLSIZE|LEFT);
+        lcd_putc(lcd_lastPos, 4*FH, 'm') ;
+      }
+#endif
 #ifdef FRSKY_HUB
-      else if (g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) { // if on second alternate telemetry view
+      else if (g_model.frsky.usrProto == PROTO_FRSKY_HUB && g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) { // if on second alternate telemetry view
         // Date
         lcd_outdezNAtt(1*FW, 1*FH, frskyHubData.year+2000, LEFT, 4);
         lcd_putc(lcd_lastPos, 1*FH, '-');
@@ -441,7 +456,7 @@ void menuMainView(uint8_t event)
         lcd_outdezAtt(lcd_lastPos+2, 7*FH, frskyHubData.gpsAltitude_ap, LEFT|UNSIGN); // after '.'
         lcd_putc(lcd_lastPos, 7*FH, 'm');
       }
-      else if (g_eeGeneral.view == e_telemetry+3*ALTERNATE_VIEW) { // if on second alternate telemetry view
+      else if (g_model.frsky.usrProto == PROTO_FRSKY_HUB && g_eeGeneral.view == e_telemetry+3*ALTERNATE_VIEW) { // if on second alternate telemetry view
 
         uint8_t y = 2*FH;
 
@@ -485,15 +500,15 @@ void menuMainView(uint8_t event)
         // Acceleromter
         lcd_puts_P(11*FW, y, PSTR("Accel"));
         y += FH;
-        lcd_puts_P(11*FW, y, PSTR("x="));
+        lcd_puts_P(11*FW, y, PSTR("x:"));
         lcd_outdezNAtt(FW*17, y, (int32_t)frskyHubData.accelX * 100 / 256, PREC2);
         lcd_putc(lcd_lastPos, y, 'g');
         y += FH;
-        lcd_puts_P(11*FW, y, PSTR("y="));
+        lcd_puts_P(11*FW, y, PSTR("y:"));
         lcd_outdezNAtt(FW*17, y, (int32_t)frskyHubData.accelY * 100 / 256, PREC2);
         lcd_putc(lcd_lastPos, y, 'g');
         y += FH;
-        lcd_puts_P(11*FW, y, PSTR("z="));
+        lcd_puts_P(11*FW, y, PSTR("z:"));
         lcd_outdezNAtt(FW*17, y, (int32_t)frskyHubData.accelZ * 100 / 256, PREC2);
         lcd_putc(lcd_lastPos, y, 'g');
       }
@@ -505,7 +520,7 @@ void menuMainView(uint8_t event)
         for (int i=0; i<2; i++) {
           if (g_model.frsky.channels[i].ratio) {
             blink = (alarmRaised[i] ? INVERS+BLINK : 0)|LEFT;
-            lcd_puts_P(x0, y0, PSTR("A ="));
+            lcd_puts_P(x0, y0, PSTR("A :"));
             lcd_putc(x0+FW, y0, '1'+i);
             val = frskyComputeVolts(staticTelemetry[i], g_model.frsky.channels[i].ratio);
             putsTelemetry(x0+3*FW, y0, val, g_model.frsky.channels[i].type, blink);
@@ -514,9 +529,9 @@ void menuMainView(uint8_t event)
         }
         y0+=FH;
         //lcd_puts_P(2*FW-3, y0, PSTR("RSSI:"));
-        lcd_puts_P(4*FW-3, y0, PSTR("Rx="));
+        lcd_puts_P(4*FW-3, y0, PSTR("Rx:"));
         lcd_outdezAtt(7*FW-3, y0, staticRSSI[0], LEFT);
-        lcd_puts_P(13*FW-3, y0, PSTR("Tx="));
+        lcd_puts_P(13*FW-3, y0, PSTR("Tx:"));
         lcd_outdezAtt(16*FW-3, y0, staticRSSI[1], LEFT);
       }
     }

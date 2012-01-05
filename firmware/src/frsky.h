@@ -46,7 +46,7 @@ struct FrskyData {
   void set(uint8_t value);
 };
 
-#ifdef FRSKY_HUB
+#if defined(FRSKY_HUB)
 struct FrskyHubData {
   int16_t  gpsAltitude_bp;   // before punct
   int16_t  temperature1;     // -20 .. 250 deg. celcius
@@ -76,12 +76,17 @@ struct FrskyHubData {
   int16_t  accelY;           // 1/256th gram (-8g ~ +8g)
   int16_t  accelZ;           // 1/256th gram (-8g ~ +8g)
 };
-
+extern FrskyHubData frskyHubData;
+#elif defined(WS_HOW_HIGH)
+struct FrskyHubData {
+  uint16_t baroAltitude;     // 0..9,999 meters
+};
 extern FrskyHubData frskyHubData;
 #endif
 
 // Global Fr-Sky telemetry data variables
 extern uint8_t frskyStreaming; // >0 (true) == data is streaming in. 0 = nodata detected for some time
+extern uint8_t frskyUsrStreaming;
 
 #define SEND_MODEL_ALARMS 4
 #define SEND_RSSI_ALARMS  (SEND_MODEL_ALARMS + 2)

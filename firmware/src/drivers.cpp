@@ -439,6 +439,9 @@ void per10ms()
       FRSKY10mspoll();
     }
 
+#ifndef SIMU
+    if (frskyUsrStreaming > 0)
+      frskyUsrStreaming--;
     if (frskyStreaming > 0)
       frskyStreaming--;
     else if (g_eeGeneral.enableTelemetryAlarm && (g_model.frsky.channels[0].ratio || g_model.frsky.channels[1].ratio)) {
@@ -452,6 +455,7 @@ void per10ms()
       }
 #endif
     }
+#endif
 #if defined (DSM2)
   }
 #endif
