@@ -644,6 +644,7 @@ void resetProto();
 
 #ifdef LOGS
 extern void startLogs();
+extern void doLogs();
 #endif
 
 extern uint16_t *pulses2MHzRPtr;
