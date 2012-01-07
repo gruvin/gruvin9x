@@ -536,7 +536,7 @@ void menuMainView(uint8_t event)
       }
     }
     else {
-#if defined (PCBV3)
+#if defined (LOGS)
       if (g_eeGeneral.view == e_telemetry+ALTERNATE_VIEW) // if on first alternate telemetry view
       {
         lcd_putsAtt(0, FH*2, g_logFilename, BSS); // Show log filename (or error msg)

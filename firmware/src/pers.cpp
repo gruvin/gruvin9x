@@ -324,6 +324,10 @@ void resetProto() // TODO inline this if !DSM2
   resetTelemetry();
   FRSKY_setModelAlarms();
 #endif
+
+#ifdef LOGS
+  startLogs();
+#endif
 }
 
 int8_t eeFindEmptyModel(uint8_t id, bool down)

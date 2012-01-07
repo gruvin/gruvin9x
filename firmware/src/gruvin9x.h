@@ -642,6 +642,10 @@ void DSM2_Init();
 void DSM2_Done();
 void resetProto();
 
+#ifdef LOGS
+extern void startLogs();
+#endif
+
 extern uint16_t *pulses2MHzRPtr;
 extern uint16_t *pulses2MHzWPtr;
 

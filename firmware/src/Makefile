@@ -288,6 +288,7 @@ else
     CPPDEFS += -DBEEPSPKR
   endif
   ifeq ($(LOGS), YES)
+    CPPSRC += logs.cpp
     CPPDEFS += -DLOGS
     MODS += L
   endif
