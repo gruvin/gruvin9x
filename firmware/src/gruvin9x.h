@@ -323,7 +323,12 @@ enum EnumKeys {
 #define CSWITCH_STR  "----   v>ofs  v<ofs  |v|>ofs|v|<ofsAND    OR     XOR    ""v1==v2 ""v1!=v2 ""v1>v2  ""v1<v2  ""v1>=v2 ""v1<=v2 "
 #define CSW_LEN_FUNC 7
 
-#define FSWITCH_STR  "----          ""Trainer       ""Trainer RUD   ""Trainer ELE   ""Trainer THR   ""Trainer AIL   ""Instant Trim  ""Trims2Offsets "
+#ifdef LOGS
+#define LOGS_STR "SDCARD Logs   "
+#else
+#define LOGS_STR
+#endif
+#define FSWITCH_STR  "----          ""Trainer       ""Trainer RUD   ""Trainer ELE   ""Trainer THR   ""Trainer AIL   ""Instant Trim  ""Trims2Offsets "LOGS_STR
 #define FSW_LEN_FUNC 14
 
 #define SWASH_TYPE_STR   "---   ""120   ""120X  ""140   ""90    "

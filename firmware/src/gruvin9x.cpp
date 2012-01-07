@@ -1180,7 +1180,7 @@ uint16_t active_functions = 0; // current max = 16 functions
 
 void evalFunctions()
 {
-  assert(sizeof(active_functions)*8 >= FUNC_LAST);
+  assert(sizeof(active_functions)*8 > FUNC_MAX);
 
   for (uint8_t i=0; i<NUM_FSW; i++) {
     FuncSwData *sd = &g_model.funcSw[i];
@@ -1587,16 +1587,15 @@ void perMain()
 
 /***** TEST CODE - Fr-Sky SD/MMC card / User Data experiments *****/
 
-#if defined (PCBV3)
+#if defined (LOGS)
 
-  /* Use light switch (on) to open telemtry test log file */
+  /* Use light switch (on) to open telemetry test log file */
   static FRESULT result;
 
   static int8_t testLogOpen = 0;
 
-  if(getSwitch(g_eeGeneral.lightSw,0))
+  if (isFunctionActive(FUNC_LOGS))
   {
-    // while(1); // Test WDT
     if ((testLogOpen==0) // if we know we haven't started logging ...
         || ((testLogOpen==1) && !g_oLogFile.fs)) //  ... or we thought we had, but the file got closed
     {

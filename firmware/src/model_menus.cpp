@@ -1694,7 +1694,7 @@ void menuProcFunctionSwitches(uint8_t event)
           if (sd->swtch) {
             lcd_putsnAtt(5*FW, y, PSTR(FSWITCH_STR)+FSW_LEN_FUNC*sd->func, FSW_LEN_FUNC, attr);
             if (active) {
-              CHECK_INCDEC_MODELVAR( event, sd->func, 0, FUNC_LAST);
+              CHECK_INCDEC_MODELVAR( event, sd->func, 0, FUNC_MAX-1);
             }
           }
           else if (attr) {
