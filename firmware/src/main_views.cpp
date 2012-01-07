@@ -398,7 +398,7 @@ void menuMainView(uint8_t event)
       else if (g_model.frsky.usrProto == PROTO_WS_HOW_HIGH && g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) {
         lcd_puts_P(0, 4*FH, PSTR("Alt:"));
         uint16_t value = frskyHubData.baroAltitude;
-        lcd_outdezAtt(4*FW, 3*FH, (value * 32) / 105, DBLSIZE|LEFT);
+        lcd_outdezAtt(4*FW, 3*FH, value, DBLSIZE|LEFT);
         lcd_putc(lcd_lastPos, 4*FH, 'm') ;
       }
 #endif
