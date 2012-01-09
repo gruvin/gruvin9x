@@ -632,10 +632,6 @@ extern inline uint16_t get_tmr10ms()
 
 #define TMR_VAROFS  16
 
-#define SUB_MODE_V     1
-#define SUB_MODE_H     2
-#define SUB_MODE_H_DBL 3
-
 void startPulses();
 void setupPulses();
 void DSM2_Init();
@@ -649,8 +645,6 @@ extern void doLogs();
 
 extern uint16_t *pulses2MHzRPtr;
 extern uint16_t *pulses2MHzWPtr;
-
-void initTemplates();
 
 extern const char stamp1[];
 extern const char stamp2[];
