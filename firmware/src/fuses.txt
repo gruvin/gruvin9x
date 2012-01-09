@@ -21,8 +21,8 @@ erased during chip erase prior to re-programming  ... respectively.
 Fuse defaults for ATmega2560/1 are ... (BUT SEE BELOW FOR PREFERRED values)
 
   hfuse = 0b10011001 (0x99)
-  lfuse = 0b01100010 (0x62)
-  efuse = 0b11111111 (0xFF)
+  lfuse = 0b01100010 (0xd7)
+  efuse = 0b11111111 (0xff)
 
 The bit assignments ae quite different from the AT'64A in all cases. 
 
