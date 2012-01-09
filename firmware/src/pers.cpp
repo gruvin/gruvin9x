@@ -295,6 +295,9 @@ void eeLoadModel(uint8_t id)
     resetTimer1();
     resetTimer2();
     resetProto();
+#ifdef LOGS
+    startLogs();
+#endif
   }
 }
 
@@ -323,10 +326,6 @@ void resetProto() // TODO inline this if !DSM2
 #elif defined(FRSKY)
   resetTelemetry();
   FRSKY_setModelAlarms();
-#endif
-
-#ifdef LOGS
-  startLogs();
 #endif
 }
 
