@@ -247,23 +247,17 @@ normal:
  */
 
 #define DSM2_CHANS 6
-const prog_uint8_t APM dsm2_bind[] = {0x80,0,  0x00,0xAA,  0x05,0xFF,  0x09,0xFF,  0x0D,0xFF,  0x13,0x54,  0x14,0xAA};
 
 inline void __attribute__ ((always_inline)) setupPulsesDsm2()
 {
-  if (keyState(SW_Trainer)) {
-    for (uint8_t i=0; i<sizeof(dsm2_bind); i++) {
-      *pulses2MHzWPtr++ = pgm_read_byte(dsm2_bind+i);
-    }
-  }
-  else {
-    *pulses2MHzWPtr++ = 0;
-    *pulses2MHzWPtr++ = 0;
+  if (keyState(SW_Trainer)) {*pulses2MHzWPtr++ = 0x80;}
+  //elseif (somerangetestvariable) {*pulses2MHzWPtr++ = 0x20;}
+  else *pulses2MHzWPtr++ = 0x00;
+  *pulses2MHzWPtr++ = g_eeGeneral.currModel;
     for (uint8_t i=0; i<DSM2_CHANS; i++) {
-      uint16_t pulse = limit(0, g_chans512[i]+512, 1023);
+    uint16_t pulse = limit(0, (g_chans512[i]>>1)+512, 1023);
       *pulses2MHzWPtr++ = (i<<2) | ((pulse>>8)&0x03);
       *pulses2MHzWPtr++ = pulse & 0xff;
-    }
   }
 }
 
