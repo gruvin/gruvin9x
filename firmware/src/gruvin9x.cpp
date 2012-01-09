@@ -1587,7 +1587,7 @@ void perMain()
   doLogs();
 #endif
 
-#if defined(FRSKY) and defined(DISPLAY_USER_DATA)
+#if defined(FRSKY) && defined(DISPLAY_USER_DATA)
   ////////////////
   // Write raw user data into on-screen display line buffer
 
