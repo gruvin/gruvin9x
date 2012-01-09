@@ -253,7 +253,7 @@ inline void __attribute__ ((always_inline)) setupPulsesDsm2()
 {
   if (keyState(SW_Trainer)) {
     for (uint8_t i=0; i<sizeof(dsm2_bind); i++) {
-      *pulses2MHzWPtr++ = dsm2_bind[i];
+      *pulses2MHzWPtr++ = pgm_read_byte(dsm2_bind+i);
     }
   }
   else {
