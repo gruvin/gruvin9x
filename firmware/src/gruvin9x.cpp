@@ -488,7 +488,7 @@ inline uint8_t keyDown()
 void clearKeyEvents()
 {
 #ifdef SIMU
-    while (keyDown() && main_thread_running);
+    while (keyDown() && main_thread_running) sleep(1/*ms*/);
 #else
     while(keyDown());  // loop until all keys are up
 #endif
@@ -529,6 +529,7 @@ void doSplash()
       {
 #ifdef SIMU
         if (!main_thread_running) return;
+        sleep(1/*ms*/);
 #else
         getADC_filt();
 #endif
@@ -590,6 +591,7 @@ void checkTHR()
   {
 #ifdef SIMU
       if (!main_thread_running) return;
+      sleep(1/*ms*/);
 #else
       getADC_single();
 #endif
@@ -627,6 +629,7 @@ void checkSwitches()
   {
 #ifdef SIMU
     if (!main_thread_running) return;
+    sleep(1/*ms*/);
 #endif
 
     uint8_t i;
@@ -670,6 +673,7 @@ void alert(const prog_char * s, bool defaults)
   {
 #ifdef SIMU
     if (!main_thread_running) return;
+    sleep(1/*ms*/);
 #endif
     if(keyDown())   return;  //wait for key release
 
