@@ -3,9 +3,24 @@
 #----------------------------------------------------------------------------
 # On command line:
 #
-# make all = Make software.
+# make = Build gruvin9x. By default, for the latest PCB version (v4.1 -- like make PCB=V4)
+#        See BUILD OPTIONS (below) for PCB=STD options, etc.
 #
 # make clean = Clean out built project files.
+#
+# make wflash = write ('flash') gruvin9x.hex in MCU using AVRDUDE
+#
+# make weeprom = write gruvin9x.bin into MCU EEPROM using AVRDUDE
+#
+# make rflash [TARGET] = read MCU Flash memory into gruvin9x.hex or optionally TARGET.hex
+#
+# make reeprom [TARGET] = read MCU EEPROM memory into gruvin9x.bin or optionally TARGET.bin
+#
+# CAUTION!! -- Use make wfuses ONLY on an ATmega2560/1 MCU controller board!!
+# make wfuses = write ATmega2560 h/l/efuse values to MCU using AVRDUDE
+#
+#
+# ADVANCED MAKE FUNCTIONS ...
 #
 # make coff = Convert ELF to AVR COFF.
 #
@@ -491,8 +506,12 @@ AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex:a
 AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).bin:a
 AVRDUDE_READ_FLASH = -U flash:r:$(TARGET).hex:r
 AVRDUDE_READ_EEPROM = -U eeprom:r:$(TARGET).bin:r
-
-
+AVRDUDE_WRITE_FUSES_2560 = -U hfuse:w:0x11:m -U lfuse:w:0xd7:m -U efuse:w:0xfc:m
+ifneq ($(PCB), STD)
+  AVRDUDE_BITPERIOD = -B0.25
+else
+  AVRDUDE_BITPERIOD =
+endif
 
 # Uncomment the following if you want avrdude's erase cycle counter.
 # Note that this counter needs to be initialized first using -Yn,
@@ -715,11 +734,15 @@ gccversion :
 
 # Program the device.
 wflash: $(TARGET).hex
-	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
+	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_BITPERIOD) $(AVRDUDE_WRITE_FLASH)
 
 weeprom: $(TARGET).bin
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_EEPROM)
 
+# AVRDUDE -B8 = bitclock period of 8uS = 125KHz = 1/8th (to be safe) of internal 1MHz oscillator in factory new x2560/1 chips.
+wfuses: 
+	$(AVRDUDE) $(AVRDUDE_FLAGS) -B8 $(AVRDUDE_WRITE_FUSES_2560)
+  
 # Write flash and eeprom
 wfe: $(TARGET).hex
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH)
