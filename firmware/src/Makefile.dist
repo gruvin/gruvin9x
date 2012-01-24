@@ -1,7 +1,15 @@
 # !!!! BETA Makefile !!!!
 # !!!! Use at own risk !!!!
 #----------------------------------------------------------------------------
-# On command line:
+#
+# First, copy Makefile.dist to makefile
+# $ cp Makefile.dist Makefile
+#
+# Then edit Makefile and search for 'AVRDUDE_PROGRAMMER'. Edit AVRDUDE vars to
+# match whatever type of programmer you have. (Defaul tis Atmel AVR ISP mkII.)
+# $ vi Makefile
+#
+# Build options ...
 #
 # make = Build gruvin9x. By default, for the latest PCB version (v4.1 -- like make PCB=V4)
 #        See BUILD OPTIONS (below) for PCB=STD options, etc.
