@@ -7,6 +7,9 @@
 # TARGET=atmega8    HFUSE=0xc9  LFUSE=0xef
 # TARGET=atmega48   HFUSE=0xdd  LFUSE=0xff
 # TARGET=at90s2313
+
+# NOTE: For some reason, GCC seems to stuff up royally with TARGET=atmega88p. So we have
+#       to use atmega48 for both the x48 and x88p parts. *shrug*
 TARGET=atmega48
 HFUSE=0xdd
 LFUSE=0xff
@@ -17,8 +20,10 @@ LFUSE=0xff
 # ISP=stk500   PORT=/dev/ttyS1
 # ISP=usbasp   PORT=/dev/usb/ttyUSB0
 # ISP=stk500v2 PORT=/dev/ttyUSB0
-ISP=usbasp
-PORT=/dev/usb/ttyUSB0
+#ISP=usbasp
+#PORT=/dev/usb/ttyUSB0
+ISP=avrispmkii
+PORT=usb
 
 help:
 	@echo "Usage: make                same as make help"
@@ -37,12 +42,14 @@ help:
 	@echo "       ISP=${ISP}"
 	@echo "       PORT=${PORT}"
 
-COMPILE = avr-gcc -Wall -O2 -Iusbdrv -I. -mmcu=$(TARGET) # -DDEBUG_LEVEL=2
+# DEBUG_LEVEL was =2
+COMPILE = avr-gcc -Wall -O2 -Iusbdrv -I. -mmcu=$(TARGET) # -DDEBUG_LEVEL=0
 
 OBJECTS = usbdrv/usbdrv.o usbdrv/usbdrvasm.o usbdrv/oddebug.o isp.o clock.o main.o
 
 .c.o:
-	$(COMPILE) -c $< -o $@
+	$(COMPILE) -c $< -o $@ 
+
 #-Wa,-ahlms=$<.lst
 
 .S.o:
@@ -59,7 +66,7 @@ clean:
 	rm -f main.hex main.lst main.obj main.cof main.list main.map main.eep.hex main.bin *.o main.s usbdrv/*.o
 
 # file targets:
-main.bin:	$(OBJECTS)
+main.bin:	$(OBJECTS) 
 	$(COMPILE) -o main.bin $(OBJECTS) -Wl,-Map,main.map
 
 main.hex:	main.bin
@@ -79,7 +86,7 @@ flash:
 	avrdude -c ${ISP} -p ${TARGET} -P ${PORT} -U flash:w:main.hex
 
 fuses:
-	avrdude -c ${ISP} -p ${TARGET} -P ${PORT} -u -U hfuse:w:$(HFUSE):m -U lfuse:w:$(LFUSE):m
+	avrdude -c ${ISP} -p ${TARGET} -P ${PORT} -B8 -u -U hfuse:w:$(HFUSE):m -U lfuse:w:$(LFUSE):m
 
 avrdude:
 	avrdude -c ${ISP} -p ${TARGET} -P ${PORT} -v

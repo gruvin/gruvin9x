@@ -4,7 +4,7 @@
  * Thomas Fischl <tfischl@gmx.de>
  *
  * License........: GNU GPL v2 (see Readme.txt)
- * Target.........: ATMega8 at 12 MHz
+ * Target.........: ATMega88 at 12 MHz
  * Creation Date..: 2005-02-20
  * Last change....: 2009-02-28
  *
@@ -51,11 +51,14 @@ uchar usbFunctionSetup(uchar data[8]) {
 		/* set compatibility mode of address delivering */
 		prog_address_newmode = 0;
 
+		ledGreenOn(); // it pulses on and off in idle mode, so make it on for sure here.
 		ledRedOn();
+                bufferOn();
 		ispConnect();
 
 	} else if (data[1] == USBASP_FUNC_DISCONNECT) {
 		ispDisconnect();
+                bufferOff();
 		ledRedOff();
 
 	} else if (data[1] == USBASP_FUNC_TRANSMIT) {
@@ -216,30 +219,39 @@ uchar usbFunctionWrite(uchar *data, uchar len) {
 }
 
 int main(void) {
-	uchar i, j;
+        unsigned int pulseCounter, i = 0;
+
 
 	/* no pullups on USB and ISP pins */
 	PORTD = 0;
 	PORTB = 0;
-	/* all outputs except PD2 = INT0 */
-	DDRD = ~(1 << 2);
+	///* all outputs except PD2 = INT0 */
+	// DDRD = ~(1 << 2);
+        // g: No -- ALL inputs. None of these pins are used
+
+	/* all inputs except PC0(Red LED), PC1(Green LED) and PRC (Buffer Enable) held low */
+	DDRC = 0b00000011;
+        bufferOff(); // Buffer Enable PRC3 set to high-Z, with external pull-up
 
 	/* output SE0 for USB reset */
-	DDRB = ~0;
-	j = 0;
+	DDRB = 0b00000011; // ~0;
+
+        ledGreenOff();
 	/* USB Reset by device only required on Watchdog Reset */
-	while (--j) {
-		i = 0;
-		/* delay >10ms for USB reset */
-		while (--i)
-			;
-	}
+        i = 10;
+        while (--i) {
+          while (--pulseCounter)
+          {
+            if (pulseCounter & 0x8000) ledRedOff(); else ledRedOn();
+          }
+        }
+
+
 	/* all USB and ISP pins inputs */
 	DDRB = 0;
 
-	/* all inputs except PC0, PC1 */
-	DDRC = 0x03;
-	PORTC = 0xfe;
+        ledRedOff();
+        ledGreenOn();
 
 	/* init timer */
 	clockInit();
@@ -249,6 +261,8 @@ int main(void) {
 	sei();
 	for (;;) {
 		usbPoll();
+                if (++pulseCounter & 0x8000) ledGreenOff(); else ledGreenOn();
+                // wdt_reset();
 	}
 	return 0;
 }

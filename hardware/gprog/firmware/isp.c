@@ -29,8 +29,7 @@ void spiHWenable() {
 void ispSetSCKOption(uchar option) {
 
 	if (option == USBASP_ISP_SCK_AUTO)
-		option = USBASP_ISP_SCK_1500;
-		// option = USBASP_ISP_SCK_375;
+		option = USBASP_ISP_SCK_375;
 
 	if (option >= USBASP_ISP_SCK_93_75) {
 		ispTransmit = ispTransmit_hw;
@@ -126,7 +125,7 @@ void ispConnect() {
 	}
 
         /* Initial extended address value */
-        isp_hiaddr = -1; // BJR .. to ensure that even 0x000000 causes a write of extended address byte
+        isp_hiaddr = -1; // (was 0) g: to ensure that even 0x000000 causes a write of extended address byte
 }
 
 void ispDisconnect() {
@@ -230,7 +229,7 @@ static void ispUpdateExtended(unsigned long address)
 
 uchar ispReadFlash(unsigned long address) {
 
-        ispUpdateExtended(address);
+    //    ispUpdateExtended(address);
 
 	ispTransmit(0x20 | ((address & 1) << 3));
 	ispTransmit(address >> 9);

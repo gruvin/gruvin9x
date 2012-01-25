@@ -35,7 +35,7 @@ the newest features and options.
  * This may be any bit in the port. Please note that D+ must also be connected
  * to interrupt pin INT0!
  */
-/* #define USB_CFG_CLOCK_KHZ       (F_CPU/1000) */
+#define USB_CFG_CLOCK_KHZ  12000
 /* Clock rate of the AVR in MHz. Legal values are 12000, 16000 or 16500.
  * The 16.5 MHz version of the code requires no crystal, it tolerates +/- 1%
  * deviation from the nominal frequency. All other rates require a precision
@@ -127,8 +127,9 @@ the newest features and options.
 #define USB_CFG_DEVICE_VERSION  0x03, 0x01
 /* Version number of the device: Minor number first, then major number.
  */
-#define	USB_CFG_VENDOR_NAME     'w', 'w', 'w', '.', 'f', 'i', 's', 'c', 'h', 'l', '.', 'd', 'e'
-#define USB_CFG_VENDOR_NAME_LEN 13
+// #define	USB_CFG_VENDOR_NAME     'w', 'w', 'w', '.', 'f', 'i', 's', 'c', 'h', 'l', '.', 'd', 'e'
+#define	USB_CFG_VENDOR_NAME     'g', 'r', 'u', 'v', 'i', 'n', '9', 'x', '.', 'g', 'o', 'o', 'g', 'l', 'e', 'c', 'o', 'd', 'e', '.', 'c', 'o', 'm'
+#define USB_CFG_VENDOR_NAME_LEN 23
 /* These two values define the vendor name returned by the USB device. The name
  * must be given as a list of characters under single quotes. The characters
  * are interpreted as Unicode (UTF-16) entities.
@@ -236,5 +237,14 @@ the newest features and options.
 /* #define USB_INTR_ENABLE_BIT     INT0 */
 /* #define USB_INTR_PENDING        GIFR */
 /* #define USB_INTR_PENDING_BIT    INTF0 */
+/*
+#define USB_INTR_CFG            EICRA
+#define USB_INTR_CFG_SET        ((1 << ISC00) | (1 << ISC01))
+#define USB_INTR_CFG_CLR        0
+#define USB_INTR_ENABLE         EIMSK
+#define USB_INTR_ENABLE_BIT     INT0
+#define USB_INTR_PENDING        EIFR
+#define USB_INTR_PENDING_BIT    INTF0
+*/
 
 #endif /* __usbconfig_h_included__ */
