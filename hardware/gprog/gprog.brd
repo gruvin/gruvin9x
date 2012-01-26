@@ -1,4 +1,4 @@
-PCBNEW-BOARD Version 1 date 26/01/2012 1:12:50 p.m.
+PCBNEW-BOARD Version 1 date 26/01/2012 1:16:11 p.m.
 
 # Created by Pcbnew(2011-11-27 BZR 3249)-stable
 
@@ -55,8 +55,8 @@ TextPcbSize 600 800
 EdgeModWidth 150
 TextModSize 600 600
 TextModWidth 120
-PadSize 886 886
-PadDrill 315
+PadSize 600 600
+PadDrill 200
 Pad2MaskClearance 100
 GridOrigin 29988 19996
 AuxiliaryAxisOrg 29988 19996
@@ -316,7 +316,7 @@ Po 1000 0
 $EndPAD
 $EndMODULE  HC-49V
 $MODULE pin_array_3x2
-Po 42966 25588 0 15 4EF3D9AE 4ED085A2 ~~
+Po 42966 25588 0 15 4F209B46 4ED085A2 ~~
 Li pin_array_3x2
 Cd Double rangee de contacts 2 x 4 pins
 Kw CONN
@@ -338,7 +338,7 @@ Po -1000 500
 $EndPAD
 $PAD
 Sh "2" C 600 600 0 0 0
-Dr 250 0 0
+Dr 200 0 0
 At STD N 00E0FFFF
 Ne 1 "+5V"
 Po -1000 -500
@@ -352,21 +352,21 @@ Po 0 500
 $EndPAD
 $PAD
 Sh "4" C 600 600 0 0 0
-Dr 250 0 0
+Dr 200 0 0
 At STD N 00E0FFFF
 Ne 6 "/MOSI"
 Po 0 -500
 $EndPAD
 $PAD
 Sh "5" C 600 600 0 0 0
-Dr 250 0 0
+Dr 200 0 0
 At STD N 00E0FFFF
 Ne 7 "/RESET"
 Po 1000 500
 $EndPAD
 $PAD
 Sh "6" C 600 600 0 0 0
-Dr 250 0 0
+Dr 200 0 0
 At STD N 00E0FFFF
 Ne 10 "GND"
 Po 1000 -500
