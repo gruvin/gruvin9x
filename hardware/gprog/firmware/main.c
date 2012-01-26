@@ -234,8 +234,7 @@ int main(void) {
         bufferOff(); // Buffer Enable PRC3 set to high-Z, with external pull-up
 
 	/* output SE0 for USB reset */
-	DDRB = 0b00000011; // ~0;
-
+	DDRB = 0x03;
         ledGreenOff();
 	/* USB Reset by device only required on Watchdog Reset */
         i = 10;
@@ -245,8 +244,6 @@ int main(void) {
             if (pulseCounter & 0x8000) ledRedOff(); else ledRedOn();
           }
         }
-
-
 	/* all USB and ISP pins inputs */
 	DDRB = 0;
 

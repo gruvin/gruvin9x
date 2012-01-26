@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 15/12/2011 12:23:25 p.m.
+EESchema Schematic File Version 2  date 26/01/2012 11:43:36 a.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,8 +37,8 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
-Date "14 dec 2011"
-Rev "1.0"
+Date "25 jan 2012"
+Rev "1.1"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
 Comment2 "Based on USBasp http://www.fischl.de/usbasp/"
@@ -63,8 +63,8 @@ F 1 "VCC" H 8800 2500 30  0000 C CNN
 	1    8800 2400
 	1    0    0    -1  
 $EndComp
-Text Notes 7300 5350 0    60   ~ 0
-Target & 74HC125 \nVcc. x48 uses +5V
+Text Notes 7400 5450 0    60   ~ 0
+Target & 74HC125 use Vcc. \nLocal x48 uses +5V
 Wire Wire Line
 	8000 5150 7750 5150
 Connection ~ 5500 3150
