@@ -52,12 +52,14 @@ uchar usbFunctionSetup(uchar data[8]) {
 		prog_address_newmode = 0;
 
 		ledGreenOn(); // it pulses on and off in idle mode, so make it on for sure here.
-		ledRedOn();
                 bufferOn();
+                while (--len); // delay
 		ispConnect();
+		ledRedOn();
 
 	} else if (data[1] == USBASP_FUNC_DISCONNECT) {
 		ispDisconnect();
+                while (--len); // delay
                 bufferOff();
 		ledRedOff();
 
