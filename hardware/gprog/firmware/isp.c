@@ -33,6 +33,7 @@ void ispSetSCKOption(uchar option) {
 
 	if (option >= USBASP_ISP_SCK_93_75) {
 		ispTransmit = ispTransmit_hw;
+                sck_sw_delay = 2; // g: sck_sw_delay is used for set-up timing with ispTransmit_hw (SPI) operating mode as well
 		sck_spsr = 0;
 
 		switch (option) {

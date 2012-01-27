@@ -41,12 +41,15 @@ uchar usbFunctionSetup(uchar data[8]) {
 
 	if (data[1] == USBASP_FUNC_CONNECT) {
 
-		/* set SCK speed */
+          /*
+		// set SCK speed
 		if ((PINC & (1 << PC2)) == 0) {
 			ispSetSCKOption(USBASP_ISP_SCK_8);
 		} else {
 			ispSetSCKOption(prog_sck);
 		}
+          */
+                ispSetSCKOption(prog_sck);
 
 		/* set compatibility mode of address delivering */
 		prog_address_newmode = 0;

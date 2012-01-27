@@ -50,10 +50,14 @@
 
 #----------- BUILD OPTIONS ---------------------------
 
-#gruvin: PCB version -- OVERRIDES the following settings if not STD
-# Values: STD, V3, V4
+#gruvin: PCB version. Values: STD, V3, V4
 PCB = V4
-#NOTE!: V4 adds to V3, such that both PCBV3 and PCBV4 get defined
+#NOTE!: V4 adds to V3, such that both PCBV3 and PCBV4 get defined. This is to
+#       keep backward compatibilty with the v3.2 board.
+
+#####################################
+# GLOBAL OPTIONS (all PCB versions) #
+#####################################
 
 # Enable navigation with Pots / Rotary encoders
 # Values = NO
