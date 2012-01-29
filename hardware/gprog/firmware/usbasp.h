@@ -54,7 +54,9 @@
 #define ledRedOff()   PORTC |= (1 << PC0)
 #define ledGreenOn()  PORTC &= ~(1 << PC1)
 #define ledGreenOff() PORTC |= (1 << PC1)
-#define bufferOn() DDRC |= (1 << PC3)
-#define bufferOff() DDRC &= ~(1 << PC3)
+// #define bufferOn() DDRC |= (1 << PC3)
+// #define bufferOff() DDRC &= ~(1 << PC3)
+#define bufferOn() PORTC |= (1 << PC3)
+#define bufferOff() PORTC &= ~(1 << PC3)
 
 #endif /* USBASP_H_ */

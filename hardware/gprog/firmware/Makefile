@@ -20,10 +20,10 @@ LFUSE=0xff
 # ISP=stk500   PORT=/dev/ttyS1
 # ISP=usbasp   PORT=/dev/usb/ttyUSB0
 # ISP=stk500v2 PORT=/dev/ttyUSB0
-#ISP=usbasp
-#PORT=/dev/usb/ttyUSB0
-ISP=avrispmkii
+ISP=usbasp
 PORT=usb
+#ISP=avrispmkii
+#PORT=usb
 
 help:
 	@echo "Usage: make                same as make help"

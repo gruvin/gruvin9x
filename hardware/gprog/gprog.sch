@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 26/01/2012 11:43:36 a.m.
+EESchema Schematic File Version 2  date 29/01/2012 10:48:34 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,34 +37,18 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
-Date "25 jan 2012"
-Rev "1.1"
+Date "29 jan 2012"
+Rev "1.2"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
 Comment2 "Based on USBasp http://www.fischl.de/usbasp/"
 Comment3 ""
 Comment4 ""
 $EndDescr
-$Comp
-L VCC #PWR01
-U 1 1 4EE6E93E
-P 6500 2150
-F 0 "#PWR01" H 6500 2250 30  0001 C CNN
-F 1 "VCC" H 6500 2250 30  0000 C CNN
-	1    6500 2150
-	1    0    0    -1  
-$EndComp
-$Comp
-L VCC #PWR02
-U 1 1 4EE6C1C8
-P 8800 2400
-F 0 "#PWR02" H 8800 2500 30  0001 C CNN
-F 1 "VCC" H 8800 2500 30  0000 C CNN
-	1    8800 2400
-	1    0    0    -1  
-$EndComp
-Text Notes 7400 5450 0    60   ~ 0
-Target & 74HC125 use Vcc. \nLocal x48 uses +5V
+Wire Wire Line
+	7150 4900 7150 5000
+Wire Wire Line
+	8050 2400 7150 2400
 Wire Wire Line
 	8000 5150 7750 5150
 Connection ~ 5500 3150
@@ -78,11 +62,6 @@ Wire Wire Line
 	5700 4650 5150 4650
 Wire Wire Line
 	5150 4850 5800 4850
-Connection ~ 7150 2400
-Wire Wire Line
-	7100 2400 8050 2400
-Wire Wire Line
-	7150 2400 7150 3950
 Wire Wire Line
 	7150 3950 8000 3950
 Wire Wire Line
@@ -249,10 +228,6 @@ Wire Wire Line
 	3100 6950 2350 6950
 Wire Wire Line
 	2350 6950 2350 6900
-Wire Wire Line
-	6500 2150 6500 2400
-Wire Wire Line
-	6500 2400 6600 2400
 Connection ~ 1750 4250
 Wire Wire Line
 	1350 3700 1350 3550
@@ -284,6 +259,29 @@ Wire Wire Line
 Wire Wire Line
 	8400 5150 9600 5150
 Connection ~ 8600 5150
+Wire Wire Line
+	7150 2400 7150 4400
+Connection ~ 7150 3950
+$Comp
+L GND #PWR01
+U 1 1 4F25143D
+P 7150 5000
+F 0 "#PWR01" H 7150 5000 30  0001 C CNN
+F 1 "GND" H 7150 4930 30  0001 C CNN
+	1    7150 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L VCC #PWR02
+U 1 1 4EE6C1C8
+P 8800 2400
+F 0 "#PWR02" H 8800 2500 30  0001 C CNN
+F 1 "VCC" H 8800 2500 30  0000 C CNN
+	1    8800 2400
+	1    0    0    -1  
+$EndComp
+Text Notes 7400 5450 0    60   ~ 0
+Target & 74HC126 use Vcc. \nLocal x48 uses +5V
 $Comp
 L DIODESCH D7
 U 1 1 4EE6C02E
@@ -399,11 +397,11 @@ $EndComp
 $Comp
 L R R8
 U 1 1 4ECC4D7D
-P 6850 2400
-F 0 "R8" V 6930 2400 50  0000 C CNN
-F 1 "5K6" V 6850 2400 50  0000 C CNN
-	1    6850 2400
-	0    1    1    0   
+P 7150 4650
+F 0 "R8" V 7230 4650 50  0000 C CNN
+F 1 "5K6" V 7150 4650 50  0000 C CNN
+	1    7150 4650
+	1    0    0    -1  
 $EndComp
 Text Label 5350 5550 0    60   ~ 0
 D+
@@ -564,38 +562,38 @@ F 1 "ISP x2560" V 10000 2900 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L 74LS125 U1
+L 74LS126 U1
 U 2 1 4ECB2B38
 P 7700 3600
 F 0 "U1" H 7800 3800 60  0000 C CNN
-F 1 "74HC125" H 7950 3450 60  0000 C CNN
+F 1 "74HC126" H 8000 3450 60  0000 C CNN
 	2    7700 3600
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS125 U1
+L 74LS126 U1
 U 3 1 4ECB2B37
 P 8000 4300
 F 0 "U1" H 8100 4500 60  0000 C CNN
-F 1 "74HC125" H 8250 4150 60  0000 C CNN
+F 1 "74HC126" H 8300 4150 60  0000 C CNN
 	3    8000 4300
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS125 U1
+L 74LS126 U1
 U 1 1 4ECB2B35
 P 8050 2850
 F 0 "U1" H 8150 3050 60  0000 C CNN
-F 1 "74HC125" H 8300 2700 60  0000 C CNN
+F 1 "74HC126" H 8350 2700 60  0000 C CNN
 	1    8050 2850
 	1    0    0    1   
 $EndComp
 $Comp
-L 74LS125 U1
+L 74LS126 U1
 U 4 1 4ECB2AFA
 P 8050 1950
-F 0 "U1" H 8150 2150 60  0000 C CNN
-F 1 "74HC125" H 8300 1800 60  0000 C CNN
+F 0 "U1" H 7850 1650 60  0000 C CNN
+F 1 "74HC126" H 8000 2200 60  0000 C CNN
 	4    8050 1950
 	-1   0    0    -1  
 $EndComp

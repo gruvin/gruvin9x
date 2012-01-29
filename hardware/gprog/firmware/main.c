@@ -35,6 +35,8 @@ static unsigned int prog_pagesize;
 static uchar prog_blockflags;
 static uchar prog_pagecounter;
 
+static uchar isp_status = 0; // 1 = ISP connection established. Used to change green LED behaviour
+
 uchar usbFunctionSetup(uchar data[8]) {
 
 	uchar len = 0;
@@ -54,7 +56,8 @@ uchar usbFunctionSetup(uchar data[8]) {
 		/* set compatibility mode of address delivering */
 		prog_address_newmode = 0;
 
-		ledGreenOn(); // it pulses on and off in idle mode, so make it on for sure here.
+		//ledGreenOn(); // it pulses on and off in idle mode, so make it on for sure here.
+                isp_status = 1;
                 bufferOn();
                 while (--len); // delay
 		ispConnect();
@@ -65,6 +68,7 @@ uchar usbFunctionSetup(uchar data[8]) {
                 while (--len); // delay
                 bufferOff();
 		ledRedOff();
+                isp_status = 0;
 
 	} else if (data[1] == USBASP_FUNC_TRANSMIT) {
 		replyBuffer[0] = ispTransmit(data[2]);
@@ -224,8 +228,8 @@ uchar usbFunctionWrite(uchar *data, uchar len) {
 }
 
 int main(void) {
-        unsigned int pulseCounter, i = 0;
-
+        unsigned int pulseCounter;
+        uchar i;
 
 	/* no pullups on USB and ISP pins */
 	PORTD = 0;
@@ -234,8 +238,9 @@ int main(void) {
 	// DDRD = ~(1 << 2);
         // g: No -- ALL inputs. None of these pins are used
 
-	/* all inputs except PC0(Red LED), PC1(Green LED) and PRC (Buffer Enable) held low */
-	DDRC = 0b00000011;
+	/* all inputs except PC0(Red LED), PC1(Green LED) and PC3 (Buffer Enable) held low */
+	DDRC = (1 << PC3) | (1 << PC1) | (1 << PC0);
+
         bufferOff(); // Buffer Enable PRC3 set to high-Z, with external pull-up
 
 	/* output SE0 for USB reset */
@@ -263,7 +268,8 @@ int main(void) {
 	sei();
 	for (;;) {
 		usbPoll();
-                if (++pulseCounter & 0x8000) ledGreenOff(); else ledGreenOn();
+                if (isp_status) ledGreenOn();
+                else if (++pulseCounter & 0x8000) ledGreenOn(); else ledGreenOff();
                 // wdt_reset();
 	}
 	return 0;
