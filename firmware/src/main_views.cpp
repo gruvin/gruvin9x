@@ -198,13 +198,17 @@ void menuMainView(uint8_t event)
   ///////////////////////////////////////////////////////////////////////
   /// Upper Section of Display common to all but telemetry alt. views ///
 #if defined (FRSKY)
-  if (view == e_telemetry && frskyStreaming && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // if view is a telemetry ALTERNATE_VIEW view
+  if (view == e_telemetry && ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW)) { // if view is a telemetry ALTERNATE_VIEW view
     putsModelName(0, 0, g_model.name, g_eeGeneral.currModel, 0);
     uint8_t att = (g_vbat100mV < g_eeGeneral.vBatWarn ? BLINK : 0);
     putsVBat(14*FW,0,att);
     if(s_timerState != TMR_OFF){
       att = (s_timerState==TMR_BEEPING ? BLINK : 0);
       putsTime(17*FW, 0, s_timerVal, att, att);
+    }
+    // The timer is in the way ... but more important than a screen title
+    else {
+      lcd_putsnAtt(17*FW-4, 0, PSTR(" MAIN  GPSOTHER") + 5 * (g_eeGeneral.view - e_telemetry) / ALTERNATE_VIEW - 5, 5, 0);
     }
     lcd_filled_rect(0, 0, DISPLAY_W, 8);
   }
