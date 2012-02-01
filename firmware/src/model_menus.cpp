@@ -1768,8 +1768,8 @@ void menuProcTelemetry(uint8_t event)
 
     case EVT_KEY_LONG(KEY_MENU): // press [MENU_LONG] to select standard 2:1 or 4:1 resistor divder (max volts)
 
-      if (sub == 3) ch = 0;
-      else if (sub == 9) ch = 1;
+      if (sub == 4) ch = 0;
+      else if (sub == 10) ch = 1;
       else break;
 
       ratio = g_model.frsky.channels[ch].ratio;  
