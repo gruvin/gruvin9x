@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 29/01/2012 10:48:34 p.m.
+EESchema Schematic File Version 2  date 1/02/2012 11:24:37 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "G9X USB Programmer"
-Date "29 jan 2012"
+Date "1 feb 2012"
 Rev "1.2"
 Comp ""
 Comment1 "Customised for G9X by JWB. Converted ro KiCAD by Gruvin"
@@ -496,7 +496,7 @@ L ATMEGA48P IC1
 U 1 1 4ECC4939
 P 4200 5350
 F 0 "IC1" H 4200 5800 60  0000 C CNN
-F 1 "ATMEGA48P" H 4200 5950 60  0000 C CNN
+F 1 "ATMEGA88P" H 4200 5950 60  0000 C CNN
 	1    4200 5350
 	1    0    0    -1  
 $EndComp
