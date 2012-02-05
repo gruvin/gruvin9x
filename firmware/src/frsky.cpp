@@ -82,6 +82,7 @@ struct FrskyAlarm frskyAlarms[4];
 
 #if defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
 FrskyHubData frskyHubData;
+int16_t baroAltitudeOffset = 0;
 #endif
 
 void frskyPushValue(uint8_t *&ptr, uint8_t value)
@@ -480,5 +481,8 @@ void resetTelemetry()
 {
   memset(frskyTelemetry, 0, sizeof(frskyTelemetry));
   memset(frskyRSSI, 0, sizeof(frskyRSSI));
+#if defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
+  baroAltitudeOffset = -frskyHubData.baroAltitude;
+#endif
 }
 
