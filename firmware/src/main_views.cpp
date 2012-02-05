@@ -208,7 +208,8 @@ void menuMainView(uint8_t event)
     }
     // The timer is in the way ... but more important than a screen title
     else {
-      lcd_putsnAtt(17*FW-4, 0, PSTR(" MAIN  GPSOTHER") + 5 * (g_eeGeneral.view - e_telemetry) / ALTERNATE_VIEW - 5, 5, 0);
+      lcd_putsnAtt(17*FW-4, 0, PSTR(" MAIN  GPSOTHER WSHH") + 5 * (
+          (g_model.frsky.usrProto == PROTO_WS_HOW_HIGH && g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) ? 3 : ((g_eeGeneral.view - e_telemetry) / ALTERNATE_VIEW - 1)), 5, 0);
     }
     lcd_filled_rect(0, 0, DISPLAY_W, 8);
   }
