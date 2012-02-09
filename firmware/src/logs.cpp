@@ -18,51 +18,53 @@
  *
  */
 
-#include "gruvin9x.h"
-#include "ff.h"
+#include "logs.h"
 
-// "/G9XLOGS/M00_000.TXT\0" max required length = 21
-char g_logFilename[22];
-
-// These global so we can close any open file from anywhere
-FATFS FATFS_Obj;
+char g_logFilename[13]; // 8+dot+3+null
+char g_logErrorStr[22] = { 0 };
+int8_t g_telemLogState = 0;
+FATFS g_FATFS_Obj;
 FIL g_oLogFile;
-int8_t g_logState = 0; // 0=closed, >0=opened, <0=error
+char logFullPath[21]; 
 
-void startLogs()
+// initTelemLog: Determine and set telemetry log filename
+void initTelemLog() // pers.cpp -- after loading model data
 {
-  // Determine and set log file filename
   FRESULT result;
 
   // close any file left open. E.G. Changing models with log switch still on.
   if (g_oLogFile.fs) f_close(&g_oLogFile);
-  g_logState = 0;
+  g_telemLogState = 0;
 
-  strcpy_P(g_logFilename, PSTR("/G9XLOGS/M00_000.TXT"));
+  strcpy_P(g_logFilename, PSTR("M00_000.TXT")); // filename only.
 
+  // Set log file model number
   uint8_t num = g_eeGeneral.currModel + 1;
-  char *n = &g_logFilename[11];
+  char *n = &g_logFilename[2];
   *n = (char)((num % 10) + '0');
   *(--n) = (char)((num / 10) + '0');
 
-  result = f_mount(0, &FATFS_Obj);
+  // Loop, skipping over any existing log files ... _000, _001, etc. until we have a unique file name
+  result = f_mount(0, &g_FATFS_Obj);
   if (result!=FR_OK)
   {
-    strcpy_P(g_logFilename, PSTR("FILE SYSTEM ERROR"));
-    g_logState = -result;
+    strcpy_P(g_logErrorStr, PSTR("SDCARD F/S ERROR"));
+    g_telemLogState = -result;
     return;
   }
-
-  // Skip over any existing log files ... _000, _001, etc. (or find first gap in numbering)
   while (1)
   {
-    result = f_open(&g_oLogFile, g_logFilename, FA_OPEN_EXISTING | FA_READ);
+    strcpy(logFullPath, TELEM_LOG_PATH);
+    strcat(logFullPath, "/");
+    strcat(logFullPath, g_logFilename);
+
+    result = f_open(&g_oLogFile, logFullPath, FA_OPEN_EXISTING | FA_READ);
     if (result == FR_OK)
     {
       f_close(&g_oLogFile);
 
       // bump log file counter (file extension)
-      n = &g_logFilename[15];
+      n = &g_logFilename[6];
       if (++*n > '9')
       {
         *n='0';
@@ -79,78 +81,90 @@ void startLogs()
         }
       }
     }
-    else if (result == FR_NO_FILE /*TODO check this code*/)
+    else if (result == FR_NO_FILE /*TODO check this code. What should happen here? */)
     {
       break;
     }
     else if (result == FR_NO_PATH)
     {
-      if (f_mkdir("/G9XLOGS") != FR_OK)
+      if (f_mkdir(TELEM_LOG_PATH) != FR_OK)
       {
-        strcpy_P(g_logFilename, PSTR("Check /G9XLOGS folder"));
-        g_logState = -result;
+        strcpy_P(g_logErrorStr, PSTR("Check "));
+        strcat(g_logErrorStr, TELEM_LOG_PATH);
+        strcat(g_logErrorStr, PSTR(" folder"));
+        g_telemLogState = -result;
         return;
       }
     }
     else
     {
-      g_logState = -result;
+      g_telemLogState = -result;
       if (result == FR_NOT_READY)
-        strcpy_P(g_logFilename, PSTR("DATA CARD NOT PRESENT"));
+        strcpy_P(g_logErrorStr, PSTR("NO DATA CARD"));
       else
-        strcpy_P(g_logFilename, PSTR("DATA CARD ERROR"));
+        strcpy_P(g_logErrorStr, PSTR("CARD ERROR"));
       return;
     }
-  }
+  } // while
+  g_telemLogState = result;
 
   // g_logFilename should now be set appropriately.
 }
 
-// TODO FORCEINLINE this function
-void doLogs()
+// doTelemLog: Append current telemtry and switch status data to log file
+// Called every perMain (gruvin9x.cpp) TODO -- NOT GOOD.
+// Should be maximum once a second. This either needs to be configurable or
+// be called from the Fr-Sky telemetry decode routines, in event-driven fashion.
+
+// Would be best in-lined as well -- but G++ won't allow that to happen with code that's split across files.
+// If we really want it inlined, then we'll need to stick it in its own file (log_inc.cpp) and include it 
+// where it's wanted. *shrug*
+void doTelemLog()
 {
   FRESULT result;
 
-  if (isFunctionActive(FUNC_LOGS))
+  if (isFunctionActive(FUNC_TELEMLOG))
   {
-    if (g_logState==0)
+    if (g_telemLogState==0)
     {
-      result = f_mount(0, &FATFS_Obj);
+      result = f_mount(0, &g_FATFS_Obj);
       if (result != FR_OK)
       {
-        g_logState = -result;
-        beepAgain = result - 1;
+        g_telemLogState = -result;
+        beepAgain = result - 1;  // DEBUG -- count out error_number beeps
         beepKey();
       }
       else
       {
-        // create new log file using filename set up in startLogs()
-        result = f_open(&g_oLogFile, g_logFilename, FA_OPEN_ALWAYS | FA_WRITE);
+        // create new log file using filename set up in initTelemLog()
+        result = f_open(&g_oLogFile, logFullPath, FA_OPEN_ALWAYS | FA_WRITE);
         if (result != FR_OK)
         {
-          g_logState = -result;
-          beepAgain = result - 1;
+          g_telemLogState = -result;
+          beepAgain = result - 1; // DEBUG -- count out error_number beeps
           beepKey();
         }
         else
         {
           f_lseek(&g_oLogFile, g_oLogFile.fsize); // append
-          g_logState = 1;
-          beepWarn2();
+          g_telemLogState = 1;
+          beepWarn2(); // DEBUG -- tell user the log is open
         }
       }
     }
 
-    if (g_logState>0)
+    if (g_telemLogState>0)
     {
       // TODO here we write logs
+      // For now, append 'anything' as a test
+      f_printf(&g_oLogFile, "Appended log line test 100ms=%u\n", g_ms100);
     }
   }
-  else if (g_logState > 0)
+  else if (g_telemLogState > 0)
   {
     f_close(&g_oLogFile);
     beepWarn2();
-    g_logState = 0;
+    g_telemLogState = 0;
   }
 }
 

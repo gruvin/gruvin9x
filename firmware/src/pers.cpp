@@ -295,8 +295,8 @@ void eeLoadModel(uint8_t id)
     resetTimer1();
     resetTimer2();
     resetProto();
-#ifdef LOGS
-    startLogs();
+#ifdef TELEMLOGS
+    initTelemLog();
 #endif
   }
 }

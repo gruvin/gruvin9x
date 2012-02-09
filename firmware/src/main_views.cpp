@@ -346,6 +346,24 @@ void menuMainView(uint8_t event)
     static uint8_t staticRSSI[2];
     static bool alarmRaised[2];
 
+#if defined (TELEMLOGS)
+    if ((g_eeGeneral.view & 0xf0) >= ALTERNATE_VIEW) // if on  any alternate telemetry view
+    {
+      if (g_telemLogState >= 0)
+      {
+        // "Log File:" label inverse only when logging active (file is open)
+        lcd_putsAtt(0, FH*1, PSTR("Log File:"), (g_telemLogState>0)?INVERS:0); // Show log filename.
+        lcd_putsAtt(FW*9+3, FH*1, g_logFilename, BSS); // Show log filename
+      }
+      else
+      {
+        lcd_putsAtt(0, FH*1, PSTR("NO LOG."), 0); // Show log filename
+        lcd_putsAtt(FW*8, FH*1, g_logErrorStr, BSS); // Show log error msg
+      }
+    }
+
+#endif
+
     if (frskyStreaming) {
       uint8_t y0, x0, val, blink;
       if (!displayCount) {
@@ -359,7 +377,7 @@ void menuMainView(uint8_t event)
       if (g_eeGeneral.view == e_telemetry+ALTERNATE_VIEW) { // if on first alternate telemetry view
 
 #ifdef DISPLAY_USER_DATA
-        // this screen line buffer is currently always empty
+        // This screen line buffer is currently always empty. It was used for testing.
         // Write user data characters along line, scrolling horizontally
         // Not much use for telemetry. Maybe do hex chars instead or get 
         // rid of it altogether XXX
@@ -410,36 +428,36 @@ void menuMainView(uint8_t event)
 #ifdef FRSKY_HUB
       else if (g_model.frsky.usrProto == PROTO_FRSKY_HUB && g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) { // if on second alternate telemetry view
         // Date
-        lcd_outdezNAtt(1*FW, 1*FH, frskyHubData.year+2000, LEFT, 4);
-        lcd_putc(lcd_lastPos, 1*FH, '-');
-        lcd_outdezNAtt(lcd_lastPos+FW, 1*FH, frskyHubData.month, LEFT|LEADING0, 2);
-        lcd_putc(lcd_lastPos, 1*FH, '-');
-        lcd_outdezNAtt(lcd_lastPos+FW, 1*FH, frskyHubData.day, LEFT|LEADING0, 2);
+        lcd_outdezNAtt(1*FW, 2*FH, frskyHubData.year+2000, LEFT, 4);
+        lcd_putc(lcd_lastPos, 2*FH, '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.month, LEFT|LEADING0, 2);
+        lcd_putc(lcd_lastPos, 2*FH, '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.day, LEFT|LEADING0, 2);
 
         // Time
-        lcd_outdezNAtt(FW*10+8, 1*FH, frskyHubData.hour, LEFT|LEADING0, 2);
-        lcd_putc(lcd_lastPos, 1*FH, ':');
-        lcd_outdezNAtt(lcd_lastPos+FW, 1*FH, frskyHubData.min, LEFT|LEADING0, 2);
-        lcd_putc(lcd_lastPos, 1*FH, ':');
-        lcd_outdezNAtt(lcd_lastPos+FW, 1*FH, frskyHubData.sec, LEFT|LEADING0, 2);
+        lcd_outdezNAtt(FW*10+8, 2*FH, frskyHubData.hour, LEFT|LEADING0, 2);
+        lcd_putc(lcd_lastPos, 2*FH, ':');
+        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.min, LEFT|LEADING0, 2);
+        lcd_putc(lcd_lastPos, 2*FH, ':');
+        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.sec, LEFT|LEADING0, 2);
 
         // Longitude
-        lcd_outdezAtt(FW*3-2, 3*FH,  frskyHubData.gpsLongitude_bp / 100, 0); // ddd before '.'
-        lcd_putc(lcd_lastPos, 3*FH, '@');
+        lcd_outdezAtt(FW*3-2, 4*FH,  frskyHubData.gpsLongitude_bp / 100, 0); // ddd before '.'
+        lcd_putc(lcd_lastPos, 4*FH, '@');
         uint8_t mn = frskyHubData.gpsLongitude_bp % 100;
-        lcd_outdezNAtt(lcd_lastPos+FW, 3*FH, mn, LEFT|LEADING0, 2); // mm before '.'
-        lcd_plot(lcd_lastPos, 4*FH-2, 0); // small decimal point
-        lcd_outdezNAtt(lcd_lastPos+2, 3*FH, frskyHubData.gpsLongitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
-        lcd_putc(lcd_lastPos+1, 3*FH, frskyHubData.gpsLongitudeEW ? frskyHubData.gpsLongitudeEW : '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 4*FH, mn, LEFT|LEADING0, 2); // mm before '.'
+        lcd_plot(lcd_lastPos, 5*FH-2, 0); // small decimal point
+        lcd_outdezNAtt(lcd_lastPos+2, 4*FH, frskyHubData.gpsLongitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
+        lcd_putc(lcd_lastPos+1, 4*FH, frskyHubData.gpsLongitudeEW ? frskyHubData.gpsLongitudeEW : '-');
 
         // Latitude
-        lcd_outdezAtt(lcd_lastPos+3*FW+3, 3*FH,  frskyHubData.gpsLatitude_bp / 100, 0); // ddd before '.'
-        lcd_putc(lcd_lastPos, 3*FH, '@');
+        lcd_outdezAtt(lcd_lastPos+3*FW+3, 4*FH,  frskyHubData.gpsLatitude_bp / 100, 0); // ddd before '.'
+        lcd_putc(lcd_lastPos, 4*FH, '@');
         mn = frskyHubData.gpsLatitude_bp % 100;
-        lcd_outdezNAtt(lcd_lastPos+FW, 3*FH, mn, LEFT|LEADING0, 2); // mm before '.'
-        lcd_plot(lcd_lastPos, 4*FH-2, 0); // small decimal point
-        lcd_outdezNAtt(lcd_lastPos+2, 3*FH, frskyHubData.gpsLatitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
-        lcd_putc(lcd_lastPos+1, 3*FH, frskyHubData.gpsLatitudeNS ? frskyHubData.gpsLatitudeNS : '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 4*FH, mn, LEFT|LEADING0, 2); // mm before '.'
+        lcd_plot(lcd_lastPos, 5*FH-2, 0); // small decimal point
+        lcd_outdezNAtt(lcd_lastPos+2, 4*FH, frskyHubData.gpsLatitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
+        lcd_putc(lcd_lastPos+1, 4*FH, frskyHubData.gpsLatitudeNS ? frskyHubData.gpsLatitudeNS : '-');
 
         // Course / Heading
         lcd_puts_P(5, 5*FH, PSTR("Hdg:"));
@@ -541,13 +559,6 @@ void menuMainView(uint8_t event)
       }
     }
     else {
-#if defined (LOGS)
-      if (g_eeGeneral.view == e_telemetry+ALTERNATE_VIEW) // if on first alternate telemetry view
-      {
-        lcd_putsAtt(0, FH*2, g_logFilename, BSS); // Show log filename (or error msg)
-      }
-
-#endif
       lcd_putsAtt(22, 40, PSTR("NO DATA"), DBLSIZE);
     }
   }

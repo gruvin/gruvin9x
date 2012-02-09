@@ -323,8 +323,8 @@ enum EnumKeys {
 #define CSWITCH_STR  "----   v>ofs  v<ofs  |v|>ofs|v|<ofsAND    OR     XOR    ""v1==v2 ""v1!=v2 ""v1>v2  ""v1<v2  ""v1>=v2 ""v1<=v2 "
 #define CSW_LEN_FUNC 7
 
-#ifdef LOGS
-#define LOGS_STR "SDCARD Logs   "
+#ifdef TELEMLOGS
+#define LOGS_STR "Write log data"
 #else
 #define LOGS_STR
 #endif
@@ -638,9 +638,8 @@ void DSM2_Init();
 void DSM2_Done();
 void resetProto();
 
-#ifdef LOGS
-extern void startLogs();
-extern void doLogs();
+#ifdef TELEMLOGS
+#  include "logs.h"
 #endif
 
 extern uint16_t *pulses2MHzRPtr;
@@ -753,9 +752,7 @@ extern char userDataDisplayBuf[TELEM_SCREEN_BUFFER_SIZE]; // text buffer for frs
 #endif
 
 #if defined (PCBV3)
-extern char g_logFilename[22]; // pers.cpp::resetTelemetry()
-extern FATFS FATFS_Obj; // pers.cpp::resetTelemetry()
-extern FIL g_oLogFile; // pers.cpp::resetTelemetry()
+#  include "logs.h"  
 #endif
 
 #if defined (PCBV4)

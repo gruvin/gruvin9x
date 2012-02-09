@@ -1587,8 +1587,8 @@ void perMain()
   if (trimsCheckTimer > 0)
     trimsCheckTimer -= 1;
 
-#if defined (LOGS)
-  doLogs();
+#if defined (TELEMLOGS)
+  doTelemLog();
 #endif
 
 #if defined(FRSKY) && defined(DISPLAY_USER_DATA)

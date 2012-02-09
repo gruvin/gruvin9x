@@ -167,8 +167,8 @@ enum Functions {
   FUNC_TRAINER_AIL,
   FUNC_INSTANT_TRIM,
   FUNC_TRIMS_2_OFS,
-#ifdef LOGS
-  FUNC_LOGS,
+#ifdef TELEMLOGS
+  FUNC_TELEMLOG,
 #endif
   FUNC_MAX
 };
