@@ -751,10 +751,6 @@ inline bool isFunctionActive(uint8_t func)
 extern char userDataDisplayBuf[TELEM_SCREEN_BUFFER_SIZE]; // text buffer for frsky telem. user data experiments
 #endif
 
-#if defined (PCBV3)
-#  include "logs.h"  
-#endif
-
 #if defined (PCBV4)
 // Global rotary encoder registers -- 8-bit, 0-255
 extern volatile uint8_t g_rotenc[2];
