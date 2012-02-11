@@ -49,6 +49,11 @@
 #include "gruvin9x.h"
 #include "templates.h"
 
+#ifdef SIMU
+#define pm_char char
+#define pm_int8_t int8_t
+#endif
+
 const pm_char stn1[] PROGMEM =  "Simple 4-CH";
 const pm_char stn2[] PROGMEM =  "T-Cut";
 const pm_char stn3[] PROGMEM =  "V-Tail";
