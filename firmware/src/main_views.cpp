@@ -384,7 +384,7 @@ void menuMainView(uint8_t event)
         for (uint8_t ii=0; ii < TELEM_SCREEN_BUFFER_SIZE; ii++)
         {
           char c = userDataDisplayBuf[ii];
-          if (c) lcd_putc(ii*FW, 1*FH, c);
+          if (c) lcd_putc(ii*FW, 3*FH, c);
         }
         //////////////////////////////////////////
 #endif

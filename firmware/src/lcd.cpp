@@ -20,8 +20,14 @@
  */
 
 #include "lcd.h"
+
+const pm_uchar font[] PROGMEM = {
 #include "font.lbm"
+};
+
+const pm_uchar font_dblsize[] PROGMEM = {
 #include "font_dblsize.lbm"
+};
 
 #define font_5x8_x20_x7f (font+2)
 #define font_10x16_x20_x7f (font_dblsize+2)
@@ -39,9 +45,9 @@ void lcd_clear()
   memset(displayBuf, 0, sizeof(displayBuf));
 }
 
-void lcd_img(uint8_t x, uint8_t y, const prog_uchar * img, uint8_t idx, uint8_t mode)
+void lcd_img(uint8_t x, uint8_t y, const pm_uchar * img, uint8_t idx, uint8_t mode)
 {
-  const prog_uchar *q = img;
+  const pm_uchar *q = img;
   uint8_t w    = pgm_read_byte(q++);
   uint8_t hb   = (pgm_read_byte(q++)+7)/8;
   bool    inv  = (mode & INVERS) ? true : (mode & BLINK ? BLINK_ON_PHASE : false);
@@ -61,7 +67,7 @@ void lcd_putcAtt(uint8_t x, uint8_t y, const char c, uint8_t mode)
 {
   uint8_t *p    = &displayBuf[ y / 8 * DISPLAY_W + x ];
 
-  prog_uchar    *q = &font_5x8_x20_x7f[ + (c-0x20)*5];
+  const pm_uchar    *q = &font_5x8_x20_x7f[ + (c-0x20)*5];
   bool         inv = (mode & INVERS) ? true : (mode & BLINK ? BLINK_ON_PHASE : false);
   if(mode & DBLSIZE)
   {
@@ -121,7 +127,7 @@ void lcd_putc(uint8_t x,uint8_t y,const char c)
   lcd_putcAtt(x,y,c,0);
 }
 
-void lcd_putsnAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t len,uint8_t mode)
+void lcd_putsnAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t len,uint8_t mode)
 {
   while(len!=0) {
     char c;
@@ -143,12 +149,12 @@ void lcd_putsnAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t len,uint8_t mo
     len--;
   }
 }
-void lcd_putsn_P(uint8_t x,uint8_t y,const prog_char * s,uint8_t len)
+void lcd_putsn_P(uint8_t x,uint8_t y,const pm_char * s,uint8_t len)
 {
   lcd_putsnAtt( x,y,s,len,0);
 }
 
-void lcd_putsAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t mode)
+void lcd_putsAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t mode)
 {
   while(1) {
     char c = (mode & BSS) ? *s++ : pgm_read_byte(s++);
@@ -160,7 +166,7 @@ void lcd_putsAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t mode)
   lcd_lastPos = x;
 }
 
-void lcd_puts_P(uint8_t x,uint8_t y,const prog_char * s)
+void lcd_puts_P(uint8_t x,uint8_t y,const pm_char * s)
 {
   lcd_putsAtt( x, y, s, 0);
 }
@@ -396,7 +402,7 @@ void putsVBat(uint8_t x, uint8_t y, uint8_t att)
   putsVolts(x, y, g_vbat100mV, att);
 }
 
-void putsStrIdx(uint8_t x, uint8_t y, const prog_char *str, uint8_t idx, uint8_t att)
+void putsStrIdx(uint8_t x, uint8_t y, const pm_char *str, uint8_t idx, uint8_t att)
 {
   lcd_putsAtt(x, y, str, att /*i62*/&~BSS/**/); // Issue 62. G: Temporary fix? Permanent maybe, if we never use 
                                                 //              putsStrIdx for SRAM based strings? 

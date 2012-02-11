@@ -144,6 +144,24 @@ PPMIN =  STD
 
 #------- END BUILD OPTIONS ---------------------------
 
+# Define programs and commands.
+SHELL = sh
+CC = avr-gcc
+OBJCOPY = avr-objcopy
+OBJDUMP = avr-objdump
+SIZE = avr-size
+NM = avr-nm
+AVRDUDE = avrdude
+REMOVE = rm -f
+REMOVEDIR = rm -rf
+COPY = cp
+WINSHELL = cmd
+
+# th9x/gruvin9x-specific
+XBM2LBM = ruby ../util/xbm2lbm.rb
+AREV = $(shell sh -c "cat .svn/entries | sed -n '4p'")
+REV = $(shell echo $$(( $(AREV) + 1 )))
+
 # MCU name
 ifeq ($(PCB), STD)
 MCU = atmega64
@@ -318,7 +336,7 @@ else
   endif
   ifeq ($(LOGS), YES)
     CPPSRC += logs.cpp
-    CPPDEFS += -DLOGS
+    CPPDEFS += -DTELEMLOGS
     MODS += L
   endif
   ifeq ($(PCB), V4)
@@ -404,7 +422,7 @@ CFLAGS += -Wa,-adhlns=$(<:%.c=$(OBJDIR)/%.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
 
-CFLAGS+= --combine -fwhole-program
+CFLAGS+= -fwhole-program
 
 
 #---------------- Compiler Options C++ ----------------
@@ -434,6 +452,15 @@ CPPFLAGS += -Wno-strict-aliasing
 #CPPFLAGS += -Wa,-adhlns=$(<:%.cpp=$(OBJDIR)/%.lst)
 CPPFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 #CPPFLAGS += $(CSTANDARD)
+
+GCCVERSIONGTE460 := $(shell expr 4.6.0 \<= `$(CC) -dumpversion`)
+  $(shell echo $(GCCVERSIONGTE460) >/dev/tty)
+ifeq ($(GCCVERSIONGTE460),1)
+  CFLAGS += -flto
+  CPPFLAGS += -flto
+else
+  CFLAGS += --combine
+endif
 
 AVRGCCFLAGS = -fno-inline-small-functions
 
@@ -577,30 +604,6 @@ DEBUG_PORT = 4242
 #     just set to localhost unless doing some sort of crazy debugging when
 #     avarice is running on a different computer.
 DEBUG_HOST = localhost
-
-
-
-#============================================================================
-
-
-# Define programs and commands.
-SHELL = sh
-CC = avr-gcc
-OBJCOPY = avr-objcopy
-OBJDUMP = avr-objdump
-SIZE = avr-size
-NM = avr-nm
-AVRDUDE = avrdude
-REMOVE = rm -f
-REMOVEDIR = rm -rf
-COPY = cp
-WINSHELL = cmd
-
-# th9x/gruvin9x-specific
-XBM2LBM = ruby ../util/xbm2lbm.rb
-AREV = $(shell sh -c "cat .svn/entries | sed -n '4p'")
-REV = $(shell echo $$(( $(AREV) + 1 )))
-
 
 # Define Messages
 # English

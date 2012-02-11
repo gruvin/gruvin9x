@@ -40,23 +40,9 @@
 #include <stddef.h>
 #include <avr/io.h>
 #define assert(x)
-//disable whole pgmspace functionality for all avr-gcc because
-//avr-gcc > 4.2.1 does not work anyway
-//http://www.mail-archive.com/gcc-bugs@gcc.gnu.org/msg239240.html
-//http://gcc.gnu.org/bugzilla/show_bug.cgi?id=34734
-//
-//Workarounds:
-//
-//PSTR is fixed below
-//all prog_xx definitions must use APM explicitely
 
-//#define __ATTR_PROGMEM__
 #include <avr/pgmspace.h>
-#ifdef __cplusplus
-#define APM __attribute__(( section(".progmem.data") ))
-#undef PSTR
-#define PSTR(s) (__extension__({static prog_char APM __c[] = (s);&__c[0];}))
-#endif
+#include "pgmtypes.h"
 
 #include <avr/eeprom.h>
 #include <avr/sleep.h>
@@ -272,8 +258,8 @@ extern uint16_t DEBUG2;
 
 #define SLAVE_MODE (PING & (1<<INP_G_RF_POW))
 
-extern const prog_uint8_t APM chout_ar[24*4];
-extern const prog_uint8_t APM modn12x3[4*4];
+extern const pm_uint8_t chout_ar[24*4];
+extern const pm_uint8_t modn12x3[4*4];
 
 //convert from mode 1 to mode g_eeGeneral.stickMode
 //NOTICE!  =>  1..4 -> 1..4
@@ -469,8 +455,8 @@ extern uint8_t keyDown();
 
 /// Gibt Alarm Maske auf lcd aus.
 /// Die Maske wird so lange angezeigt bis eine beliebige Taste gedrueckt wird.
-void alert(const prog_char * s, bool defaults=false);
-void message(const prog_char * s);
+void alert(const pm_char * s, bool defaults=false);
+void message(const pm_char * s);
 /// periodisches Hauptprogramm
 void    perMain();
 /// Bearbeitet alle zeitkritischen Jobs.
@@ -658,7 +644,7 @@ extern volatile uint16_t  g_tmr10ms;
 extern volatile uint8_t   g_blinkTmr10ms;
 extern uint8_t            g_beepCnt;
 extern uint8_t            g_beepVal[5];
-extern const PROGMEM char modi12x3[];
+extern const pm_char modi12x3[];
 extern int16_t            g_ppmIns[8];
 extern int16_t            g_chans512[NUM_CHNOUT];
 extern volatile uint8_t   tick10ms;

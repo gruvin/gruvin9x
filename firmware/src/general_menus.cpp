@@ -20,7 +20,10 @@
  */
 
 #include "menus.h"
+
+const pm_uchar sticks[] PROGMEM = {
 #include "sticks.lbm"
+};
 
 enum EnumTabDiag {
   e_Setup,
@@ -44,7 +47,7 @@ void menuProcDiagKeys(uint8_t event);
 void menuProcDiagAna(uint8_t event);
 void menuProcDiagCalib(uint8_t event);
 
-MenuFuncP_PROGMEM APM menuTabDiag[] = {
+const MenuFuncP_PROGMEM menuTabDiag[] PROGMEM = {
   menuProcSetup,
 #if defined(PCBV3)
   menuProcTime,
@@ -504,7 +507,7 @@ void menuProcDiagAna(uint8_t event)
 
 }
 
-const prog_char APM menuWhenDone[] = " [MENU] WHEN DONE " ;
+const pm_char menuWhenDone[] PROGMEM = " [MENU] WHEN DONE " ;
 
 void menuProcDiagCalib(uint8_t event)
 {

@@ -49,7 +49,7 @@
   lcd_outdezAtt(5*FW, 4*FH, strlen(myStr), 0);
   lcd_outdezAtt(5*FW, 5*FH, myStr[0], 0);
 
-  // can't use lcd_puts... becasue it specifies prog_char mem space, not SRAM
+  // can't use lcd_puts... becasue it specifies pm_char mem space, not SRAM
   uint8_t x=0;
   uint8_t j=6;
   for (uint8_t i=0; i<strlen(myStr); i++)

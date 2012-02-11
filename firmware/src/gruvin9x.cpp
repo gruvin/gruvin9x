@@ -20,11 +20,16 @@
  */
 
 #include "gruvin9x.h"
+
+const pm_uchar splashdata[] PROGMEM = { 'S','P','S',0,
 #if defined (PCBV4)
 #include "s9xsplashv4.lbm"
 #else
 #include "s9xsplash.lbm"
 #endif
+       'S','P','E',0};
+const pm_uchar * s9xsplash = splashdata+4;
+
 #include "menus.h"
 #include <stdlib.h>
 
@@ -59,25 +64,25 @@ bool warble = false;
 
 uint8_t heartbeat;
 
-const prog_char APM modi12x3[]=
+const pm_char modi12x3[] PROGMEM =
   "RUD ELE THR AIL "
   "RUD THR ELE AIL "
   "AIL ELE THR RUD "
   "AIL THR ELE RUD ";
 
-const prog_char APM s_charTab[] = "_-.,";
+const pm_char s_charTab[] PROGMEM = "_-.,";
 
 //R=1
 //E=2
 //T=3
 //A=4
-const prog_uint8_t APM chout_ar[] = { //First number is 0..23 -> template setup,  Second is relevant channel out
+const pm_uint8_t chout_ar[] PROGMEM = { //First number is 0..23 -> template setup,  Second is relevant channel out
                                       1,2,3,4 , 1,2,4,3 , 1,3,2,4 , 1,3,4,2 , 1,4,2,3 , 1,4,3,2,
                                       2,1,3,4 , 2,1,4,3 , 2,3,1,4 , 2,3,4,1 , 2,4,1,3 , 2,4,3,1,
                                       3,1,2,4 , 3,1,4,2 , 3,2,1,4 , 3,2,4,1 , 3,4,1,2 , 3,4,2,1,
                                       4,1,2,3 , 4,1,3,2 , 4,2,1,3 , 4,2,3,1 , 4,3,1,2 , 4,3,2,1    };
 
-const prog_uint8_t APM modn12x3[]= {
+const pm_uint8_t modn12x3[] PROGMEM = {
     1, 2, 3, 4,
     1, 3, 2, 4,
     4, 2, 3, 1,
@@ -505,11 +510,7 @@ void doSplash()
         BACKLIGHT_OFF;
 
       lcd_clear();
-#if defined (PCBV4)
-      lcd_img(0, 0, s9xsplashv4,0,0);
-#else
       lcd_img(0, 0, s9xsplash,0,0);
-#endif
       refreshDisplay();
       lcdSetRefVolt(g_eeGeneral.contrast);
       clearKeyEvents();
@@ -556,7 +557,7 @@ void checkLowEEPROM()
   }
 }
 
-void alertMessages( const prog_char * s, const prog_char * t )
+void alertMessages( const pm_char * s, const pm_char * t )
 {
   lcd_clear();
   lcd_putsAtt(64-5*FW,0*FH,PSTR("ALERT"),DBLSIZE);
@@ -650,7 +651,7 @@ void checkSwitches()
 uint8_t  g_beepCnt;
 uint8_t  g_beepVal[5];
 
-void message(const prog_char * s)
+void message(const pm_char * s)
 {
   lcd_clear();
   lcd_putsAtt(64-5*FW,0*FH,PSTR("MESSAGE"),DBLSIZE);
@@ -659,7 +660,7 @@ void message(const prog_char * s)
   lcdSetRefVolt(g_eeGeneral.contrast);
 }
 
-void alert(const prog_char * s, bool defaults)
+void alert(const pm_char * s, bool defaults)
 {
   lcd_clear();
   lcd_putsAtt(64-5*FW,0*FH,PSTR("ALERT"),DBLSIZE);
@@ -767,9 +768,9 @@ static uint16_t s_anaFilt[8];
 uint16_t anaIn(uint8_t chan)
 {
   //                     ana-in:   3 1 2 0 4 5 6 7
-  //static prog_char APM crossAna[]={4,2,3,1,5,6,7,0}; // wenn schon Tabelle, dann muss sich auch lohnen
+  //static const pm_char crossAna[] PROGMEM ={4,2,3,1,5,6,7,0}; // wenn schon Tabelle, dann muss sich auch lohnen
   //                        Google Translate (German): // if table already, then it must also be worthwhile
-  static prog_char APM crossAna[]={3,1,2,0,4,5,6,7};
+  static const pm_char crossAna[] PROGMEM ={3,1,2,0,4,5,6,7};
   volatile uint16_t *p = &s_anaFilt[pgm_read_byte(crossAna+chan)];
   return *p;
 }
@@ -1704,7 +1705,7 @@ void perMain()
     case 3:
       {
         // The various "beep" tone lengths
-        static prog_uint8_t APM beepTab[]= {
+        static const pm_uint8_t beepTab[] PROGMEM = {
        // 0   1   2   3    4
           0,  0,  0,  0,   0, //quiet
           0,  1,  8, 30, 100, //silent

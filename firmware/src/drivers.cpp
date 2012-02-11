@@ -348,7 +348,7 @@ void per10ms()
 // Trim switches ...
 #if defined (PCBV3)
 #  if defined (PCBV4)
-  static  prog_uchar  APM crossTrim[]={
+  static const pm_uchar crossTrim[] PROGMEM ={
     1<<INP_J_TRM_LH_DWN,
     1<<INP_J_TRM_LH_UP,
     1<<INP_J_TRM_LV_DWN,
@@ -359,7 +359,7 @@ void per10ms()
     1<<INP_J_TRM_RH_UP
   };
 #  else
-  static  prog_uchar  APM crossTrim[]={
+  static const pm_uchar crossTrim[] PROGMEM ={
     1<<TRIM_M_RV_DWN,
     1<<TRIM_M_RV_UP,
     1<<TRIM_M_RH_DWN,
@@ -373,7 +373,7 @@ void per10ms()
 
 #else // stock original board ...
 
-  static  prog_uchar  APM crossTrim[]={
+  static const pm_uchar crossTrim[] PROGMEM ={
     1<<INP_D_TRM_LH_DWN,  // bit 7
     1<<INP_D_TRM_LH_UP,
     1<<INP_D_TRM_LV_DWN,

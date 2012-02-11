@@ -4,12 +4,12 @@
 #define STR2(s) #s
 #define DEFNUMSTR(s)  STR2(s)
 
-const char APM  stamp1[] = "VERS: V" DEFNUMSTR(VERS) "." DEFNUMSTR(TAG_VERS);
-const char APM  stamp2[] = "DATE: " DATE_STR;
-const char APM  stamp3[] = "TIME: " TIME_STR;
-const char APM  stamp4[] = " SVN: " SVN_VERS;
-const char APM  stamp5[] = " MOD: " MOD_VERS;
-const char APM  stamp6[] = " BLD: " DEFNUMSTR(BUILD_NUM);
+const pm_char stamp1[] PROGMEM = "VERS: V" DEFNUMSTR(VERS) "." DEFNUMSTR(TAG_VERS);
+const pm_char stamp2[] PROGMEM = "DATE: " DATE_STR;
+const pm_char stamp3[] PROGMEM = "TIME: " TIME_STR;
+const pm_char stamp4[] PROGMEM = " SVN: " SVN_VERS;
+const pm_char stamp5[] PROGMEM = " MOD: " MOD_VERS;
+const pm_char stamp6[] PROGMEM = " BLD: " DEFNUMSTR(BUILD_NUM);
 
 
 
