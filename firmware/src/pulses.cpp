@@ -43,7 +43,7 @@ void startPulses()
 
   {
 #if defined (PCBV4)
-    OCR1B = 0xffff; /* Prevent any PPM_PUT pin toggle before the TCNT1 interrupt
+    OCR1B = 0xffff; /* Prevent any PPM_OUT pin toggle before the TCNT1 interrupt
                       fires for the first time and sets up the pulse period. */
     // TCCR1A |= (1<<COM1B0); // (COM1B1=0 and COM1B0=1 in TCCR1A)  toogle the state of PB6(OC1B) on each TCNT1==OCR1B
     TCCR1A = (3<<COM1B0); // Connect OC1B to PPM_OUT pin (SET the state of PB6(OC1B) on next TCNT1==OCR1B)
@@ -145,7 +145,7 @@ ISR(TIMER1_COMPA_vect) //2MHz pulse generation
 #if !defined (PCBV3) && defined (DPPMPB7_HARDWARE)
       // G: NOTE: This strategy does not work on the '2560 becasue you can't
       //          read the PPM out pin when connected to OC1B. Vincent says
-      //          it works on the '64A. I haven't personally tested it.
+      //          it works on the '64A. I have now personally tested this and found it to be true.
       if (PINB & (1<<OUT_B_PPM) && g_model.pulsePol)
         TCCR1C=(1<<FOC1C);
 #endif
