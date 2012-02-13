@@ -464,8 +464,8 @@ void FRSKY_Init(void)
 #endif
 
   // These should be running right from power up on a FrSky enabled '9X.
-  FRSKY_EnableTXD(); // enable FrSky-Telemetry reception
-  FRSKY_EnableRXD(); // enable FrSky-Telemetry reception
+  FRSKY_EnableTXD(); // enable FrSky-Telemetry command transmission
+  FRSKY_EnableRXD(); // enable FrSky-Telemetry data reception
 }
 
 void FrskyData::set(uint8_t value)

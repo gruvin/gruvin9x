@@ -269,7 +269,10 @@ void DSM2_Done()
 void DSM2_Init(void)
 {
   DDRE &= ~(1 << DDE0);    // set RXD0 pin as input
-  PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
+  // PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
+  PORTE |= (1 << PORTE0); // g: ENnable pullup on RXD0 pin. Never leave an input pin floating. 
+                          //    I also have plans to use this pin for a range-check button in my 
+                          //    DSM TX module.
 
 #undef BAUD
 #define BAUD 125000
@@ -291,7 +294,7 @@ void DSM2_Init(void)
   setupPulsesDsm2();
 
   // These should be running right from power up on a FrSky enabled '9X.
-  DSM2_EnableTXD(); // enable FrSky-Telemetry reception
+  DSM2_EnableTXD(); // enable DSM2 UART transmitter
 }
 
 #endif
