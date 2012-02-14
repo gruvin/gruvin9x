@@ -159,8 +159,7 @@ WINSHELL = cmd
 
 # th9x/gruvin9x-specific
 XBM2LBM = ruby ../util/xbm2lbm.rb
-AREV = $(shell sh -c "cat .svn/entries | sed -n '4p'")
-REV = $(shell echo $$(( $(AREV) + 1 )))
+REV = $(shell sh -c "svnversion | egrep -o [[:digit:]]+M?$$")
 
 # MCU name
 ifeq ($(PCB), STD)
