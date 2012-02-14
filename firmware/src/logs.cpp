@@ -123,9 +123,10 @@ void doTelemLog()
 {
   FRESULT result;
 
-  if (isFunctionActive(FUNC_TELEMLOG))
+  if (isFunctionActive(FUNC_TELEMLOG)) // if FUNC SWITCH for 'Write log data' is on ...
   {
-    if (g_telemLogState==0)
+    // Only appeand/create the log file if it's not already open ...
+    if (g_telemLogState<=0)
     {
       result = f_mount(0, &g_FATFS_Obj);
       if (result != FR_OK)
@@ -158,6 +159,10 @@ void doTelemLog()
       // TODO here we write logs
       // For now, append 'anything' as a test
       f_printf(&g_oLogFile, "Appended log line test 100ms=%u\n", g_ms100);
+
+      // Don't close the log file here. We have 'soft off' available on the v4.1 board. Once
+      // that is implemented, it can take care of closing the file, should the radio be
+      // powered off before the FUNC SWITCH is turned off.
     }
   }
   else if (g_telemLogState > 0)

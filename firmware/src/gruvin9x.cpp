@@ -472,7 +472,7 @@ uint8_t keyDown()
   uint8_t in;
   PORTD = ~1; // select KEY_Y0 row (Bits 3:2 EXIT:MENU)
   _delay_us(1);
-  in = (~PIND & 0b11000000) >> 5;
+  in = (~PIND & 0xc0/*0b11000000*/) >> 5;
   PORTD = ~2; // select Y1 row. (Bits 3:0 Left/Right/Up/Down)
   _delay_us(1);
   in |= (~PIND & 0xf0) >> 1;
