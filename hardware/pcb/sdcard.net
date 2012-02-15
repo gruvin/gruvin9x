@@ -1,7 +1,7 @@
-# EESchema Netlist Version 1.1 created  14/02/2011 9:09:37 p.m.
+# EESchema Netlist Version 1.1 created  15/02/2012 01:28:48
 (
  ( /4D1F93EA $noname  R3 10K {Lib=R}
-  (    1 N-000018 )
+  (    1 N-000008 )
   (    2 GND )
  )
  ( /4D3E6931 $noname  R10 5K1 {Lib=R}
@@ -17,17 +17,17 @@
   (    2 GND )
  )
  ( /4D3E3E91 $noname  BT1 CR2032 {Lib=BATTERY}
-  (    1 N-000008 )
+  (    1 N-000010 )
   (    2 GND )
  )
  ( /4D3E3E59 $noname  X1 32768 {Lib=CRYSTAL}
   (    1 N-000002 )
-  (    2 N-000009 )
+  (    2 N-000003 )
  )
  ( /4D3E3DEA $noname  U1 DS1338-33 {Lib=DS1338-33}
-  (    1 N-000009 )
+  (    1 N-000003 )
   (    2 N-000002 )
-  (    3 N-000008 )
+  (    3 N-000010 )
   (    4 GND )
   (    5 /I2C_SDA )
   (    6 /I2C_SCL )
@@ -36,15 +36,15 @@
  )
  ( /4D3E13E1 $noname  R5 10K {Lib=R}
   (    1 /Vcc_3V3 )
-  (    2 N-000003 )
+  (    2 N-000004 )
  )
  ( /4D1F947B $noname  R2 10K {Lib=R}
   (    1 /Vcc_3V3 )
-  (    2 N-000017 )
+  (    2 N-000011 )
  )
  ( /4D1F946A $noname  R1 10K {Lib=R}
   (    1 /Vcc_3V3 )
-  (    2 N-000016 )
+  (    2 N-000017 )
  )
  ( /4D1F944C $noname  C1 0u1 {Lib=C}
   (    1 /Vcc_3V3 )
@@ -52,42 +52,42 @@
  )
  ( /4D1F93CC $noname  R8 1K {Lib=R}
   (    1 /SD_CS )
-  (    2 N-000003 )
+  (    2 N-000004 )
  )
  ( /4D1F9326 $noname  R4 10K {Lib=R}
-  (    1 N-000014 )
+  (    1 N-000019 )
   (    2 GND )
  )
  ( /4D1F9309 $noname  R6 5K1 {Lib=R}
   (    1 /SD_SCK )
-  (    2 N-000014 )
+  (    2 N-000019 )
  )
  ( /4D1F92B8 $noname  P1 SDC_MMC_SOCKET {Lib=SDC_MMC_SOCKET}
-  (    1 N-000003 )
-  (    2 N-000018 )
+  (    1 N-000004 )
+  (    2 N-000008 )
   (    3 GND )
   (    4 /Vcc_3V3 )
-  (    5 N-000014 )
+  (    5 N-000019 )
   (    6 GND )
   (    7 /SD_MISO )
-  (    8 N-000016 )
-  (    9 N-000017 )
+  (    8 N-000017 )
+  (    9 N-000011 )
   (   10 ? )
   (   11 ? )
  )
  ( /4D1F9178 $noname  R7 5K1 {Lib=R}
   (    1 /SD_MOSI )
-  (    2 N-000018 )
+  (    2 N-000008 )
  )
  ( /4D1F86A0 $noname  P2 CONN_8 {Lib=CONN_8}
-  (    1 /Vcc_3V3 )
-  (    2 /SD_SCK )
-  (    3 /SD_MOSI )
-  (    4 /SD_MISO )
-  (    5 /SD_CS )
-  (    6 /I2C_SCL )
-  (    7 /I2C_SDA )
-  (    8 GND )
+  (    1 GND )
+  (    2 /I2C_SDA )
+  (    3 /I2C_SCL )
+  (    4 /SD_CS )
+  (    5 /SD_MISO )
+  (    6 /SD_MOSI )
+  (    7 /SD_SCK )
+  (    8 /Vcc_3V3 )
  )
 )
 *
@@ -176,72 +176,72 @@ $endfootprintlist
 }
 { Pin List by Nets
 Net 2 "" ""
- X1 1
  U1 2
+ X1 1
 Net 3 "" ""
- P1 1
- R8 2
- R5 2
-Net 6 "/Vcc_3V3" "Vcc_3V3"
- C1 1
- P1 4
- C2 1
- R9 1
- R10 1
- R1 1
- R2 1
- R5 1
- U1 8
- P2 1
-Net 7 "/I2C_SCL" "I2C_SCL"
- P2 6
- U1 6
- R10 2
-Net 8 "" ""
- BT1 1
- U1 3
-Net 9 "" ""
  U1 1
  X1 2
-Net 10 "/SD_MOSI" "SD_MOSI"
- P2 3
- R7 1
-Net 11 "/SD_SCK" "SD_SCK"
- P2 2
- R6 1
-Net 12 "GND" "GND"
- R3 2
- C1 2
- U1 4
+Net 4 "" ""
+ P1 1
+ R5 2
+ R8 2
+Net 7 "/Vcc_3V3" "Vcc_3V3"
+ P1 4
  P2 8
+ R5 1
+ R1 1
+ R2 1
+ R9 1
+ R10 1
+ C1 1
+ U1 8
+ C2 1
+Net 8 "" ""
+ P1 2
+ R7 2
+ R3 1
+Net 9 "/I2C_SCL" "I2C_SCL"
+ U1 6
+ P2 3
+ R10 2
+Net 10 "" ""
+ U1 3
+ BT1 1
+Net 11 "" ""
+ R2 2
+ P1 9
+Net 12 "/SD_MOSI" "SD_MOSI"
+ R7 1
+ P2 6
+Net 13 "/SD_SCK" "SD_SCK"
+ R6 1
+ P2 7
+Net 14 "GND" "GND"
+ C2 2
+ R3 2
+ U1 4
+ C1 2
+ P2 1
  R4 2
- BT1 2
  P1 3
  P1 6
- C2 2
-Net 13 "/SD_CS" "SD_CS"
+ BT1 2
+Net 15 "/SD_CS" "SD_CS"
+ P2 4
  R8 1
+Net 16 "/SD_MISO" "SD_MISO"
  P2 5
-Net 14 "" ""
+ P1 7
+Net 17 "" ""
+ R1 2
+ P1 8
+Net 18 "/I2C_SDA" "I2C_SDA"
+ U1 5
+ P2 2
+ R9 2
+Net 19 "" ""
  P1 5
  R6 2
  R4 1
-Net 15 "/SD_MISO" "SD_MISO"
- P1 7
- P2 4
-Net 16 "" ""
- P1 8
- R1 2
-Net 17 "" ""
- R2 2
- P1 9
-Net 18 "" ""
- R7 2
- R3 1
- P1 2
-Net 19 "/I2C_SDA" "I2C_SDA"
- R9 2
- P2 7
- U1 5
 }
 #End

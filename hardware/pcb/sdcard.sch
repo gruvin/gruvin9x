@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 15/02/2011 9:38:49 p.m.
+EESchema Schematic File Version 2  date 15/02/2012 01:28:50
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -29,15 +29,15 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:ds1338-rtc
-LIBS:sdc_mmc_socket
+LIBS:gruvin
 LIBS:sdcard-cache
-EELAYER 24  0
+EELAYER 25  0
 EELAYER END
 $Descr A4 11700 8267
+encoding utf-8
 Sheet 1 1
 Title "sdcard.sch"
-Date "15 feb 2011"
+Date "15 feb 2012"
 Rev "3.3"
 Comp ""
 Comment1 ""
@@ -416,7 +416,7 @@ P 8000 2400
 F 0 "P2" V 7950 2400 60  0000 C CNN
 F 1 "CONN_8" V 8070 2400 60  0000 C CNN
 	1    8000 2400
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 $Comp
 L GND #PWR07

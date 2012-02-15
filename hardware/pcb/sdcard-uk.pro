@@ -1,4 +1,4 @@
-update=4/07/2011 12:27:38 p.m.
+update=15/02/2012 00:56:29
 last_client=pcbnew
 [eeschema]
 version=1
@@ -74,7 +74,6 @@ PadDrlX=320
 PadDimH=600
 PadDimV=600
 BoardThickness=630
-SgPcb45=1
 TxtPcbV=800
 TxtPcbH=600
 TxtModV=600
@@ -85,7 +84,7 @@ DrawLar=150
 EdgeLar=150
 TxtLar=120
 MSegLar=150
-LastNetListRead=sdcard.net
+LastNetListRead=sdcard-uk.net
 [pcbnew/libraries]
 LibDir=share/modules
 LibName1=sockets
