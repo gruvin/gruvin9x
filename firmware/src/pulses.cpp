@@ -293,7 +293,6 @@ void DSM2_Init(void)
   pulses2MHzRPtr = pulses2MHz;
   setupPulsesDsm2();
 
-  // These should be running right from power up on a FrSky enabled '9X.
   DSM2_EnableTXD(); // enable DSM2 UART transmitter
 }
 
