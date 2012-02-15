@@ -1,4 +1,4 @@
-Cmp-Mod V01 Genere par PcbNew le 14/10/2011 19:24:30
+Cmp-Mod V01 Created by CvPcb (2011-11-27 BZR 3249)-stable date = 15/02/2012 8:47:37 p.m.
 
 BeginCmp
 TimeStamp = /4CE748AC;
@@ -1410,7 +1410,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4CF47F1F;
 Reference = R73;
-ValeurCmp = 10K;
+ValeurCmp = 1K;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1431,7 +1431,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4D015959;
 Reference = R76;
-ValeurCmp = 10K;
+ValeurCmp = 3K9;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1712,6 +1712,13 @@ BeginCmp
 TimeStamp = /4E9328F9;
 Reference = R116;
 ValeurCmp = NC;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3B625E;
+Reference = R117;
+ValeurCmp = 1K;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
