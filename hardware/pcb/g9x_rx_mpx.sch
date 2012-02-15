@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 02/11/2011 19:17:17
+EESchema Schematic File Version 2  date 15/02/2012 11:27:38
 LIBS:device
 LIBS:transistors
 LIBS:linear
@@ -37,7 +37,7 @@ $Descr A3 16535 11700
 encoding utf-8
 Sheet 1 1
 Title "G9X Rx Multiplexer Board"
-Date "2 nov 2011"
+Date "15 feb 2012"
 Rev "1.0"
 Comp "gruvin9x"
 Comment1 ""
@@ -45,6 +45,16 @@ Comment2 "Copyright 2011 C.Weeks"
 Comment3 ""
 Comment4 "Licensed under the TAPR Open Hardware License (see file,  LICENSE)"
 $EndDescr
+Connection ~ 10050 9350
+Wire Wire Line
+	10050 9550 10050 9150
+Wire Wire Line
+	10050 9150 10200 9150
+Connection ~ 9950 2200
+Wire Wire Line
+	10100 2000 9950 2000
+Wire Wire Line
+	9950 2000 9950 2350
 Connection ~ 7750 5450
 Wire Wire Line
 	6600 5450 7750 5450
@@ -437,6 +447,46 @@ Wire Wire Line
 	7650 4200 7650 5700
 Wire Wire Line
 	7750 4300 7750 4800
+Wire Wire Line
+	9950 2200 10100 2200
+Wire Wire Line
+	10050 9350 10200 9350
+$Comp
+L GND #PWR?
+U 1 1 4F3B9583
+P 10050 9550
+F 0 "#PWR?" H 10050 9550 30  0001 C CNN
+F 1 "GND" H 10050 9480 30  0001 C CNN
+	1    10050 9550
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR?
+U 1 1 4F3B9567
+P 9950 2350
+F 0 "#PWR?" H 9950 2350 30  0001 C CNN
+F 1 "GND" H 9950 2280 30  0001 C CNN
+	1    9950 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPDT_SW_PCB SW2
+U 1 1 4F3B8BE9
+P 10700 9050
+F 0 "SW2" H 10500 9400 50  0000 C CNN
+F 1 "SPDT_SW_PCB" H 11000 9500 50  0000 C CNN
+	1    10700 9050
+	-1   0    0    -1  
+$EndComp
+$Comp
+L SPDT_SW_PCB SW1
+U 1 1 4F3B8BE1
+P 10600 1900
+F 0 "SW1" H 10400 2250 50  0000 C CNN
+F 1 "SPDT_SW_PCB" H 10900 2350 50  0000 C CNN
+	1    10600 1900
+	-1   0    0    -1  
+$EndComp
 $Comp
 L R R11
 U 1 1 4EB19577
@@ -636,7 +686,7 @@ F 1 "GND" H 11650 9730 30  0001 C CNN
 $EndComp
 Text Label 11050 9450 0    60   ~ 0
 AUX_BATT_2
-Text Label 9750 8750 0    60   ~ 0
+Text Label 9750 8950 0    60   ~ 0
 AUX_BATT_2
 Text Label 9600 1600 0    60   ~ 0
 AUX_BATT_1
@@ -740,28 +790,10 @@ Text Label 7150 2900 0    60   ~ 0
 SPI_SCK
 Text Label 7150 2800 0    60   ~ 0
 SPI_MISO
-Text Label 9750 8950 0    60   ~ 0
+Text Label 9750 8750 0    60   ~ 0
 BATT_RX
 Text Label 9600 1800 0    60   ~ 0
 BATT_RX
-$Comp
-L SPDT_SW SW2
-U 1 1 4EA0A57B
-P 10700 8650
-F 0 "SW2" H 10500 9000 50  0000 C CNN
-F 1 "SPDT_SW" H 11000 9100 50  0000 C CNN
-	1    10700 8650
-	-1   0    0    1   
-$EndComp
-$Comp
-L SPDT_SW SW1
-U 1 1 4EA0A572
-P 10600 1900
-F 0 "SW1" H 10400 2250 50  0000 C CNN
-F 1 "SPDT_SW" H 10900 2350 50  0000 C CNN
-	1    10600 1900
-	-1   0    0    -1  
-$EndComp
 $Comp
 L CONN_3X2 P1
 U 1 1 4EA0A4E4
