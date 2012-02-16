@@ -36,7 +36,7 @@ void initTelemLog() // pers.cpp -- after loading model data
   if (g_oLogFile.fs) f_close(&g_oLogFile);
   g_telemLogState = 0;
 
-  strcpy_P(g_logFilename, PSTR("M00_000.TXT")); // filename only.
+  strcpy_P(g_logFilename, PSTR("M00_000.CSV")); // filename only.
 
   // Set log file model number
   uint8_t num = g_eeGeneral.currModel + 1;
@@ -63,7 +63,7 @@ void initTelemLog() // pers.cpp -- after loading model data
     {
       f_close(&g_oLogFile);
 
-      // bump log file counter (file extension)
+      // bump log file counter NNN (Mxx_NNN.txt)
       n = &g_logFilename[6];
       if (++*n > '9')
       {
@@ -109,6 +109,7 @@ void initTelemLog() // pers.cpp -- after loading model data
   g_telemLogState = result;
 
   // g_logFilename should now be set appropriately.
+
 }
 
 // doTelemLog: Append current telemtry and switch status data to log file
@@ -147,6 +148,13 @@ void doTelemLog()
         }
         else
         {
+          if (g_oLogFile.fsize == 0) {
+            // if data type == Hub TODO
+            f_puts("Buffer,RX,TX,A1,A2,Date,Time,Long,Lat,Course,Speed,Alt,BarAlt,"
+                "Temp1,Temp2,RPM,Fuel,Volts,AccelX,AccelY,AccelZ,THR,RUD,ELE,IDL0,IDL1,IDL2,AIL,GEA,TRN\n",
+                &g_oLogFile);
+          }
+
           f_lseek(&g_oLogFile, g_oLogFile.fsize); // append
           g_telemLogState = 1;
           beepWarn2(); // DEBUG -- tell user the log is open
@@ -158,7 +166,39 @@ void doTelemLog()
     {
       // TODO here we write logs
       // For now, append 'anything' as a test
-      f_printf(&g_oLogFile, "Appended log line test 100ms=%u\n", g_ms100);
+      // if data type == Hub
+      f_printf(&g_oLogFile, "%d,", frskyStreaming);
+      f_printf(&g_oLogFile, "%d,", frskyRSSI[0].value);
+      f_printf(&g_oLogFile, "%d,", frskyRSSI[1].value);
+      f_printf(&g_oLogFile, "%d,", frskyComputeVolts(frskyTelemetry[0].value, g_model.frsky.channels[0].ratio));
+      f_printf(&g_oLogFile, "%d,", frskyComputeVolts(frskyTelemetry[1].value, g_model.frsky.channels[1].ratio));
+      f_printf(&g_oLogFile, "%4d-%02d-%02d,", frskyHubData.year+2000, frskyHubData.month, frskyHubData.day);
+      f_printf(&g_oLogFile, "%02d:%02d:%02d,", frskyHubData.hour, frskyHubData.min, frskyHubData.sec);
+      f_printf(&g_oLogFile, "%03d.%04d%c,", frskyHubData.gpsLongitude_bp, frskyHubData.gpsLongitude_ap,
+          frskyHubData.gpsLongitudeEW ? frskyHubData.gpsLongitudeEW : '-');
+      f_printf(&g_oLogFile, "%03d.%04d%c,", frskyHubData.gpsLatitude_bp, frskyHubData.gpsLatitude_ap, 
+          frskyHubData.gpsLatitudeNS ? frskyHubData.gpsLatitudeNS : '-');
+      f_printf(&g_oLogFile, "%03d.%d,", frskyHubData.gpsCourse_bp, frskyHubData.gpsCourse_ap);
+      f_printf(&g_oLogFile, "%d.%d,", frskyHubData.gpsSpeed_bp, frskyHubData.gpsSpeed_ap);
+      f_printf(&g_oLogFile, "%03d.%d,", frskyHubData.gpsAltitude_bp, frskyHubData.gpsAltitude_ap);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.baroAltitude + baroAltitudeOffset);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.temperature1);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.temperature2);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.rpm);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.fuelLevel);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.volts);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.accelX);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.accelY);
+      f_printf(&g_oLogFile, "%d,", frskyHubData.accelZ);
+      f_printf(&g_oLogFile, "%d,", keyState(SW_ThrCt));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_RuddDR));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_ElevDR));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_ID0));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_ID1));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_ID2));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_AileDR));
+      f_printf(&g_oLogFile, "%d,", keyState(SW_Gear));
+      f_printf(&g_oLogFile, "%d\n", keyState(SW_Trainer));
 
       // Don't close the log file here. We have 'soft off' available on the v4.1 board. Once
       // that is implemented, it can take care of closing the file, should the radio be
