@@ -1,316 +1,344 @@
-# EESchema Netlist Version 1.1 created  15/02/2012 11:27:42
+# EESchema Netlist Version 1.1 created  16/02/2012 00:45:06
 (
- ( /4F3B8BE9 $noname  SW2 SPDT_SW_PCB {Lib=SPDT_SW_PCB}
-  (    1 /BATT_RX )
-  (    2 N-000015 )
-  (    3 /AUX_BATT_2 )
-  (    4 GND )
-  (    5 GND )
+ ( /4E9F6061 SM0603_GRUVIN C1 100nF
+  ( 1 VCC )
+  ( 2 GND )
  )
- ( /4F3B8BE1 $noname  SW1 SPDT_SW_PCB {Lib=SPDT_SW_PCB}
-  (    1 /AUX_BATT_1 )
-  (    2 N-000064 )
-  (    3 /BATT_RX )
-  (    4 GND )
-  (    5 GND )
+ ( /4E9F605C SM0603_GRUVIN C2 100nF
+  ( 1 VCC )
+  ( 2 GND )
  )
- ( /4EB19577 $noname  R11 4.7k {Lib=R}
-  (    1 /SPI_MOSI )
-  (    2 /RESET )
+ ( /4EA0A95D SM0603_GRUVIN C3 1uF
+  ( 1 /RESET )
+  ( 2 GND )
  )
- ( /4EB12EB4 $noname  P6 CONN_1 {Lib=CONN_1}
-  (    1 N-000016 )
+ ( /4E9F6074 SM0603_GRUVIN C4 100nF
+  ( 1 N-000055 )
+  ( 2 GND )
  )
- ( /4EB12EAB $noname  P5 CONN_1 {Lib=CONN_1}
-  (    1 N-000033 )
+ ( /4E9F6051 SM0603_GRUVIN C5 100nF
+  ( 1 VCC )
+  ( 2 GND )
  )
- ( /4EB125EB $noname  F2 FUSE {Lib=FUSE}
-  (    1 N-000007 )
-  (    2 N-000015 )
+ ( /4E9F64E8 SM1206_GRUVIN_POL C6 10uF
+  ( 1 GND )
+  ( 2 /BATT_RX )
  )
- ( /4EB125E6 $noname  F1 FUSE {Lib=FUSE}
-  (    1 N-000064 )
-  (    2 N-000052 )
+ ( /4E9F651B SM0603_GRUVIN C7 100nF
+  ( 1 /BATT_RX )
+  ( 2 GND )
  )
- ( /4EB123BE $noname  P4 CONN_4 {Lib=CONN_4}
-  (    1 VCC )
-  (    2 /TXD )
-  (    3 /RXD )
-  (    4 GND )
+ ( /4E9F6522 SM0603_GRUVIN C8 100nF
+  ( 1 VCC )
+  ( 2 GND )
  )
- ( /4EA0AB91 $noname  R5 200R {Lib=R}
-  (    1 N-000049 )
-  (    2 N-000059 )
+ ( /4E9F64EF SM1206_GRUVIN_POL C9 47uF
+  ( 1 GND )
+  ( 2 VCC )
  )
- ( /4EA1FB44 $noname  U3 4017_GRUVIN {Lib=4017_GRUVIN}
-  (    1 N-000060 )
-  (    2 N-000058 )
-  (    3 ? )
-  (    4 N-000018 )
-  (    5 N-000061 )
-  (    6 N-000023 )
-  (    7 N-000059 )
-  (    8 GND )
-  (    9 N-000065 )
-  (   10 N-000022 )
-  (   11 ? )
-  (   12 ? )
-  (   13 N-000019 )
-  (   14 N-000063 )
-  (   15 N-000048 )
-  (   16 VCC )
+ ( /4F3C4500 LED-0805 D1 LED
+  ( 1 N-000065 )
+  ( 2 GND )
  )
- ( /4EA0ABAC $noname  R10 200R {Lib=R}
-  (    1 N-000053 )
-  (    2 N-000060 )
+ ( /4EB125E6 SM1206 F1 FUSE
+  ( 1 N-000013 )
+  ( 2 N-000048 )
  )
- ( /4EA0ABA8 $noname  R9 200R {Lib=R}
-  (    1 N-000054 )
-  (    2 N-000058 )
+ ( /4EB125EB SM1206 F2 FUSE
+  ( 1 N-000053 )
+  ( 2 N-000015 )
  )
- ( /4EA0ABA5 $noname  R8 200R {Lib=R}
-  (    1 N-000055 )
-  (    2 N-000018 )
+ ( /4E9F5A50 TQFP32 IC1 ATMEGA328-M
+  ( 1 N-000030 )
+  ( 2 N-000031 )
+  ( 3 GND )
+  ( 4 VCC )
+  ( 5 GND )
+  ( 6 VCC )
+  ( 7 N-000046 )
+  ( 8 N-000066 )
+  ( 9 N-000045 )
+  ( 10 N-000044 )
+  ( 11 N-000042 )
+  ( 12 /PPM_IN )
+  ( 13 N-000018 )
+  ( 14 N-000060 )
+  ( 15 /SPI_MOSI )
+  ( 16 /SPI_MISO )
+  ( 17 /SPI_SCK )
+  ( 18 VCC )
+  ( 19 ? )
+  ( 20 N-000055 )
+  ( 21 GND )
+  ( 22 ? )
+  ( 23 /LED1 )
+  ( 24 ? )
+  ( 25 /DIPSW2 )
+  ( 26 /DIPSW1 )
+  ( 27 N-000035 )
+  ( 28 N-000034 )
+  ( 29 /RESET )
+  ( 30 /RXD )
+  ( 31 /TXD )
+  ( 32 N-000039 )
  )
- ( /4EA0AB9A $noname  R7 200R {Lib=R}
-  (    1 N-000056 )
-  (    2 N-000061 )
+ ( /4EA0A497 PIN_ARRAY_3x1_GRUVIN K1 CONN_3
+  ( 1 GND )
+  ( 2 /BATT_RX )
+  ( 3 N-000010 )
  )
- ( /4EA0AB94 $noname  R6 200R {Lib=R}
-  (    1 N-000057 )
-  (    2 N-000023 )
+ ( /4EA0AA32 PIN_ARRAY_3x1_GRUVIN K2 CONN_3
+  ( 1 GND )
+  ( 2 /AUX_BATT_1 )
+  ( 3 ? )
  )
- ( /4EA0AB8A $noname  R4 200R {Lib=R}
-  (    1 N-000050 )
-  (    2 N-000065 )
+ ( /4EA0AAF5 PIN_ARRAY_3x1_GRUVIN K3 CONN_3
+  ( 1 GND )
+  ( 2 /AUX_BATT_2 )
+  ( 3 ? )
  )
- ( /4EA0AB81 $noname  R3 200R {Lib=R}
-  (    1 N-000051 )
-  (    2 N-000022 )
+ ( /4EA0A4E4 PIN_ARRAY_3x2_GRUVIN P1 CONN_3X2
+  ( 1 /SPI_MISO )
+  ( 2 VCC )
+  ( 3 /SPI_SCK )
+  ( 4 /SPI_MOSI )
+  ( 5 /RESET )
+  ( 6 GND )
  )
- ( /4EA0AAF5 $noname  K3 CONN_3 {Lib=CONN_3}
-  (    1 GND )
-  (    2 /AUX_BATT_2 )
-  (    3 ? )
+ ( /4EA07D6C pin_array_8x3_servo P2 CONN_8X3
+  ( 1 GND )
+  ( 2 GND )
+  ( 3 GND )
+  ( 4 GND )
+  ( 5 GND )
+  ( 6 GND )
+  ( 7 GND )
+  ( 8 GND )
+  ( 9 N-000048 )
+  ( 10 N-000048 )
+  ( 11 N-000048 )
+  ( 12 N-000048 )
+  ( 13 N-000048 )
+  ( 14 N-000048 )
+  ( 15 N-000048 )
+  ( 16 N-000048 )
+  ( 17 N-000059 )
+  ( 18 N-000058 )
+  ( 19 N-000057 )
+  ( 20 N-000052 )
+  ( 21 N-000051 )
+  ( 22 N-000050 )
+  ( 23 N-000049 )
+  ( 24 N-000047 )
  )
- ( /4EA0AA32 $noname  K2 CONN_3 {Lib=CONN_3}
-  (    1 GND )
-  (    2 /AUX_BATT_1 )
-  (    3 ? )
+ ( /4EA0A41A pin_array_8x2_servo P3 CONN_8X2
+  ( 1 N-000026 )
+  ( 2 N-000009 )
+  ( 3 N-000027 )
+  ( 4 N-000008 )
+  ( 5 N-000028 )
+  ( 6 N-000029 )
+  ( 7 N-000021 )
+  ( 8 N-000054 )
+  ( 9 N-000053 )
+  ( 10 N-000053 )
+  ( 11 N-000053 )
+  ( 12 N-000053 )
+  ( 13 N-000053 )
+  ( 14 N-000053 )
+  ( 15 N-000053 )
+  ( 16 N-000053 )
  )
- ( /4EA0A95D $noname  C3 1uF {Lib=C}
-  (    1 /RESET )
-  (    2 GND )
+ ( /4EB123BE PIN_ARRAY_4X1_GRUVIN P4 CONN_4
+  ( 1 VCC )
+  ( 2 /TXD )
+  ( 3 /RXD )
+  ( 4 GND )
  )
- ( /4EA0A93A $noname  R2 10k {Lib=R}
-  (    1 VCC )
-  (    2 /RESET )
+ ( /4EB12EAB TP P5 CONN_1
+  ( 1 N-000035 )
  )
- ( /4EA0A4E4 $noname  P1 CONN_3X2 {Lib=CONN_3X2}
-  (    1 /SPI_MISO )
-  (    2 VCC )
-  (    3 /SPI_SCK )
-  (    4 /SPI_MOSI )
-  (    5 /RESET )
-  (    6 GND )
+ ( /4EB12EB4 TP P6 CONN_1
+  ( 1 N-000034 )
  )
- ( /4EA0A4BD $noname  R1 200R {Lib=R}
-  (    1 /PPM_IN )
-  (    2 N-000011 )
+ ( /4EA0A4BD SM0603_GRUVIN R1 200R
+  ( 1 /PPM_IN )
+  ( 2 N-000010 )
  )
- ( /4EA0A497 $noname  K1 CONN_3 {Lib=CONN_3}
-  (    1 GND )
-  (    2 /BATT_RX )
-  (    3 N-000011 )
+ ( /4EA0A93A SM0603_GRUVIN R2 10k
+  ( 1 VCC )
+  ( 2 /RESET )
  )
- ( /4EA0A41A $noname  P3 CONN_8X2 {Lib=CONN_8X2_GRUVIN}
-  (    1 N-000010 )
-  (    2 N-000024 )
-  (    3 N-000009 )
-  (    4 N-000025 )
-  (    5 N-000008 )
-  (    6 N-000062 )
-  (    7 N-000026 )
-  (    8 N-000027 )
-  (    9 N-000007 )
-  (   10 N-000007 )
-  (   11 N-000007 )
-  (   12 N-000007 )
-  (   13 N-000007 )
-  (   14 N-000007 )
-  (   15 N-000007 )
-  (   16 N-000007 )
+ ( /4EA0AB81 SM0603_GRUVIN R3 200R
+  ( 1 N-000059 )
+  ( 2 N-000006 )
  )
- ( /4EA07D6C $noname  P2 CONN_8X3 {Lib=CONN_8X3}
-  (    1 GND )
-  (    2 GND )
-  (    3 GND )
-  (    4 GND )
-  (    5 GND )
-  (    6 GND )
-  (    7 GND )
-  (    8 GND )
-  (    9 N-000052 )
-  (   10 N-000052 )
-  (   11 N-000052 )
-  (   12 N-000052 )
-  (   13 N-000052 )
-  (   14 N-000052 )
-  (   15 N-000052 )
-  (   16 N-000052 )
-  (   17 N-000051 )
-  (   18 N-000050 )
-  (   19 N-000049 )
-  (   20 N-000057 )
-  (   21 N-000056 )
-  (   22 N-000055 )
-  (   23 N-000054 )
-  (   24 N-000053 )
+ ( /4EA0AB8A SM0603_GRUVIN R4 200R
+  ( 1 N-000058 )
+  ( 2 N-000007 )
  )
- ( /4E9F6522 $noname  C8 100nF {Lib=C}
-  (    1 VCC )
-  (    2 GND )
+ ( /4EA0AB91 SM0603_GRUVIN R5 200R
+  ( 1 N-000057 )
+  ( 2 N-000022 )
  )
- ( /4E9F651B $noname  C7 100nF {Lib=C}
-  (    1 /BATT_RX )
-  (    2 GND )
+ ( /4EA0AB94 SM0603_GRUVIN R6 200R
+  ( 1 N-000052 )
+  ( 2 N-000011 )
  )
- ( /4E9F64EF $noname  C9 47uF {Lib=CP}
-  (    1 GND )
-  (    2 VCC )
+ ( /4EA0AB9A SM0603_GRUVIN R7 200R
+  ( 1 N-000051 )
+  ( 2 N-000016 )
  )
- ( /4E9F64E8 $noname  C6 10uF {Lib=CP}
-  (    1 GND )
-  (    2 /BATT_RX )
+ ( /4EA0ABA5 SM0603_GRUVIN R8 200R
+  ( 1 N-000050 )
+  ( 2 N-000023 )
  )
- ( /4E9F61B8 $noname  U1 7805 {Lib=7805}
-  (  GND GND )
-  (   VI /BATT_RX )
-  (   VO VCC )
+ ( /4EA0ABA8 SM0603_GRUVIN R9 200R
+  ( 1 N-000049 )
+  ( 2 N-000025 )
  )
- ( /4E9F6074 $noname  C4 100nF {Lib=C}
-  (    1 N-000045 )
-  (    2 GND )
+ ( /4EA0ABAC SM0603_GRUVIN R10 200R
+  ( 1 N-000047 )
+  ( 2 N-000017 )
  )
- ( /4E9F6061 $noname  C1 100nF {Lib=C}
-  (    1 VCC )
-  (    2 GND )
+ ( /4EB19577 SM0603_GRUVIN R11 4.7k
+  ( 1 /SPI_MOSI )
+  ( 2 /RESET )
  )
- ( /4E9F605C $noname  C2 100nF {Lib=C}
-  (    1 VCC )
-  (    2 GND )
+ ( /4F3C4F08 SM0603_GRUVIN R12 470R
+  ( 1 N-000065 )
+  ( 2 /LED1 )
  )
- ( /4E9F6051 $noname  C5 100nF {Lib=C}
-  (    1 VCC )
-  (    2 GND )
+ ( /4F3B8BE1 SW_SPDT_horiz SW1 SPDT_SW_PCB
+  ( 1 /AUX_BATT_1 )
+  ( 2 N-000013 )
+  ( 3 /BATT_RX )
+  ( 4 GND )
+  ( 5 GND )
  )
- ( /4E9F5C5A $noname  U2 ULN2803 {Lib=ULN2803}
-  (    1 N-000043 )
-  (    2 N-000046 )
-  (    3 N-000047 )
-  (    4 N-000030 )
-  (    5 N-000029 )
-  (    6 N-000031 )
-  (    7 N-000028 )
-  (    8 /RESET )
-  (    9 GND )
-  (   10 N-000007 )
-  (   11 N-000027 )
-  (   12 N-000026 )
-  (   13 N-000062 )
-  (   14 N-000008 )
-  (   15 N-000025 )
-  (   16 N-000009 )
-  (   17 N-000024 )
-  (   18 N-000010 )
+ ( /4F3B8BE9 SW_SPDT_horiz SW2 SPDT_SW_PCB
+  ( 1 /BATT_RX )
+  ( 2 N-000015 )
+  ( 3 /AUX_BATT_2 )
+  ( 4 GND )
+  ( 5 GND )
  )
- ( /4E9F5A50 MLF/QFN32  IC1 ATMEGA328-M {Lib=ATMEGA328-M}
-  (    1 N-000029 )
-  (    2 N-000030 )
-  (    3 GND )
-  (    4 VCC )
-  (    5 GND )
-  (    6 VCC )
-  (    7 N-000019 )
-  (    8 N-000048 )
-  (    9 N-000047 )
-  (   10 N-000046 )
-  (   11 N-000043 )
-  (   12 /PPM_IN )
-  (   13 N-000063 )
-  (   14 N-000028 )
-  (   15 /SPI_MOSI )
-  (   16 /SPI_MISO )
-  (   17 /SPI_SCK )
-  (   18 VCC )
-  (   19 ? )
-  (   20 N-000045 )
-  (   21 GND )
-  (   22 ? )
-  (   23 ? )
-  (   24 ? )
-  (   25 ? )
-  (   26 ? )
-  (   27 N-000033 )
-  (   28 N-000016 )
-  (   29 /RESET )
-  (   30 /RXD )
-  (   31 /TXD )
-  (   32 N-000031 )
+ ( /4F3C447E SWDIP2-Piano SW3 DIPSW_2
+  ( 1 GND )
+  ( 2 GND )
+  ( 3 /DIPSW1 )
+  ( 4 /DIPSW2 )
+ )
+ ( /4E9F61B8 SOT89_OGI U1 7805
+  ( GND GND )
+  ( VI /BATT_RX )
+  ( VO VCC )
+ )
+ ( /4E9F5C5A DIP-18__300_ELL U2 ULN2803
+  ( 1 N-000042 )
+  ( 2 N-000044 )
+  ( 3 N-000045 )
+  ( 4 N-000031 )
+  ( 5 N-000030 )
+  ( 6 N-000039 )
+  ( 7 N-000060 )
+  ( 8 /RESET )
+  ( 9 GND )
+  ( 10 N-000053 )
+  ( 11 N-000054 )
+  ( 12 N-000021 )
+  ( 13 N-000029 )
+  ( 14 N-000028 )
+  ( 15 N-000008 )
+  ( 16 N-000027 )
+  ( 17 N-000009 )
+  ( 18 N-000026 )
+ )
+ ( /4EA1FB44 SO16E U3 4017_GRUVIN
+  ( 1 N-000017 )
+  ( 2 N-000025 )
+  ( 3 ? )
+  ( 4 N-000023 )
+  ( 5 N-000016 )
+  ( 6 N-000011 )
+  ( 7 N-000022 )
+  ( 8 GND )
+  ( 9 N-000007 )
+  ( 10 N-000006 )
+  ( 11 ? )
+  ( 12 ? )
+  ( 13 N-000046 )
+  ( 14 N-000018 )
+  ( 15 N-000066 )
+  ( 16 VCC )
  )
 )
 *
 { Allowed footprints by component:
-$component R11
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
+$component C3
+ SM*
+ C?
+ C1-1
+$endlist
+$component C4
+ SM*
+ C?
+ C1-1
+$endlist
+$component C5
+ SM*
+ C?
+ C1-1
+$endlist
+$component C6
+ CP*
+ SM*
+$endlist
+$component C7
+ SM*
+ C?
+ C1-1
+$endlist
+$component C8
+ SM*
+ C?
+ C1-1
+$endlist
+$component C9
+ CP*
+ SM*
+$endlist
+$component D1
+ LED-3MM
+ LED-5MM
+ LED-10MM
+ LED-0603
+ LED-0805
+ LED-1206
+ LEDV
+$endlist
+$component IC1
+ 28DIP-ELL600
+ 28dip600
+$endlist
+$component R1
  R?
  SM0603
  SM0805
  R?-*
  SM1206
 $endlist
-$component R5
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R10
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R9
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R8
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R7
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R6
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R4
+$component R2
  R?
  SM0603
  SM0805
@@ -324,296 +352,68 @@ $component R3
  R?-*
  SM1206
 $endlist
-$component C3
- SM*
- C?
- C1-1
-$endlist
-$component R2
+$component R4
  R?
  SM0603
  SM0805
  R?-*
  SM1206
 $endlist
-$component R1
+$component R5
  R?
  SM0603
  SM0805
  R?-*
  SM1206
 $endlist
-$component C8
- SM*
- C?
- C1-1
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
-$component C7
- SM*
- C?
- C1-1
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
-$component C9
- CP*
- SM*
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
-$component C6
- CP*
- SM*
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
-$component C4
- SM*
- C?
- C1-1
+$component R10
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
-$component C1
- SM*
- C?
- C1-1
+$component R11
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
-$component C2
- SM*
- C?
- C1-1
-$endlist
-$component C5
- SM*
- C?
- C1-1
-$endlist
-$component IC1
- 28DIP-ELL600
- 28dip600
+$component R12
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
 $endlist
 $endfootprintlist
 }
-{ Pin List by Nets
-Net 1 "VCC" "VCC"
- C5 1
- C1 1
- IC1 4
- IC1 6
- C2 1
- IC1 18
- U1 VO
- U3 16
- P4 1
- P1 2
- C8 1
- C9 2
- R2 1
-Net 2 "GND" "GND"
- P2 7
- P2 8
- P2 5
- U2 9
- SW1 5
- IC1 3
- P2 6
- P2 4
- P2 3
- P2 2
- P2 1
- U1 GND
- C1 2
- C4 2
- SW1 4
- C3 2
- IC1 21
- C2 2
- IC1 5
- C5 2
- P4 4
- U3 8
- C9 1
- C7 2
- C8 2
- P1 6
- K1 1
- SW2 4
- SW2 5
- K2 1
- K3 1
- C6 1
-Net 4 "/AUX_BATT_1" "AUX_BATT_1"
- K2 2
- SW1 1
-Net 5 "/AUX_BATT_2" "AUX_BATT_2"
- K3 2
- SW2 3
-Net 6 "/BATT_RX" "BATT_RX"
- U1 VI
- C6 2
- C7 1
- SW2 1
- SW1 3
- K1 2
-Net 7 "" ""
- P3 15
- P3 14
- P3 13
- F2 1
- P3 9
- P3 16
- P3 12
- P3 11
- P3 10
- U2 10
-Net 8 "" ""
- U2 14
- P3 5
-Net 9 "" ""
- U2 16
- P3 3
-Net 10 "" ""
- U2 18
- P3 1
-Net 11 "" ""
- R1 2
- K1 3
-Net 12 "/RESET" "RESET"
- P1 5
- R2 2
- IC1 29
- C3 1
- U2 8
- R11 2
-Net 13 "/SPI_MOSI" "SPI_MOSI"
- R11 1
- P1 4
- IC1 15
-Net 15 "" ""
- SW2 2
- F2 2
-Net 16 "" ""
- P6 1
- IC1 28
-Net 18 "" ""
- R8 2
- U3 4
-Net 19 "" ""
- IC1 7
- U3 13
-Net 22 "" ""
- R3 2
- U3 10
-Net 23 "" ""
- R6 2
- U3 6
-Net 24 "" ""
- P3 2
- U2 17
-Net 25 "" ""
- P3 4
- U2 15
-Net 26 "" ""
- U2 12
- P3 7
-Net 27 "" ""
- P3 8
- U2 11
-Net 28 "" ""
- IC1 14
- U2 7
-Net 29 "" ""
- U2 5
- IC1 1
-Net 30 "" ""
- IC1 2
- U2 4
-Net 31 "" ""
- U2 6
- IC1 32
-Net 33 "" ""
- P5 1
- IC1 27
-Net 34 "/SPI_SCK" "SPI_SCK"
- P1 3
- IC1 17
-Net 36 "/SPI_MISO" "SPI_MISO"
- IC1 16
- P1 1
-Net 41 "/PPM_IN" "PPM_IN"
- R1 1
- IC1 12
-Net 42 "/TXD" "TXD"
- P4 2
- IC1 31
-Net 43 "" ""
- IC1 11
- U2 1
-Net 44 "/RXD" "RXD"
- IC1 30
- P4 3
-Net 45 "" ""
- C4 1
- IC1 20
-Net 46 "" ""
- IC1 10
- U2 2
-Net 47 "" ""
- IC1 9
- U2 3
-Net 48 "" ""
- IC1 8
- U3 15
-Net 49 "" ""
- P2 19
- R5 1
-Net 50 "" ""
- R4 1
- P2 18
-Net 51 "" ""
- R3 1
- P2 17
-Net 52 "" ""
- P2 10
- F1 2
- P2 15
- P2 16
- P2 14
- P2 9
- P2 11
- P2 12
- P2 13
-Net 53 "" ""
- R10 1
- P2 24
-Net 54 "" ""
- R9 1
- P2 23
-Net 55 "" ""
- R8 1
- P2 22
-Net 56 "" ""
- R7 1
- P2 21
-Net 57 "" ""
- R6 1
- P2 20
-Net 58 "" ""
- R9 2
- U3 2
-Net 59 "" ""
- U3 7
- R5 2
-Net 60 "" ""
- U3 1
- R10 2
-Net 61 "" ""
- R7 2
- U3 5
-Net 62 "" ""
- U2 13
- P3 6
-Net 63 "" ""
- IC1 13
- U3 14
-Net 64 "" ""
- F1 1
- SW1 2
-Net 65 "" ""
- U3 9
- R4 2
-}
-#End

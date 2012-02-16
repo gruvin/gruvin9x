@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2012-01-19 BZR 3256)-stable date = 15/02/2012 10:22:03
+Cmp-Mod V01 Created by CvPcb (2012-01-19 BZR 3256)-stable date = 16/02/2012 00:45:06
 
 BeginCmp
 TimeStamp = /4E9F6061;
@@ -61,6 +61,13 @@ TimeStamp = /4E9F64EF;
 Reference = C9;
 ValeurCmp = 47uF;
 IdModule  = SM1206_GRUVIN_POL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3C4500;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-0805;
 EndCmp
 
 BeginCmp
@@ -225,17 +232,31 @@ IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
-TimeStamp = /4EA0A572;
+TimeStamp = /4F3C4F08;
+Reference = R12;
+ValeurCmp = 470R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3B8BE1;
 Reference = SW1;
-ValeurCmp = SPDT_SW;
+ValeurCmp = SPDT_SW_PCB;
 IdModule  = SW_SPDT_horiz;
 EndCmp
 
 BeginCmp
-TimeStamp = /4EA0A57B;
+TimeStamp = /4F3B8BE9;
 Reference = SW2;
-ValeurCmp = SPDT_SW;
+ValeurCmp = SPDT_SW_PCB;
 IdModule  = SW_SPDT_horiz;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3C447E;
+Reference = SW3;
+ValeurCmp = DIPSW_2;
+IdModule  = SWDIP2-Piano;
 EndCmp
 
 BeginCmp
