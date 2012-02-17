@@ -1,0 +1,164 @@
+PCBNEW-BOARD Version 1 date 17/02/2012 00:45:14
+
+# Created by Pcbnew(2012-01-19 BZR 3256)-stable
+
+$GENERAL
+encoding utf-8
+LayerCount 2
+Ly 1FFF8001
+EnabledLayers 1FFF8001
+Links 0
+NoConn 0
+Di 15480 10866 36521 31690
+Ndraw 4
+Ntrack 0
+Nzone 0
+BoardThickness 630
+Nmodule 0
+Nnets 1
+$EndGENERAL
+
+$SHEETDESCR
+Sheet A4 11700 8267
+Title "G9X Tx Multiplexer Board"
+Date "17 feb 2012"
+Rev "1.0"
+Comp "gruvin9x"
+Comment1 "Licensed under the TAPR Open Hardware License (see file,  LICENSE)"
+Comment2 "http://code.google.com/p/gruvin9x/"
+Comment3 "Copyright 2012 th9xer"
+Comment4 ""
+$EndSHEETDESCR
+
+$SETUP
+InternalUnit 0.000100 INCH
+Layers 2
+Layer[0] Back signal
+Layer[15] Front signal
+TrackWidth 83
+TrackWidthList 83
+TrackWidthList 98
+TrackWidthList 138
+TrackWidthList 177
+TrackWidthList 217
+TrackWidthList 315
+TrackWidthList 394
+TrackClearence 91
+ZoneClearence 200
+TrackMinWidth 79
+DrawSegmWidth 150
+EdgeSegmWidth 197
+ViaSize 354
+ViaDrill 197
+ViaMinSize 276
+ViaMinDrill 157
+MicroViaSize 200
+MicroViaDrill 50
+MicroViasAllowed 0
+MicroViaMinSize 200
+MicroViaMinDrill 50
+TextPcbWidth 120
+TextPcbSize 600 800
+EdgeModWidth 50
+TextModSize 600 600
+TextModWidth 120
+PadSize 600 600
+PadDrill 400
+Pad2MaskClearance 100
+AuxiliaryAxisOrg 0 0
+PcbPlotParams (pcbplotparams (layerselection 284983297) (usegerberextensions true) (excludeedgelayer true) (linewidth 200) (plotframeref false) (viasonmask false) (mode 1) (useauxorigin false) (hpglpennumber 1) (hpglpenspeed 20) (hpglpendiameter 15) (hpglpenoverlay 0) (pscolor true) (psnegative false) (psa4output false) (plotreference true) (plotvalue false) (plotothertext true) (plotinvisibletext false) (padsonsilk false) (subtractmaskfromsilk false) (outputformat 1) (mirror false) (drillshape 1) (scaleselection 1) (outputdirectory production/))
+$EndSETUP
+
+$EQUIPOT
+Na 0 ""
+St ~
+$EndEQUIPOT
+$NCLASS
+Name "Default"
+Desc "This is the default net class."
+Clearance 91
+TrackWidth 83
+ViaDia 354
+ViaDrill 197
+uViaDia 200
+uViaDrill 50
+AddNet ""
+$EndNCLASS
+$NCLASS
+Name "Large"
+Desc ""
+Clearance 91
+TrackWidth 197
+ViaDia 354
+ViaDrill 197
+uViaDia 200
+uViaDrill 50
+$EndNCLASS
+$NCLASS
+Name "Largest"
+Desc ""
+Clearance 91
+TrackWidth 315
+ViaDia 354
+ViaDrill 197
+uViaDia 200
+uViaDrill 50
+$EndNCLASS
+$NCLASS
+Name "Small"
+Desc ""
+Clearance 91
+TrackWidth 83
+ViaDia 315
+ViaDrill 157
+uViaDia 200
+uViaDrill 50
+$EndNCLASS
+$DRAWSEGMENT
+Po 0 16567 30819 16567 11535 197
+De 28 0 900 0 0
+$EndDRAWSEGMENT
+$DRAWSEGMENT
+Po 0 35968 30815 16575 30815 197
+De 28 0 900 0 0
+$EndDRAWSEGMENT
+$DRAWSEGMENT
+Po 0 35968 11535 35968 30815 197
+De 28 0 900 0 0
+$EndDRAWSEGMENT
+$DRAWSEGMENT
+Po 0 16563 11512 35956 11512 197
+De 28 0 900 0 0
+$EndDRAWSEGMENT
+$TRACK
+$EndTRACK
+$ZONE
+$EndZONE
+$CZONE_OUTLINE
+ZInfo 4EA20169 -1 "GND"
+ZLayer 0
+ZAux 5 E
+ZClearance 200 T
+ZMinThickness 100
+ZOptions 0 16 F 200 200
+ZSmoothing 0 0
+ZCorner 36520 31689 0
+ZCorner 36465 31665 0
+ZCorner 36500 10957 0
+ZCorner 15791 10866 0
+ZCorner 15480 31610 1
+$endCZONE_OUTLINE
+$CZONE_OUTLINE
+ZInfo 4EA20159 -1 "GND"
+ZLayer 15
+ZAux 4 E
+ZClearance 200 T
+ZMinThickness 100
+ZOptions 0 16 F 200 200
+ZSmoothing 0 0
+ZCorner 36201 31449 0
+ZCorner 36264 11146 0
+ZCorner 16000 11004 0
+ZCorner 15882 31291 1
+$endCZONE_OUTLINE
+$EndBOARD
