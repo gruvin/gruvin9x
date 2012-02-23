@@ -63,6 +63,8 @@ void *eeprom_write_function(void *)
     
     if (eepromFile) {
       fp = fopen(eepromFile, "r+");
+      if (!fp)
+        fp = fopen(eepromFile, "w+");
       assert(fp);
     }
 

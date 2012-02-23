@@ -233,7 +233,7 @@ long Gruvin9xSim::onTimeout(FXObject*,FXSelector,void*)
 
   per10ms();
   refreshDiplay();
-  getApp()->addTimeout(this,2,10);
+  getApp()->addTimeout(this,2,5);
   return 0;
 }
 
@@ -296,9 +296,19 @@ void Gruvin9xSim::refreshDiplay()
 #else
     static FXuint keys2[]={KEY_F8, KEY_F7, KEY_F4, KEY_F3, KEY_F6, KEY_F5, KEY_F1, KEY_F2  };
 #endif
+#ifdef PCBV4
+    pinj = 0;
+#else
     pind  = 0;
+#endif
     for(unsigned i=0; i<DIM(keys2);i++){
-      if(getApp()->getKeyState(keys2[i])) pind |= (1<<i);
+      if(getApp()->getKeyState(keys2[i])) {
+#ifdef PCBV4
+        pinj |= (1<<i);
+#else
+        pind |= (1<<i);
+#endif
+      }
     }
 
     struct SwitchKey {
@@ -401,7 +411,7 @@ int main(int argc,char **argv)
 
   // frskyStreaming = 1;
 
-  StartEepromThread();
+  StartEepromThread(argc >= 2 ? argv[1] : "eeprom.bin");
   StartMainThread();
 
   return application.run();
@@ -409,8 +419,10 @@ int main(int argc,char **argv)
 
 uint16_t anaIn(uint8_t chan)
 {
-  if(chan<4)  return th9xSim->sliders[chan]->getValue();
-  return th9xSim->knobs[chan]->getValue();
-  //return 512 -  512*10*chan/100;
-  //return (rand() & 0x1f) + 0x2f8;
+  if (chan == 7)
+    return 1500;
+  else if (chan<4)
+    return th9xSim->sliders[chan]->getValue();
+  else
+    return th9xSim->knobs[chan]->getValue();
 }
