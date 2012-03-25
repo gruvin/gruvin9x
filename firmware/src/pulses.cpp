@@ -24,8 +24,7 @@
 #ifdef DSM2
 inline void DSM2_EnableTXD(void)
 {
-  UCSR0B |= (1 << TXEN0); // enable TX
-  UCSR0B |= (1 << UDRIE0); // enable  UDRE0 interrupt
+  UCSR0B |= (1 << TXEN0) | (1 << UDRIE0); // enable TX and UDRE0 interrupt
 }
 #endif
 
@@ -250,8 +249,12 @@ normal:
 
 inline void __attribute__ ((always_inline)) setupPulsesDsm2()
 {
-  if (keyState(SW_Trainer)) {*pulses2MHzWPtr++ = 0x80;}
-  //elseif (somerangetestvariable) {*pulses2MHzWPtr++ = 0x20;}
+  if (keyState(SW_Trainer)) *pulses2MHzWPtr++ = 0x80; // bind mode
+  else if (DSM_RANGE_CHECK_BUTTON) // gruvin9x.h 
+  {
+    *pulses2MHzWPtr++ = 0x20;
+    beepKey();
+  }
   else *pulses2MHzWPtr++ = 0x00;
   *pulses2MHzWPtr++ = g_eeGeneral.currModel;
     for (uint8_t i=0; i<DSM2_CHANS; i++) {
@@ -263,17 +266,11 @@ inline void __attribute__ ((always_inline)) setupPulsesDsm2()
 
 void DSM2_Done()
 {
-  UCSR0B &= ~((1 << TXEN0) | (1 << UDRIE0)); // disable TX pin and interrupt
+  UCSR0B &= ~((1 << TXEN0) | (1 << UDRIE0)); // disable UART TX and interrupt
 }
 
 void DSM2_Init(void)
 {
-  DDRE &= ~(1 << DDE0);    // set RXD0 pin as input
-  // PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin
-  PORTE |= (1 << PORTE0); // g: ENnable pullup on RXD0 pin. Never leave an input pin floating. 
-                          //    I also have plans to use this pin for a range-check button in my 
-                          //    DSM TX module.
-
 #undef BAUD
 #define BAUD 125000
 
@@ -283,7 +280,7 @@ void DSM2_Init(void)
   UBRR0L = UBRRL_VALUE;
   UCSR0A &= ~(1 << U2X0); // disable double speed operation.
 
-  // set 8N1
+  // set 8N1 (leave TX and RX disabled for now)
   UCSR0B = 0 | (0 << RXCIE0) | (0 << TXCIE0) | (0 << UDRIE0) | (0 << RXEN0) | (0 << TXEN0) | (0 << UCSZ02);
   UCSR0C = 0 | (1 << UCSZ01) | (1 << UCSZ00);
 
@@ -292,6 +289,13 @@ void DSM2_Init(void)
   pulses2MHzWPtr = pulses2MHz;
   pulses2MHzRPtr = pulses2MHz;
   setupPulsesDsm2();
+
+  // set UART RX input pin up as GPIO
+  DDRE &= ~(1 << DDE0);    // set RXD0 pin as input (XXX redundant, no?)
+  PORTE &= ~(1 << PORTE0); // disable pullup on RXD0 pin (the pseudo-RS_232 level shifter circuitry provides external pull-up)
+                           // g: (XXX also redunandant, no?) 
+                           //    I have plans to use this pin for a range-check button in my 
+                           //    DSM2(X) TX module. Still experimenting, as at 2012-02-27.
 
   DSM2_EnableTXD(); // enable DSM2 UART transmitter
 }

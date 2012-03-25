@@ -648,6 +648,12 @@ SUB_VER = ${shell sh -c "grep \"SUB_VERS\" gruvin9x.h | cut -d\  -f3 | egrep -o 
 ABUILD_NUM = ${shell sh -c "grep \"BUILD_NUM\" stamp-gruvin9x.h | egrep -o \"[[:digit:]]+\""}
 BUILD_NUM = $(shell echo $$(( $(ABUILD_NUM) + 1 )))
 BUILD_DIR = $(shell pwd | awk -F'/' '{print $$((NF-1))}')
+
+# For Windows users
+ifeq "$(USER)" ""
+ USER = $(USERNAME)
+endif
+
 ifeq "$(USER)" "bryan"
   THEUSER=gruvin
 else 

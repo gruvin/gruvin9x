@@ -511,10 +511,13 @@ void menuProcModel(uint8_t event)
     lcd_puts_P(0, y, PSTR("Proto"));
     lcd_putsnAtt(PARAM_OFS, y, PSTR(PROT_STR)+PROT_STR_LEN*g_model.protocol,PROT_STR_LEN,
                   (sub==subN && m_posHorz==0 ? (s_editMode>0 ? BLINK : INVERS):0));
-    if(!g_model.protocol) {
+    if(!g_model.protocol) { // if PPM proto
       lcd_putsnAtt(PARAM_OFS+4*FW, y, PSTR("4CH 6CH 8CH 10CH12CH14CH16CH")+4*(g_model.ppmNCH+2), 4, ((sub==subN && m_posHorz==1) ? ((s_editMode>0) ? BLINK : INVERS) : 0));
       lcd_putsAtt(PARAM_OFS+11*FW, y, PSTR("u"),0);
       lcd_outdezAtt(PARAM_OFS+11*FW, y, (g_model.ppmDelay*50)+300, ((sub==subN && m_posHorz==2) ? ((s_editMode>0) ? BLINK : INVERS) : 0));
+    } else if (g_model.protocol == 2) { // if DSM2 proto
+      if (DSM_RANGE_CHECK_BUTTON) // gruvin9x.h 
+        lcd_putsAtt(PARAM_OFS+4*FW, y, PSTR(" Rng Chk"), BLINK); // indicate range check mode active
     }
     else if (sub==subN) {
       m_posHorz = 0;

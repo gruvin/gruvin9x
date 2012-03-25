@@ -624,6 +624,10 @@ void DSM2_Init();
 void DSM2_Done();
 void resetProto();
 
+// TODO g: range-check active when input high, which is held low by DSM2 module.
+//      This is not the best, since it requires a custom module always be used.
+#define DSM_RANGE_CHECK_BUTTON (PINE & (1<INP_E_TELEM_RX))
+
 #ifdef TELEMLOGS
 #  include "logs.h"
 #endif
