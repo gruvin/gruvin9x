@@ -1,492 +1,492 @@
-Cmp-Mod V01 Created by CvPcb (2011-11-27 BZR 3249)-stable date = 15/02/2012 8:47:37 p.m.
+Cmp-Mod V01 Created by CvPcb (2011-11-27 BZR 3249)-stable date = 2/04/2012 10:46:37 a.m.
 
 BeginCmp
 TimeStamp = /4CE748AC;
 Reference = C1;
-ValeurCmp = 10uF;
+ValeurCmp = 10u;
 IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744CE;
 Reference = C2;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744CC;
 Reference = C3;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744CA;
 Reference = C4;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744C9;
 Reference = C5;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE7496F;
 Reference = C6;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744CD;
 Reference = C7;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744CB;
 Reference = C8;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744C6;
 Reference = C9;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE744C8;
 Reference = C10;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4D3246D5;
 Reference = C11;
-ValeurCmp = 10uF;
+ValeurCmp = 10u;
 IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74A4E;
 Reference = C12;
-ValeurCmp = 47uF;
+ValeurCmp = 47u;
 IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE71CC2;
 Reference = C13;
-ValeurCmp = 18pF;
+ValeurCmp = 18p;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE71CC8;
 Reference = C14;
-ValeurCmp = 18pF;
+ValeurCmp = 18p;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74A4D;
 Reference = C15;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74935;
 Reference = C16;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE741E9;
 Reference = C17;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DFF92E7;
 Reference = C18;
-ValeurCmp = 47uF;
+ValeurCmp = 47u;
 IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE746EC;
 Reference = C19;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74228;
 Reference = C20;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE746EE;
 Reference = C21;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE71537;
 Reference = C22;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE71552;
 Reference = C23;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE7155D;
 Reference = C24;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE71566;
 Reference = C25;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE7154F;
 Reference = C26;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE7155A;
 Reference = C27;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74081;
 Reference = C28;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE71568;
 Reference = C29;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC96A4E;
 Reference = C30;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DE3AC28;
 Reference = C31;
-ValeurCmp = 47uF;
+ValeurCmp = 47u;
 IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DDD61B4;
 Reference = C32;
-ValeurCmp = 22uF;
+ValeurCmp = 22u;
 IdModule  = SM1210_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DE3AEE4;
 Reference = C33;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DE3AEF0;
 Reference = C34;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DFF92F5;
 Reference = C35;
-ValeurCmp = 47uF;
+ValeurCmp = 47u;
 IdModule  = SM1206_GRUVIN_POL;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E04C0B7;
 Reference = C36;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200212;
 Reference = C37;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200210;
 Reference = C38;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E20020E;
 Reference = C39;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E20020D;
 Reference = C40;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200215;
 Reference = C41;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200217;
 Reference = C42;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200218;
 Reference = C43;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74C94;
 Reference = C44;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74D5F;
 Reference = C45;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74DBD;
 Reference = C46;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74DC4;
 Reference = C47;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74D99;
 Reference = C48;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74DB1;
 Reference = C49;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74DCB;
 Reference = C50;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74D04;
 Reference = C51;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE74D00;
 Reference = C52;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200211;
 Reference = C53;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E20020F;
 Reference = C54;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E20020A;
 Reference = C55;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E20020C;
 Reference = C56;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200216;
 Reference = C57;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E20021B;
 Reference = C58;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E200219;
 Reference = C59;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E203190;
 Reference = C60;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E203199;
 Reference = C61;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E35BB01;
 Reference = C62;
-ValeurCmp = 1uF;
+ValeurCmp = 1u;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E84DA11;
 Reference = C63;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E94D484;
 Reference = C64;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC19467;
 Reference = C91;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC1946A;
 Reference = C92;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC1946B;
 Reference = C93;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC19469;
 Reference = C94;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC1946D;
 Reference = C95;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4DC1946C;
 Reference = C96;
-ValeurCmp = 0.1uF;
+ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -500,21 +500,21 @@ EndCmp
 BeginCmp
 TimeStamp = /4E848531;
 Reference = D2;
-ValeurCmp = 5.1v;
+ValeurCmp = 5V1;
 IdModule  = sod523;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E2AC5A2;
 Reference = D3;
-ValeurCmp = 3.6v;
+ValeurCmp = 3V6;
 IdModule  = sod523;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E2AC5A9;
 Reference = D4;
-ValeurCmp = 3.6v;
+ValeurCmp = 3V6;
 IdModule  = sod523;
 EndCmp
 
@@ -675,14 +675,14 @@ EndCmp
 BeginCmp
 TimeStamp = /4CE74148;
 Reference = L1;
-ValeurCmp = 10uH;
+ValeurCmp = 10u;
 IdModule  = SM0805;
 EndCmp
 
 BeginCmp
 TimeStamp = /4CE7478D;
 Reference = L2;
-ValeurCmp = 10uH;
+ValeurCmp = 10u;
 IdModule  = SM0805;
 EndCmp
 
@@ -795,7 +795,7 @@ BeginCmp
 TimeStamp = /4DC18D59;
 Reference = P20;
 ValeurCmp = CONN_8;
-IdModule  = PIN_ARRAY_4X2_GRUVIN;
+IdModule  = pin_array_5x2_GRUVIN;
 EndCmp
 
 BeginCmp
@@ -1382,7 +1382,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4CEE07D3;
 Reference = R69;
-ValeurCmp = 10K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1403,7 +1403,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4CEE07D9;
 Reference = R72;
-ValeurCmp = 10K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1417,7 +1417,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4CEE07DF;
 Reference = R74;
-ValeurCmp = 10K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1620,7 +1620,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4E8484D2;
 Reference = R103;
-ValeurCmp = 1k;
+ValeurCmp = 1K;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1641,35 +1641,35 @@ EndCmp
 BeginCmp
 TimeStamp = /4E2AC601;
 Reference = R106;
-ValeurCmp = 1.5K;
+ValeurCmp = 1K5;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E2AE19E;
 Reference = R107;
-ValeurCmp = 5.1K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E2AE1CC;
 Reference = R108;
-ValeurCmp = 5.1K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E2AE1BD;
 Reference = R109;
-ValeurCmp = 5.1K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4E2AE1D6;
 Reference = R110;
-ValeurCmp = 5.1K;
+ValeurCmp = 5K1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
@@ -1704,7 +1704,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4E84D9A9;
 Reference = R115;
-ValeurCmp = 100k;
+ValeurCmp = 100K;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
