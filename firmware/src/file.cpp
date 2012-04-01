@@ -168,7 +168,8 @@ void EeFsFormat()
   eeFs.mySize   = sizeof(eeFs);
   eeFs.freeList = 0;
   eeFs.bs       = BS;
-  for(uint8_t i = FIRSTBLK; i < BLOCKS; i++) EeFsSetLink(i,i+1);
+  for(uint8_t i = FIRSTBLK; i < BLOCKS; i++) 
+    EeFsSetLink(i,i+1);
   EeFsSetLink(BLOCKS-1, 0);
   eeFs.freeList = FIRSTBLK;
   EeFsFlush();
