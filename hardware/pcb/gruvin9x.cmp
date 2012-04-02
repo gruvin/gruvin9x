@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2011-11-27 BZR 3249)-stable date = 2/04/2012 10:46:37 a.m.
+Cmp-Mod V01 Created by CvPcb (2011-11-27 BZR 3249)-stable date = 2/04/2012 3:43:37 p.m.
 
 BeginCmp
 TimeStamp = /4CE748AC;
@@ -444,6 +444,13 @@ EndCmp
 BeginCmp
 TimeStamp = /4E94D484;
 Reference = C64;
+ValeurCmp = 0u1;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F791F53;
+Reference = C65;
 ValeurCmp = 0u1;
 IdModule  = SM0603_GRUVIN;
 EndCmp
