@@ -119,8 +119,10 @@ extern RlcFile theFile;  //used for any file operation
 #define OUT_C_LCD_RES   2
 #define OUT_C_LCD_CS1   1
 
+#ifdef DEBUG
 extern uint16_t DEBUG1;
 extern uint16_t DEBUG2;
+#endif
 
 #if defined (PCBV4)
 

@@ -356,6 +356,9 @@ endif
 
 
 ### Global Build-Option Directives ###
+ifeq ($(TEST), DEBUG)
+  CPPDEFS += -DDEBUG
+endif
 
 ifeq ($(DECIMALS), YES)
   CPPDEFS += -DDECIMALS_DISPLAYED
