@@ -11,7 +11,9 @@ which has been just wonderful. Thanks Cam! (Gruvin)
 =============================
 
 SCHEMATIC
----------
+=========
+
+-- Gruvin --
 . R117 (1K) added to B-E junction of Q3. Nearby resistor values halved. This all to 
   improve higher speed (125,000 Baud) signal shapes.
 . All resistor/capacitor/inductor part values normalised to Japanese '5K1' format. 
@@ -19,13 +21,26 @@ SCHEMATIC
   BOM file to match up with our BOM spreadsheet.
 . C65 added for cautionary extra MCU power decoupling
 . PORTHH rearranged and upgraded to include GND and VCC pads.
+. USB connector K6 flipped to make pin 1 GND
+
+-- Cam --
+
+
 
 PCB
----
+===
+
+-- Gruvin --
 . All six (x4) push button switch holes enlarged to allow factory assembly, without manual adjustments to component legs.
 . Changes made around Q2/Q3 pseudo RS-232 buffers to improve waveform profiles. R117 was added. Other resistors were reduced in value.
 . All six (x4) push button switch holes enlarged (2.2 x 1.1mm) to allow factory assembly, without manual
   adjustments to component legs without (flattening with pliers etc.)
 . A 1K resistor R117 was added to the RS-232 TX buffer Q3. Pull-down R76 lowered to 3K9. Resistor values around Q2 
   were lowered from 10K to 5K1. Done to improve waveform profiles.
+. PORTH 'hack pads' P20 upgraded to 10-pin IDC header with VCC and GND. (Required significant reworking of nearby modules/routing.)
+. 'Fat track thermal sink' issues address over the entire board (reduced track thickness to small part pads where practical.)
+. Several cases of 'ground looping' resolved. (Use single, common tie points instead of 'loops' whenever possible.)
+. A number of right-angle track bends resolved to 45-degrees. (Sharp corners can cause problems with copper etching.)
+
+-- Cam --
 

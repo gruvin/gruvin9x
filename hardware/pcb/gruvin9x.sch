@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 2/04/2012 3:56:37 p.m.
+EESchema Schematic File Version 2  date 4/04/2012 11:43:46 a.m.
 LIBS:device
 LIBS:transistors
 LIBS:linear
@@ -37,7 +37,7 @@ $Descr A2 23400 16535
 encoding utf-8
 Sheet 1 1
 Title "Main Controller PCB for 100pin ATMega"
-Date "2 apr 2012"
+Date "3 apr 2012"
 Rev "4.2"
 Comp ""
 Comment1 ""
@@ -2085,7 +2085,7 @@ P 16050 4800
 F 0 "K6" V 16000 4800 50  0000 C CNN
 F 1 "CONN_3" V 16100 4800 40  0000 C CNN
 	1    16050 4800
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 $Comp
 L VCC #PWR021
