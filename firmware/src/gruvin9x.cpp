@@ -1693,7 +1693,7 @@ void perMain()
 #endif   
         static uint8_t s_batCheck;
         s_batCheck+=32;
-        if(s_batCheck==0 && g_vbat100mV<g_eeGeneral.vBatWarn && g_vbat100mV>49) {
+        if(s_batCheck==0 && g_vbat100mV<g_eeGeneral.vBatWarn) {
           beepErr();
           if (g_eeGeneral.flashBeep) g_LightOffCounter = FLASH_DURATION;
         }
