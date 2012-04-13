@@ -1,4 +1,4 @@
-# EESchema Netlist Version 1.1 created  02/03/2012 00:24:53
+# EESchema Netlist Version 1.1 created  13/04/2012 18:03:36
 (
  ( /4E9F6061 SM0603_GRUVIN C1 100nF
   ( 1 VCC )
@@ -36,7 +36,7 @@
   ( 1 GND )
   ( 2 VCC )
  )
- ( /4F3C4500 LED-3MM D1 LED
+ ( /4F3C4500 LED-3MM_GRUVIN D1 LED
   ( 1 N-000062 )
   ( 2 GND )
  )

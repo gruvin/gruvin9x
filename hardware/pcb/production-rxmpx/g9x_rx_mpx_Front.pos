@@ -1,4 +1,4 @@
-### Module positions - created on 15/03/2012 11:32:40 ###
+### Module positions - created on 13/04/2012 18:32:14 ###
 ### Printed by Pcbnew version pcbnew (2012-01-19 BZR 3256)-stable
 ## Unit = inches, Angle = deg.
 ## Side : Front
@@ -26,5 +26,5 @@ R9       200R                 2.3630     1.6575     270.0    Front
 R10      200R                 2.4201     1.6587     270.0    Front
 R11      4.7k                 3.2311     1.9854       0.0    Front
 R12      470R                 2.1709     2.3835      90.0    Front
-U3       4017                 2.2503     1.8671     180.0    Front
+U3       4017_GRUVIN          2.2503     1.8671     180.0    Front
 ## End

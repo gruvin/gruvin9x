@@ -1,8 +1,6 @@
-update=02/11/2011 18:36:44
+update=13/04/2012 18:28:58
 version=1
-last_client=eeschema
-[general]
-version=1
+last_client=kicad
 [cvpcb]
 version=1
 NetIExt=net
@@ -101,3 +99,5 @@ LibName28=contrib
 LibName29=valves
 LibName30=power
 LibName31=gruvin
+[general]
+version=1
