@@ -251,6 +251,11 @@ inline void __attribute__ ((always_inline)) setupPulsesDsm2()
 {
   if (keyState(SW_Trainer)) *pulses2MHzWPtr++ = 0x80; // bind mode
   else if (DSM_RANGE_CHECK_BUTTON) // gruvin9x.h 
+                                   // NOTE: Doesn't seem to work. The USART receiver is supposed to be 
+                                   //       disabled but the rx pin does not appear to be working as GPIO,
+                                   //       as it should. Perhaps having the USART transmitter operative
+                                   //       is enough to force this pin to be connected to the USART and
+                                   //       thus not available for GPIO? Surely not though. What am I missing?
   {
     *pulses2MHzWPtr++ = 0x20;
     beepKey();
