@@ -21,7 +21,8 @@ SCHEMATIC
   BOM file to match up with our BOM spreadsheet.
 . C65 added for cautionary extra MCU power decoupling
 . PORTHH rearranged and upgraded to include GND and VCC pads.
-. USB connector K6 flipped to make pin 1 GND
+. USB connector K6 flipped to make pin 1 GND.
+. R118 (10K bleed resistor) added across C63 in the soft-off circuit.
 
 -- Cam --
 
@@ -41,6 +42,7 @@ PCB
 . 'Fat track thermal sink' issues address over the entire board (reduced track thickness to small part pads where practical.)
 . Several cases of 'ground looping' resolved. (Use single, common tie points instead of 'loops' whenever possible.)
 . A number of right-angle track bends resolved to 45-degrees. (Sharp corners can cause problems with copper etching.)
+. Added R118 (across C63 -- soft-off circuitry.)
 
 -- Cam --
 
