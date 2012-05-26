@@ -20,6 +20,9 @@
  */
 
 #include <ctype.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <fcntl.h>
 #include "simpgmspace.h"
 #include "lcd.h"
 #include "gruvin9x.h"
@@ -33,7 +36,7 @@ const char *eepromFile;
 extern uint16_t eeprom_pointer;
 extern const char* eeprom_buffer_data;
 uint8_t eeprom[EESIZE];
-sem_t eeprom_write_sem;
+sem_t *eeprom_write_sem;
 
 void setSwitch(int8_t swtch)
 {
@@ -54,7 +57,7 @@ void setSwitch(int8_t swtch)
 bool eeprom_thread_running = true;
 void *eeprom_write_function(void *)
 {
-  while (!sem_wait(&eeprom_write_sem)) {
+  while (!sem_wait(eeprom_write_sem)) {
 
     if (!eeprom_thread_running)
       return NULL;
@@ -145,7 +148,12 @@ pthread_t eeprom_thread_pid;
 void StartEepromThread(const char *filename)
 {
   eepromFile = filename;
-  sem_init(&eeprom_write_sem, 0, 0);
+#ifdef __APPLE__
+  eeprom_write_sem = sem_open("eepromsemaphore", O_CREAT);
+#else
+  eeprom_write_sem = (sem_t *)malloc(sizeof(sem_t));
+  sem_init(eeprom_write_sem, 0, 0);
+#endif
   eeprom_thread_running = true;
   assert(!pthread_create(&eeprom_thread_pid, NULL, &eeprom_write_function, NULL));
 }
@@ -153,7 +161,7 @@ void StartEepromThread(const char *filename)
 void StopEepromThread()
 {
   eeprom_thread_running = false;
-  sem_post(&eeprom_write_sem);
+  sem_post(eeprom_write_sem);
   pthread_join(eeprom_thread_pid, NULL);
 }
 

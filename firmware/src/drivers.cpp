@@ -71,7 +71,7 @@ void eeWriteBlockCmp(const void *i_pointer_ram, uint16_t i_pointer_eeprom, size_
   eeprom_buffer_size = size+1;
 
 #ifdef SIMU
-  sem_post(&eeprom_write_sem);
+  sem_post(eeprom_write_sem);
 #elif defined (PCBV3)
   EECR |= (1<<EERIE);
 #else
