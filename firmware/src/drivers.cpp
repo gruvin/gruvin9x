@@ -282,6 +282,11 @@ void per10ms()
     }
 #endif
 
+#if defined (PCBV4)
+    // Power down timer (soft off system)
+    if (g_pdTimer > 0) g_pdTimer--;
+#endif
+
 /**** BEGIN KEY STATE READ ****/
   uint8_t enuk = KEY_MENU;
 

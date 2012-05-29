@@ -1635,9 +1635,6 @@ void perMain()
   else
     BACKLIGHT_OFF;
 
-  g_menuStack[g_menuStackPtr](evt);
-  refreshDisplay();
-
 #if defined (PCBV4)
   // PPM signal on phono-jack. In or out? ...
   if(checkSlaveMode()) {
@@ -1720,7 +1717,11 @@ void perMain()
       break;
   }
 
+  g_menuStack[g_menuStackPtr](evt);
+  refreshDisplay();
+
 }
+
 int16_t g_ppmIns[8];
 uint8_t ppmInState = 0; //0=unsync 1..8= wait for value i-1
 
@@ -2159,6 +2160,8 @@ uint16_t stack_free()
 }
 
 uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
+uint8_t g_powerState __attribute__ ((section (".noinit")));
+volatile uint8_t g_pdTimer;
 int main(void)
 {
   // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
@@ -2173,6 +2176,16 @@ int main(void)
   MCUCSR = 0;
 #endif
   wdt_disable();
+
+#if defined (PCBV4)
+  // Initialise g_powerState or catch power down time-out and kill the power
+  if (MCUSR & (1<<PORF)) g_powerState = PWR_STATE_RUNNING; // if powering up
+  else if ((MCUSR & (1<<WDRF)) && (g_powerState == PWR_STATE_GOINGDOWN)) // if WDT during power down state
+  {
+    set_pwr_off();
+    exit(1);
+  }
+#endif
 
   // Set up I/O port data directions and initial states
   DDRA = 0xff;  PORTA = 0x00; // LCD data
@@ -2373,6 +2386,7 @@ int main(void)
   set_pwr_on(); // lock power on for soft-off operation
 #endif
 
+  uint8_t pwrDebounce = 0;
   while(1){
     uint16_t t0 = getTmr16KHz();
     getADC[g_eeGeneral.filterInput]();
@@ -2380,14 +2394,45 @@ int main(void)
     perMain();
 
 #if defined (PCBV4)
-    // Temporary soft-off implementation (just power off straight away when asked)
-    // TODO Close any open SD card or EEPROM files before powering off
-    if (!RF_Power && !Jack_Presence)
+    /** Power Down using the v4 board's "soft off" features */
+
+    if (!RF_Power && !Jack_Presence && (++pwrDebounce > 64))
     {
-      MCUSR = 0;
-      wdt_disable();
-      set_pwr_off();
-      while(1);
+      g_powerState = PWR_STATE_GOINGDOWN;
+      
+      message(PSTR("Powering Off ..."));
+      
+      // Give the LCD screen time to display the powering down message
+      // NOTE: interrupts must remain active for this timer to work
+      g_pdTimer = 130; // 1.3 seconds. (Must be less than 2 seconds becasue ...)
+
+      // Set up to catch a potential time-out while waiting for file closure.
+      // A power down is forced if this event is detected, early on in main().
+      MCUSR = 0; wdt_enable(WDTO_2S);
+
+      if (g_oLogFile.fs) f_close(&g_oLogFile); // close SD card log file
+      // Easiest thing for EEPROM writes is probably just to wait 1 or 2
+      // seconds (as we are about to do). But there's probably some way to know
+      // if an EEPROM write is in progress?
+
+      pwrDebounce = 0;
+      while (g_pdTimer > 0)
+      {
+        if ((RF_Power || Jack_Presence) && (++pwrDebounce > 64))
+        { // User-switched power has returned. Abort power down by forcing a WDT reset!
+          g_powerState = PWR_STATE_RUNNING;
+          MCUSR = 0;
+          wdt_enable(WDTO_15MS);
+          while(1); // force a WDT reset
+        }
+
+        if (g_pdTimer == 0)
+        {
+          sei();
+          set_pwr_off();
+          exit(0);
+        }
+      }
     }
 #endif
 
@@ -2396,6 +2441,8 @@ int main(void)
       wdt_reset();
       heartbeat = 0;
     }
+
+    // DO NOT MOVE -- These two lines must remain at the end of the main loop routine
     t0 = getTmr16KHz() - t0;
     g_timeMain = max(g_timeMain,t0);
   }

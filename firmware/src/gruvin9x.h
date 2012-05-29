@@ -753,6 +753,12 @@ extern volatile uint8_t g_rotenc[2];
 #define RF_Power (~PING & 0x02)
 #define Jack_Presence (PINL & 0x40)
 
+extern volatile uint8_t g_pdTimer;
+extern uint8_t g_powerState;
+#define PWR_STATE_RUNNING   0
+#define PWR_STATE_GOINGDOWN 1
+#define PWR_STATE_CHARGING  2
+
 #endif
 
 #endif // gruvin9x_h

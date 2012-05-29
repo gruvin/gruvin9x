@@ -579,9 +579,6 @@ void refreshDisplay()
     lcdSendCtl(0x10); //column addr 0
     lcdSendCtl( y | 0xB0); //page addr y
     PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1);
-#ifdef LCD_MULTIPLEX
-    DDRA = 0xFF; // set LCD_DAT pins to output
-#endif
     PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_A0);
     PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RnW);
     for(uint8_t x=128; x>0; --x) {
