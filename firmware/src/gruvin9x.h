@@ -746,6 +746,13 @@ extern char userDataDisplayBuf[TELEM_SCREEN_BUFFER_SIZE]; // text buffer for frs
 #if defined (PCBV4)
 // Global rotary encoder registers -- 8-bit, 0-255
 extern volatile uint8_t g_rotenc[2];
+
+// Hold_PWR_ON signal macros
+#define set_pwr_on() (PORTL |= 0x80)
+#define set_pwr_off() (PORTL &= ~0x80)
+#define RF_Power (~PING & 0x02)
+#define Jack_Presence (PINL & 0x40)
+
 #endif
 
 #endif // gruvin9x_h

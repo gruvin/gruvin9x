@@ -2158,8 +2158,22 @@ uint16_t stack_free()
   return p - &__bss_end ;
 }
 
+uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
 int main(void)
 {
+  // G: The WDT remains active after a WDT reset -- at maximum clock speed. So it's
+  // important to disable it before commencing with system initialisation (or
+  // we could put a bunch more wdt_reset()s in. But I don't like that approach
+  // during boot up.)
+#if defined (PCBV3)
+  mcusr_mirror = MCUSR; // save the WDT (etc) flags
+  MCUSR = 0; // must be zeroed before disabling the WDT 
+#else
+  mcusr_mirror = MCUCSR;
+  MCUCSR = 0;
+#endif
+  wdt_disable();
+
   // Set up I/O port data directions and initial states
   DDRA = 0xff;  PORTA = 0x00; // LCD data
 
@@ -2293,11 +2307,8 @@ int main(void)
 
   uint8_t cModel = g_eeGeneral.currModel;
 
-#if defined (PCBV3)
-  if (~MCUSR & (1 << WDRF)) {
-#else
-  if (~MCUCSR & (1 << WDRF)) {
-#endif
+
+  if (~mcusr_mirror & (1 << WDRF)) { // Avoid splash screen etc if reset was caused by WDT
     doSplash();
     checkLowEEPROM();
 
@@ -2306,7 +2317,9 @@ int main(void)
 
     checkSwitches();
     checkAlarm();
-  }
+  } 
+  else
+    MCUSR &= ~(1<<WDRF); // clear WDT reset flag
 
   clearKeyEvents(); //make sure no keys are down before proceeding
 
@@ -2358,11 +2371,27 @@ int main(void)
 /*** Keep this code block directly before the main loop ****/
 /***********************************************************/
 
+#if defined (PCBV4)
+  set_pwr_on(); // lock power on for soft-off operation
+#endif
+
   while(1){
     uint16_t t0 = getTmr16KHz();
     getADC[g_eeGeneral.filterInput]();
-    getADC_bandgap() ;
+    getADC_bandgap();
     perMain();
+
+#if defined (PCBV4)
+    // Temporary soft-off implementation (just power off straight away when asked)
+    // TODO Close any open SD card or EEPROM files before powering off
+    if (!RF_Power && !Jack_Presence)
+    {
+      MCUSR = 0;
+      wdt_disable();
+      set_pwr_off();
+      while(1);
+    }
+#endif
 
     if(heartbeat == 0x3)
     {
