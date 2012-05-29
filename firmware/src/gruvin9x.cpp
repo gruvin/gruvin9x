@@ -2318,8 +2318,6 @@ int main(void)
     checkSwitches();
     checkAlarm();
   } 
-  else
-    MCUSR &= ~(1<<WDRF); // clear WDT reset flag
 
   clearKeyEvents(); //make sure no keys are down before proceeding
 
