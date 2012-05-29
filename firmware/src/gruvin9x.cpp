@@ -2410,11 +2410,12 @@ int main(void)
       // A power down is forced if this event is detected, early on in main().
       MCUSR = 0; wdt_enable(WDTO_2S);
 
-      if (g_oLogFile.fs) f_close(&g_oLogFile); // close SD card log file
+      // if (g_oLogFile.fs) f_close(&g_oLogFile); // close SD card log file
       // Easiest thing for EEPROM writes is probably just to wait 1 or 2
       // seconds (as we are about to do). But there's probably some way to know
       // if an EEPROM write is in progress?
 
+      wdt_disable();
       pwrDebounce = 0;
       while (g_pdTimer > 0)
       {
@@ -2425,14 +2426,10 @@ int main(void)
           wdt_enable(WDTO_15MS);
           while(1); // force a WDT reset
         }
-
-        if (g_pdTimer == 0)
-        {
-          sei();
-          set_pwr_off();
-          exit(0);
-        }
       }
+      sei();
+      set_pwr_off();
+      exit(0);
     }
 #endif
 
