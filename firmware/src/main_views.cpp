@@ -428,56 +428,65 @@ void menuMainView(uint8_t event)
 #ifdef FRSKY_HUB
       else if (g_model.frsky.usrProto == PROTO_FRSKY_HUB && g_eeGeneral.view == e_telemetry+2*ALTERNATE_VIEW) { // if on second alternate telemetry view
         // Date
-        lcd_outdezNAtt(1*FW, 2*FH, frskyHubData.year+2000, LEFT, 4);
-        lcd_putc(lcd_lastPos, 2*FH, '-');
-        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.month, LEFT|LEADING0, 2);
-        lcd_putc(lcd_lastPos, 2*FH, '-');
-        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.day, LEFT|LEADING0, 2);
+        lcd_outdezNAtt(1*FW, 7*FH, frskyHubData.year+2000, LEFT, 4);
+        lcd_putc(lcd_lastPos, 7*FH, '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 7*FH, frskyHubData.month, LEFT|LEADING0, 2);
+        lcd_putc(lcd_lastPos, 7*FH, '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 7*FH, frskyHubData.day, LEFT|LEADING0, 2);
 
         // Time
-        lcd_outdezNAtt(FW*10+8, 2*FH, frskyHubData.hour, LEFT|LEADING0, 2);
-        lcd_putc(lcd_lastPos, 2*FH, ':');
-        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.min, LEFT|LEADING0, 2);
-        lcd_putc(lcd_lastPos, 2*FH, ':');
-        lcd_outdezNAtt(lcd_lastPos+FW, 2*FH, frskyHubData.sec, LEFT|LEADING0, 2);
+        lcd_outdezNAtt(FW*10+8, 7*FH, frskyHubData.hour, LEFT|LEADING0, 2);
+        lcd_putc(lcd_lastPos, 7*FH, ':');
+        lcd_outdezNAtt(lcd_lastPos+FW, 7*FH, frskyHubData.min, LEFT|LEADING0, 2);
+        lcd_putc(lcd_lastPos, 7*FH, ':');
+        lcd_outdezNAtt(lcd_lastPos+FW, 7*FH, frskyHubData.sec, LEFT|LEADING0, 2);
 
         // Longitude
-        lcd_outdezAtt(FW*3-2, 4*FH,  frskyHubData.gpsLongitude_bp / 100, 0); // ddd before '.'
-        lcd_putc(lcd_lastPos, 4*FH, '@');
+        lcd_outdezAtt(FW*3-2, 6*FH,  frskyHubData.gpsLongitude_bp / 100, 0); // ddd before '.'
+        lcd_putc(lcd_lastPos, 6*FH, '@');
         uint8_t mn = frskyHubData.gpsLongitude_bp % 100;
-        lcd_outdezNAtt(lcd_lastPos+FW, 4*FH, mn, LEFT|LEADING0, 2); // mm before '.'
-        lcd_plot(lcd_lastPos, 5*FH-2, 0); // small decimal point
-        lcd_outdezNAtt(lcd_lastPos+2, 4*FH, frskyHubData.gpsLongitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
-        lcd_putc(lcd_lastPos+1, 4*FH, frskyHubData.gpsLongitudeEW ? frskyHubData.gpsLongitudeEW : '-');
+        lcd_outdezNAtt(lcd_lastPos+FW, 6*FH, mn, LEFT|LEADING0, 2); // mm before '.'
+        lcd_plot(lcd_lastPos, 7*FH-2, 0); // small decimal point
+        lcd_outdezNAtt(lcd_lastPos+2, 6*FH, frskyHubData.gpsLongitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
+        lcd_putc(lcd_lastPos+1, 6*FH, frskyHubData.gpsLongitudeEW ? frskyHubData.gpsLongitudeEW : '-');
 
         // Latitude
-        lcd_outdezAtt(lcd_lastPos+3*FW+3, 4*FH,  frskyHubData.gpsLatitude_bp / 100, 0); // ddd before '.'
-        lcd_putc(lcd_lastPos, 4*FH, '@');
+        lcd_outdezAtt(lcd_lastPos+3*FW+3, 6*FH,  frskyHubData.gpsLatitude_bp / 100, 0); // ddd before '.'
+        lcd_putc(lcd_lastPos, 6*FH, '@');
         mn = frskyHubData.gpsLatitude_bp % 100;
-        lcd_outdezNAtt(lcd_lastPos+FW, 4*FH, mn, LEFT|LEADING0, 2); // mm before '.'
-        lcd_plot(lcd_lastPos, 5*FH-2, 0); // small decimal point
-        lcd_outdezNAtt(lcd_lastPos+2, 4*FH, frskyHubData.gpsLatitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
-        lcd_putc(lcd_lastPos+1, 4*FH, frskyHubData.gpsLatitudeNS ? frskyHubData.gpsLatitudeNS : '-');
-
-        // Course / Heading
-        lcd_puts_P(5, 5*FH, PSTR("Hdg:"));
-        lcd_outdezNAtt(lcd_lastPos, 5*FH, frskyHubData.gpsCourse_bp, LEFT|LEADING0, 3); // before '.'
-        lcd_plot(lcd_lastPos, 6*FH-2, 0); // small decimal point
-        lcd_outdezAtt(lcd_lastPos+2, 5*FH, frskyHubData.gpsCourse_ap, LEFT); // after '.'
-        lcd_putc(lcd_lastPos, 5*FH, '@');
-
-        // Speed
-        lcd_puts_P(76, 5*FH, PSTR("Spd:"));
-        lcd_outdezAtt(lcd_lastPos, 5*FH, frskyHubData.gpsSpeed_bp, LEFT); // before '.'
-        lcd_plot(lcd_lastPos, 6*FH-2, 0); // small decimal point
-        lcd_outdezAtt(lcd_lastPos+2, 5*FH, frskyHubData.gpsSpeed_ap, LEFT|UNSIGN); // after '.'
+        lcd_outdezNAtt(lcd_lastPos+FW, 6*FH, mn, LEFT|LEADING0, 2); // mm before '.'
+        lcd_plot(lcd_lastPos, 7*FH-2, 0); // small decimal point
+        lcd_outdezNAtt(lcd_lastPos+2, 6*FH, frskyHubData.gpsLatitude_ap, LEFT|UNSIGN|LEADING0, 4); // after '.'
+        lcd_putc(lcd_lastPos+1, 6*FH, frskyHubData.gpsLatitudeNS ? frskyHubData.gpsLatitudeNS : '-');
 
         // Altitude
-        lcd_puts_P(7*FW, 7*FH, PSTR("Alt:"));
-        lcd_outdezNAtt(lcd_lastPos, 7*FH, frskyHubData.gpsAltitude_bp, LEFT|LEADING0, 3); // before '.'
-        lcd_plot(lcd_lastPos, 8*FH-2, 0); // small decimal point
-        lcd_outdezAtt(lcd_lastPos+2, 7*FH, frskyHubData.gpsAltitude_ap, LEFT|UNSIGN); // after '.'
-        lcd_putc(lcd_lastPos, 7*FH, 'm');
+        lcd_puts_P(2, 2*FH, PSTR("Alt"));
+        lcd_outdezNAtt(1*FW-2, 3*FH, frskyHubData.gpsAltitude_bp, DBLSIZE|LEFT|LEADING0, 3); // before '.' (digits 2&3)
+        lcd_putc(lcd_lastPos, 4*FH, 'm');
+        // Don't want 1/10th of meters ...
+        //lcd_plot(lcd_lastPos, 4*FH-2, 0); // small decimal point
+        //lcd_outdezAtt(lcd_lastPos+2, 3*FH, frskyHubData.gpsAltitude_ap, LEFT|UNSIGN); // after '.'
+        //lcd_putc(lcd_lastPos, 3*FH, 'm');
+
+        // Course / Heading
+        lcd_puts_P(8*FW-2, 2*FH, PSTR("Hdg"));
+        lcd_outdezNAtt(9*FW-6, 3*FH, frskyHubData.gpsCourse_bp, DBLSIZE|LEFT|LEADING0, 3); // before '.'
+        // Don't want 1/10ths of degrees ...
+        //lcd_plot(lcd_lastPos, 6*FH-2, 0); // small decimal point
+        //lcd_outdezAtt(lcd_lastPos+2, 5*FH, frskyHubData.gpsCourse_ap, LEFT); // after '.'
+        lcd_putc(lcd_lastPos, 3*FH, '@'); // the '@' is a 'degrees' (little circle symbol) in our font table :-)
+
+        // Speed
+        lcd_puts_P(15*FW, 2*FH, PSTR("Vel"));
+        lcd_outdezAtt(16*FW, 3*FH, frskyHubData.gpsSpeed_bp, DBLSIZE|LEFT); // before '.'
+        lcd_outdezAtt(18*FW, 3*FH, frskyHubData.gpsSpeed_ap / 10, DBLSIZE|LEFT|UNSIGN); // after '.'
+        lcd_plot(17*FW+4, 5*FH-5, 0); // small decimal point
+        lcd_plot(17*FW+4, 5*FH-4, 0); // small decimal point
+        lcd_plot(17*FW+5, 5*FH-5, 0); // small decimal point
+        lcd_plot(17*FW+5, 5*FH-4, 0); // small decimal point
+        lcd_putc(FW*20, 3*FH, 'm');
+        lcd_putc(FW*20, 4*FH, 's');
+        lcd_hline(FW*20-1, 4*FH, 7);
       }
       else if (g_model.frsky.usrProto == PROTO_FRSKY_HUB && g_eeGeneral.view == e_telemetry+3*ALTERNATE_VIEW) { // if on second alternate telemetry view
 

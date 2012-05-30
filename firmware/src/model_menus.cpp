@@ -1750,7 +1750,7 @@ void menuProcSafetySwitches(uint8_t event)
 void menuProcTelemetry(uint8_t event)
 {
 #if defined FRSKY_HUB || defined WS_HOW_HIGH
-  MENU("TELEMETRY", menuTabModel, e_Telemetry, 14, {0, 0, -1, 0, 0, 1, 2, 2, -1, 0, 0, 1, 2, 2});
+  MENU("FR-SKY TELEMETRY", menuTabModel, e_Telemetry, 14, {0, 0, -1, 0, 0, 1, 2, 2, -1, 0, 0, 1, 2, 2});
 #else
   MENU("TELEMETRY", menuTabModel, e_Telemetry, 13, {0, -1, 0, 0, 1, 2, 2, -1, 0, 0, 1, 2, 2});
 #endif
@@ -1801,15 +1801,15 @@ void menuProcTelemetry(uint8_t event)
 #if defined(FRSKY_HUB) || defined(WS_HOW_HIGH)
   if(s_pgOfs<subN) {
     y = (subN-s_pgOfs)*FH;
-    lcd_puts_P(0, y, PSTR("UsrProto"));
+    lcd_puts_P(0, y, PSTR("Data Port"));
 #if defined(WS_HOW_HIGH)
-#define USR_PROTO_STR  "NoneHub WSHH"
-#define USR_PROTO_MAX  2
+#define USR_PROTO_STR  "None fsHubWSHH ASCII"
+#define USR_PROTO_MAX  4
 #else
-#define USR_PROTO_STR "NoneHub "
-#define USR_PROTO_MAX 1
+#define USR_PROTO_STR "None fsHubASCII"
+#define USR_PROTO_MAX 3
 #endif
-    lcd_putsnAtt(10*FW, y, PSTR(USR_PROTO_STR)+4*g_model.frsky.usrProto, 4, sub==subN ? INVERS:0);
+    lcd_putsnAtt(10*FW, y, PSTR(USR_PROTO_STR)+5*g_model.frsky.usrProto, 5, sub==subN ? INVERS:0);
     if (sub==subN)
       CHECK_INCDEC_MODELVAR(event, g_model.frsky.usrProto, 0, USR_PROTO_MAX);
   }
