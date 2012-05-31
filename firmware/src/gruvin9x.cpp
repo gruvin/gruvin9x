@@ -654,7 +654,7 @@ uint8_t  g_beepVal[5];
 void message(const pm_char * s)
 {
   lcd_clear();
-  lcd_putsAtt(64-5*FW,0*FH,PSTR("MESSAGE"),DBLSIZE);
+  lcd_putsAtt(64-7*FW,0*FH,PSTR("MESSAGE"),DBLSIZE);
   lcd_puts_P(0,4*FW,s);
   refreshDisplay();
   lcdSetRefVolt(g_eeGeneral.contrast);
@@ -2119,11 +2119,10 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
 volatile uint8_t g_rotenc[2] = {0};
 #endif
 
-volatile uint8_t g_pdTimer;
-
 #ifndef SIMU
 
 #if defined (PCBV4)
+// Rotary encoder processing ...
 ISR(INT2_vect)
 {
   uint8_t input = PIND & 0b00001100;
@@ -2161,7 +2160,8 @@ uint16_t stack_free()
   return p - &__bss_end ;
 }
 
-uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
+uint8_t mcusr_mirror;
+volatile uint8_t g_pdTimer;
 uint8_t g_powerState __attribute__ ((section (".noinit")));
 
 int main(void)

@@ -486,3 +486,18 @@ void resetTelemetry()
 #endif
 }
 
+inline double deg2rad(double deg)
+{
+  return (deg * 3.14159265358979323846 / 180);
+}
+
+double distance(double lat1, double lon1, double lat2, double lon2)
+{
+  double dist, dlon, dlat, a, c;
+  dlon = deg2rad(lon2 - lon1);
+  dlat = deg2rad(lat2 - lat1);
+  a = pow(sin(dlat/2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon/2), 2);
+  c = 2 * atan2( sqrt(a), sqrt(1-a) );
+  return (6371600 * c); // meters
+}
+

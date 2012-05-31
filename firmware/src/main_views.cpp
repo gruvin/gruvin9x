@@ -460,7 +460,7 @@ void menuMainView(uint8_t event)
         lcd_putc(lcd_lastPos+1, 6*FH, frskyHubData.gpsLatitudeNS ? frskyHubData.gpsLatitudeNS : '-');
 
         // Altitude
-        lcd_puts_P(2, 2*FH, PSTR("Alt"));
+        lcd_puts_P(2*FW, 2*FH, PSTR("alt"));
         lcd_outdezNAtt(1*FW-2, 3*FH, frskyHubData.gpsAltitude_bp, DBLSIZE|LEFT|LEADING0, 3); // before '.' (digits 2&3)
         lcd_putc(lcd_lastPos, 4*FH, 'm');
         // Don't want 1/10th of meters ...
@@ -468,25 +468,64 @@ void menuMainView(uint8_t event)
         //lcd_outdezAtt(lcd_lastPos+2, 3*FH, frskyHubData.gpsAltitude_ap, LEFT|UNSIGN); // after '.'
         //lcd_putc(lcd_lastPos, 3*FH, 'm');
 
-        // Course / Heading
-        lcd_puts_P(8*FW-2, 2*FH, PSTR("Hdg"));
-        lcd_outdezNAtt(9*FW-6, 3*FH, frskyHubData.gpsCourse_bp, DBLSIZE|LEFT|LEADING0, 3); // before '.'
+// Temporary(?) distance and bearing calculations (move elsewhere & optimise later??)
+
+        // Fixed orgin for debugging ... Auckland Airport = -37.00806(S); 174.79167(E)
+        double lat1 = -37.00806;
+        double lon1 = 174.79167;
+
+/*
+        double lat2 = ((frskyHubData.gpsLatitude_bp / 100) // <-- whole degrees.
+                + ( // decimal portion ...
+                     (frskyHubData.gpsLatitude_bp % 100) // minutes
+                   + (frskyHubData.gpsLatitude_ap / 1000) // decimal (fractional) minutes
+                ) / 60.0 // 60 minutes in 1 degree
+                ) * ((frskyHubData.gpsLatitudeNS == 'S') ? -1 : 1); 
+        double lon2 = ((frskyHubData.gpsLongitude_bp / 100) // <-- whole degrees.
+                + ( // decimal portion ...
+                     (frskyHubData.gpsLongitude_bp % 100) // minutes
+                   + (frskyHubData.gpsLongitude_ap / 1000) // decimal (fractional) minutes
+                ) / 60.0 // 60 minutes in 1 degree
+                ) * ((frskyHubData.gpsLongitudeEW == 'W') ? -1 : 1); 
+*/
+        double lat2 = -37.00806;
+        double lon2 = 174.79067; // 0.001 degrees delta should be about 85m at my location
+
+        double dist = distance(lat1, lon1, lat2, lon2); // frsky.cpp
+
+        // Distance (metres, calculated.)
+        lcd_puts_P(9*FW-2, 2*FH, PSTR("dist"));
+        lcd_outdezNAtt(9*FW-6, 3*FH, (unsigned int)dist, DBLSIZE|LEFT|LEADING0, 4); // before '.'
         // Don't want 1/10ths of degrees ...
         //lcd_plot(lcd_lastPos, 6*FH-2, 0); // small decimal point
         //lcd_outdezAtt(lcd_lastPos+2, 5*FH, frskyHubData.gpsCourse_ap, LEFT); // after '.'
-        lcd_putc(lcd_lastPos, 3*FH, '@'); // the '@' is a 'degrees' (little circle symbol) in our font table :-)
+        lcd_putc(lcd_lastPos, 4*FH, 'm'); // the '@' is a 'degrees' (little circle) symbol, in our font table
 
-        // Speed
-        lcd_puts_P(15*FW, 2*FH, PSTR("Vel"));
-        lcd_outdezAtt(16*FW, 3*FH, frskyHubData.gpsSpeed_bp, DBLSIZE|LEFT); // before '.'
-        lcd_outdezAtt(18*FW, 3*FH, frskyHubData.gpsSpeed_ap / 10, DBLSIZE|LEFT|UNSIGN); // after '.'
-        lcd_plot(17*FW+4, 5*FH-5, 0); // small decimal point
-        lcd_plot(17*FW+4, 5*FH-4, 0); // small decimal point
-        lcd_plot(17*FW+5, 5*FH-5, 0); // small decimal point
-        lcd_plot(17*FW+5, 5*FH-4, 0); // small decimal point
-        lcd_putc(FW*20, 3*FH, 'm');
-        lcd_putc(FW*20, 4*FH, 's');
-        lcd_hline(FW*20-1, 4*FH, 7);
+        // Bearing (calculated)
+        lcd_outdezNAtt(9*FW+2, 5*FH, frskyHubData.gpsCourse_bp, LEFT|LEADING0, 3); // before '.'
+        // Don't want 1/10ths of degrees ...
+        //lcd_plot(lcd_lastPos, 6*FH-2, 0); // small decimal point
+        //lcd_outdezAtt(lcd_lastPos+2, 5*FH, frskyHubData.gpsCourse_ap, LEFT); // after '.'
+        lcd_putc(lcd_lastPos, 5*FH, '@'); // the '@' is a 'degrees' (little circle) symbol, in our font table
+
+        // Speed (Knots)
+        lcd_puts_P(16*FW, 2*FH, PSTR("knots"));
+        lcd_outdezAtt(17*FW, 3*FH, frskyHubData.gpsSpeed_bp, DBLSIZE|LEFT); // before '.'
+        lcd_outdezAtt(19*FW, 3*FH, frskyHubData.gpsSpeed_ap / 100, DBLSIZE|LEFT|UNSIGN); // after '.'
+        lcd_plot(18*FW+4, 5*FH-5, 0); // small decimal point
+        lcd_plot(18*FW+4, 5*FH-4, 0); // small decimal point
+        lcd_plot(18*FW+5, 5*FH-5, 0); // small decimal point
+        lcd_plot(18*FW+5, 5*FH-4, 0); // small decimal point
+        // debug: lcd_outdezAtt(18*FW, 5*FH, frskyHubData.gpsSpeed_ap, LEFT|UNSIGN); // after '.'
+        // XXX This after-decimal figure makes no sense. I see values higher than 200 (3 digits), yet a single byte can never reach 999.
+
+        // Course / Heading
+        lcd_outdezNAtt(17*FW+1, 5*FH, frskyHubData.gpsCourse_bp, LEFT|LEADING0, 3); // before '.'
+        // Don't want 1/10ths of degrees ...
+        //lcd_plot(lcd_lastPos, 6*FH-2, 0); // small decimal point
+        //lcd_outdezAtt(lcd_lastPos+2, 5*FH, frskyHubData.gpsCourse_ap, LEFT); // after '.'
+        lcd_putc(lcd_lastPos, 5*FH, '@'); // the '@' is a 'degrees' (little circle) symbol, in our font table
+
       }
       else if (g_model.frsky.usrProto == PROTO_FRSKY_HUB && g_eeGeneral.view == e_telemetry+3*ALTERNATE_VIEW) { // if on second alternate telemetry view
 
