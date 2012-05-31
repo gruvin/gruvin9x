@@ -441,6 +441,19 @@ void menuMainView(uint8_t event)
         lcd_putc(lcd_lastPos, 7*FH, ':');
         lcd_outdezNAtt(lcd_lastPos+FW, 7*FH, frskyHubData.sec, LEFT|LEADING0, 2);
 
+        //////////////////////////////////////////////////////////////
+        ///// debug Bryan's home location (from Fr-Sky GPS unit) /////
+        /*
+        frskyHubData.gpsLatitude_bp = 3657; // 36deg 57.6962min South
+        frskyHubData.gpsLatitude_ap = 6962;
+        frskyHubData.gpsLatitudeNS = 'S';
+
+        frskyHubData.gpsLongitude_bp = 17451; // 174deg 51.1819min East
+        frskyHubData.gpsLongitude_ap = 1819;
+        frskyHubData.gpsLongitudeEW = 'E';
+        */
+        //////////////////////////////////////////////////////////////
+        
         // Longitude
         lcd_outdezAtt(FW*3-2, 6*FH,  frskyHubData.gpsLongitude_bp / 100, 0); // ddd before '.'
         lcd_putc(lcd_lastPos, 6*FH, '@');
@@ -468,30 +481,43 @@ void menuMainView(uint8_t event)
         //lcd_outdezAtt(lcd_lastPos+2, 3*FH, frskyHubData.gpsAltitude_ap, LEFT|UNSIGN); // after '.'
         //lcd_putc(lcd_lastPos, 3*FH, 'm');
 
-// Temporary(?) distance and bearing calculations (move elsewhere & optimise later??)
+        ///////////////////////////////////////////////////////////////////////////////////////
+        // Distance and bearing calculations (move elsewhere & optimise later??)
 
-        // Fixed orgin for debugging ... Auckland Airport = -37.00806(S); 174.79167(E)
+        // Fixed origin initial, for debugging ... Auckland Airport = -37.00806(S); 174.79167(E)
         double lat1 = -37.00806;
         double lon1 = 174.79167;
 
-/*
-        double lat2 = ((frskyHubData.gpsLatitude_bp / 100) // <-- whole degrees.
-                + ( // decimal portion ...
-                     (frskyHubData.gpsLatitude_bp % 100) // minutes
-                   + (frskyHubData.gpsLatitude_ap / 1000) // decimal (fractional) minutes
-                ) / 60.0 // 60 minutes in 1 degree
-                ) * ((frskyHubData.gpsLatitudeNS == 'S') ? -1 : 1); 
-        double lon2 = ((frskyHubData.gpsLongitude_bp / 100) // <-- whole degrees.
-                + ( // decimal portion ...
-                     (frskyHubData.gpsLongitude_bp % 100) // minutes
-                   + (frskyHubData.gpsLongitude_ap / 1000) // decimal (fractional) minutes
-                ) / 60.0 // 60 minutes in 1 degree
-                ) * ((frskyHubData.gpsLongitudeEW == 'W') ? -1 : 1); 
-*/
-        double lat2 = -37.00806;
-        double lon2 = 174.79067; // 0.001 degrees delta should be about 85m at my location
+        // TODO We need to determine if the GPS has a valid fix or not, before
+        // proceeding with calculations The Fr-Sky hub seem to use some 'secret
+        // method' to indicate status, by altering the last 2 digits of lat,
+        // long and speed. I've seent hem all change at the same time, to the
+        // same numbers as each other.  The first is always 99. I've also seen
+        // 50 and 25 (with GPS inside.) *shrug*
 
-        double dist = distance(lat1, lon1, lat2, lon2); // frsky.cpp
+        // Convert GPS coordinates to degrees (tested OK) ...
+        double lat2 = ((frskyHubData.gpsLatitude_bp / 100)  // <-- whole degrees. First 3-digits from dddmm.mmmm
+                + ( // degrees decimal part ...
+                     (frskyHubData.gpsLatitude_bp % 100)      // whole minutes. (Last two digits from dddmm.)
+                   + (frskyHubData.gpsLatitude_ap / 10000.0)  // fractional minutes
+                ) / 60.0                                      // 60 minutes in 1 degree
+                ) * ((frskyHubData.gpsLatitudeNS == 'S') ? -1 : 1); 
+        double lon2 = ((frskyHubData.gpsLongitude_bp / 100)
+                + (
+                     (frskyHubData.gpsLongitude_bp % 100)
+                   + (frskyHubData.gpsLongitude_ap / 10000.0)
+                ) / 60.0
+                ) * ((frskyHubData.gpsLongitudeEW == 'W') ? -1 : 1); 
+
+        double dist = distance(lat1, lon1, lat2, lon2); // see frsky.cpp
+        // G: Actual GPS range and calcs came out at 7,290m, compared to Google
+        // Earth 7,512m range. A ~3% error, well inside the accuracy limits of
+        // most GPS systems, I think.  A lot depends on the "averaged"
+        // circumference of Earth. Perhaps we'll adjust that a little some
+        // day, if it seems worth while.
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
 
         // Distance (metres, calculated.)
         lcd_puts_P(9*FW-2, 2*FH, PSTR("dist"));

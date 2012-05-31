@@ -488,16 +488,21 @@ void resetTelemetry()
 
 inline double deg2rad(double deg)
 {
-  return (deg * 3.14159265358979323846 / 180);
+  return (deg * 3.14159265 / 180);
 }
 
+// Haversine formula for short distances, reference http://andrew.hedges.name/experiments/haversine/
+// Earth circumference reference, http://en.wikipedia.org/wiki/Great-circle_distance
+// Math performed by MCU is within 2.8% of that performed by JavaScript in
+// Firefox, on my Mac over a ~7,500m test distance.  GPS is not that accurate
+// (by far) so I'm happy enough with the results here.
 double distance(double lat1, double lon1, double lat2, double lon2)
 {
   double dist, dlon, dlat, a, c;
   dlon = deg2rad(lon2 - lon1);
   dlat = deg2rad(lat2 - lat1);
   a = pow(sin(dlat/2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon/2), 2);
-  c = 2 * atan2( sqrt(a), sqrt(1-a) );
-  return (6371600 * c); // meters
+  c = 2 * atan2( sqrt(a), sqrt(1-a) );  // great circle distance in radians
+  return (6372800 * c); // meters
 }
 
