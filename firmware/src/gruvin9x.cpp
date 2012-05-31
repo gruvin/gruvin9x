@@ -2119,6 +2119,8 @@ void moveTrimsToOffsets() // copy state of 3 primary to subtrim
 volatile uint8_t g_rotenc[2] = {0};
 #endif
 
+volatile uint8_t g_pdTimer;
+
 #ifndef SIMU
 
 #if defined (PCBV4)
@@ -2161,7 +2163,6 @@ uint16_t stack_free()
 }
 
 uint8_t mcusr_mirror;
-volatile uint8_t g_pdTimer;
 uint8_t g_powerState __attribute__ ((section (".noinit")));
 
 int main(void)

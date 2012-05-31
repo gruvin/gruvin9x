@@ -18,6 +18,9 @@
  *
  */
 
+#ifdef SIMU
+#include <math.h>
+#endif
 #include "gruvin9x.h"
 
 // Enumerate FrSky packet codes
