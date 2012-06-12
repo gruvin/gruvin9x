@@ -1,4 +1,4 @@
-Cmp-Mod V01 Created by CvPcb (2012-01-19 BZR 3256)-stable date = 13/04/2012 18:03:36
+Cmp-Mod V01 Created by CvPcb (2012-01-19 BZR 3256)-stable date = 12/06/2012 02:06:46
 
 BeginCmp
 TimeStamp = /4E9F6061;
@@ -74,14 +74,14 @@ BeginCmp
 TimeStamp = /4EB125E6;
 Reference = F1;
 ValeurCmp = FUSE;
-IdModule  = SM1206;
+IdModule  = SM1812;
 EndCmp
 
 BeginCmp
 TimeStamp = /4EB125EB;
 Reference = F2;
 ValeurCmp = FUSE;
-IdModule  = SM1206;
+IdModule  = SM1812;
 EndCmp
 
 BeginCmp
@@ -227,14 +227,14 @@ EndCmp
 BeginCmp
 TimeStamp = /4EB19577;
 Reference = R11;
-ValeurCmp = 4.7k;
+ValeurCmp = 5.1k;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 
 BeginCmp
 TimeStamp = /4F3C4F08;
 Reference = R12;
-ValeurCmp = 470R;
+ValeurCmp = 1K;
 IdModule  = SM0603_GRUVIN;
 EndCmp
 

@@ -1,4 +1,4 @@
-# EESchema Netlist Version 1.1 created  13/04/2012 18:03:36
+# EESchema Netlist Version 1.1 created  12/06/2012 02:06:46
 (
  ( /4E9F6061 SM0603_GRUVIN C1 100nF
   ( 1 VCC )
@@ -40,11 +40,11 @@
   ( 1 N-000062 )
   ( 2 GND )
  )
- ( /4EB125E6 SM1206 F1 FUSE
+ ( /4EB125E6 SM1812 F1 FUSE
   ( 1 N-000012 )
   ( 2 N-000057 )
  )
- ( /4EB125EB SM1206 F2 FUSE
+ ( /4EB125EB SM1812 F2 FUSE
   ( 1 N-000051 )
   ( 2 N-000014 )
  )
@@ -201,11 +201,11 @@
   ( 1 N-000050 )
   ( 2 N-000060 )
  )
- ( /4EB19577 SM0603_GRUVIN R11 4.7k
+ ( /4EB19577 SM0603_GRUVIN R11 5.1k
   ( 1 /SPI_MOSI )
   ( 2 /RESET )
  )
- ( /4F3C4F08 SM0603_GRUVIN R12 470R
+ ( /4F3C4F08 SM0603_GRUVIN R12 1K
   ( 1 N-000062 )
   ( 2 /LED1 )
  )

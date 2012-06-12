@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 02/03/2012 00:46:23
+EESchema Schematic File Version 2  date 11/06/2012 23:49:05
 LIBS:device
 LIBS:transistors
 LIBS:linear
@@ -37,7 +37,7 @@ $Descr A3 16535 11700
 encoding utf-8
 Sheet 1 1
 Title "G9X Rx Multiplexer Board"
-Date "2 mar 2012"
+Date "11 jun 2012"
 Rev "1.0"
 Comp "gruvin9x"
 Comment1 ""
@@ -498,7 +498,7 @@ L R R12
 U 1 1 4F3C4F08
 P 2900 5650
 F 0 "R12" V 2980 5650 50  0000 C CNN
-F 1 "470R" V 2900 5650 50  0000 C CNN
+F 1 "1K" V 2900 5650 50  0000 C CNN
 	1    2900 5650
 	0    -1   -1   0   
 $EndComp
@@ -582,7 +582,7 @@ L R R11
 U 1 1 4EB19577
 P 7750 5050
 F 0 "R11" V 7830 5050 50  0000 C CNN
-F 1 "4.7k" V 7750 5050 50  0000 C CNN
+F 1 "5.1k" V 7750 5050 50  0000 C CNN
 	1    7750 5050
 	1    0    0    -1  
 $EndComp
