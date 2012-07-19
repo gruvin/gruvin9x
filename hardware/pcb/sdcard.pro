@@ -1,5 +1,5 @@
-update=15/02/2012 01:33:28
-last_client=pcbnew
+update=19/07/2012 6:29:27 p.m.
+last_client=kicad
 [eeschema]
 version=1
 LibDir=
@@ -93,3 +93,5 @@ LibName8=valves
 LibName9=led
 LibName10=dip_sockets
 LibName11=gruvin
+[general]
+version=1

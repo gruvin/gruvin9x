@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 15/02/2012 20:15:35
+EESchema Schematic File Version 2  date 19/07/2012 7:19:00 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "sdcard.sch"
-Date "15 feb 2012"
+Date "19 jul 2012"
 Rev "4.1"
 Comp ""
 Comment1 ""
@@ -45,10 +45,6 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text Notes 7400 4650 0    60   ~ 12
-From DS1338-33 Datasheet ...
-Text Notes 7400 4750 0    60   ~ 0
-... Input/output pin for the I2C serial interface. It is an open drain\noutput and requires an external pullup resistor. The pull up voltage\nmay be up to 5.5V regardless of the voltage on VCC.\n\nIn theory, this should mean that it's safe to drive a logic 1 into these\npins at a voltage of up to 5.5V, as will be the case with outputs in\nour bit-bang implementation on the ATmega.
 Connection ~ 4650 2650
 Wire Wire Line
 	4650 2950 4650 2650
@@ -204,6 +200,10 @@ Wire Wire Line
 	4850 3550 4650 3550
 Wire Wire Line
 	4650 3550 4650 3450
+Text Notes 7400 4650 0    60   ~ 12
+From DS1338-33 Datasheet ...
+Text Notes 7400 4750 0    60   ~ 0
+... Input/output pin for the I2C serial interface. It is an open drain\noutput and requires an external pullup resistor. The pull up voltage\nmay be up to 5.5V regardless of the voltage on VCC.\n\nIn theory, this should mean that it's safe to drive a logic 1 into these\npins at a voltage of up to 5.5V, as will be the case with outputs in\nour bit-bang implementation on the ATmega.
 $Comp
 L R R3
 U 1 1 4D1F93EA
