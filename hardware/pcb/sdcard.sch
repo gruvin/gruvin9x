@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 19/07/2012 7:19:00 p.m.
+EESchema Schematic File Version 2  date 15/08/2012 12:01:02 p.m.
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -37,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "sdcard.sch"
-Date "19 jul 2012"
+Date "15 aug 2012"
 Rev "4.1"
 Comp ""
 Comment1 ""

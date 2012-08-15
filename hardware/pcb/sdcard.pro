@@ -1,5 +1,5 @@
-update=19/07/2012 6:29:27 p.m.
-last_client=kicad
+update=15/08/2012 12:03:30 p.m.
+last_client=cvpcb
 [eeschema]
 version=1
 LibDir=
@@ -81,7 +81,6 @@ TxtLar=120
 MSegLar=150
 LastNetListRead=
 [pcbnew/libraries]
-LibDir=share/modules
 LibName1=sockets
 LibName2=connect
 LibName3=discret
@@ -92,6 +91,12 @@ LibName7=display
 LibName8=valves
 LibName9=led
 LibName10=dip_sockets
-LibName11=gruvin
+LibName11=share/modules/gruvin
+LibDir=
 [general]
 version=1
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
