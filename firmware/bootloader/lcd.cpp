@@ -23,8 +23,10 @@
 
 uint8_t displayBuf[DISPLAY_W*DISPLAY_H/8];
 #define DISPLAY_END (displayBuf+sizeof(displayBuf))
+const pm_uchar font[] PROGMEM = {
 #include "font.lbm"
-#define font_5x8_x20_x7f (font+3)
+};
+#define font_5x8_x20_x7f (font+2)
 
 void lcd_clear()
 {
@@ -37,7 +39,7 @@ void lcd_putcAtt(uint8_t x, uint8_t y, const char c, uint8_t mode)
 {
   uint8_t *p    = &displayBuf[ y / 8 * DISPLAY_W + x ];
 
-  prog_uchar    *q = &font_5x8_x20_x7f[ + (c-0x20)*5];
+  const pm_uchar    *q = &font_5x8_x20_x7f[ + (c-0x20)*5];
   bool         inv = (mode & INVERS) ? true : false;
   uint8_t condense=0;
 
@@ -62,7 +64,7 @@ void lcd_putc(uint8_t x,uint8_t y,const char c)
   lcd_putcAtt(x,y,c,0);
 }
 
-void lcd_putsnAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t len,uint8_t mode)
+void lcd_putsnAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t len,uint8_t mode)
 {
   while(len!=0) {
     char c;
@@ -80,12 +82,12 @@ void lcd_putsnAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t len,uint8_t mo
     len--;
   }
 }
-void lcd_putsn_P(uint8_t x,uint8_t y,const prog_char * s,uint8_t len)
+void lcd_putsn_P(uint8_t x,uint8_t y,const pm_char * s,uint8_t len)
 {
   lcd_putsnAtt( x,y,s,len,0);
 }
 
-void lcd_putsAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t mode)
+void lcd_putsAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t mode)
 {
   while(1) {
     char c = (mode & BSS) ? *s++ : pgm_read_byte_far(s++);
@@ -96,7 +98,7 @@ void lcd_putsAtt(uint8_t x,uint8_t y,const prog_char * s,uint8_t mode)
   lcd_lastPos = x;
 }
 
-void lcd_puts_P(uint8_t x,uint8_t y,const prog_char * s)
+void lcd_puts_P(uint8_t x,uint8_t y,const pm_char * s)
 {
   lcd_putsAtt( x, y, s, 0);
 }
