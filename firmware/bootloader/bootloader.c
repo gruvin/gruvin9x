@@ -274,7 +274,7 @@ uchar   i;
         if(currentRequest >= USBASP_FUNC_READEEPROM){
             *data = eeprom_read_byte((void *)currentAddress.w[0]);
         }else{
-            *data = pgm_read_byte((void *)CURRENT_ADDRESS);
+            *data = pgm_read_byte((void *)(unsigned)CURRENT_ADDRESS); // XXX (unsigned) added to remove compiler warning.
         }
         data++;
         CURRENT_ADDRESS++;
