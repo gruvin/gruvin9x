@@ -104,7 +104,7 @@ AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE)
 CC = avr-gcc
 
 CXX = avr-g++
-CXXFLAGS = -Os -g -Wall -Wextra -mmcu=$(DEVICE) -DF_CPU=$(F_CPU) $(DEFINES)
+CXXFLAGS = -Os -g -Wall -Wextra -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions -I. -mmcu=$(DEVICE) -DF_CPU=$(F_CPU) $(DEFINES)
 
 # Options:
 DEFINES = #-DDEBUG_LEVEL=2
@@ -158,7 +158,7 @@ bootloader.hex:	bootloader.bin
 	avr-size bootloader.hex
 
 disasm:	bootloader.bin
-	avr-objdump -d bootloader.bin
+	avr-objdump -h -S -d bootloader.bin
 
 cpp:
 	$(CC) $(CFLAGS) -E bootloader.c

@@ -26,8 +26,15 @@
 #include "pgmtypes.h"
 #include <util/delay.h>
 #include <string.h>
+#include <avr/boot.h>
 
 #include "lcd.h"
+
+#define bool uint8_t
+#define true -1
+#define false 0
+
+
 
 uint8_t displayBuf[DISPLAY_W*DISPLAY_H/8];
 #define DISPLAY_END (displayBuf+sizeof(displayBuf))
@@ -43,21 +50,25 @@ void lcd_clear()
 
 uint8_t lcd_lastPos;
 
+
 void lcd_putcAtt(uint8_t x, uint8_t y, const char c, uint8_t mode)
 {
   uint8_t *p    = &displayBuf[ y / 8 * DISPLAY_W + x ];
 
+  // const pm_uchar    *q = &font_5x8_x20_x7f[ + (c-0x20)*5];
   const pm_uchar    *q = &font_5x8_x20_x7f[ + (c-0x20)*5];
   bool         inv = (mode & INVERS) ? true : false;
   uint8_t condense=0;
+  char i;
+  uint8_t b;
 
   if (mode & CONDENSED) {
       *p++ = inv ? ~0 : 0;
       condense=1;
   }
 
-  for (char i=5; i!=0; i--) {
-      uint8_t b = pgm_read_byte_far(q++);
+  for (i=5; i!=0; i--) {
+      b = pgm_read_byte_far((uint32_t)(unsigned)q++);
       if (condense && i==4) {
           /*condense the letter by skipping column 4 */
           continue;
@@ -98,7 +109,7 @@ void lcd_putsn_P(uint8_t x,uint8_t y,const pm_char * s,uint8_t len)
 void lcd_putsAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t mode)
 {
   while(1) {
-    char c = (mode & BSS) ? *s++ : pgm_read_byte_far(s++);
+    char c = (mode & BSS) ? *s++ : pgm_read_byte_far((uint32_t)(unsigned)s++);
     if(!c) break;
     lcd_putcAtt(x,y,c,mode);
     x+=FW;
@@ -113,11 +124,14 @@ void lcd_puts_P(uint8_t x,uint8_t y,const pm_char * s)
 
 void lcd_outhex4(uint8_t x,uint8_t y,uint16_t val)
 {
+  int i;
+  char c;
+
   x+=FWNUM*4;
-  for(int i=0; i<4; i++)
+  for(i=0; i<4; i++)
   {
     x-=FWNUM;
-    char c = val & 0xf;
+    c = val & 0xf;
     c = c>9 ? c+'A'-10 : c+'0';
     lcd_putcAtt(x,y,c,c>='A'?CONDENSED:0);
     val>>=4;
@@ -150,7 +164,8 @@ void lcdSendCtl(uint8_t val)
 #define delay_1us() _delay_us(1)
 void delay_1_5us(int ms)
 {
-  for(int i=0; i<ms; i++) delay_1us();
+  int i;
+  for(i=0; i<ms; i++) delay_1us();
 }
 
 
@@ -187,14 +202,15 @@ void lcdSetRefVolt(uint8_t val)
 void refreshDisplay()
 {
   uint8_t *p=displayBuf;
-  for(uint8_t y=0; y < 8; y++) {
+  uint8_t x, y;
+  for(y=0; y < 8; y++) {
     lcdSendCtl(0x04);
     lcdSendCtl(0x10); //column addr 0
     lcdSendCtl( y | 0xB0); //page addr y
     PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_CS1);
     PORTC_LCD_CTRL |=  (1<<OUT_C_LCD_A0);
     PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_RnW);
-    for(uint8_t x=128; x>0; --x) {
+    for(x=128; x>0; --x) {
       PORTA_LCD_DAT = *p++;
       PORTC_LCD_CTRL |= (1<<OUT_C_LCD_E);
       PORTC_LCD_CTRL &= ~(1<<OUT_C_LCD_E);

@@ -311,6 +311,28 @@ int __attribute__((noreturn)) main(void)
     GICR = (1 << IVSEL); /* move interrupts to boot flash section */
 #endif
     if(bootLoaderCondition()){
+
+        // Make some noise ... (sound beeper 3 times)
+        int x;
+        for (x = 0; x < 3; x++)
+        {
+          PORTE |= 1<<3; PORTC |= 1;
+          _delay_us(70000);
+          PORTE &= ~(1<<3); PORTC &= 0xfe;
+          _delay_us(100000);
+        }
+        PORTE |= 1<<3; PORTC |= 1;
+        _delay_us(200000);
+        PORTE &= ~(1<<3); PORTC &= 0xfe;
+
+        // Write somthing semi-useful on the LCD screen ...
+        lcd_init();
+        lcd_puts_P(2*FW, 3*FH, PSTR("BOOTLOADER!"));
+        refreshDisplay();
+
+        ///////////////////////////////////
+        // Original V_USB code starts here
+        ///////////////////////////////////
         uchar i = 0, j = 0;
         initForUsbConnectivity();
         do{
@@ -323,7 +345,9 @@ int __attribute__((noreturn)) main(void)
                 }
             }
 #endif
-        }while(bootLoaderCondition());  /* main event loop */
+        } while(1);  /* main event loop */
+        // while(bootLoaderCondition()); 
+        // we actually want to remain in loop even after buttons are released (not using a jumper!)
     }
     leaveBootloader();
 }
