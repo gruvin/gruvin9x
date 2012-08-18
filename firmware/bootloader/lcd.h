@@ -22,8 +22,6 @@
 #ifndef lcd_h
 #define lcd_h
 
-#include "bootloader.h"
-
 #define PORTA_LCD_DAT  PORTA
 #define PORTC_LCD_CTRL PORTC
 #define OUT_C_LCD_E     5

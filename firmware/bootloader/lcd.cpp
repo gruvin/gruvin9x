@@ -19,6 +19,14 @@
  *
  */
 
+#include <inttypes.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
+#include "pgmtypes.h"
+#include <util/delay.h>
+#include <string.h>
+
 #include "lcd.h"
 
 uint8_t displayBuf[DISPLAY_W*DISPLAY_H/8];
@@ -118,8 +126,6 @@ void lcd_outhex4(uint8_t x,uint8_t y,uint16_t val)
 
 void lcd_mask(uint8_t *p, uint8_t mask, uint8_t att)
 {
-  assert(p < DISPLAY_END);
-
   if (att & BLACK)
     *p |= mask;
   else if (att & WHITE)

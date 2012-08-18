@@ -22,6 +22,9 @@ static void leaveBootloader() __attribute__((__noreturn__));
 #include "bootloaderconfig.h"
 #include "usbdrv/usbdrv.c"
 
+#include "pgmtypes.h"
+#include "lcd.h"
+
 /* ------------------------------------------------------------------------ */
 
 /* Request constants used by USBasp */
