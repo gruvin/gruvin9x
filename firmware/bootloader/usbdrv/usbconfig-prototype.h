@@ -5,7 +5,7 @@
  * Tabsize: 4
  * Copyright: (c) 2005 by OBJECTIVE DEVELOPMENT Software GmbH
  * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
- * This Revision: $Id: usbconfig-prototype.h 785 2010-05-30 17:57:07Z cs $
+ * This Revision: $Id$
  */
 
 #ifndef __usbconfig_h_included__
@@ -26,15 +26,15 @@ section at the end of this file).
 
 /* ---------------------------- Hardware Config ---------------------------- */
 
-#define USB_CFG_IOPORTNAME      E
+#define USB_CFG_IOPORTNAME      D
 /* This is the port where the USB bus is connected. When you configure it to
  * "B", the registers PORTB, PINB and DDRB will be used.
  */
-#define USB_CFG_DMINUS_BIT      2
+#define USB_CFG_DMINUS_BIT      4
 /* This is the bit number in USB_CFG_IOPORT where the USB D- line is connected.
  * This may be any bit in the port.
  */
-#define USB_CFG_DPLUS_BIT       4
+#define USB_CFG_DPLUS_BIT       2
 /* This is the bit number in USB_CFG_IOPORT where the USB D+ line is connected.
  * This may be any bit in the port. Please note that D+ must also be connected
  * to interrupt pin INT0! [You can also use other interrupts, see section
@@ -372,16 +372,5 @@ section at the end of this file).
 /* #define USB_INTR_PENDING        GIFR */
 /* #define USB_INTR_PENDING_BIT    INTF0 */
 /* #define USB_INTR_VECTOR         INT0_vect */
-
-
-/* ATmega2560 G9X v4 board */
-#define USB_INTR_CFG            EICRB
-#define USB_INTR_CFG_SET        ((1 << ISC40) | (1 << ISC41))
-#define USB_INTR_CFG_CLR        0
-#define USB_INTR_ENABLE         EIMSK
-#define USB_INTR_ENABLE_BIT     INT4
-#define USB_INTR_VECTOR         INT4_vect
-#define USB_INTR_PENDING        EIFR
-#define USB_INTR_PENDING_BIT    INTF4
 
 #endif /* __usbconfig_h_included__ */

@@ -38,20 +38,21 @@ these macros are defined, the boot loader usees them.
 
 /* ---------------------------- Hardware Config ---------------------------- */
 
-#define USB_CFG_IOPORTNAME      D
+#define USB_CFG_IOPORTNAME      E
 /* This is the port where the USB bus is connected. When you configure it to
  * "B", the registers PORTB, PINB and DDRB will be used.
  */
-#define USB_CFG_DMINUS_BIT      4
+#define USB_CFG_DMINUS_BIT      2
 /* This is the bit number in USB_CFG_IOPORT where the USB D- line is connected.
  * This may be any bit in the port.
  */
-#define USB_CFG_DPLUS_BIT       2
+#define USB_CFG_DPLUS_BIT       4
 /* This is the bit number in USB_CFG_IOPORT where the USB D+ line is connected.
  * This may be any bit in the port. Please note that D+ must also be connected
  * to interrupt pin INT0!
  */
-#define USB_CFG_CLOCK_KHZ       (F_CPU/1000)
+//#define USB_CFG_CLOCK_KHZ       (F_CPU/1000)
+#define USB_CFG_CLOCK_KHZ       16000
 /* Clock rate of the AVR in MHz. Legal values are 12000, 16000 or 16500.
  * The 16.5 MHz version of the code requires no crystal, it tolerates +/- 1%
  * deviation from the nominal frequency. All other rates require a precision
@@ -72,6 +73,8 @@ these macros are defined, the boot loader usees them.
  * above) where the 1.5k pullup resistor is connected. See description
  * above for details.
  */
+
+#define USB_CFG_IS_SELF_POWERED         1
 
 /* ------------------------------------------------------------------------- */
 /* ---------------------- feature / code size options ---------------------- */
@@ -131,8 +134,6 @@ these macros are defined, the boot loader usees them.
  */
 
 #ifndef __ASSEMBLER__   /* assembler cannot parse function definitions */
-
-#define JUMPER_BIT  7   /* jumper is connected to this bit in port D, active low */
 
 #ifndef MCUCSR          /* compatibility between ATMega8 and ATMega88 */
 #   define MCUCSR   MCUSR

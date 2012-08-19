@@ -99,7 +99,7 @@
  * of the macros usbDisableAllRequests() and usbEnableAllRequests() in
  * usbdrv.h.
  */
-#define USB_CFG_DRIVER_FLASH_PAGE       0
+#define USB_CFG_DRIVER_FLASH_PAGE       3
 /* If the device has more than 64 kBytes of flash, define this to the 64 k page
  * where the driver's constants (descriptors) are located. Or in other words:
  * Define this to 1 for boot loaders on the ATMega128.
@@ -317,5 +317,15 @@
 /* #define USB_INTR_PENDING        GIFR */
 /* #define USB_INTR_PENDING_BIT    INTF0 */
 /* #define USB_INTR_VECTOR         INT0_vect */
+
+/* ATmega2560 G9X v4.x board */
+#define USB_INTR_CFG            EICRB
+#define USB_INTR_CFG_SET        ((1 << ISC40) | (1 << ISC41))
+#define USB_INTR_CFG_CLR        0
+#define USB_INTR_ENABLE         EIMSK
+#define USB_INTR_ENABLE_BIT     INT4
+#define USB_INTR_VECTOR         INT4_vect
+#define USB_INTR_PENDING        EIFR
+#define USB_INTR_PENDING_BIT    INTF4
 
 #endif /* __usbconfig_h_included__ */

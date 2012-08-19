@@ -120,7 +120,9 @@ static const uchar  signatureBytes[4] = {
 
 /* ------------------------------------------------------------------------ */
 
-static void (*nullVector)(void) __attribute__((__noreturn__));
+// G: This doesn't work. It doesn't seem to generate a 32-bit (or 24-bit) address
+//    as is requried. Use asm(jmp 0x00000) instead. *shrug* 
+//static void (*nullVector)(void) __attribute__((__noreturn__));
 
 //
 static void leaveBootloader()
@@ -139,6 +141,7 @@ static void leaveBootloader()
  */
     RAMPZ=0; MCUSR = 0x01; MCUSR = 0x00;
     asm volatile ("jmp 0x00000\n\t" ::);
+    for(;;);
 
     // nullVector();
 }
@@ -368,7 +371,8 @@ int __attribute__((noreturn)) main(void)
         } while(1);  /* main event loop */
         // was ...
         // while(bootLoaderCondition()); 
-        // we actually want to remain in loop even after buttons are released (not using a jumper!)
+        // But we want to remain in loop even after buttons are released 
+        // because we'reusing a jumper to enter bootloader mode.
     }
     leaveBootloader();
     for(;;);
