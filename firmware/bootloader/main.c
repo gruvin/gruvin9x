@@ -171,6 +171,8 @@ static uchar    replyBuffer[4];
 #if HAVE_CHIP_ERASE
         }else if(rq->wValue.bytes[0] == 0xac && rq->wValue.bytes[1] == 0x80){  /* chip erase */
             addr_t addr;
+            // XXX TODO: The following assumes only 2K bootloader. ATmega2560 has 4K(words?)
+            //           We don't allow chip erase, so it doesn't matter for now.
             for(addr = 0; addr < FLASHEND + 1 - 2048; addr += SPM_PAGESIZE) {
                 /* wait and erase page */
                 DBG1(0x33, 0, 0);
@@ -309,6 +311,8 @@ uchar   i = 0;
     sei();
 }
 
+uint8_t contrast = 28;
+
 int __attribute__((noreturn)) main(void)
 {
     /* initialize  */
@@ -325,26 +329,34 @@ int __attribute__((noreturn)) main(void)
 
         /////////////////////////////////////////////////////////////////////
         // MAKE SOME NOISE ... (sound beeper _... (Morse 'B' for 'boot' )
-        PORTE |= 1<<3; PORTC |= 1;
+        // PORTE |= 1<<3; 
+        PORTC |= 1;
         _delay_us(300000);
-        PORTE &= ~(1<<3); PORTC &= 0xfe;
+        // PORTE &= ~(1<<3); 
+        PORTC &= 0xfe;
 
         int x;
         for (x = 0; x < 3; x++)
         {
           _delay_us(100000);
-          PORTE |= 1<<3; PORTC |= 1;
+          // PORTE |= 1<<3; 
+          PORTC |= 1;
           _delay_us(100000);
-          PORTE &= ~(1<<3); PORTC &= 0xfe;
+          // PORTE &= ~(1<<3); 
+          PORTC &= 0xfe;
         }
         /////////////////////////////////////////////////////////////////////
 
         /////////////////////////////////////////////////////
         // Write somthing semi-useful on the LCD screen ...
         lcd_init();
+        lcdSetRefVolt(contrast);
         lcd_clear();
         lcd_puts_P(3*FW+3, 3*FH, PSTR("USBasp Online"));
-        lcd_puts_P(17*FW, 6*FH, PSTR("exit"));
+        lcd_puts_P(0*FW, 0*FH, PSTR("+cntrst"));
+        lcd_puts_P(0*FW, 7*FH, PSTR("-cntrst"));
+        lcd_puts_P(14*FW+2, 0*FH, PSTR("bklight"));
+        lcd_puts_P(17*FW+2, 7*FH, PSTR("exit"));
         refreshDisplay();
         /////////////////////////////////////////////////////
 
@@ -389,6 +401,19 @@ int __attribute__((noreturn)) main(void)
               lcd_outhex5(15*FW, 4*FH, CURRENT_ADDRESS);
               refreshDisplay();
             }
+
+            // LCD contrast up/down control
+            static uint8_t db0, db1, db2, click0, click1, click2 = 0;
+            if ((click0 == 0) && ((~PINL & 1) == 1) && (--db0 == 0)) { click0 = 1; lcdSetRefVolt(--contrast); }
+            else if ((~PINL & 1) == 0) { db0 = 0; click0 = 0; }
+
+            if ((click1 == 0) && ((~PINL & 2) == 2) && (--db1 == 0)) { click1 = 1; lcdSetRefVolt(++contrast); }
+            else if ((~PINL & 2) == 0) { db1 = 0; click1 = 0; }
+
+            // toggle backlight
+            if ((click2 == 0) && ((~PINL & 16) == 16) && (--db2 == 0)) { click2 = 1; (PORTC = PINC ^ 1); }
+            else if ((~PINL & 16) == 0) { db2 = 0; click2 = 0; }
+
 
 #if BOOTLOADER_CAN_EXIT
             if(requestBootLoaderExit) 
