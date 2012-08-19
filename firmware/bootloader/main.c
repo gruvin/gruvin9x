@@ -360,8 +360,21 @@ int __attribute__((noreturn)) main(void)
         initForUsbConnectivity();
         do{
             usbPoll();
+            if ((PINL & (1<<5)) == 0) // if [EXIT] key pressed
+            {
+                if(--i == 0){
+                    if(--j == 0)
+                    {
+                      lcd_clear();
+                      lcd_puts_P(2*FW, 3*FH, PSTR("REBOOT!"));
+                      refreshDisplay();
+                      break;
+                    }
+                }
+            }
+
 #if BOOTLOADER_CAN_EXIT
-            if(requestBootLoaderExit || ((PINL & (1<<5)) == 0) ){ // ... or [EXIT] key pressed
+            if(requestBootLoaderExit) 
                 if(--i == 0){
                     if(--j == 0)
                         break;

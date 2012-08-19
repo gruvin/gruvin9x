@@ -125,11 +125,12 @@ static inline void  sei(void)
 #   include <avr/pgmspace.h>
 #endif
 
-#if USB_CFG_DRIVER_FLASH_PAGE
-#   define USB_READ_FLASH(addr)    pgm_read_byte_far(((long)USB_CFG_DRIVER_FLASH_PAGE << 16) | (long)(addr))
-#else
-#   define USB_READ_FLASH(addr)    pgm_read_byte(addr)
-#endif
+//#ifdef USB_CFG_DRIVER_FLASH_PAGE
+//#   define USB_READ_FLASH(addr)    pgm_read_byte_far(xxx((long)USB_CFG_DRIVER_FLASH_PAGE << 16) | (long)(addr))
+//#else
+//#   define USB_READ_FLASH(addr)    pgm_read_byte(addr)
+//#endif
+#define USB_READ_FLASH(addr)    pgm_read_byte_far(0x30000UL | (unsigned long)(addr))
 
 #define macro   .macro
 #define endm    .endm
