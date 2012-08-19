@@ -17,7 +17,7 @@
 F_CPU = 16000000UL
 DEVICE = atmega2560
 # BOOTLOADER_ADDRESS is 1800 for 8k devices, 3800 for 16k and 7800 for 32k.
-BOOTLOADER_ADDRESS = 3F000
+BOOTLOADER_ADDRESS = 3E000
 FUSEOPT = $(FUSEOPT_168)
 LOCKOPT = -U lock:w:0x2f:m
 
@@ -103,9 +103,6 @@ FUSEOPT_328 = -U lfuse:w:0xf7:m -U hfuse:w:0xda:m -U efuse:w:0x03:m
 AVRDUDE = avrdude $(PROGRAMMER) -p $(DEVICE)
 CC = avr-gcc
 
-CXX = avr-g++
-CXXFLAGS = -Os -g -Wall -Wextra -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions -I. -mmcu=$(DEVICE) -DF_CPU=$(F_CPU) $(DEFINES)
-
 # Options:
 DEFINES = #-DDEBUG_LEVEL=2
 # Remove the -fno-* options when you use gcc 3, it does not understand them
@@ -149,7 +146,7 @@ clean:
 	rm -f bootloader.hex bootloader.bin *.o usbdrv/*.o bootloader.s usbdrv/oddebug.s usbdrv/usbdrv.s
 
 # file targets:
-bootloader.bin:	$(OBJECTS)
+bootloader.bin:	$(OBJECTS) bootloaderconfig.h
 	$(CC) $(CFLAGS) -o bootloader.bin $(OBJECTS) $(LDFLAGS)
 
 bootloader.hex:	bootloader.bin
@@ -158,7 +155,7 @@ bootloader.hex:	bootloader.bin
 	avr-size bootloader.hex
 
 disasm:	bootloader.bin
-	avr-objdump -h -S -d bootloader.bin
+	avr-objdump -d bootloader.bin
 
 cpp:
 	$(CC) $(CFLAGS) -E bootloader.c

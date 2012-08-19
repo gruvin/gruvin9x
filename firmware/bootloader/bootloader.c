@@ -312,23 +312,27 @@ int __attribute__((noreturn)) main(void)
 #endif
     if(bootLoaderCondition()){
 
-        // Make some noise ... (sound beeper 3 times)
+        // Make some noise ... (sound beeper _... (Morse 'B' for 'boot' )
+        PORTE |= 1<<3; PORTC |= 1;
+        _delay_us(300000);
+        PORTE &= ~(1<<3); PORTC &= 0xfe;
+
         int x;
         for (x = 0; x < 3; x++)
         {
-          PORTE |= 1<<3; PORTC |= 1;
-          _delay_us(70000);
-          PORTE &= ~(1<<3); PORTC &= 0xfe;
           _delay_us(100000);
+          PORTE |= 1<<3; PORTC |= 1;
+          _delay_us(100000);
+          PORTE &= ~(1<<3); PORTC &= 0xfe;
         }
-        PORTE |= 1<<3; PORTC |= 1;
-        _delay_us(200000);
-        PORTE &= ~(1<<3); PORTC &= 0xfe;
 
         // Write somthing semi-useful on the LCD screen ...
         lcd_init();
+        lcd_clear();
         lcd_puts_P(2*FW, 3*FH, PSTR("BOOTLOADER!"));
         refreshDisplay();
+
+        while(1); // just stop here for now.
 
         ///////////////////////////////////
         // Original V_USB code starts here

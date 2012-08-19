@@ -157,7 +157,11 @@ static inline void  bootLoaderExit(void)
 }
 
 // If not [UP] and [DOWN] held down
-#define bootLoaderCondition()   ((~PINL & 3) == 3)
+//#define bootLoaderCondition()   ((~PINL & 3) == 3)
+uint8_t bootLoaderCondition()
+{
+  return ((~PINL & 3) == 3);
+}
 
 #endif /* __ASSEMBLER__ */
 

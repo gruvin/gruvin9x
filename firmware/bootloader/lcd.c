@@ -31,7 +31,7 @@
 #include "lcd.h"
 
 #define bool uint8_t
-#define true -1
+#define true ~0
 #define false 0
 
 
@@ -68,7 +68,7 @@ void lcd_putcAtt(uint8_t x, uint8_t y, const char c, uint8_t mode)
   }
 
   for (i=5; i!=0; i--) {
-      b = pgm_read_byte_far((uint32_t)(unsigned)q++);
+      b = pgm_read_byte_far(q++);
       if (condense && i==4) {
           /*condense the letter by skipping column 4 */
           continue;
@@ -109,7 +109,7 @@ void lcd_putsn_P(uint8_t x,uint8_t y,const pm_char * s,uint8_t len)
 void lcd_putsAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t mode)
 {
   while(1) {
-    char c = (mode & BSS) ? *s++ : pgm_read_byte_far((uint32_t)(unsigned)s++);
+    char c = (mode & BSS) ? *s++ : pgm_read_byte_far(s++);
     if(!c) break;
     lcd_putcAtt(x,y,c,mode);
     x+=FW;
