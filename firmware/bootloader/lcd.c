@@ -92,7 +92,7 @@ void lcd_putsnAtt(uint8_t x,uint8_t y,const pm_char * s,uint8_t len,uint8_t mode
         c = *s;
         break;
       default:
-        c = pgm_read_byte(s);
+        c = pgm_read_byte_far(0x30000UL + (unsigned)s);
         break;
     }
     lcd_putcAtt(x,y,c,mode);
@@ -129,6 +129,22 @@ void lcd_outhex4(uint8_t x,uint8_t y,uint16_t val)
 
   x+=FWNUM*4;
   for(i=0; i<4; i++)
+  {
+    x-=FWNUM;
+    c = val & 0xf;
+    c = c>9 ? c+'A'-10 : c+'0';
+    lcd_putcAtt(x,y,c,c>='A'?CONDENSED:0);
+    val>>=4;
+  }
+}
+
+void lcd_outhex5(uint8_t x,uint8_t y,uint32_t val)
+{
+  int i;
+  char c;
+
+  x+=FWNUM*4;
+  for(i=0; i<5; i++)
   {
     x-=FWNUM;
     c = val & 0xf;

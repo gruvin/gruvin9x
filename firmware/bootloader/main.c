@@ -120,11 +120,10 @@ static const uchar  signatureBytes[4] = {
 
 /* ------------------------------------------------------------------------ */
 
+//static void (*nullVector)(void) __attribute__((__noreturn__));
 // G: This doesn't work. It doesn't seem to generate a 32-bit (or 24-bit) address
 //    as is requried. Use asm(jmp 0x00000) instead. *shrug* 
-//static void (*nullVector)(void) __attribute__((__noreturn__));
 
-//
 static void leaveBootloader()
 {
     DBG1(0x01, 0, 0);
@@ -143,7 +142,7 @@ static void leaveBootloader()
     asm volatile ("jmp 0x00000\n\t" ::);
     for(;;);
 
-    // nullVector();
+    // nullVector(); // G: See my note above.
 }
 
 /* ------------------------------------------------------------------------ */
@@ -281,7 +280,11 @@ uchar   i;
         if(currentRequest >= USBASP_FUNC_READEEPROM){
             *data = eeprom_read_byte((void *)currentAddress.w[0]);
         }else{
-            *data = pgm_read_byte((void *)(unsigned)CURRENT_ADDRESS); // XXX (unsigned) added to remove compiler warning.
+#if (FLASHEND) > 0xffff /* we need long addressing */
+          *data = pgm_read_byte_far(CURRENT_ADDRESS);
+#else
+          *data = pgm_read_byte((void *)(unsigned)CURRENT_ADDRESS);
+#endif
         }
         data++;
         CURRENT_ADDRESS++;
@@ -340,17 +343,9 @@ int __attribute__((noreturn)) main(void)
         // Write somthing semi-useful on the LCD screen ...
         lcd_init();
         lcd_clear();
-        lcd_puts_P(2*FW, 3*FH, PSTR("BOOTLOADER!"));
+        lcd_puts_P(3*FW+3, 3*FH, PSTR("USBasp Online"));
+        lcd_puts_P(17*FW, 6*FH, PSTR("exit"));
         refreshDisplay();
-
-        /* DEBUG
-        while(1) // just stop here for now.
-        {
-          lcd_outhex4(1,1,((~PINL & 3) == 3));
-          refreshDisplay();
-          _delay_us(10000);
-        }
-        */
         /////////////////////////////////////////////////////
 
         ///////////////////////////////////
@@ -372,6 +367,28 @@ int __attribute__((noreturn)) main(void)
                     }
                 }
             }
+            
+            static uint16_t r = 0;
+            if (r-- == 0)
+            {
+              r = 0x700;
+              lcd_putsnAtt(4*FW+3, 4*FH, 
+                  PSTR(
+                    "IDLE     "
+                    "CONNECT  "
+                    "DISCONN  "
+                    "TRANSMIT "
+                    "RD FLASH "
+                    "EN PROG  "
+                    "WR FLASH "
+                    "RD EEPROM"
+                    "WR EEPROM"
+                    "SET LADDR"
+                  )+9*currentRequest, 9, 0
+              );
+              lcd_outhex5(15*FW, 4*FH, CURRENT_ADDRESS);
+              refreshDisplay();
+            }
 
 #if BOOTLOADER_CAN_EXIT
             if(requestBootLoaderExit) 
@@ -381,11 +398,7 @@ int __attribute__((noreturn)) main(void)
                 }
             }
 #endif
-        } while(1);  /* main event loop */
-        // was ...
-        // while(bootLoaderCondition()); 
-        // But we want to remain in loop even after buttons are released 
-        // because we'reusing a jumper to enter bootloader mode.
+        } while(1); // we want to remain in loop until [EXIT] is pressed
     }
     leaveBootloader();
     for(;;);

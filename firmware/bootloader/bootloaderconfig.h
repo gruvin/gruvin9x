@@ -87,7 +87,7 @@ these macros are defined, the boot loader usees them.
  * it, e.g. for the ATMega88, 168 etc. You can save quite a bit of memory by
  * disabling page mode EEPROM access. Costs ~ 138 bytes.
  */
-#define HAVE_EEPROM_BYTE_ACCESS     1
+#define HAVE_EEPROM_BYTE_ACCESS     0
 /* If HAVE_EEPROM_BYTE_ACCESS is defined to 1, byte mode access to EEPROM is
  * compiled in. Byte mode is only used if the device (as identified by its
  * signature) does not support page mode for EEPROM. It is required for

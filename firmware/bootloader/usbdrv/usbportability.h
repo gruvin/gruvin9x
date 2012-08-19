@@ -130,7 +130,7 @@ static inline void  sei(void)
 //#else
 //#   define USB_READ_FLASH(addr)    pgm_read_byte(addr)
 //#endif
-#define USB_READ_FLASH(addr)    pgm_read_byte_far(0x30000UL | (unsigned long)(addr))
+#define USB_READ_FLASH(addr)    pgm_read_byte_far(0x30000UL + (unsigned)(addr))
 
 #define macro   .macro
 #define endm    .endm

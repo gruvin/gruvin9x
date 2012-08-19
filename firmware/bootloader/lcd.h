@@ -82,6 +82,7 @@ extern void lcd_puts_P(unsigned char x,unsigned char y,const pm_char * s);
 extern void lcd_putsn_P(unsigned char x,unsigned char y,const pm_char * s,unsigned char len);
 
 extern void lcd_outhex4(unsigned char x,unsigned char y,uint16_t val);
+extern void lcd_outhex5(uint8_t x,uint8_t y,uint32_t val);
 
 extern void lcd_init();
 extern void lcd_clear();
