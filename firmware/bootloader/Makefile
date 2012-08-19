@@ -16,7 +16,7 @@
 
 F_CPU = 16000000UL
 DEVICE = atmega2560
-# BOOTLOADER_ADDRESS is 1800 for 8k devices, 3800 for 16k and 7800 for 32k.
+# BOOTLOADER_ADDRESS is 1800 for 8k devices, 3800 for 16k and 7800 for 32k, 3F000 for x2560/1 256K.
 BOOTLOADER_ADDRESS = 3E000
 FUSEOPT = $(FUSEOPT_168)
 LOCKOPT = -U lock:w:0x2f:m
@@ -109,10 +109,10 @@ DEFINES = #-DDEBUG_LEVEL=2
 CFLAGS = -Wall -Os -fno-move-loop-invariants -fno-tree-scev-cprop -fno-inline-small-functions -I. -mmcu=$(DEVICE) -DF_CPU=$(F_CPU) $(DEFINES)
 LDFLAGS = -Wl,--relax,--gc-sections -Wl,--section-start=.text=$(BOOTLOADER_ADDRESS)
 
-OBJECTS =  usbdrv/usbdrvasm.o usbdrv/oddebug.o lcd.o bootloader.o
+OBJECTS =  usbdrv/usbdrvasm.o usbdrv/oddebug.o lcd.o main.o
 
 # symbolic targets:
-all: bootloader.hex
+all: main.hex
 
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -128,7 +128,7 @@ all: bootloader.hex
 	$(CC) $(CFLAGS) -S $< -o $@
 
 flash:	all
-	$(AVRDUDE) -U flash:w:bootloader.hex:i
+	$(AVRDUDE) -U flash:w:main.hex:i
 
 readflash:
 	$(AVRDUDE) -U flash:r:read.hex:i
@@ -143,22 +143,22 @@ read_fuses:
 	$(UISP) --rd_fuses
 
 clean:
-	rm -f bootloader.hex bootloader.bin *.o usbdrv/*.o bootloader.s usbdrv/oddebug.s usbdrv/usbdrv.s
+	rm -f main.hex main.bin *.o usbdrv/*.o main.s usbdrv/oddebug.s usbdrv/usbdrv.s
 
 # file targets:
-bootloader.bin:	$(OBJECTS) bootloaderconfig.h
-	$(CC) $(CFLAGS) -o bootloader.bin $(OBJECTS) $(LDFLAGS)
+main.bin:	$(OBJECTS) bootloaderconfig.h
+	$(CC) $(CFLAGS) -o main.bin $(OBJECTS) $(LDFLAGS)
 
-bootloader.hex:	bootloader.bin
-	rm -f bootloader.hex bootloader.eep.hex
-	avr-objcopy -j .text -j .data -O ihex bootloader.bin bootloader.hex
-	avr-size bootloader.hex
+main.hex:	main.bin
+	rm -f main.hex main.eep.hex
+	avr-objcopy -j .text -j .data -O ihex main.bin main.hex
+	avr-size main.hex
 
-disasm:	bootloader.bin
-	avr-objdump -d bootloader.bin
+disasm:	main.bin
+	avr-objdump -d main.bin
 
 cpp:
-	$(CC) $(CFLAGS) -E bootloader.c
+	$(CC) $(CFLAGS) -E main.c
 
 # Special rules for generating hex files for various devices and clock speeds
 ALLHEXFILES = hexfiles/mega8_12mhz.hex hexfiles/mega8_15mhz.hex hexfiles/mega8_16mhz.hex \
@@ -177,5 +177,5 @@ $(ALLHEXFILES):
 	addr=`echo $$device | sed -e 's/\([0-9]\)8/\1/g' | awk '{printf("%x", ($$1 - 2) * 1024)}'`; \
 	echo "### Make with F_CPU=$${clock}000000 DEVICE=atmega$$device BOOTLOADER_ADDRESS=$$addr"; \
 	$(MAKE) clean; \
-	$(MAKE) bootloader.hex F_CPU=$${clock}000000 DEVICE=atmega$$device BOOTLOADER_ADDRESS=$$addr DEFINES=-DUSE_AUTOCONFIG=1
-	mv bootloader.hex $@
+	$(MAKE) main.hex F_CPU=$${clock}000000 DEVICE=atmega$$device BOOTLOADER_ADDRESS=$$addr DEFINES=-DUSE_AUTOCONFIG=1
+	mv main.hex $@

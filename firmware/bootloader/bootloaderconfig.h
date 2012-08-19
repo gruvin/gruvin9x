@@ -150,18 +150,15 @@ static inline void  bootLoaderInit(void)
     DDRL = 0x80;  PORTL = 0x7f; // 7: Hold_PWR_On (1=On, default Off), 6:Jack_Presence_TTL, 5-0: User Button inputs
     DDRE = 0x04;  PORTE = 0x04; // Bit 3=BUZZER
 
+    _delay_us(100000); // seem to need this to let the electronics settle down. *shrug*
 }
 
 static inline void  bootLoaderExit(void)
 {
 }
 
-// If not [UP] and [DOWN] held down
-//#define bootLoaderCondition()   ((~PINL & 3) == 3)
-uint8_t bootLoaderCondition()
-{
-  return ((~PINL & 3) == 3);
-}
+// If [UP] and [DOWN] buttons held down
+#define bootLoaderCondition()   ((~PINL & 3) == 3)
 
 #endif /* __ASSEMBLER__ */
 

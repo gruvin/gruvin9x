@@ -122,6 +122,7 @@ static const uchar  signatureBytes[4] = {
 
 static void (*nullVector)(void) __attribute__((__noreturn__));
 
+//
 static void leaveBootloader()
 {
     DBG1(0x01, 0, 0);
@@ -136,7 +137,10 @@ static void leaveBootloader()
  * because the compiler optimizes a constant 0 to "rcall 0" which is not
  * handled correctly by the assembler.
  */
-    nullVector();
+    RAMPZ=0; MCUSR = 0x01; MCUSR = 0x00;
+    asm volatile ("jmp 0x00000\n\t" ::);
+
+    // nullVector();
 }
 
 /* ------------------------------------------------------------------------ */
@@ -310,6 +314,7 @@ int __attribute__((noreturn)) main(void)
     GICR = (1 << IVCE);  /* enable change of interrupt vectors */
     GICR = (1 << IVSEL); /* move interrupts to boot flash section */
 #endif
+
     if(bootLoaderCondition()){
 
         // Make some noise ... (sound beeper _... (Morse 'B' for 'boot' )
@@ -332,7 +337,12 @@ int __attribute__((noreturn)) main(void)
         lcd_puts_P(2*FW, 3*FH, PSTR("BOOTLOADER!"));
         refreshDisplay();
 
-        while(1); // just stop here for now.
+        while(1) // just stop here for now.
+        {
+          lcd_outhex4(1,1,((~PINL & 3) == 3));
+          refreshDisplay();
+          _delay_us(10000);
+        }
 
         ///////////////////////////////////
         // Original V_USB code starts here
