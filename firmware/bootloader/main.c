@@ -317,7 +317,8 @@ int __attribute__((noreturn)) main(void)
 
     if(bootLoaderCondition()){
 
-        // Make some noise ... (sound beeper _... (Morse 'B' for 'boot' )
+        /////////////////////////////////////////////////////////////////////
+        // MAKE SOME NOISE ... (sound beeper _... (Morse 'B' for 'boot' )
         PORTE |= 1<<3; PORTC |= 1;
         _delay_us(300000);
         PORTE &= ~(1<<3); PORTC &= 0xfe;
@@ -330,19 +331,24 @@ int __attribute__((noreturn)) main(void)
           _delay_us(100000);
           PORTE &= ~(1<<3); PORTC &= 0xfe;
         }
+        /////////////////////////////////////////////////////////////////////
 
+        /////////////////////////////////////////////////////
         // Write somthing semi-useful on the LCD screen ...
         lcd_init();
         lcd_clear();
         lcd_puts_P(2*FW, 3*FH, PSTR("BOOTLOADER!"));
         refreshDisplay();
 
+        /* DEBUG
         while(1) // just stop here for now.
         {
           lcd_outhex4(1,1,((~PINL & 3) == 3));
           refreshDisplay();
           _delay_us(10000);
         }
+        */
+        /////////////////////////////////////////////////////
 
         ///////////////////////////////////
         // Original V_USB code starts here
@@ -352,7 +358,7 @@ int __attribute__((noreturn)) main(void)
         do{
             usbPoll();
 #if BOOTLOADER_CAN_EXIT
-            if(requestBootLoaderExit){
+            if(requestBootLoaderExit || ((PINL & (1<<5)) == 0) ){ // ... or [EXIT] key pressed
                 if(--i == 0){
                     if(--j == 0)
                         break;
@@ -360,10 +366,12 @@ int __attribute__((noreturn)) main(void)
             }
 #endif
         } while(1);  /* main event loop */
+        // was ...
         // while(bootLoaderCondition()); 
         // we actually want to remain in loop even after buttons are released (not using a jumper!)
     }
     leaveBootloader();
+    for(;;);
 }
 
 /* ------------------------------------------------------------------------ */
