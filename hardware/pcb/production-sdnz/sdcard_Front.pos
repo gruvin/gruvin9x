@@ -1,0 +1,22 @@
+### Module positions - created on 15/08/2012 9:55:04 p.m. ###
+### Printed by Pcbnew version pcbnew (2011-11-27 BZR 3249)-stable
+## Unit = inches, Angle = deg.
+## Side : Front
+# Ref    Val                  PosX       PosY        Rot     Side
+C1       0u1                  2.7386     2.6173      90.0    Front
+C2       0u1                  2.4802     2.0786       0.0    Front
+P1       SDC_MMC_SOCKET       2.8760     2.6255      90.0    Front
+P2       CONN_8               2.0929     2.4299     270.0    Front
+R1       10K                  2.7342     3.0114       0.0    Front
+R2       10K                  2.7126     2.0630       0.0    Front
+R3       10K                  2.6614     2.5236       0.0    Front
+R4       10K                  2.6614     2.8464       0.0    Front
+R5       10K                  2.7244     2.4015     180.0    Front
+R6       5K1                  2.6614     2.7520       0.0    Front
+R7       5K1                  2.5984     2.4527       0.0    Front
+R8       1K                   2.7244     2.3267       0.0    Front
+R9       5K1                  2.3542     2.0786     180.0    Front
+R10      5K1                  2.3031     2.2597      90.0    Front
+U1       DS1338-33            2.4842     2.2322      90.0    Front
+X1       32768                2.4331     2.6732       0.0    Front
+## End

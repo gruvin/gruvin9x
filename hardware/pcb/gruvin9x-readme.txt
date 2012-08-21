@@ -7,6 +7,19 @@ use of JTAG debugging and also to free up some pins for future fun. (Cam). Most 
 which has been just wonderful. Thanks Cam! (Gruvin)
 
 =============================
+= Differences V4.2 to V4.2a =
+=============================
+
+PCB
+===
+-- Gruvin --
+. Added tracks to links pins 1 & 2 on both J1 and J4. In the unlikely event
+  anyone ever wants the opposite option for either jumper, they can break the 
+  track. This will save time as well as the slightly unsightly solder-blob 
+  brdiges I've been doing on all the retail boards to date.
+
+
+=============================
 = Differences V4.1a to V4.2 =
 =============================
 

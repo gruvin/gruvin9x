@@ -1,0 +1,7 @@
+### Module positions - created on 15/08/2012 9:55:04 p.m. ###
+### Printed by Pcbnew version pcbnew (2011-11-27 BZR 3249)-stable
+## Unit = inches, Angle = deg.
+## Side : Back
+# Ref    Val                  PosX       PosY        Rot     Side
+BT1      CR2032               2.7402     2.8622       0.0    Back
+## End
