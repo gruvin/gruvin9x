@@ -501,7 +501,7 @@ inline double deg2rad(double deg)
 // (by far) so I'm happy enough with the results here.
 double distance(double lat1, double lon1, double lat2, double lon2)
 {
-  double dist, dlon, dlat, a, c;
+  double dlon, dlat, a, c;
   dlon = deg2rad(lon2 - lon1);
   dlat = deg2rad(lat2 - lat1);
   a = pow(sin(dlat/2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon/2), 2);
