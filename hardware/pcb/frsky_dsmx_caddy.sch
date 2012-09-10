@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 10/09/2012 11:50:27 a.m.
+EESchema Schematic File Version 2  date 10/09/2012 4:18:02 p.m.
 LIBS:gruvin
 LIBS:power
 LIBS:device
@@ -37,7 +37,7 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "Fr-Sky / DSMX TX Moudle Caddy"
-Date "9 sep 2012"
+Date "10 sep 2012"
 Rev "1.0"
 Comp ""
 Comment1 ""
@@ -311,7 +311,7 @@ L CONN_5 P2
 U 1 1 504D1155
 P 6500 1650
 F 0 "P2" V 6450 1650 50  0000 C CNN
-F 1 "CONN_5" V 6550 1650 50  0000 C CNN
+F 1 "Fr-Sky" V 6550 1650 50  0000 C CNN
 	1    6500 1650
 	1    0    0    1   
 $EndComp
@@ -320,7 +320,7 @@ L CONN_6X2 P3
 U 1 1 504D1127
 P 10550 2400
 F 0 "P3" H 10550 2750 60  0000 C CNN
-F 1 "CONN_6X2" V 10550 2400 60  0000 C CNN
+F 1 "DSMX" V 10550 2400 60  0000 C CNN
 	1    10550 2400
 	1    0    0    -1  
 $EndComp
@@ -342,7 +342,7 @@ L CONN_6 P1
 U 1 1 504D1054
 P 900 3350
 F 0 "P1" V 850 3350 60  0000 C CNN
-F 1 "CONN_6" V 950 3350 60  0000 C CNN
+F 1 "G9X" V 950 3350 60  0000 C CNN
 	1    900  3350
 	-1   0    0    1   
 $EndComp
@@ -351,7 +351,7 @@ L FUSE F1
 U 1 1 504D0FDB
 P 3050 3500
 F 0 "F1" H 3150 3550 40  0000 C CNN
-F 1 "FUSE" H 2950 3450 40  0000 C CNN
+F 1 "250mA" H 2950 3400 40  0000 C CNN
 	1    3050 3500
 	1    0    0    -1  
 $EndComp
