@@ -1,11 +1,6 @@
-update=18/05/2012 12:40:48 p.m.
+update=10/09/2012 11:07:06 a.m.
 version=1
-last_client=kicad
-[cvpcb]
-version=1
-NetIExt=net
-[cvpcb/libraries]
-EquName1=devcms
+last_client=cvpcb
 [pcbnew]
 version=1
 PadDrlX=400
@@ -25,7 +20,6 @@ TxtLar=120
 MSegLar=50
 LastNetListRead=gruvin9x.net
 [pcbnew/libraries]
-LibDir=share/modules
 LibName1=sockets
 LibName2=connect
 LibName3=discret
@@ -37,6 +31,7 @@ LibName8=valves
 LibName9=led
 LibName10=dip_sockets
 LibName11=gruvin
+LibDir=share/modules
 [eeschema]
 version=1
 LibDir=share/library
@@ -102,3 +97,8 @@ LibName30=valves
 LibName31=power
 [general]
 version=1
+[cvpcb]
+version=1
+NetIExt=net
+[cvpcb/libraries]
+EquName1=devcms
