@@ -1,4 +1,4 @@
-Cmp-Mod V01 Genere par PcbNew le 14/12/2011 7:34:13 a.m.
+Cmp-Mod V01 Created by CvPcb (2011-11-27 BZR 3249)-stable date = 13/09/2012 9:44:06 a.m.
 
 BeginCmp
 TimeStamp = /4ED087A6;
@@ -66,14 +66,14 @@ EndCmp
 BeginCmp
 TimeStamp = /4EE6B39B;
 Reference = D5;
-ValeurCmp = LED;
+ValeurCmp = RED;
 IdModule  = SM1206;
 EndCmp
 
 BeginCmp
 TimeStamp = /4EE6B3A6;
 Reference = D6;
-ValeurCmp = LED;
+ValeurCmp = GRN;
 IdModule  = SM1206;
 EndCmp
 
@@ -89,6 +89,13 @@ TimeStamp = /4ECC4939;
 Reference = IC1;
 ValeurCmp = ATMEGA48P;
 IdModule  = TQFP32;
+EndCmp
+
+BeginCmp
+TimeStamp = /505101BA;
+Reference = J1;
+ValeurCmp = CONN_5;
+IdModule  = USB-B_mini;
 EndCmp
 
 BeginCmp
@@ -110,6 +117,34 @@ TimeStamp = /4ECB2EE0;
 Reference = P3;
 ValeurCmp = ISP_x48;
 IdModule  = pin_array_3x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /505100CB;
+Reference = P4;
+ValeurCmp = CONN_1;
+IdModule  = 1pin_225x08;
+EndCmp
+
+BeginCmp
+TimeStamp = /505100D0;
+Reference = P5;
+ValeurCmp = CONN_1;
+IdModule  = 1pin_225x08;
+EndCmp
+
+BeginCmp
+TimeStamp = /505100D3;
+Reference = P6;
+ValeurCmp = CONN_1;
+IdModule  = 1pin_225x08;
+EndCmp
+
+BeginCmp
+TimeStamp = /505100D4;
+Reference = P7;
+ValeurCmp = CONN_1;
+IdModule  = 1pin_225x08;
 EndCmp
 
 BeginCmp
@@ -178,7 +213,7 @@ EndCmp
 BeginCmp
 TimeStamp = /4ECB2B38;
 Reference = U1;
-ValeurCmp = 74HC125;
+ValeurCmp = 74HC126;
 IdModule  = SSOP14;
 EndCmp
 

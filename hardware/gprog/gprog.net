@@ -1,24 +1,43 @@
-# EESchema Netlist Version 1.1 created  29/01/2012 10:48:39 p.m.
+# EESchema Netlist Version 1.1 created  13/09/2012 9:49:07 a.m.
 (
+ ( /505101BA $noname  J1 CONN_5 {Lib=CONN_5}
+  (    1 N-000034 )
+  (    2 N-000039 )
+  (    3 N-000035 )
+  (    4 ? )
+  (    5 N-000036 )
+ )
+ ( /505100D4 $noname  P7 CONN_1 {Lib=CONN_1}
+  (    1 N-000036 )
+ )
+ ( /505100D3 $noname  P6 CONN_1 {Lib=CONN_1}
+  (    1 N-000035 )
+ )
+ ( /505100D0 $noname  P5 CONN_1 {Lib=CONN_1}
+  (    1 N-000039 )
+ )
+ ( /505100CB $noname  P4 CONN_1 {Lib=CONN_1}
+  (    1 N-000034 )
+ )
  ( /4EE6C02E $noname  D7 DIODESCH {Lib=DIODESCH}
   (    1 +5V )
   (    2 VCC )
  )
  ( /4EE6B3BF $noname  R9 1K {Lib=R}
-  (    1 N-000034 )
+  (    1 N-000042 )
   (    2 +5V )
  )
  ( /4EE6B3B8 $noname  R4 1K {Lib=R}
-  (    1 N-000038 )
+  (    1 N-000033 )
   (    2 +5V )
  )
  ( /4EE6B3A6 $noname  D6 GRN {Lib=LED}
-  (    1 N-000034 )
-  (    2 N-000005 )
+  (    1 N-000042 )
+  (    2 N-000041 )
  )
  ( /4EE6B39B $noname  D5 RED {Lib=LED}
-  (    1 N-000038 )
-  (    2 N-000037 )
+  (    1 N-000033 )
+  (    2 N-000002 )
  )
  ( /4ED087CB $noname  C2 22u {Lib=CAPAPOL}
   (    1 +5V )
@@ -37,16 +56,16 @@
   (    2 GND )
  )
  ( /4ECC4B64 $noname  C3 18p {Lib=C}
-  (    1 N-000011 )
+  (    1 N-000043 )
   (    2 GND )
  )
  ( /4ECC4B5C $noname  C4 18p {Lib=C}
-  (    1 N-000010 )
+  (    1 N-000038 )
   (    2 GND )
  )
  ( /4ECC4B2B $noname  X1 12MHz {Lib=CRYSTAL}
-  (    1 N-000011 )
-  (    2 N-000010 )
+  (    1 N-000043 )
+  (    2 N-000038 )
  )
  ( /4ECC49EE $noname  R7 5K6 {Lib=R}
   (    1 +5V )
@@ -59,8 +78,8 @@
   (    4 +5V )
   (    5 GND )
   (    6 +5V )
-  (    7 N-000010 )
-  (    8 N-000011 )
+  (    7 N-000038 )
+  (    8 N-000043 )
   (    9 ? )
   (   10 ? )
   (   11 ? )
@@ -75,8 +94,8 @@
   (   20 ? )
   (   21 GND )
   (   22 ? )
-  (   23 N-000037 )
-  (   24 N-000005 )
+  (   23 N-000002 )
+  (   24 N-000041 )
   (   25 ? )
   (   26 /BUF_ENABLE )
   (   27 ? )
@@ -95,12 +114,12 @@
   (    6 GND )
  )
  ( /4ECB2C14 $noname  P1 ISP_x2560 {Lib=CONN_6}
-  (    1 N-000028 )
-  (    2 VCC )
-  (    3 N-000030 )
-  (    4 N-000027 )
-  (    5 N-000024 )
-  (    6 GND )
+  (    1 VCC )
+  (    2 N-000029 )
+  (    3 N-000031 )
+  (    4 N-000030 )
+  (    5 GND )
+  (    6 N-000028 )
  )
  ( /4ECB2B38 $noname  U1 74HC126 {Lib=74LS126}
   (    1 /BUF_ENABLE )
@@ -108,56 +127,56 @@
   (    3 N-000030 )
   (    4 /BUF_ENABLE )
   (    5 /RST )
-  (    6 N-000024 )
+  (    6 N-000028 )
   (    7 GND )
-  (    8 N-000027 )
+  (    8 N-000031 )
   (    9 /MOSI )
   (   10 /BUF_ENABLE )
   (   11 /MISO )
-  (   12 N-000028 )
+  (   12 N-000029 )
   (   13 /BUF_ENABLE )
   (   14 VCC )
  )
  ( /4E912A5F $noname  D2 Sctky {Lib=DIODE}
   (    1 GND )
-  (    2 N-000033 )
+  (    2 N-000024 )
  )
  ( /4E912A59 $noname  D1 Sctky {Lib=DIODE}
   (    1 GND )
-  (    2 N-000021 )
+  (    2 N-000032 )
  )
  ( /4E912A4B $noname  D4 3.6v_Zen {Lib=ZENER}
   (    1 GND )
-  (    2 N-000021 )
+  (    2 N-000032 )
  )
  ( /4E912A33 $noname  D3 3.6v_Zen {Lib=ZENER}
   (    1 GND )
-  (    2 N-000033 )
+  (    2 N-000024 )
  )
  ( /4E912987 $noname  R5 47R {Lib=R}
   (    1 /D+ )
-  (    2 N-000021 )
+  (    2 N-000032 )
  )
  ( /4E91297A $noname  R6 47R {Lib=R}
   (    1 /D- )
-  (    2 N-000033 )
+  (    2 N-000024 )
  )
  ( /4E91296B $noname  R3 3K9 {Lib=R}
   (    1 +5V )
-  (    2 N-000033 )
+  (    2 N-000024 )
  )
  ( /4E912959 $noname  R1 27R {Lib=R}
-  (    1 N-000021 )
-  (    2 N-000023 )
+  (    1 N-000032 )
+  (    2 N-000025 )
  )
  ( /4E91294D $noname  R2 27R {Lib=R}
-  (    1 N-000033 )
-  (    2 N-000022 )
+  (    1 N-000024 )
+  (    2 N-000026 )
  )
  ( /4E9128F0 $noname  P2 USB {Lib=CONN_4}
   (    1 +5V )
-  (    2 N-000022 )
-  (    3 N-000023 )
+  (    2 N-000026 )
+  (    3 N-000025 )
   (    4 GND )
  )
 )
@@ -293,123 +312,135 @@ $endlist
 $endfootprintlist
 }
 { Pin List by Nets
-Net 5 "" ""
- D6 2
- IC1 24
-Net 8 "GND" "GND"
- U1 7
- IC1 3
- IC1 5
+Net 2 "" ""
+ IC1 23
+ D5 2
+Net 10 "GND" "GND"
  P2 4
  D2 1
  D1 1
  D4 1
  D3 1
- P1 6
+ IC1 3
+ U1 7
+ P3 6
+ P1 5
+ C4 2
+ C3 2
  R8 2
  C1 2
  C5 2
  C2 2
- P3 6
+ IC1 5
  IC1 21
- C3 2
- C4 2
-Net 9 "/RESET" "RESET"
- P3 5
- R7 2
- IC1 29
-Net 10 "" ""
- C4 1
- IC1 7
- X1 2
-Net 11 "" ""
- C3 1
- X1 1
- IC1 8
-Net 12 "/D+" "D+"
- R5 1
- IC1 32
- IC1 13
-Net 20 "/D-" "D-"
- IC1 12
- R6 1
-Net 21 "" ""
- R1 1
- R5 2
- D4 2
- D1 2
-Net 22 "" ""
- P2 2
- R2 2
-Net 23 "" ""
- R1 2
- P2 3
-Net 24 "" ""
- U1 6
- P1 5
-Net 25 "/RST" "RST"
- IC1 14
- U1 5
-Net 26 "VCC" "VCC"
- P1 2
- D7 2
- U1 14
-Net 27 "" ""
- U1 8
- P1 4
-Net 28 "" ""
- P1 1
- U1 12
-Net 29 "/MISO" "MISO"
- P3 1
- IC1 16
- U1 11
-Net 30 "" ""
- U1 3
- P1 3
-Net 31 "/SCK" "SCK"
- P3 3
- U1 2
- IC1 17
-Net 32 "/MOSI" "MOSI"
- IC1 15
- U1 9
- P3 4
-Net 33 "" ""
- D2 2
- R2 1
- R6 2
- R3 2
- D3 2
-Net 34 "" ""
- D6 1
- R9 1
-Net 35 "+5V" "+5V"
- C2 1
- IC1 18
- C5 1
- IC1 4
- P2 1
- IC1 6
+Net 11 "+5V" "+5V"
  R9 2
  R4 2
  R3 1
- R7 1
- C1 1
  P3 2
+ IC1 18
+ IC1 4
+ IC1 6
+ R7 1
+ C2 1
+ P2 1
  D7 1
-Net 36 "/BUF_ENABLE" "BUF_ENABLE"
+ C1 1
+ C5 1
+Net 12 "/MISO" "MISO"
+ P3 1
+ IC1 16
+ U1 11
+Net 13 "/SCK" "SCK"
+ P3 3
+ IC1 17
+ U1 2
+Net 14 "/MOSI" "MOSI"
+ P3 4
+ U1 9
+ IC1 15
+Net 15 "/RESET" "RESET"
+ IC1 29
+ R7 2
+ P3 5
+Net 19 "/D+" "D+"
+ IC1 13
+ IC1 32
+ R5 1
+Net 22 "/D-" "D-"
+ R6 1
+ IC1 12
+Net 23 "/RST" "RST"
+ U1 5
+ IC1 14
+Net 24 "" ""
+ R6 2
+ R3 2
+ R2 1
+ D2 2
+ D3 2
+Net 25 "" ""
+ R1 2
+ P2 3
+Net 26 "" ""
+ P2 2
+ R2 2
+Net 27 "VCC" "VCC"
+ U1 14
+ P1 1
+ D7 2
+Net 28 "" ""
+ P1 6
+ U1 6
+Net 29 "" ""
+ U1 12
+ P1 2
+Net 30 "" ""
+ U1 3
+ P1 4
+Net 31 "" ""
+ P1 3
+ U1 8
+Net 32 "" ""
+ D4 2
+ D1 2
+ R1 1
+ R5 2
+Net 33 "" ""
+ D5 1
+ R4 1
+Net 34 "" ""
+ J1 1
+ P4 1
+Net 35 "" ""
+ J1 3
+ P6 1
+Net 36 "" ""
+ J1 5
+ P7 1
+Net 38 "" ""
+ IC1 7
+ C4 1
+ X1 2
+Net 39 "" ""
+ P5 1
+ J1 2
+Net 40 "/BUF_ENABLE" "BUF_ENABLE"
  IC1 26
  R8 1
- U1 13
  U1 4
+ U1 13
  U1 10
  U1 1
-Net 37 "" ""
- IC1 23
- D5 2
-Net 38 "" ""
- R4 1
- D5 1
+Net 41 "" ""
+ IC1 24
+ D6 2
+Net 42 "" ""
+ D6 1
+ R9 1
+Net 43 "" ""
+ X1 1
+ C3 1
+ IC1 8
 }
 #End

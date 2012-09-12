@@ -1,0 +1,1 @@
+avrdude -c usbasp -P usb -p atmega88p -U flash:w:fw-v120-88.hex
