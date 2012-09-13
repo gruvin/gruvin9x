@@ -1,0 +1,3 @@
+avrdude -c usbasp -P usb -p m2560 -B8 -u -U hfuse:w:0x10:m -U lfuse:w:0xd7:m -U efuse:w:0xfc:m
+avrdude -c usbasp -P usb -p m2560 -U flash:w:main.hex:a
+avrdude -D -c usbasp -P usb -p m2560 -U flash:w:open9x-r1197-patched.hex:a
