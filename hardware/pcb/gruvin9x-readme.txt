@@ -6,9 +6,9 @@ This PCB is a rework of Gruvin's V3.0 PCB to use the 100pin ATMega 2560. It was 
 use of JTAG debugging and also to free up some pins for future fun. (Cam). Most of the work was done by Cam,
 which has been just wonderful. Thanks Cam! (Gruvin)
 
-=============================
-= Differences V4.2 to V4.2a =
-=============================
+================================
+= Differences V4.1a to V4.2b/c =
+================================
 
 PCB
 ===
@@ -16,8 +16,10 @@ PCB
 . Added tracks to links pins 1 & 2 on both J1 and J4. In the unlikely event
   anyone ever wants the opposite option for either jumper, they can break the 
   track. This will save time as well as the slightly unsightly solder-blob 
-  brdiges I've been doing on all the retail boards to date.
-
+  bridges I've been doing on all the retail boards to date.
+. v4.2c -- changed solder mask clearance to 0.0000, having been advised to
+  let the factory use their own process-ideal clearances. This will mostly
+  help for the 0.5mm pitch MCU and LCD socket parts.
 
 =============================
 = Differences V4.1a to V4.2 =
