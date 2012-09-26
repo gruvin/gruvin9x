@@ -1,4 +1,4 @@
-# EESchema Netlist Version 1.1 created  10/09/2012 4:05:37 p.m.
+# EESchema Netlist Version 1.1 created  Wed 26 Sep 2012 11:47:27 AM NZST
 (
  ( /504D1961 $noname  C2 0u1 {Lib=C}
   (    1 GND )
@@ -9,12 +9,12 @@
   (    2 N-000010 )
  )
  ( /504D150C $noname  D1 DIODESCH {Lib=DIODESCH}
-  (    1 N-000013 )
-  (    2 /PPM )
+  (    1 N-000014 )
+  (    2 /PPMin )
  )
  ( /504D14E4 $noname  D2 DIODESCH {Lib=DIODESCH}
   (    1 /PPM )
-  (    2 /PPM )
+  (    2 /PPMin )
  )
  ( /504D1418 $noname  C6 0u1 {Lib=C}
   (    1 GND )
@@ -22,7 +22,7 @@
  )
  ( /504D1401 $noname  R1 5K1 {Lib=R}
   (    1 /Serial_125K )
-  (    2 N-000013 )
+  (    2 N-000014 )
  )
  ( /504D1155 $noname  P2 Fr-Sky {Lib=CONN_5}
   (    1 GND )
@@ -48,74 +48,74 @@
  ( /504D1054 $noname  P1 G9X {Lib=CONN_6}
   (    1 GND )
   (    2 /BATT+ )
-  (    3 /PPM )
+  (    3 /PPMin )
   (    4 /Spare1 )
   (    5 /Rxd )
   (    6 /Rx )
  )
  ( /504D0FDB $noname  F1 250mA {Lib=FUSE}
   (    1 /BATT+ )
-  (    2 N-000022 )
+  (    2 N-000023 )
  )
  ( /504D0D5C $noname  R5 100K {Lib=R}
-  (    1 N-000025 )
-  (    2 N-000022 )
+  (    1 N-000026 )
+  (    2 N-000023 )
  )
  ( /504D0D5B $noname  Q3 Si2319DS {Lib=MOSFET_P}
   (    D N-000010 )
-  (    G N-000025 )
-  (    S N-000022 )
+  (    G N-000026 )
+  (    S N-000023 )
  )
  ( /504D0D5A $noname  R6 5K1 {Lib=R}
-  (    1 N-000024 )
-  (    2 N-000025 )
+  (    1 N-000025 )
+  (    2 N-000026 )
  )
  ( /504D0AFE $noname  C1 10u {Lib=CAPAPOL}
   (    1 GND )
-  (    2 N-000022 )
+  (    2 N-000023 )
  )
  ( /504D0A18 $noname  C5 22u {Lib=CAPAPOL}
   (    1 GND )
   (    2 /+3.3V )
  )
  ( /504D08BE $noname  D3 DIODESCH {Lib=DIODESCH}
-  (    1 N-000024 )
+  (    1 N-000025 )
   (    2 /Spare1 )
  )
  ( /4E7B4AFA $noname  R2 5K1 {Lib=R}
   (    1 /Spare1 )
-  (    2 N-000018 )
+  (    2 N-000019 )
  )
  ( /4E7B4ABC SOT23-BCE  Q1 BC847C {Lib=BC847C}
-  (    B N-000018 )
-  (    C N-000019 )
+  (    B N-000019 )
+  (    C N-000020 )
   (    E GND )
  )
  ( /4E2033CE $noname  R4 5K1 {Lib=R}
-  (    1 N-000019 )
-  (    2 N-000021 )
+  (    1 N-000020 )
+  (    2 N-000022 )
  )
  ( /4E2031C6 $noname  Q2 Si2319DS {Lib=MOSFET_P}
   (    D /B+ )
-  (    G N-000021 )
-  (    S N-000022 )
+  (    G N-000022 )
+  (    S N-000023 )
  )
  ( /4E203199 $noname  C4 0u1 {Lib=C}
   (    1 GND )
-  (    2 N-000020 )
+  (    2 N-000021 )
  )
  ( /4E203182 SOT89  U1 78L05 {Lib=78L05}
   (  GND GND )
   (   VI N-000010 )
-  (   VO N-000020 )
+  (   VO N-000021 )
  )
  ( /4E1493CA $noname  R3 100K {Lib=R}
-  (    1 N-000021 )
-  (    2 N-000022 )
+  (    1 N-000022 )
+  (    2 N-000023 )
  )
  ( /4DC03E78 SOT89  U2 LN-6206-30 {Lib=78L05}
   (  GND GND )
-  (   VI N-000020 )
+  (   VI N-000021 )
   (   VO /+3.3V )
  )
 )
@@ -213,80 +213,81 @@ Net 10 "" ""
  C3 2
  U1 VI
  Q3 D
-Net 11 "/+3.3V" "+3.3V"
- U2 VO
- C5 2
- C6 2
+Net 11 "/PPMin" "PPMin"
+ P1 3
+ D1 2
+ D2 2
+Net 12 "/+3.3V" "+3.3V"
  P3 3
-Net 12 "/Serial 125K" "Serial 125K"
+ C6 2
+ C5 2
+ U2 VO
+Net 13 "/Serial 125K" "Serial 125K"
  P3 11
  R1 1
-Net 13 "" ""
- D1 1
+Net 14 "" ""
  R1 2
-Net 14 "GND" "GND"
- C1 1
+ D1 1
+Net 15 "GND" "GND"
  C5 1
+ C1 1
  C2 1
+ P1 1
+ U2 GND
  U1 GND
  C4 1
  Q1 E
  C6 1
- U2 GND
  C3 1
- P2 1
- P1 1
  P3 1
-Net 15 "/PPM" "PPM"
- P2 3
- D2 2
+ P2 1
+Net 16 "/PPM" "PPM"
  D2 1
- D1 2
- P1 3
-Net 16 "/Rxd" "Rxd"
+ P2 3
+Net 17 "/Rxd" "Rxd"
  P2 4
  P1 5
-Net 17 "/Rx" "Rx"
+Net 18 "/Rx" "Rx"
  P1 6
  P2 5
-Net 18 "" ""
+Net 19 "" ""
  R2 2
  Q1 B
-Net 19 "" ""
+Net 20 "" ""
  Q1 C
  R4 1
-Net 20 "" ""
- U1 VO
- U2 VI
- C4 2
 Net 21 "" ""
- R3 1
- Q2 G
- R4 2
+ U2 VI
+ U1 VO
+ C4 2
 Net 22 "" ""
+ R4 2
+ Q2 G
+ R3 1
+Net 23 "" ""
+ C1 2
  F1 2
  Q3 S
  R5 2
- C1 2
  R3 2
  Q2 S
-Net 23 "/BATT+" "BATT+"
- P1 2
+Net 24 "/BATT+" "BATT+"
  F1 1
-Net 24 "" ""
+ P1 2
+Net 25 "" ""
  D3 1
  R6 1
-Net 25 "" ""
- Q3 G
- R5 1
+Net 26 "" ""
  R6 2
-Net 26 "/Spare1" "Spare1"
+ R5 1
+ Q3 G
+Net 27 "/Spare1" "Spare1"
  P1 4
  D3 2
  R2 1
-Net 27 "/B+" "B+"
+Net 28 "/B+" "B+"
  P2 2
- Q2 D
  C2 2
+ Q2 D
 }
 #End

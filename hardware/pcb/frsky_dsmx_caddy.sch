@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date 10/09/2012 4:18:02 p.m.
+EESchema Schematic File Version 2  date Wed 26 Sep 2012 12:52:50 PM NZST
 LIBS:gruvin
 LIBS:power
 LIBS:device
@@ -37,8 +37,8 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "Fr-Sky / DSMX TX Moudle Caddy"
-Date "10 sep 2012"
-Rev "1.0"
+Date "25 sep 2012"
+Rev "1.1"
 Comp ""
 Comment1 ""
 Comment2 "Copyright 2012 B.Rentoul"
@@ -296,7 +296,7 @@ Rxd
 Text Label 5850 1450 0    60   ~ 0
 Txd
 Text Label 1350 3400 0    60   ~ 0
-PPM
+PPMin
 $Comp
 L GND #PWR04
 U 1 1 504D1165
