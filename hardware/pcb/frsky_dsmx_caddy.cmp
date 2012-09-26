@@ -1,4 +1,4 @@
-Cmp-Mod V01 Genere par PcbNew le 10/09/2012 3:54:58 p.m.
+Cmp-Mod V01 Genere par PcbNew le Wed 26 Sep 2012 04:17:34 PM NZST
 
 BeginCmp
 TimeStamp = /504D0AFE;
@@ -66,28 +66,28 @@ EndCmp
 BeginCmp
 TimeStamp = /504D0FDB;
 Reference = F1;
-ValeurCmp = FUSE;
+ValeurCmp = 250mA;
 IdModule  = SM1206;
 EndCmp
 
 BeginCmp
 TimeStamp = /504D1054;
 Reference = P1;
-ValeurCmp = CONN_6;
-IdModule  = PIN_ARRAY-6X1;
+ValeurCmp = G9X;
+IdModule  = PIN_ARRAY_7X1;
 EndCmp
 
 BeginCmp
 TimeStamp = /504D1155;
 Reference = P2;
-ValeurCmp = CONN_5;
-IdModule  = PIN_ARRAY_5x1;
+ValeurCmp = Fr-Sky;
+IdModule  = PIN_ARRAY-6X1;
 EndCmp
 
 BeginCmp
 TimeStamp = /504D1127;
 Reference = P3;
-ValeurCmp = CONN_6X2;
+ValeurCmp = DSMX;
 IdModule  = PIN_ARRAY_6x2_2mm;
 EndCmp
 
@@ -110,6 +110,13 @@ TimeStamp = /504D0D5B;
 Reference = Q3;
 ValeurCmp = Si2319DS;
 IdModule  = SOT23GDS;
+EndCmp
+
+BeginCmp
+TimeStamp = /50627C0F;
+Reference = Q4;
+ValeurCmp = BC847C;
+IdModule  = SOT23-BCE;
 EndCmp
 
 BeginCmp
@@ -151,6 +158,27 @@ BeginCmp
 TimeStamp = /504D0D5A;
 Reference = R6;
 ValeurCmp = 5K1;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /50627C0E;
+Reference = R7;
+ValeurCmp = 5K1;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /50627D8A;
+Reference = R8;
+ValeurCmp = 100K;
+IdModule  = SM0603;
+EndCmp
+
+BeginCmp
+TimeStamp = /50627C10;
+Reference = R9;
+ValeurCmp = 1K;
 IdModule  = SM0603;
 EndCmp
 

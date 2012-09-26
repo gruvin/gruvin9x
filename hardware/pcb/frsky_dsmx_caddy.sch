@@ -1,4 +1,4 @@
-EESchema Schematic File Version 2  date Wed 26 Sep 2012 12:52:50 PM NZST
+EESchema Schematic File Version 2  date Wed 26 Sep 2012 04:29:42 PM NZST
 LIBS:gruvin
 LIBS:power
 LIBS:device
@@ -37,14 +37,27 @@ $Descr A4 11700 8267
 encoding utf-8
 Sheet 1 1
 Title "Fr-Sky / DSMX TX Moudle Caddy"
-Date "25 sep 2012"
-Rev "1.1"
+Date "26 sep 2012"
+Rev "1.2"
 Comp ""
 Comment1 ""
 Comment2 "Copyright 2012 B.Rentoul"
 Comment3 ""
 Comment4 "Licensed under the TAPR Open Hardware License (see file,  LICENSE)"
 $EndDescr
+Text Label 1350 3600 0    60   ~ 0
+1WSEL
+Connection ~ 2550 2750
+Wire Wire Line
+	2550 3050 2550 2750
+Wire Wire Line
+	2550 3050 2700 3050
+Wire Wire Line
+	3100 2750 2350 2750
+Wire Wire Line
+	2350 3250 2350 3600
+Wire Wire Line
+	2350 3600 1250 3600
 Wire Wire Line
 	3600 4750 9500 4750
 Wire Wire Line
@@ -62,23 +75,23 @@ Wire Wire Line
 	5450 2150 5450 2350
 Connection ~ 5450 2250
 Wire Wire Line
-	6150 4000 6150 3900
+	6150 3900 6150 4000
 Wire Wire Line
-	9000 4000 9000 3900
+	9000 3900 9000 4000
 Wire Wire Line
 	4650 4000 4650 4100
 Wire Wire Line
-	1750 3400 1750 4750
+	1750 4750 1750 3400
 Wire Wire Line
 	1750 4750 2300 4750
 Connection ~ 8600 3900
 Connection ~ 8600 3500
 Connection ~ 9000 3500
 Wire Wire Line
-	9000 3900 6150 3900
+	6150 3900 9000 3900
 Connection ~ 1750 3400
 Wire Wire Line
-	2550 3050 2550 3400
+	2150 3400 2150 2300
 Wire Wire Line
 	10150 2150 9100 2150
 Wire Wire Line
@@ -88,13 +101,11 @@ Wire Wire Line
 Wire Wire Line
 	4750 2750 4750 2650
 Wire Wire Line
-	6100 1450 2100 1450
+	6250 1450 1750 1450
 Wire Wire Line
-	2100 1450 2100 3100
+	1750 1450 1750 3100
 Wire Wire Line
-	2100 3100 1250 3100
-Wire Wire Line
-	6100 1850 5800 1850
+	1750 3100 1250 3100
 Wire Wire Line
 	1250 3500 2800 3500
 Connection ~ 5750 3850
@@ -117,7 +128,7 @@ Wire Wire Line
 Connection ~ 6150 3500
 Connection ~ 7400 3900
 Wire Wire Line
-	6100 1750 4950 1750
+	6250 1750 4950 1750
 Wire Wire Line
 	8000 3900 8000 3800
 Connection ~ 7400 3500
@@ -136,37 +147,37 @@ Connection ~ 4750 2100
 Wire Wire Line
 	3300 3500 5550 3500
 Wire Wire Line
-	6100 1650 2550 1650
+	6250 1650 2150 1650
 Wire Wire Line
-	2550 3400 1250 3400
+	1250 3400 2150 3400
 Wire Wire Line
-	6100 1550 2200 1550
+	6250 1550 1900 1550
 Wire Wire Line
-	2200 1550 2200 3200
+	1900 1550 1900 3200
 Wire Wire Line
-	2200 3200 1250 3200
+	1900 3200 1250 3200
 Wire Wire Line
 	9350 3500 9350 2250
 Wire Wire Line
 	9350 2250 10150 2250
 Connection ~ 8000 3900
 Wire Wire Line
-	2550 1650 2550 2650
+	2150 1650 2150 1900
 Wire Wire Line
 	6350 3500 5950 3500
 Wire Wire Line
 	3100 4750 2700 4750
 Wire Wire Line
-	1250 3600 1400 3600
+	1250 3700 1400 3700
 Wire Wire Line
-	1400 3600 1400 3850
+	1400 3700 1400 3950
 Wire Wire Line
 	5450 2250 5800 2250
 Connection ~ 5450 1750
 Wire Wire Line
-	6750 3900 6750 3800
+	6750 3800 6750 3900
 Wire Wire Line
-	5800 2250 5800 1850
+	5800 2250 5800 1950
 Wire Wire Line
 	5150 3850 5050 3850
 Wire Wire Line
@@ -179,6 +190,71 @@ Wire Wire Line
 Connection ~ 4000 1750
 Wire Wire Line
 	3800 4450 3800 4150
+Wire Wire Line
+	5800 1950 6250 1950
+Wire Wire Line
+	3400 2950 3400 3150
+Wire Wire Line
+	3400 2550 3400 2450
+Wire Wire Line
+	3400 1950 3400 1350
+Wire Wire Line
+	3400 1350 5750 1350
+Wire Wire Line
+	5750 1350 5750 1850
+Wire Wire Line
+	5750 1850 6250 1850
+Wire Wire Line
+	3200 3050 3400 3050
+Connection ~ 3400 3050
+$Comp
+L BC847C Q4
+U 1 1 50627C0F
+P 3300 2750
+F 0 "Q4" H 3150 2650 50  0000 C CNN
+F 1 "BC847C" H 3200 2950 50  0000 C CNN
+F 2 "SOT23-BCE" H 3490 2750 30  0001 C CNN
+	1    3300 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R8
+U 1 1 50627D8A
+P 2950 3050
+F 0 "R8" V 2850 3050 50  0000 C CNN
+F 1 "100K" V 2950 3050 50  0000 C CNN
+	1    2950 3050
+	0    1    1    0   
+$EndComp
+Text Label 6200 1850 2    60   ~ 0
+1WAY
+$Comp
+L R R9
+U 1 1 50627C10
+P 3400 2200
+F 0 "R9" V 3480 2200 50  0000 C CNN
+F 1 "1K" V 3400 2200 50  0000 C CNN
+	1    3400 2200
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R7
+U 1 1 50627C0E
+P 2350 3000
+F 0 "R7" V 2430 3000 50  0000 C CNN
+F 1 "5K1" V 2350 3000 50  0000 C CNN
+	1    2350 3000
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR01
+U 1 1 50627C0D
+P 3400 3150
+F 0 "#PWR01" H 3400 3150 30  0001 C CNN
+F 1 "GND" H 3400 3080 30  0001 C CNN
+	1    3400 3150
+	1    0    0    -1  
+$EndComp
 NoConn ~ 10950 2250
 NoConn ~ 10950 2150
 NoConn ~ 10950 2350
@@ -189,10 +265,10 @@ NoConn ~ 10150 2350
 NoConn ~ 10150 2450
 NoConn ~ 10150 2550
 $Comp
-L GND #PWR01
+L GND #PWR02
 U 1 1 504D1983
 P 9000 4000
-F 0 "#PWR01" H 9000 4000 30  0001 C CNN
+F 0 "#PWR02" H 9000 4000 30  0001 C CNN
 F 1 "GND" H 9000 3930 30  0001 C CNN
 	1    9000 4000
 	1    0    0    -1  
@@ -207,10 +283,10 @@ F 1 "0u1" H 5200 2050 50  0000 L CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L GND #PWR02
+L GND #PWR03
 U 1 1 504D1897
 P 4650 4100
-F 0 "#PWR02" H 4650 4100 30  0001 C CNN
+F 0 "#PWR03" H 4650 4100 30  0001 C CNN
 F 1 "GND" H 4650 4030 30  0001 C CNN
 	1    4650 4100
 	1    0    0    -1  
@@ -244,10 +320,10 @@ $EndComp
 $Comp
 L DIODESCH D2
 U 1 1 504D14E4
-P 2550 2850
-F 0 "D2" H 2550 2950 40  0000 C CNN
-F 1 "DIODESCH" H 2550 2750 40  0000 C CNN
-	1    2550 2850
+P 2150 2100
+F 0 "D2" H 2150 2200 40  0000 C CNN
+F 1 "DIODESCH" H 2150 2000 40  0000 C CNN
+	1    2150 2100
 	0    -1   1    0   
 $EndComp
 Text Notes 9900 2850 0    60   ~ 0
@@ -271,10 +347,10 @@ F 1 "5K1" V 3350 4750 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR03
+L GND #PWR04
 U 1 1 504D13B3
 P 9100 2350
-F 0 "#PWR03" H 9100 2350 30  0001 C CNN
+F 0 "#PWR04" H 9100 2350 30  0001 C CNN
 F 1 "GND" H 9100 2280 30  0001 C CNN
 	1    9100 2350
 	1    0    0    -1  
@@ -283,36 +359,36 @@ Text Label 1350 3100 0    60   ~ 0
 Rx
 Text Label 1350 3200 0    60   ~ 0
 Tx
-Text Notes 6250 2050 0    60   ~ 0
+Text Notes 6250 2150 0    60   ~ 0
 Fr-Sky DHT
-Text Label 5850 1850 0    60   ~ 0
+Text Label 6200 1950 2    60   ~ 0
 GND
-Text Label 5850 1750 0    60   ~ 0
+Text Label 6200 1750 2    60   ~ 0
 B+
-Text Label 5850 1650 0    60   ~ 0
+Text Label 6200 1650 2    60   ~ 0
 PPM
-Text Label 5850 1550 0    60   ~ 0
+Text Label 6200 1550 2    60   ~ 0
 Rxd
-Text Label 5850 1450 0    60   ~ 0
+Text Label 6200 1450 2    60   ~ 0
 Txd
 Text Label 1350 3400 0    60   ~ 0
 PPMin
 $Comp
-L GND #PWR04
+L GND #PWR05
 U 1 1 504D1165
 P 5450 2350
-F 0 "#PWR04" H 5450 2350 30  0001 C CNN
+F 0 "#PWR05" H 5450 2350 30  0001 C CNN
 F 1 "GND" H 5450 2280 30  0001 C CNN
 	1    5450 2350
 	1    0    0    -1  
 $EndComp
 $Comp
-L CONN_5 P2
+L CONN_6 P2
 U 1 1 504D1155
-P 6500 1650
-F 0 "P2" V 6450 1650 50  0000 C CNN
-F 1 "Fr-Sky" V 6550 1650 50  0000 C CNN
-	1    6500 1650
+P 6600 1700
+F 0 "P2" V 6550 1700 50  0000 C CNN
+F 1 "Fr-Sky" V 6650 1700 50  0000 C CNN
+	1    6600 1700
 	1    0    0    1   
 $EndComp
 $Comp
@@ -329,21 +405,21 @@ Spare1
 Text Label 1350 3500 0    60   ~ 0
 BATT+
 $Comp
-L GND #PWR05
+L GND #PWR06
 U 1 1 504D1086
-P 1400 3850
-F 0 "#PWR05" H 1400 3850 30  0001 C CNN
-F 1 "GND" H 1400 3780 30  0001 C CNN
-	1    1400 3850
+P 1400 3950
+F 0 "#PWR06" H 1400 3950 30  0001 C CNN
+F 1 "GND" H 1400 3880 30  0001 C CNN
+	1    1400 3950
 	1    0    0    -1  
 $EndComp
 $Comp
-L CONN_6 P1
+L CONN_7 P1
 U 1 1 504D1054
-P 900 3350
-F 0 "P1" V 850 3350 60  0000 C CNN
-F 1 "G9X" V 950 3350 60  0000 C CNN
-	1    900  3350
+P 900 3400
+F 0 "P1" V 850 3400 60  0000 C CNN
+F 1 "G9X" V 950 3400 60  0000 C CNN
+	1    900  3400
 	-1   0    0    1   
 $EndComp
 $Comp
@@ -410,10 +486,10 @@ F 1 "DIODESCH" H 3800 3850 40  0000 C CNN
 	0    1    -1   0   
 $EndComp
 $Comp
-L GND #PWR06
+L GND #PWR07
 U 1 1 4E7B4B20
 P 4750 3250
-F 0 "#PWR06" H 4750 3250 30  0001 C CNN
+F 0 "#PWR07" H 4750 3250 30  0001 C CNN
 F 1 "GND" H 4750 3180 30  0001 C CNN
 	1    4750 3250
 	1    0    0    -1  
@@ -484,10 +560,10 @@ F 1 "100K" V 4350 2100 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L GND #PWR07
+L GND #PWR08
 U 1 1 4E1493B8
 P 6150 4000
-F 0 "#PWR07" H 6150 4000 30  0001 C CNN
+F 0 "#PWR08" H 6150 4000 30  0001 C CNN
 F 1 "GND" H 6150 3930 30  0001 C CNN
 	1    6150 4000
 	1    0    0    -1  
