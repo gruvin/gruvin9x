@@ -1,4 +1,4 @@
-Cmp-Mod V01 Genere par PcbNew le Wed 26 Sep 2012 04:17:34 PM NZST
+Cmp-Mod V01 Genere par PcbNew le Sat 27 Oct 2012 12:37:23 AM NZDT
 
 BeginCmp
 TimeStamp = /504D0AFE;
@@ -43,24 +43,17 @@ IdModule  = SM0603;
 EndCmp
 
 BeginCmp
-TimeStamp = /504D150C;
+TimeStamp = /504D14E4;
 Reference = D1;
 ValeurCmp = DIODESCH;
-IdModule  = SM0603;
+IdModule  = SM0603_DIODE;
 EndCmp
 
 BeginCmp
-TimeStamp = /504D14E4;
+TimeStamp = /508A66B2;
 Reference = D2;
 ValeurCmp = DIODESCH;
-IdModule  = SM0603;
-EndCmp
-
-BeginCmp
-TimeStamp = /504D08BE;
-Reference = D3;
-ValeurCmp = DIODESCH;
-IdModule  = SM0603;
+IdModule  = SM0603_DIODE;
 EndCmp
 
 BeginCmp
@@ -120,7 +113,7 @@ IdModule  = SOT23-BCE;
 EndCmp
 
 BeginCmp
-TimeStamp = /504D1401;
+TimeStamp = /508A6768;
 Reference = R1;
 ValeurCmp = 5K1;
 IdModule  = SM0603;
@@ -148,16 +141,9 @@ IdModule  = SM0603;
 EndCmp
 
 BeginCmp
-TimeStamp = /504D0D5C;
+TimeStamp = /50877F34;
 Reference = R5;
 ValeurCmp = 100K;
-IdModule  = SM0603;
-EndCmp
-
-BeginCmp
-TimeStamp = /504D0D5A;
-Reference = R6;
-ValeurCmp = 5K1;
 IdModule  = SM0603;
 EndCmp
 
@@ -185,8 +171,8 @@ EndCmp
 BeginCmp
 TimeStamp = /4E203182;
 Reference = U1;
-ValeurCmp = 78L05;
-IdModule  = SOT89_OGI;
+ValeurCmp = 7805;
+IdModule  = TO220;
 EndCmp
 
 BeginCmp
