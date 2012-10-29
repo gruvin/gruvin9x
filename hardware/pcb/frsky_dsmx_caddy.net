@@ -1,4 +1,4 @@
-# EESchema Netlist Version 1.1 created  Sat 27 Oct 2012 12:36:41 AM NZDT
+# EESchema Netlist Version 1.1 created  Mon 29 Oct 2012 12:31:20 PM NZDT
 (
  ( /504D0AFE SM1206 C1 10u
   ( 1 GND )
@@ -119,7 +119,7 @@
   ( 1 N-000024 )
   ( 2 /1WAY )
  )
- ( /4E203182 TO220 U1 7805
+ ( /4E203182 SOT223 U1 7805
   ( GND GND )
   ( VI N-000011 )
   ( VO N-000016 )
