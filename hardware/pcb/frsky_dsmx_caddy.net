@@ -1,201 +1,135 @@
-# EESchema Netlist Version 1.1 created  Mon 29 Oct 2012 12:31:20 PM NZDT
+# EESchema Netlist Version 1.1 created  Tue 30 Oct 2012 08:33:46 PM NZDT
 (
- ( /504D0AFE SM1206 C1 10u
-  ( 1 GND )
-  ( 2 N-000021 )
+ ( /508A6768 $noname  R1 5K1 {Lib=R}
+  (    1 /DSM )
+  (    2 /Serial_125K )
  )
- ( /504D1961 SM0603 C2 0u1
-  ( 1 GND )
-  ( 2 /B+ )
+ ( /50877F34 $noname  R5 100K {Lib=R}
+  (    1 /B+ )
+  (    2 GND )
  )
- ( /4E203190 SM0603 C3 0u1
-  ( 1 GND )
-  ( 2 N-000011 )
+ ( /50627C0F SOT23-BCE  Q4 BC847C {Lib=BC847C}
+  (    B N-000026 )
+  (    C N-000029 )
+  (    E GND )
  )
- ( /4E203199 SM0603 C4 0u1
-  ( 1 GND )
-  ( 2 N-000016 )
+ ( /50627D8A $noname  R8 100K {Lib=R}
+  (    1 GND )
+  (    2 N-000026 )
  )
- ( /504D0A18 SM1206 C5 22u
-  ( 1 GND )
-  ( 2 /+3.3V )
+ ( /50627C10 $noname  R9 1K {Lib=R}
+  (    1 N-000029 )
+  (    2 /1WAY )
  )
- ( /504D1418 SM0603 C6 0u1
-  ( 1 GND )
-  ( 2 /+3.3V )
+ ( /50627C0E $noname  R7 5K1 {Lib=R}
+  (    1 /1WSEL )
+  (    2 N-000026 )
  )
- ( /504D14E4 SM0603_DIODE D1 DIODESCH
-  ( 1 /PPM )
-  ( 2 /PPMin )
+ ( /504D1961 $noname  C2 0u1 {Lib=C}
+  (    1 GND )
+  (    2 /B+ )
  )
- ( /508A66B2 SM0603_DIODE D2 DIODESCH
-  ( 1 /Serial_125K )
-  ( 2 /PPMin )
+ ( /4E203190 $noname  C3 0u1 {Lib=C}
+  (    1 GND )
+  (    2 N-000016 )
  )
- ( /504D0FDB SM1206 F1 250mA
-  ( 1 /BATT+ )
-  ( 2 N-000021 )
+ ( /504D14E4 $noname  D1 DIODESCH {Lib=DIODESCH}
+  (    1 /PPM )
+  (    2 /PPMin )
  )
- ( /504D1054 PIN_ARRAY_7X1 P1 G9X
-  ( 1 GND )
-  ( 2 /1WSEL )
-  ( 3 /BATT+ )
-  ( 4 /PPMin )
-  ( 5 /Spare1 )
-  ( 6 /Rxd )
-  ( 7 /Rx )
+ ( /504D1418 $noname  C6 0u1 {Lib=C}
+  (    1 GND )
+  (    2 /+3.3V )
  )
- ( /504D1155 PIN_ARRAY-6X1 P2 Fr-Sky
-  ( 1 GND )
-  ( 2 /1WAY )
-  ( 3 /B+ )
-  ( 4 /PPM )
-  ( 5 /Rxd )
-  ( 6 /Rx )
+ ( /504D1155 $noname  P2 Fr-Sky {Lib=CONN_6}
+  (    1 GND )
+  (    2 /1WAY )
+  (    3 /B+ )
+  (    4 /PPM )
+  (    5 /Rxd )
+  (    6 /Rx )
  )
- ( /504D1127 PIN_ARRAY_6x2_2mm P3 DSMX
-  ( 1 GND )
-  ( 2 ? )
-  ( 3 /+3.3V )
-  ( 4 ? )
-  ( 5 ? )
-  ( 6 ? )
-  ( 7 ? )
-  ( 8 ? )
-  ( 9 ? )
-  ( 10 ? )
-  ( 11 /Serial_125K )
-  ( 12 ? )
+ ( /504D1127 $noname  P3 DSMX {Lib=CONN_6X2}
+  (    1 GND )
+  (    2 ? )
+  (    3 /+3.3V )
+  (    4 ? )
+  (    5 ? )
+  (    6 ? )
+  (    7 ? )
+  (    8 ? )
+  (    9 ? )
+  (   10 ? )
+  (   11 /Serial_125K )
+  (   12 ? )
  )
- ( /4E7B4ABC SOT23-BCE Q1 BC847C
-  ( B N-000014 )
-  ( C N-000015 )
-  ( E GND )
+ ( /504D1054 $noname  P1 G9X {Lib=CONN_8}
+  (    1 GND )
+  (    2 /1WSEL )
+  (    3 /BATT+ )
+  (    4 /PPMin )
+  (    5 /Spare1 )
+  (    6 /DSM )
+  (    7 /Rxd )
+  (    8 /Rx )
  )
- ( /4E2031C6 SOT23GDS Q2 Si2319DS
-  ( D /B+ )
-  ( G N-000022 )
-  ( S N-000021 )
+ ( /504D0FDB $noname  F1 250mA {Lib=FUSE}
+  (    1 /BATT+ )
+  (    2 N-000022 )
  )
- ( /504D0D5B SOT23GDS Q3 Si2319DS
-  ( D N-000011 )
-  ( G /B+ )
-  ( S N-000021 )
+ ( /504D0D5B $noname  Q3 Si2319DS {Lib=MOSFET_P}
+  (    D N-000016 )
+  (    G /B+ )
+  (    S N-000022 )
  )
- ( /50627C0F SOT23-BCE Q4 BC847C
-  ( B N-000028 )
-  ( C N-000024 )
-  ( E GND )
+ ( /504D0AFE $noname  C1 10u {Lib=CAPAPOL}
+  (    1 GND )
+  (    2 N-000022 )
  )
- ( /508A6768 SM0603 R1 5K1
-  ( 1 /+3.3V )
-  ( 2 /Serial_125K )
+ ( /504D0A18 $noname  C5 22u {Lib=CAPAPOL}
+  (    1 GND )
+  (    2 /+3.3V )
  )
- ( /4E7B4AFA SM0603 R2 5K1
-  ( 1 /Spare1 )
-  ( 2 N-000014 )
+ ( /4E7B4AFA $noname  R2 5K1 {Lib=R}
+  (    1 /Spare1 )
+  (    2 N-000018 )
  )
- ( /4E1493CA SM0603 R3 100K
-  ( 1 N-000022 )
-  ( 2 N-000021 )
+ ( /4E7B4ABC SOT23-BCE  Q1 BC847C {Lib=BC847C}
+  (    B N-000018 )
+  (    C N-000019 )
+  (    E GND )
  )
- ( /4E2033CE SM0603 R4 5K1
-  ( 1 N-000015 )
-  ( 2 N-000022 )
+ ( /4E2033CE $noname  R4 5K1 {Lib=R}
+  (    1 N-000019 )
+  (    2 N-000021 )
  )
- ( /50877F34 SM0603 R5 100K
-  ( 1 /B+ )
-  ( 2 GND )
+ ( /4E2031C6 $noname  Q2 Si2319DS {Lib=MOSFET_P}
+  (    D /B+ )
+  (    G N-000021 )
+  (    S N-000022 )
  )
- ( /50627C0E SM0603 R7 5K1
-  ( 1 /1WSEL )
-  ( 2 N-000028 )
+ ( /4E203199 $noname  C4 0u1 {Lib=C}
+  (    1 GND )
+  (    2 N-000020 )
  )
- ( /50627D8A SM0603 R8 100K
-  ( 1 GND )
-  ( 2 N-000028 )
+ ( /4E203182 TO220  U1 7805 {Lib=78L05}
+  (  GND GND )
+  (   VI N-000016 )
+  (   VO N-000020 )
  )
- ( /50627C10 SM0603 R9 1K
-  ( 1 N-000024 )
-  ( 2 /1WAY )
+ ( /4E1493CA $noname  R3 100K {Lib=R}
+  (    1 N-000021 )
+  (    2 N-000022 )
  )
- ( /4E203182 SOT223 U1 7805
-  ( GND GND )
-  ( VI N-000011 )
-  ( VO N-000016 )
- )
- ( /4DC03E78 SOT89_GIO U2 LN-6206-30
-  ( GND GND )
-  ( VI N-000016 )
-  ( VO /+3.3V )
+ ( /4DC03E78 SOT89  U2 LN-6206-30 {Lib=78L05}
+  (  GND GND )
+  (   VI N-000020 )
+  (   VO /+3.3V )
  )
 )
 *
 { Allowed footprints by component:
-$component C1
- CP*
- SM*
-$endlist
-$component C2
- SM*
- C?
- C1-1
-$endlist
-$component C3
- SM*
- C?
- C1-1
-$endlist
-$component C4
- SM*
- C?
- C1-1
-$endlist
-$component C5
- CP*
- SM*
-$endlist
-$component C6
- SM*
- C?
- C1-1
-$endlist
-$component D1
- D?
- S*
-$endlist
-$component D2
- D?
- S*
-$endlist
-$component Q1
- SOT-23
-$endlist
-$component Q4
- SOT-23
-$endlist
 $component R1
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R2
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R3
- R?
- SM0603
- SM0805
- R?-*
- SM1206
-$endlist
-$component R4
  R?
  SM0603
  SM0805
@@ -209,12 +143,8 @@ $component R5
  R?-*
  SM1206
 $endlist
-$component R7
- R?
- SM0603
- SM0805
- R?-*
- SM1206
+$component Q4
+ SOT-23
 $endlist
 $component R8
  R?
@@ -230,5 +160,159 @@ $component R9
  R?-*
  SM1206
 $endlist
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
+$component C3
+ SM*
+ C?
+ C1-1
+$endlist
+$component D1
+ D?
+ S*
+$endlist
+$component C6
+ SM*
+ C?
+ C1-1
+$endlist
+$component C1
+ CP*
+ SM*
+$endlist
+$component C5
+ CP*
+ SM*
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component Q1
+ SOT-23
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component C4
+ SM*
+ C?
+ C1-1
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
 $endfootprintlist
 }
+{ Pin List by Nets
+Net 1 "/+3.3V" "+3.3V"
+ C5 2
+ P3 3
+ C6 2
+ U2 VO
+Net 2 "/PPM" "PPM"
+ D1 1
+ P2 4
+Net 3 "/Rxd" "Rxd"
+ P1 7
+ P2 5
+Net 4 "/Rx" "Rx"
+ P1 8
+ P2 6
+Net 5 "GND" "GND"
+ C1 1
+ C5 1
+ U2 GND
+ U1 GND
+ P1 1
+ R8 1
+ Q4 E
+ R5 2
+ C2 1
+ C3 1
+ C6 1
+ Q1 E
+ P3 1
+ P2 1
+ C4 1
+Net 15 "/B+" "B+"
+ C2 2
+ Q2 D
+ P2 3
+ Q3 G
+ R5 1
+Net 16 "" ""
+ Q3 D
+ U1 VI
+ C3 2
+Net 17 "/PPMin" "PPMin"
+ P1 4
+ D1 2
+Net 18 "" ""
+ Q1 B
+ R2 2
+Net 19 "" ""
+ Q1 C
+ R4 1
+Net 20 "" ""
+ U1 VO
+ U2 VI
+ C4 2
+Net 21 "" ""
+ Q2 G
+ R3 1
+ R4 2
+Net 22 "" ""
+ Q3 S
+ F1 2
+ C1 2
+ R3 2
+ Q2 S
+Net 23 "/BATT+" "BATT+"
+ F1 1
+ P1 3
+Net 24 "/DSM" "DSM"
+ P1 6
+ R1 1
+Net 25 "/Spare1" "Spare1"
+ P1 5
+ R2 1
+Net 26 "" ""
+ R7 2
+ R8 2
+ Q4 B
+Net 27 "/Serial 125K" "Serial 125K"
+ R1 2
+ P3 11
+Net 28 "/1WSEL" "1WSEL"
+ P1 2
+ R7 1
+Net 29 "" ""
+ R9 1
+ Q4 C
+Net 30 "/1WAY" "1WAY"
+ P2 2
+ R9 2
+}
+#End
