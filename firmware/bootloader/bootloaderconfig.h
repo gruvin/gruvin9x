@@ -148,8 +148,13 @@ static inline void  bootLoaderInit(void)
     // Set up I/O port data directions and initial states
     DDRA = 0xff;  PORTA = 0x00; // LCD data
     DDRC = 0x3f;  PORTC = 0xc0; // 7:N/A, 6:N/A, LCD[5,4,3,2,1], 0:N/A
+	DDRD = 0x00;  PORTD = 0b11111100; // Vibration motor off
     DDRL = 0x80;  PORTL = 0x7f; // 7: Hold_PWR_On (1=On, default Off), 6:Jack_Presence_TTL, 5-0: User Button inputs
     DDRE = 0x04;  PORTE = 0x04; // Bit 3=BUZZER
+	DDRH = 0b10110000;  PORTH = 0b11011111; // [7:0 DSM/PPM TX-caddy control. 1=PPM, 0=DSM ]
+                                            // [6:SOMO14D-BUSY 5:SOMO14D-DATA 4:SOMO14D-CLK]
+                                            // [2:VIB_OPTION -- setting to input for now]
+                                            // [1:TxD 0:RxD Spare serial port]
 
     _delay_us(100000); // seem to need this to let the electronics settle down. *shrug*
 }
