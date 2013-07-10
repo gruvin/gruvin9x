@@ -2,24 +2,40 @@ This folder contains the current "under development" version of the various PCBs
 
 MAIN PCB
 ========
-This PCB is a rework of Gruvin's V3.0 PCB to use the 100pin ATMega 2560. It was primarily done to enable the 
-use of JTAG debugging and also to free up some pins for future fun. (Cam). Most of the work was done by Cam,
-which has been just wonderful. Thanks Cam! (Gruvin)
+This PCB is a rework of Gruvin's V3.0 PCB to use the 100pin ATMega 2560. 
+It was primarily done to enable the use of JTAG debugging and also to 
+free up some pins for future fun. (Cam).
 
-================================
-= Differences V4.1a to V4.2b/c =
-================================
+Most of the work was done by Cam, which has been just awesome. Thanks! 
+(Gruvin)
+
+==============================
+= Differences V4.1a to V4.2d =
+==============================
 
 PCB
 ===
 -- Gruvin --
 . Added tracks to links pins 1 & 2 on both J1 and J4. In the unlikely event
   anyone ever wants the opposite option for either jumper, they can break the 
-  track. This will save time as well as the slightly unsightly solder-blob 
-  bridges I've been doing on all the retail boards to date.
-. v4.2c -- changed solder mask clearance to 0.0000, having been advised to
-  let the factory use their own process-ideal clearances. This will mostly
-  help for the 0.5mm pitch MCU and LCD socket parts.
+  track. This will save time as well as the unsightly solder-blob bridges 
+  I've been doing on the retail boards, to date.
+. Changed solder mask clearance to 0.0000, having been advised to
+  let the factory use their own process-ideal clearances. This should help
+  with reliable soldering for the 0.5mm pitch MCU and LCD socket parts, since
+  there was effectively no mask between pins previously.
+  NOTE: This preference is NOT SAVED. Change to 0.0000 in Preferences / 
+        Dimensions / Pads Mask Clearance, before generating production files.
+        Check results in Gerbview.
+. Changed X1 pad drill size from 0.7mm to 0.6mm. 
+. Updated silk version referference
+. Changed USB socket JST-3 to Normal+Insert. (The USB boot-loader code 
+  has proven reliable.)
+
+SCHEMATIC
+=========
+-- Gruvin --
+. Linked pins 1 & 2 on both J1 and J4 (see notes above.)
 
 =============================
 = Differences V4.1a to V4.2 =
