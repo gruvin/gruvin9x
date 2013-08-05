@@ -1,6 +1,6 @@
-update=17/09/2012 11:15:15 a.m.
+update=Thu 01 Aug 2013 12:05:23 PM NZST
 version=1
-last_client=pcbnew
+last_client=kicad
 [eeschema]
 version=1
 LibDir=share/library
@@ -64,8 +64,6 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=power
-[general]
-version=1
 [cvpcb]
 version=1
 NetIExt=net
@@ -101,3 +99,5 @@ LibName8=valves
 LibName9=led
 LibName10=dip_sockets
 LibName11=gruvin
+[general]
+version=1
