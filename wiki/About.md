@@ -8,12 +8,12 @@ Fr-Sky's [X9D Taranis](http://www.frsky-rc.com/product/pro.php?pro_id=113) is a 
 
 The **openrc community** now resides at [Open RC Forums](http://openrcforums.com/forum/). They're a great bunch. Go check them out.
 
-**This site remains online as a historical record, only.** Original content follows ...
+**This site/wiki remains online as a historical record, only.** 
 
-<img src='http://gruvin9x.googlecode.com/svn/wiki/About.attach/turnigy9x_v4.gif' align='right'>
+Original content follows ...
+
 <h1>Summary Introduction</h1>
-
-This project started out as a kind of 'place holder' for the author's personal circuitry upgrades, hacks and mods to his <a href='http://code.google.com/p/er9x/'>ER9X</a>-powered Turnigy 9X V2 RC transmitter. Over time, some more supporting documentation and random notes were added. Then Gruvin went kind of crazy one weekend and wondered if he could create a whole new, replacement controller board, to make wiring extra things to his transmitter easier. KiCAD PCB design software was chosen, because it is open source. A few prototype boards came to fruition. Then Cam (UK) came along and asked if it would be OK to have a go at installing the 100-pin ATmega2560 MCU, instead of the 64-pin ATmega2561, which Gruvin used. "Sure! Go for you life!" Cam did a great job and all that eventually resulted in what the, "G9X v4.2 Custom Controller Board".<br>
+<img align="right" src="https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/About.attach/turnigy9x_v4.gif" title="Turnigy 9X">This project started out as a kind of 'place holder' for the author's personal circuitry upgrades, hacks and mods to his <a href='http://code.google.com/p/er9x/'>ER9X</a>-powered Turnigy 9X V2 RC transmitter. Over time, some more supporting documentation and random notes were added. Then Gruvin went kind of crazy one weekend and wondered if he could create a whole new, replacement controller board, to make wiring extra things to his transmitter easier. KiCAD PCB design software was chosen, because it is open source. A few prototype boards came to fruition. Then Cam (UK) came along and asked if it would be OK to have a go at installing the 100-pin ATmega2560 MCU, instead of the 64-pin ATmega2561, which Gruvin used. "Sure! Go for you life!" Cam did a great job and all that eventually resulted in what the, "G9X v4.2 Custom Controller Board".<br>
 <br>
 Several additional utility board designs were started and added to the project, including an RTC/SD-card interface, a custom USBasp Flash programmer and a multiplexer system, which enables the splitting of a single receiver channel into several additional control outputs. There's also been work on an audio playback module (for spoken telemetry warning etc) which appears to have mostly moved to the open9x project, as at this writing.<br>
 <br>
