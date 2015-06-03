@@ -16,19 +16,19 @@ Bearing in mind that one would not typically be looking at the '9X LCD screen wh
 ### The Main FRSKY Page ###
 After pressing `[DOWN (LONG)]`, one is presented with the **FRSKY 1/3** menu page.
 
-> ![http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/no-data.jpg](http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/no-data.jpg)
+> ![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FrSky.attach/no-data.jpg)
 
 Here, we see the page with the Fr-Sky receiver powered off and thus no telemetry data being received. In this state, a large "NO DATA" message is displayed and the last known values, for A1, A2, RSSI, RX Batt and the graphical voltage bar, blink on and off to further accentuate the fact that data in this state is out of date.
 
 
 And here is the same page with the Fr-Sky receiver powered on ...
 
-> ![http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/got-data.jpg](http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/got-data.jpg)
+> ![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FrSky.attach/got-data.jpg)
 
 ### FRSKY SETTINGS ###
 Pressing `[RIGHT]` takes us to the **FRSKY SETTINGS 2/3 menu page.**
 
-> ![http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/settings.jpg](http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/settings.jpg)
+> ![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FrSky.attach/settings.jpg)
 
 Here we can set ...
   * which analog port (A1 or A2) is used for battery voltage (if any)
@@ -42,7 +42,7 @@ Here we can set ...
 ### FRSKY ALARMS ###
 Pressing `[RIGHT]` again takes us to the **FRSKY ALARMS 3/3 menu page.**
 
-> ![http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/alarms.jpg](http://gruvin9x.googlecode.com/svn/wiki/FrSky.attach/alarms.jpg)
+> ![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FrSky.attach/alarms.jpg)
 
 Here we immediately see existing alarms values, as retrieved from the Fr-Sky transmitter module. (If for some reason you want to manually reload that data, you can press `[MENU (LONG)]`, while at the page/pages position, top right.)
 
