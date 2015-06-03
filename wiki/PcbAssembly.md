@@ -27,7 +27,7 @@ Another (better) way to get the BOM files would be to do an svn check-out of the
 GitHub path: archive/pcb-v4.1a-frozen/assembly
 ```
 
-... which will create a local folder named `g9x-assembly`.
+... which ~~will create~~ would have created a local folder named `g9x-assembly`.
 
 ## Construction Advice ##
 
@@ -51,12 +51,12 @@ There's also a very nicely made [video by Curious Inventor](http://www.youtube.c
 
 ### Parts Placement Guide ###
 
-Look for PDF files [gruvin9x-SilkS\_Front.pdf](http://code.google.com/p/gruvin9x/source/browse/archive/pcb-v4.1a-frozen/assembly/gruvin9x-SilkS_Front.pdf) and [9xLABEL.pdf](http://code.google.com/p/gruvin9x/source/browse/archive/pcb-v4.1a-frozen/assembly/9xLABEL.pdf) (contributed, colour-coded version) in the [archive/pcb-v4.1a-frozen/assembly](http://code.google.com/p/gruvin9x/source/browse/#svn%2Farchive%2Fpcb-v4.1a-frozen%2Fassembly) folder.
+Look for PDF files [gruvin9x-SilkS\_Front.pdf](../archive/pcb-v4.1a-frozen/assembly/gruvin9x-SilkS_Front.pdf) and [9xLABEL.pdf](../archive/pcb-v4.1a-frozen/assembly/9xLABEL.pdf) (contributed, colour-coded version) in the [archive/pcb-v4.1a-frozen/assembly](../archive/pcb-v4.1a-frozen%2Fassembly) folder.
 
 
 Here's a reference photo of Gruvin's 2nd build. (Note that some of the larger capacitors here (22u, 47u) are ceramic, whereas the BOM parts list may call for tantalum. Either will be OK.) **Click the image for full-size view.**
 
-<a href='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PcbAssembly.attach/v41-reference.jpg'><img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PcbAssembly.attach/v41-reference-small.jpg' /></a>
+<a href='../wiki/PcbAssembly.attach/v41-reference.jpg'><img src='../wiki/PcbAssembly.attach/v41-reference-small.jpg' /></a>
 
 
 ### LCD Padding Foam ###
