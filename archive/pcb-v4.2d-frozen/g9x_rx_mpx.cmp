@@ -1,0 +1,290 @@
+Cmp-Mod V01 Created by CvPcb (2012-01-19 BZR 3256)-stable date = 12/06/2012 02:06:46
+
+BeginCmp
+TimeStamp = /4E9F6061;
+Reference = C1;
+ValeurCmp = 100nF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F605C;
+Reference = C2;
+ValeurCmp = 100nF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0A95D;
+Reference = C3;
+ValeurCmp = 1uF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F6074;
+Reference = C4;
+ValeurCmp = 100nF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F6051;
+Reference = C5;
+ValeurCmp = 100nF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F64E8;
+Reference = C6;
+ValeurCmp = 10uF;
+IdModule  = SM1206_GRUVIN_POL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F651B;
+Reference = C7;
+ValeurCmp = 100nF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F6522;
+Reference = C8;
+ValeurCmp = 100nF;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F64EF;
+Reference = C9;
+ValeurCmp = 47uF;
+IdModule  = SM1206_GRUVIN_POL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3C4500;
+Reference = D1;
+ValeurCmp = LED;
+IdModule  = LED-3MM_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB125E6;
+Reference = F1;
+ValeurCmp = FUSE;
+IdModule  = SM1812;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB125EB;
+Reference = F2;
+ValeurCmp = FUSE;
+IdModule  = SM1812;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F5A50;
+Reference = IC1;
+ValeurCmp = ATMEGA328-M;
+IdModule  = TQFP32;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0A497;
+Reference = K1;
+ValeurCmp = CONN_3;
+IdModule  = PIN_ARRAY_3x1_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AA32;
+Reference = K2;
+ValeurCmp = CONN_3;
+IdModule  = PIN_ARRAY_3x1_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AAF5;
+Reference = K3;
+ValeurCmp = CONN_3;
+IdModule  = PIN_ARRAY_3x1_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0A4E4;
+Reference = P1;
+ValeurCmp = CONN_3X2;
+IdModule  = PIN_ARRAY_3x2_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA07D6C;
+Reference = P2;
+ValeurCmp = CONN_8X3;
+IdModule  = pin_array_8x3_servo;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0A41A;
+Reference = P3;
+ValeurCmp = CONN_8X2;
+IdModule  = pin_array_8x2_servo;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB123BE;
+Reference = P4;
+ValeurCmp = CONN_4;
+IdModule  = PIN_ARRAY_4X1_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB12EAB;
+Reference = P5;
+ValeurCmp = CONN_1;
+IdModule  = TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB12EB4;
+Reference = P6;
+ValeurCmp = CONN_1;
+IdModule  = TP;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0A4BD;
+Reference = R1;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0A93A;
+Reference = R2;
+ValeurCmp = 10k;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AB81;
+Reference = R3;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AB8A;
+Reference = R4;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AB91;
+Reference = R5;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AB94;
+Reference = R6;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0AB9A;
+Reference = R7;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0ABA5;
+Reference = R8;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0ABA8;
+Reference = R9;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA0ABAC;
+Reference = R10;
+ValeurCmp = 200R;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EB19577;
+Reference = R11;
+ValeurCmp = 5.1k;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3C4F08;
+Reference = R12;
+ValeurCmp = 1K;
+IdModule  = SM0603_GRUVIN;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3B8BE1;
+Reference = SW1;
+ValeurCmp = SPDT_SW_PCB;
+IdModule  = SW_SPDT_horiz;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3B8BE9;
+Reference = SW2;
+ValeurCmp = SPDT_SW_PCB;
+IdModule  = SW_SPDT_horiz;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F3C447E;
+Reference = SW3;
+ValeurCmp = DIPSW_2;
+IdModule  = SWDIP2-Piano;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F61B8;
+Reference = U1;
+ValeurCmp = 7805;
+IdModule  = SOT89_OGI;
+EndCmp
+
+BeginCmp
+TimeStamp = /4E9F5C5A;
+Reference = U2;
+ValeurCmp = ULN2803;
+IdModule  = DIP-18__300_ELL;
+EndCmp
+
+BeginCmp
+TimeStamp = /4EA1FB44;
+Reference = U3;
+ValeurCmp = 4017_GRUVIN;
+IdModule  = SO16E;
+EndCmp
+
+BeginCmp
+TimeStamp = /4F501320;
+Reference = U4;
+ValeurCmp = 7805;
+IdModule  = SOT89_GIO;
+EndCmp
+
+EndListe

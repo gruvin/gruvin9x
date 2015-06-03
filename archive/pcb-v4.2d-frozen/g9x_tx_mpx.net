@@ -1,0 +1,257 @@
+# EESchema Netlist Version 1.1 created  16/02/2012 21:43:06
+(
+ ( /4E9F6061 SM0603_GRUVIN C1 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /4E9F605C SM0603_GRUVIN C2 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /4EA0A95D SM0603_GRUVIN C3 1uF
+  ( 1 /RESET )
+  ( 2 GND )
+ )
+ ( /4E9F6074 SM0603_GRUVIN C4 100nF
+  ( 1 N-000018 )
+  ( 2 GND )
+ )
+ ( /4E9F64E8 SM1206_GRUVIN_POL C6 10uF
+  ( 1 GND )
+  ( 2 N-000016 )
+ )
+ ( /4E9F651B SM0603_GRUVIN C7 100nF
+  ( 1 N-000016 )
+  ( 2 GND )
+ )
+ ( /4E9F6522 SM0603_GRUVIN C8 100nF
+  ( 1 VCC )
+  ( 2 GND )
+ )
+ ( /4E9F64EF SM1206_GRUVIN_POL C9 47uF
+  ( 1 GND )
+  ( 2 VCC )
+ )
+ ( /4F3D73D9 TQFP44 IC1 ATMEGA164A-M
+  ( 1 /SPI_MOSI )
+  ( 2 /SPI_MISO )
+  ( 3 /SPI_SCK )
+  ( 4 /RESET )
+  ( 5 VCC )
+  ( 6 GND )
+  ( 7 ? )
+  ( 8 ? )
+  ( 9 /RXD )
+  ( 10 /TXD )
+  ( 11 ? )
+  ( 12 ? )
+  ( 13 ? )
+  ( 14 ? )
+  ( 15 ? )
+  ( 16 ? )
+  ( 17 VCC )
+  ( 18 GND )
+  ( 19 ? )
+  ( 20 ? )
+  ( 21 ? )
+  ( 22 ? )
+  ( 23 ? )
+  ( 24 ? )
+  ( 25 ? )
+  ( 26 ? )
+  ( 27 VCC )
+  ( 28 GND )
+  ( 29 N-000018 )
+  ( 30 /ADC7 )
+  ( 31 /ADC6 )
+  ( 32 /ADC5 )
+  ( 33 /ADC4 )
+  ( 34 /ADC3 )
+  ( 35 /ADC2 )
+  ( 36 /ADC1 )
+  ( 37 /ADC0 )
+  ( 38 VCC )
+  ( 39 GND )
+  ( 40 ? )
+  ( 41 ? )
+  ( 42 ? )
+  ( 43 ? )
+  ( 44 ? )
+ )
+ ( /4EA0A4E4 PIN_ARRAY_3x2_GRUVIN P1 CONN_3X2
+  ( 1 /SPI_MISO )
+  ( 2 VCC )
+  ( 3 /SPI_SCK )
+  ( 4 /SPI_MOSI )
+  ( 5 /RESET )
+  ( 6 GND )
+ )
+ ( /4F3D7740 CONN_2MM_8x1 P2 CONN_8
+  ( 1 ? )
+  ( 2 ? )
+  ( 3 ? )
+  ( 4 ? )
+  ( 5 ? )
+  ( 6 ? )
+  ( 7 ? )
+  ( 8 ? )
+ )
+ ( /4F3D774A CONN_2MM_8x1 P3 CONN_8
+  ( 1 ? )
+  ( 2 ? )
+  ( 3 ? )
+  ( 4 ? )
+  ( 5 ? )
+  ( 6 ? )
+  ( 7 ? )
+  ( 8 ? )
+ )
+ ( /4EB123BE PIN_ARRAY_4X1_GRUVIN P4 CONN_4
+  ( 1 VCC )
+  ( 2 /TXD )
+  ( 3 /RXD )
+  ( 4 GND )
+ )
+ ( /4EA0A93A SM0603_GRUVIN R2 10k
+  ( 1 VCC )
+  ( 2 /RESET )
+ )
+ ( /4F3D70EB $noname$ RV1 POT
+  ( 1 GND )
+  ( 2 /ADC0 )
+  ( 3 VCC )
+ )
+ ( /4F3D7547 $noname$ RV2 POT
+  ( 1 GND )
+  ( 2 /ADC1 )
+  ( 3 VCC )
+ )
+ ( /4F3D7553 $noname$ RV3 POT
+  ( 1 GND )
+  ( 2 /ADC2 )
+  ( 3 VCC )
+ )
+ ( /4F3D754C $noname$ RV4 POT
+  ( 1 GND )
+  ( 2 /ADC3 )
+  ( 3 VCC )
+ )
+ ( /4F3D7566 $noname$ RV5 POT
+  ( 1 GND )
+  ( 2 /ADC4 )
+  ( 3 VCC )
+ )
+ ( /4F3D755F $noname$ RV6 POT
+  ( 1 GND )
+  ( 2 /ADC5 )
+  ( 3 VCC )
+ )
+ ( /4F3D7557 $noname$ RV7 POT
+  ( 1 GND )
+  ( 2 /ADC6 )
+  ( 3 VCC )
+ )
+ ( /4F3D755E $noname$ RV8 POT
+  ( 1 GND )
+  ( 2 /ADC7 )
+  ( 3 VCC )
+ )
+ ( /4F3D74FD $noname$ SW1 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC0 )
+  ( 3 GND )
+ )
+ ( /4F3D7546 $noname$ SW2 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC1 )
+  ( 3 GND )
+ )
+ ( /4F3D7552 $noname$ SW3 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC2 )
+  ( 3 GND )
+ )
+ ( /4F3D754D $noname$ SW4 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC3 )
+  ( 3 GND )
+ )
+ ( /4F3D7565 $noname$ SW5 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC4 )
+  ( 3 GND )
+ )
+ ( /4F3D7560 $noname$ SW6 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC5 )
+  ( 3 GND )
+ )
+ ( /4F3D7558 $noname$ SW7 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC6 )
+  ( 3 GND )
+ )
+ ( /4F3D755D $noname$ SW8 SPDT_SW
+  ( 1 VCC )
+  ( 2 /ADC7 )
+  ( 3 GND )
+ )
+ ( /4E9F61B8 SOT89_OGI U1 7805
+  ( GND GND )
+  ( VI N-000016 )
+  ( VO VCC )
+ )
+)
+*
+{ Allowed footprints by component:
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
+$component C3
+ SM*
+ C?
+ C1-1
+$endlist
+$component C4
+ SM*
+ C?
+ C1-1
+$endlist
+$component C6
+ CP*
+ SM*
+$endlist
+$component C7
+ SM*
+ C?
+ C1-1
+$endlist
+$component C8
+ SM*
+ C?
+ C1-1
+$endlist
+$component C9
+ CP*
+ SM*
+$endlist
+$component IC1
+ 40DIP-ELL600
+ 40dip600
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}

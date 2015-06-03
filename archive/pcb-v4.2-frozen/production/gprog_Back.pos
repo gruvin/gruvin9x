@@ -1,0 +1,7 @@
+### Module positions - created on 13/09/2012 9:56:45 a.m. ###
+### Printed by Pcbnew version pcbnew (2011-11-27 BZR 3249)-stable
+## Unit = inches, Angle = deg.
+## Side : Back
+# Ref    Val                  PosX       PosY        Rot     Side
+P1       ISP_x2560            2.4213     0.5984     270.0    Back
+## End

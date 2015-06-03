@@ -1,0 +1,176 @@
+# EESchema Netlist Version 1.1 created  15/08/2012 12:03:40 p.m.
+(
+ ( /4D3E3E91 BAT_HLD_2032 BT1 CR2032
+  ( 1 N-000008 )
+  ( 2 GND )
+ )
+ ( /4D1F944C SM0603 C1 0u1
+  ( 1 /Vcc_3V3 )
+  ( 2 GND )
+ )
+ ( /4D3E3EFB SM0603 C2 0u1
+  ( 1 /Vcc_3V3 )
+  ( 2 GND )
+ )
+ ( /4D1F92B8 SDCARD_SKT P1 SDC_MMC_SOCKET
+  ( 1 N-000003 )
+  ( 2 N-000018 )
+  ( 3 GND )
+  ( 4 /Vcc_3V3 )
+  ( 5 N-000014 )
+  ( 6 GND )
+  ( 7 /SD_MISO )
+  ( 8 N-000016 )
+  ( 9 N-000017 )
+  ( 10 ? )
+  ( 11 ? )
+ )
+ ( /4D1F86A0 CONN_2MM_8x1 P2 CONN_8
+  ( 1 GND )
+  ( 2 /I2C_SDA )
+  ( 3 /I2C_SCL )
+  ( 4 /SD_CS )
+  ( 5 /SD_MISO )
+  ( 6 /SD_MOSI )
+  ( 7 /SD_SCK )
+  ( 8 /Vcc_3V3 )
+ )
+ ( /4D1F946A SM0603 R1 10K
+  ( 1 /Vcc_3V3 )
+  ( 2 N-000016 )
+ )
+ ( /4D1F947B SM0603 R2 10K
+  ( 1 /Vcc_3V3 )
+  ( 2 N-000017 )
+ )
+ ( /4D1F93EA SM0603 R3 10K
+  ( 1 N-000018 )
+  ( 2 GND )
+ )
+ ( /4D1F9326 SM0603 R4 10K
+  ( 1 N-000014 )
+  ( 2 GND )
+ )
+ ( /4D3E13E1 SM0603 R5 10K
+  ( 1 /Vcc_3V3 )
+  ( 2 N-000003 )
+ )
+ ( /4D1F9309 SM0603 R6 5K1
+  ( 1 /SD_SCK )
+  ( 2 N-000014 )
+ )
+ ( /4D1F9178 SM0603 R7 5K1
+  ( 1 /SD_MOSI )
+  ( 2 N-000018 )
+ )
+ ( /4D1F93CC SM0603 R8 1K
+  ( 1 /SD_CS )
+  ( 2 N-000003 )
+ )
+ ( /4D3E691F SM0603 R9 5K1
+  ( 1 /Vcc_3V3 )
+  ( 2 /I2C_SDA )
+ )
+ ( /4D3E6931 SM0603 R10 5K1
+  ( 1 /Vcc_3V3 )
+  ( 2 /I2C_SCL )
+ )
+ ( /4D3E3DEA SO8E U1 DS1338-33
+  ( 1 N-000009 )
+  ( 2 N-000002 )
+  ( 3 N-000008 )
+  ( 4 GND )
+  ( 5 /I2C_SDA )
+  ( 6 /I2C_SCL )
+  ( 7 ? )
+  ( 8 /Vcc_3V3 )
+ )
+ ( /4D3E3E59 CMR200T X1 32768
+  ( 1 N-000002 )
+  ( 2 N-000009 )
+ )
+)
+*
+{ Allowed footprints by component:
+$component C1
+ SM*
+ C?
+ C1-1
+$endlist
+$component C2
+ SM*
+ C?
+ C1-1
+$endlist
+$component R1
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R2
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R3
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R4
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R5
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R6
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R7
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R8
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R9
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$component R10
+ R?
+ SM0603
+ SM0805
+ R?-*
+ SM1206
+$endlist
+$endfootprintlist
+}

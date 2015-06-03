@@ -1,0 +1,32 @@
+### Module positions - created on 13/09/2012 9:56:45 a.m. ###
+### Printed by Pcbnew version pcbnew (2011-11-27 BZR 3249)-stable
+## Unit = inches, Angle = deg.
+## Side : Front
+# Ref    Val                  PosX       PosY        Rot     Side
+C1       0u1                  0.8098     0.2972       0.0    Front
+C2       22u                  0.8098     0.1422     270.0    Front
+C3       18p                  1.2018     0.3422      90.0    Front
+C4       18p                  1.2008     0.2232     270.0    Front
+C5       0u1                  1.4098     0.2972     270.0    Front
+D1       Sctky                0.6418     0.7542      90.0    Front
+D2       Sctky                0.7138     0.7542      90.0    Front
+D3       3.6v_Zen             0.8088     0.7052      90.0    Front
+D4       3.6v_Zen             0.9238     0.7052      90.0    Front
+D5       RED                  2.0908     0.1402     270.0    Front
+D6       GRN                  2.1968     0.1402     270.0    Front
+D7       DIODESCH             2.1488     0.3022       0.0    Front
+IC1      ATMEGA48P            1.7178     0.3122       0.0    Front
+J1       CONN_5               0.2756     0.8169       0.0    Front
+P2       USB                  0.5538     0.3852     270.0    Front
+R1       27R                  0.6718     0.5172      90.0    Front
+R2       27R                  0.7238     0.3952     180.0    Front
+R3       3K9                  0.6858     0.2732     270.0    Front
+R4       1K                   1.9778     0.0642     180.0    Front
+R5       47R                  0.9218     0.5482     180.0    Front
+R6       47R                  0.7838     0.4652     180.0    Front
+R7       5K6                  1.3418     0.1622       0.0    Front
+R8       5K6                  2.0984     0.3858     180.0    Front
+R9       1K                   1.9778     0.1212     180.0    Front
+U1       74HC126              2.1228     0.5232     270.0    Front
+X1       12MHz                1.0398     0.2932      90.0    Front
+## End

@@ -1,0 +1,12 @@
+### Module positions - created on 21/12/2011 7:03:42 a.m. ###
+### Printed by Pcbnew version pcbnew (2011-11-27 BZR 3249)-stable
+## Unit = inches, Angle = deg.
+## Side : Back
+# Ref    Val                  PosX       PosY        Rot     Side
+SW1      SW_PUSH              2.1378     2.0472     180.0    Back
+SW2      SW_PUSH              6.8071     2.6063     180.0    Back
+SW3      SW_PUSH              6.4528     2.2480       0.0    Back
+SW4      SW_PUSH              2.1378     2.6260     180.0    Back
+SW5      SW_PUSH              6.8071     1.8976       0.0    Back
+SW6      SW_PUSH              7.1614     2.2480       0.0    Back
+## End

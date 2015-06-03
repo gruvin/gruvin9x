@@ -1,0 +1,1 @@
+make TARGET=atmega88p ISP=avrispmkii PORT=usb flash

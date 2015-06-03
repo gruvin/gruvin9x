@@ -1,0 +1,79 @@
+PCBNEW-LibDoc----V1  15/12/2010 2:46:31 p.m.
+#
+$MODULE CONN_2MM_8x1
+Li CONN_2MM_8x1
+Cd 9pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE CONN_2MM_3x1
+Li CONN_2MM_3x1
+Cd 3pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE CONN_2MM_2x1
+Li CONN_2MM_2x1
+Cd 2pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE CONN_2MM_12x1
+Li CONN_2MM_12x1
+Cd 12pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE CONN_2MM_9x1
+Li CONN_2MM_9x1
+Cd 9pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE CONN_2MM_6x1
+Li CONN_2MM_6x1
+Cd 6pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE CONN_2MM_5x1
+Li CONN_2MM_5x1
+Cd 5pin 2mm pitch t-hole connector
+$EndMODULE
+#
+$MODULE PIN_ARRAY_5x2
+Li PIN_ARRAY_5x2
+Cd Double rangee de contacts 2 x 5 pins
+Kw CONN
+$EndMODULE
+#
+$MODULE TQFP64_08
+Li TQFP64_08
+Kw AVR
+$EndMODULE
+#
+$MODULE SO14N
+Li SO14N
+Cd Module CMS SOJ 14 pins Large
+Kw CMS SOJ
+$EndMODULE
+#
+$MODULE 1H6x4
+Li 1H6x4
+Cd module 1 pin (ou trou mecanique de percage)
+Kw DEV
+$EndMODULE
+#
+$MODULE XTAL_HC49US
+Li XTAL_HC49US
+Cd Condensateur = 2 pas
+Kw C
+$EndMODULE
+#
+$MODULE TP
+Li TP
+Cd Connecteurs 2 pins
+Kw CONN DEV
+$EndMODULE
+#
+$MODULE SOT23-BCE
+Li SOT23-BCE
+Cd Module CMS SOT23 Transistore EBC
+Kw CMS SOT
+$EndMODULE
+#
+$EndLIBDOC

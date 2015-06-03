@@ -1,0 +1,18 @@
+EESchema-DOCLIB  Version 2.0  Date: 15/02/2012 10:40:30
+#
+$CMP 4017_GRUVIN
+D Jonhson Counter ( 10 outputs )
+K CNT CNT10
+$ENDCMP
+#
+$CMP CONN_8X2_GRUVIN
+D ymbole general de connecteur
+K CONN
+$ENDCMP
+#
+$CMP CONN_8X3
+D ymbole general de connecteur
+K CONN
+$ENDCMP
+#
+#End Doc Library
