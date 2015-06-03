@@ -14,7 +14,7 @@ You are also welcome to use the Gerber files from the project source repository 
 
 In short, DigiKey or Farnell (element14.com, outside the UK). If you're in the UK, Farnell is probably the cheaper choice (free shipping for online orders.) Everywhere else will probably have better luck with DigiKey.
 
-For parts details, please see the three BOM (bill of materials) files at [archive/pcb-v4.1a-frozen/assembly](http://code.google.com/p/gruvin9x/source/browse/#svn%2Farchive%2Fpcb-v4.1a-frozen/assembly). (If you're using just a web browser, you'll need to use the "View raw file" link, found at the lower right of the page, after clicking a BOM file link, to download the Excel spreadsheet file.)
+For parts details, please see the three BOM (bill of materials) files at [archive/pcb-v4.1a-frozen/assembly](archive/pcb-v4.1a-frozen/assembly). (If you're using just a web browser, you'll need to use the "View raw file" link, found at the lower right of the page, after clicking a BOM file link, to download the Excel spreadsheet file.)
 
 NOTE: The production version **RTC/SD-card board BOM** is included at the bottom of the main board BOM file.
 
