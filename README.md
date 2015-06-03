@@ -1,3 +1,5 @@
+# This project has been superseded by [openTx](https://github.com/opentx/opentx) and [Fr-Sky's Taranis](http://www.frsky-rc.com/product/pro.php?pro_id=113) RC Transmitter
+
 # gruvin9x
 Recreated from code.google.com/p/gruvin9x
 
