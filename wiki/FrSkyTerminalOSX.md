@@ -6,4 +6,4 @@ This application now has its own open source project site at http://code.google.
 
 # Screen-Shot #
 
-![http://gruvin9x.googlecode.com/svn/wiki/FrSky%20Terminal.attach/frsky-terminal-screenshot.png](http://gruvin9x.googlecode.com/svn/wiki/FrSky%20Terminal.attach/frsky-terminal-screenshot.png)
+![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FrSky%20Terminal.attach/frsky-terminal-screenshot.png)
