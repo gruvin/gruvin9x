@@ -22,8 +22,9 @@ The BOM files are Excel spreadsheet format. You can also view them in Open Offic
 
 Another (better) way to get the BOM files would be to do an svn check-out of the `pcb-v4.1a-frozen/assembly` folder, using the command (assuming you have Subversion installed) ...
 
+~~```svn co https://gruvin9x.googlecode.com/svn/archive/pcb-v4.1a-frozen/assembly g9x-assembly```~~
 ```
-svn co https://gruvin9x.googlecode.com/svn/archive/pcb-v4.1a-frozen/assembly g9x-assembly
+GitHub path: archive/pcb-v4.1a-frozen/assembly
 ```
 
 ... which will create a local folder named `g9x-assembly`.
@@ -34,7 +35,7 @@ svn co https://gruvin9x.googlecode.com/svn/archive/pcb-v4.1a-frozen/assembly g9x
 
 These parts were hand soldered in just minutes using an average soldering iron, with a typical hobbyist size tip, ordinary 0.7mm solder wire, no special flux and finally, some de-soldering braid. There's practically no challenge at all in reality, with similar results being easily repeated, time after time. You just need to know how! ...
 
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/smd-parts-macro.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/smd-parts-macro.jpg)
+![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PcbAssembly.attach/smd-parts-macro.jpg)
 
 (The board was washed with eco-friendly PC board cleaning solution (available from most electronics supply stores) to remove all flux residues. HINT: Don't judge your work until the board has been cleaned!)
 
@@ -55,7 +56,7 @@ Look for PDF files [gruvin9x-SilkS\_Front.pdf](http://code.google.com/p/gruvin9x
 
 Here's a reference photo of Gruvin's 2nd build. (Note that some of the larger capacitors here (22u, 47u) are ceramic, whereas the BOM parts list may call for tantalum. Either will be OK.) **Click the image for full-size view.**
 
-<a href='http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/v41-reference.jpg'><img src='http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/v41-reference-small.jpg' /></a>
+<a href='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PcbAssembly.attach/v41-reference.jpg'><img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PcbAssembly.attach/v41-reference-small.jpg' /></a>
 
 
 ### LCD Padding Foam ###
@@ -83,5 +84,7 @@ BE CAREFUL not to select the wrong type of oscillator. You could end up 'brickin
 
 ---
 
+v4.2(d) assembly is very similar to the above.
 
 Archived v4.0 PCB assembly notes can be found [here](V40Assembly.md).
+
