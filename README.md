@@ -9,13 +9,13 @@
 
 We simply don't know if demand for the G9X system will continue -- or not. Whilst orders seem to still be trickling in -- now even for blank boards (wow!) -- we don't expect that to last. Right or wrong, Gruvin made the choice, not to risk funds on another batch of G9X v4.2 boards. Was it the right choice? Have your say at <a href='http://9xforums.com/forum/viewforum.php?f=66'>9xforums.com</a>.<br>
 
-<h2>We recommend ~~open9x~~openTx firmware</h2>
+<h2>We recommend openTx firmware</h2>
 
 Please visit the [openTx website](http://open-tx.org) or the [openTx project on GitHub](https://github.com/opentx/opentx) for more information.
 
-Also highly recommended is the <a href='http://companion9x.googlecode.com'>companion9x</a> project -- the easiest way to obtain the latest release version of open9x firmware for your radio -- and much more. (Based on the original eePe from er9x.)
+---
 
-<h2>Project Brief</h2>
+<h2>Gruvin9X Project Brief</h2>
 <blockquote><i>First off, we especially wish to thank all the amazing original and ongoing work by</i>Thomas Husterer<i>of the <a href='http://code.google.com/p/th9x/'>th9x project</a>. A good number of other people have also contributed ideas, code and more to his, this and other related projects. THANK YOU all!</i></blockquote>
 
 The gruvin9x project was originally forked from <code>er9x v1.1 r262</code> (<a href='http://code.google.com/p/er9x/source/browse/?r=262'>http://code.google.com/p/er9x/source/browse/?r=262</a>) which was based on a earlier version of the original th9x code. A huge amount effort was later put into the gruvin9x code base by contributor bsongis, of the <a href='http://open9x.googlecode.com'>open9x</a> and <a href='http://companion9x.googlecode.com'>companion9x</a> projects, which later became the sole point of focus for our custom hardware firmware support.<br>
