@@ -9,7 +9,7 @@ The following data is likely obsolete, kept here for mostly just for historical 
 
 One could easily wonder why beeps and buzzes are so important that I had to write a bunch of code and change my hardware for it. Well, let me explain my motives ...
 
-<img src='http://gruvin9x.googlecode.com/svn/wiki/SpeakerReplacement.attach/lri.jpg' align='right' width='160'> Aside from replicating features found on other brand radios, such as low/mid/high point trim tones and the like, the one thing I have always most wanted from telemetry is an AoA (<a href='http://en.wikipedia.org/wiki/Angle_of_attack'>Angle of Attack</a>) instrument. What's an AoA instrument? ... Well in short, it's used to assist in landing and as I understand it, is usually calibrated as a Lift Reserve Indicator or LRI.<br>
+<img src='SpeakerReplacement.attach/lri.jpg' align='right' width='160'> Aside from replicating features found on other brand radios, such as low/mid/high point trim tones and the like, the one thing I have always most wanted from telemetry is an AoA (<a href='http://en.wikipedia.org/wiki/Angle_of_attack'>Angle of Attack</a>) instrument. What's an AoA instrument? ... Well in short, it's used to assist in landing and as I understand it, is usually calibrated as a Lift Reserve Indicator or LRI.<br>
 <br>
 AoA or LRI is an analogue feedback device, intended to be superior to the basic stall warning. Many argue that's it's completely redundant and that we've got along fine for years without it. However, I'm not one of them and this project is not about full-size air craft anyway.<br>
 <br>
@@ -32,7 +32,7 @@ Now, I don't know if, in practice, any LRI feedback system of my own design will
 
 Below is an image showing the first ugly speaker install I did. Hey! It works mmmkay? :-P Later I'll probably add some resistor and another capacitor or two to smooth out the square wave for a nicer tone.<br>
 <br>
-<img src='http://gruvin9x.googlecode.com/svn/wiki/SpeakerReplacement.attach/spkr-install.jpg' />
+<img src='SpeakerReplacement.attach/spkr-install.jpg' />
 
 <h2>Results to Date</h2>
 

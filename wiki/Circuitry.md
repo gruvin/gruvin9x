@@ -1,4 +1,4 @@
-<img src='http://gruvin9x.googlecode.com/svn/wiki/PCB.attach/schematic_thm.jpg' align='right'>
+<img src='PCB.attach/schematic_thm.jpg' align='right'>
 
 <h1>Custom '9X Logic Board PCB Schematics</h1>
 

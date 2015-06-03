@@ -18,7 +18,7 @@ LARGER THAN 10CM X 10CM._
 You need to select some options. Here's an image of that, which I just did on
 their site ...
 
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCBFab.attach/itead-specs.png)
+![](PCBFab.attach/itead-specs.png)
 
 
 Once you have paid for your order, ITead will send a confirmation email
@@ -26,7 +26,7 @@ containing instructions for sending the Gerber files to them. That amounts to
 sending an email to pcb[=at=]iteadstudio[=dot=]com, with the Gerber
 files attached. Put your order number in the subject and message body.
 
-Here is a link to the Gerbers files, already in a convenient ZIP file.  <a href="https://github.com/gruvin/gruvin9x/blob/master/archive/pcb-v4.2d-frozen/production/g9x_v4-2d_gerbers.zip?raw=true">ZIPped Gerber files for ITead</a>
+Here is a link to the Gerbers files, already in a convenient ZIP file.  <a href="../archive/pcb-v4.2d-frozen/production/g9x_v4-2d_gerbers.zip?raw=true">ZIPped Gerber files for ITead</a>
 
 Just send the ZIP as a single file.
 

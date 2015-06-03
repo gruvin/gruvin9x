@@ -14,15 +14,15 @@ You can build your own gProg or buy one from our online [gruvin9x online store](
 > _Special thanks to Jim (JWB) of Spring Valley, CA, USA for his proactive and generous assistance in this project._
 
 **Image of the version 1.1 prototype**
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/GProg.attach/gprog-v1.1.jpg)
+![](GProg.attach/gprog-v1.1.jpg)
 
 **The prototype gProg installed atop a hand-built v4.1 main board**
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/GProg.attach/g9x-prog%20installed.jpg)
+![](GProg.attach/g9x-prog%20installed.jpg)
 
 The white, tubular stand-off shown in the above image (beneath the gProg the mounting screw) is 10.5 - 11mm in length -- PVC 2.5mm I.D. tubing, available from most model shops. The screw itself is a (USA) 2-56 (2.2mm) x 3/4 inch. A 2mm x 20mm hex-head machine screw is also suitable (even though it's longer) and actually screws in a little easier.
 
 **The USB socket can be mounted in the battery compartment.**
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/GProg.attach/g9x-prog%20USB%20socket.jpg)
+![](GProg.attach/g9x-prog%20USB%20socket.jpg)
 
 > This idea was shamelessly copied from SmartieParts.com "pogo board", which is an excellent solution for stock standard '9X controller boards. (Full product name, _**9x Solderless Programmer Board with LED Backlight Support**_. Check it out [here](http://www.smartieparts.com/shop/index.php?main_page=product_info&cPath=3&products_id=331).)
 
@@ -34,6 +34,6 @@ Of course, you cn also mount the USB socket almost anywhere else you like, using
 
 ## Wiring gProg to a stock standard '9X ... ##
 
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/GProg.attach/gprog-stock-wiring.jpg)
+![](GProg.attach/gprog-stock-wiring.jpg)
 
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/GProg.attach/viewfromtop.jpg)
+![](GProg.attach/viewfromtop.jpg)

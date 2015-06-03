@@ -7,7 +7,7 @@ The following data is likely obsolete, kept here for mostly just for historical 
 **UPDATE** 2011-11-24: Current versions of AVRDUDE do not seem to work well with the Sparkfun USB Pocket Programmer. I have switched to a USBasp based USB programmer and it is now working flawlessly. Original article (to be updated) continues ...
 
 
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FlashGuide.attach/usbpktprog.jpg' align='left'>The first thing you will need is one of the many available AVR programmer kits. Perhaps you already have an AVR programmer? I purchased a <a href='http://www.sparkfun.com/commerce/product_info.php?products_id=9825'>USB Pocket Programmer</a> from Spark Fun. It works really well and is not at all expensive. (<a href='http://sparkfun.com'>SparkFun</a> have a some really cool stuff by the way. Stop by for a while and check them out!)<br>
+<img src='FlashGuide.attach/usbpktprog.jpg' align='left'>The first thing you will need is one of the many available AVR programmer kits. Perhaps you already have an AVR programmer? I purchased a <a href='http://www.sparkfun.com/commerce/product_info.php?products_id=9825'>USB Pocket Programmer</a> from Spark Fun. It works really well and is not at all expensive. (<a href='http://sparkfun.com'>SparkFun</a> have a some really cool stuff by the way. Stop by for a while and check them out!)<br>
 <br>
 You'll need to connect your programmer's ICP (In-Circuit Programming) cable to your '9X. There are a few options available.<br>
 <br>
@@ -21,7 +21,7 @@ When I ordered my SparkFun Pocket Programmer, I had them add a spare programming
 <br>
 <blockquote><b>IMPORTANT:</b> The picture below shows a typical ‘V2′ transmitter, as has been shipping for a few months as at time of this writing. The V1 unit  had an error on the PCB where the ‘SCK’ programming pad (wire 7 below) was connected one pin too far left on the ATmega64 chip. So watch out for that! If you have a V1 unit, you can still get things going. You just have to careful to get a wire soldered to the right place.</blockquote>
 
-<blockquote><img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FlashGuide.attach/progwiring.jpg' /></blockquote>
+<blockquote><img src='FlashGuide.attach/progwiring.jpg' /></blockquote>
 
 <ul><li><b>NOTE:</b> The two little hot-glued resistors to the left, with their respective fine wires comprise the re-wiring necessary to free up the ATmega serial comms port (RXD/TXD) for telemetry data. Those pins are otherwise connected to the Throttle-Hold and Aileron-DR switches. For telemetry support, the switches get moved to two spare pins (PC6/7). <b>This mod is only necessary if</b> you intend using a Fr-Sky enabled <a href='TrunkBinaries.md'>binary</a> image -- or specifying the EXT=JETI or EXT=FRSKY <code>make</code> attributes, when building from source. <b>See <a href='FrskyInterfacing.md'>here</a> details of what to connect where and how</b>.</li></ul>
 
@@ -32,7 +32,7 @@ If you have a more modern AVR programmer with a 6-pin ISP connector, you can fin
 <h1>Flashing the Firmware</h1>
 
 <h2>Software</h2>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FlashGuide.attach/avrdude.jpg' align='right'><img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/FlashGuide.attach/crosspack.jpg' align='right'>Whilst I'm no stranger to Windows, I strongly prefer using my Mac for all development work. Fortunately, so do many others who work with Atmel AVR chips, so there’s a nice packaged installer named <a href='http://www.obdev.at/products/crosspack/'>CrossPack</a> that has everything you need for cross-compiling C/C++ AVR code on your Mac.<br>
+<img src='FlashGuide.attach/avrdude.jpg' align='right'><img src='FlashGuide.attach/crosspack.jpg' align='right'>Whilst I'm no stranger to Windows, I strongly prefer using my Mac for all development work. Fortunately, so do many others who work with Atmel AVR chips, so there’s a nice packaged installer named <a href='http://www.obdev.at/products/crosspack/'>CrossPack</a> that has everything you need for cross-compiling C/C++ AVR code on your Mac.<br>
 <br>
 CrossPack also comes bundled with <a href='http://savannah.nongnu.org/projects/avrdude/'>AVRDUDE</a>, which is used to operate the programmer hardware. Even more conveniently, the 'usbtiny' programmer protocol driver that the SparkFun USB Pocket Programmer I randomly chose is also included and installed, ready-to-run as part of the CrossPack bundle. Very cool! Best of all, you don't have to do any configuring of this software. Just install it and then move on to the steps below.<br>
 <br>

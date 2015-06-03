@@ -30,15 +30,15 @@ For those who have jumped ahead and got themselves one of the few v4.0 boards we
 
 **NOTE** that the BC847 transistor in place of D2 is mounted **UPSIDE-DOWN**
 
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/v4.0_fixes_detail.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/v4.0_fixes_detail.jpg)<br />
+![PcbAssembly.attach/v4.0_fixes_detail.jpg](PcbAssembly.attach/v4.0_fixes_detail.jpg)<br />
 -- Image provided by th9xer. Thanks Cam.
 
 There's another patch required for PPM\_IN (trainer port input). I'm working on a better photo. But for now, this is the best focus I can manage, sorry ...
 
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/ppm_patch.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/ppm_patch.jpg)<br />
+![PcbAssembly.attach/ppm_patch.jpg](PcbAssembly.attach/ppm_patch.jpg)<br />
 
 ## Second Version IDL2 / SD\_CS Patch Required ##
 
 Here's a photo showing the latest (revised) IDL2 mod, (See [issue 48](https://code.google.com/p/gruvin9x/issues/detail?id=48).)
 
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/v4.0_IDL2_mod.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/v4.0_IDL2_mod.jpg)
+![PcbAssembly.attach/v4.0_IDL2_mod.jpg](PcbAssembly.attach/v4.0_IDL2_mod.jpg)

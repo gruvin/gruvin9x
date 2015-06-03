@@ -20,7 +20,7 @@ I broke the track leading from the 4066 quad-switch chip (pin 8) and into PE7 on
 
 Here is the additional circuitry, which has been tested to work well with two Spektrum and one '9X radio, thus far.
 
-![http://gruvin9x.googlecode.com/svn/wiki/PpmIn.attach/mod1.png](http://gruvin9x.googlecode.com/svn/wiki/PpmIn.attach/mod1.png)
+![PpmIn.attach/mod1.png](PpmIn.attach/mod1.png)
 
 > _Resistor HR10 (330ohm is what I had on hand) proved important. Without it, the relatively high current sink from the transistor against the ATmega's internal pull-up was able to spike the ATmega's power supply sufficiently to cause the odd crash. I imagine the net resistance of the 4066 was sufficient 'spike' protection, before this mod. **shrug**_
 

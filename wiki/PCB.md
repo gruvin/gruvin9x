@@ -1,6 +1,6 @@
 <h1>Custom Main Board Development</h1>
 
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/pcbv4_photo.jpg' align='right' width='320'><i>Photo to the right is the v4.0 prototype (R.I.P). An image of the V4.1 board can be found below, in the 'Progress' section.</i>
+<img src='PCB.attach/pcbv4_photo.jpg' align='right' width='320'><i>Photo to the right is the v4.0 prototype (R.I.P). An image of the V4.1 board can be found below, in the 'Progress' section.</i>
 ```
 
 
@@ -92,21 +92,21 @@ Here it is ...</blockquote>
 
 The v4.1 (final v4 production version) board is now available for purchase at <a href='http://gruvin9x.com/shop'>http://gruvin9x.com/shop</a>. We encourage all early adopters and home electronics constructors to grab yourselves a board or two and get building. :-D We'll be here to assist with any problems.<br>
 <br>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/pcbv41_photo.jpg' />
+<img src='PCB.attach/pcbv41_photo.jpg' />
 
-A high resolution version of the above photo is available <a href='http://gruvin9x.googlecode.com/svn/wiki/PCB.attach/pcbv41_photo_fs.jpg'>here</a>.<br>
+A high resolution version of the above photo is available <a href='PCB.attach/pcbv41_photo_fs.jpg'>here</a>.<br>
 <br>
 Interestingly, this board was mainly constructed through concurrent, ambidextrous use of two hand soldering irons (one in each hand), to transfer components from the v4.0 prototype to the new v4.1 PCB. The process took about four hours in total. One resistor was apparently heat-damaged and needed replacing. Everything else seems to be working 100%. Yay \o/<br>
 <br>
 The back of the board has the HobbyKing LED back-light kit supplied self-adhesive foam pad stuck to it. I would recommend that specific LED back-light kit to all V4.1 board adopters. There's a dedicated driver output for it at the upper right of the board. <i>Be SURE to use the center GND and <b>RIGHT</b>-hand pin to get the current limited LED-safe connection</i> -- because the left terminal is a full current, 5V supply!<br>
 <br>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/pcbv41_photo_back.jpg' />
+<img src='PCB.attach/pcbv41_photo_back.jpg' />
 
 <h3>The v4.0 Prototype Board</h3>
 
 Here's a recent V4.0 3D visualization from KiCAD...<br>
 <br>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/pcb_v4.x_3d_top.gif' />
+<img src='PCB.attach/pcb_v4.x_3d_top.gif' />
 
 <h2>Current Status</h2>
 
@@ -162,7 +162,7 @@ This new main board will receive an <b>ATmega2561</b> (256K Flash, 4K EEPROM, 8K
 <br>
 <b>The 3D image from KiCAD</b> as at <a href='https://code.google.com/p/gruvin9x/source/detail?r=155'>r155</a> ...<br>
 <br>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/kicad-pcb-r21-3d-top.jpg' />
+<img src='PCB.attach/kicad-pcb-r21-3d-top.jpg' />
 
 NOTE: Since moved on to rev2.11 with a few minor changes/additions, like RF decoupling caps on the KEYXn inputs and some tidying up here and there. Work continues! :-D<br>
 <br>
@@ -171,7 +171,7 @@ NOTE: Since moved on to rev2.11 with a few minor changes/additions, like RF deco
 
 NOTE: These images (below) as at <a href='https://code.google.com/p/gruvin9x/source/detail?r=122'>r122</a> ...<br>
 <br>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/PCB-final-mock.jpg' />
+<img src='PCB.attach/PCB-final-mock.jpg' />
 
 The above image is merely a PhotoShop mock-up based on the various layer outputs from KiCAD.<br>
 <br>
@@ -179,6 +179,6 @@ The above image is merely a PhotoShop mock-up based on the various layer outputs
 
 The present best quote for low volume PCB manufacture is around the USD$15 mark -- for one of 10 boards with no components installed. Manufacturing of a prototype board will likely not happen until at least the telemetry and mass storage mods have been done. That will include break-outs for any remaining spare port pins and should get the hardware to a point where nothing additional is needed.<br>
 <br>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/kicad-pcb-3d-top.jpg' />
+<img src='PCB.attach/kicad-pcb-3d-top.jpg' />
 
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/kicad-pcb-3d-bottom.jpg' />
+<img src='PCB.attach/kicad-pcb-3d-bottom.jpg' />

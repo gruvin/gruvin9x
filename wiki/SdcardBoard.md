@@ -2,18 +2,18 @@
 
 Here's some pictures showing where Gruvin installed his SD card board -- and where it was designed to fit from the start, if that helps. :-D
 
-| ![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sdcard_inst1.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sdcard_inst1.jpg) |
+| ![PcbAssembly.attach/sdcard_inst1.jpg](PcbAssembly.attach/sdcard_inst1.jpg) |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Almost flush. Could have done better with more care. |
 
-| ![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sdcard_inst2.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sdcard_inst2.jpg) |
+| ![PcbAssembly.attach/sdcard_inst2.jpg](PcbAssembly.attach/sdcard_inst2.jpg) |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Speaker is lowest, then SD card, then original power switch board. |
 
 I put tape over the button battery holder, just in case it
 shorts out on something. Probably not required.
 
-| ![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sdcard_inst3.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sdcard_inst3.jpg) |
+| ![PcbAssembly.attach/sdcard_inst3.jpg](PcbAssembly.attach/sdcard_inst3.jpg) |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | The original piezo "beeper" is removed and re-soldered as shown, to make room. |
 
@@ -32,6 +32,6 @@ The card should be pre-formatted in a computer as "Windows FAT32" -- _not_ NTFS.
 ### Some more photos, of a different install ###
 
 These photos show a different installation Gruvin did. Note that the Turnigy power switch board in this one is a later version, with different PCB trace layout around the piezo beeper area. So we simply mount the piezo on the opposite side of the board. **shrug** ...
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sd-card-install1.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sd-card-install1.jpg)
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sd-card-install2.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sd-card-install2.jpg)
-![http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sd-card-install3.jpg](http://gruvin9x.googlecode.com/svn/wiki/PcbAssembly.attach/sd-card-install3.jpg)
+![PcbAssembly.attach/sd-card-install1.jpg](PcbAssembly.attach/sd-card-install1.jpg)
+![PcbAssembly.attach/sd-card-install2.jpg](PcbAssembly.attach/sd-card-install2.jpg)
+![PcbAssembly.attach/sd-card-install3.jpg](PcbAssembly.attach/sd-card-install3.jpg)

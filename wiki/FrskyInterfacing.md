@@ -28,7 +28,7 @@ Referring to the image below ...
 > _HINT: Pre-solder the wire end and the ATmega pins. Use a solder sucker or de-soldering wick to clear away excess solder from the two pins and to remove any solder bridge. Then lay the first wire end over the pin and apply the soldering iron directly down on top of it for half a second, then directly straight up -- then let go the wire. Give the wire a gentle tug in the direction directly away from the chip (in line with the pin).If it holds -- you're done. Don't futz with it. If you're right handed, solder the left hand wire first, so the the soldering iron does not lay over the first wire when trying to solder the second._
   * Solder wires from the bottom ends of the hot-glued resistors to the little vias (holes) near where the two removed resistors were, as shown in the image.
 
-> ![http://gruvin9x.googlecode.com/svn/wiki/FrskyInterfacing.attach/frsky-wiring.jpg](http://gruvin9x.googlecode.com/svn/wiki/FrskyInterfacing.attach/frsky-wiring.jpg)
+> ![FrskyInterfacing.attach/frsky-wiring.jpg](FrskyInterfacing.attach/frsky-wiring.jpg)
 
 
 **NOTE:** It pays to use small dabs of hot-glue near the ATmega pins and in a couple of places along the wires to hold them in place. The last thing you want is for something to get hooked under them and rip them off, possibly damaging the ATmega pins in the process!
@@ -45,7 +45,7 @@ What this means is that you need to invert and voltage-shift the signals to and 
 
 Here is the discrete transistor circuit ...
 
-> ![http://gruvin9x.googlecode.com/svn/wiki/FrskyInterfacing.attach/frsky-interface.png](http://gruvin9x.googlecode.com/svn/wiki/FrskyInterfacing.attach/frsky-interface.png)<br />
+> ![FrskyInterfacing.attach/frsky-interface.png](FrskyInterfacing.attach/frsky-interface.png)<br />
 **NOTE** An earlier version of the above circuit had the collector and emitter of Q3 reversed. The circuit as shown here now is correct. (This circuit is clipped from the full schematic of the gruvin9x [custom controller board](PCB.md).)
 
 Any general purpose NPN and PNP transistors should work for the components marked Q2 and Q3, respectively. The BC847/857 devices are in fact SMD surface mount versions, as used in the new PCB design we're working on.

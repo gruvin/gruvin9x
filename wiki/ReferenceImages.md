@@ -16,7 +16,7 @@ We believe the following are the main specifications of this display ...
   * Operating Voltage: 3.3V (not 3.0V)
   * Connector: COG+FPC 30-pin, 0.5mm pitch
   * Manufacturer: Unknown
-  * [Mechanical data sheet](http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/lcd-display-mechanical.pdf) for similar display,  [here](http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/lcd-display-mechanical.pdf). (Thanks [@devnow](https://code.google.com/u/100578513419733812290/).)
+  * [Mechanical data sheet](ReferenceImages.attach/lcd-display-mechanical.pdf) for similar display,  [here](ReferenceImages.attach/lcd-display-mechanical.pdf). (Thanks [@devnow](https://code.google.com/u/100578513419733812290/).)
 
   * **Replacement part availability** ...
     * Try [eBay.com](http://www.ebay.com)
@@ -27,14 +27,14 @@ We believe the following are the main specifications of this display ...
 
 I've not personally owned a V1 '9X, but apparently the V2 changed from a 5V LCD screen to a 3.3V version. An additional 3.3V regulator and a bunch of voltage-divider resistors are used to interface this to the 5V ATmega64A MCU.
 
-![http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/lcd-ref.jpg](http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/lcd-ref.jpg)
+![ReferenceImages.attach/lcd-ref.jpg](ReferenceImages.attach/lcd-ref.jpg)
 
 ## Connectors ##
 See the PCB reference images for approx. dimensions. (Ignore the strange looking coil of wire to the middle-left. It's not part of the stock hardware.)
 
-<img src='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/connector-ref1.jpg' width='600'>
+<img src='ReferenceImages.attach/connector-ref1.jpg' width='600'>
 
-<img src='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/connector-ref2.jpg' width='300'>
+<img src='ReferenceImages.attach/connector-ref2.jpg' width='300'>
 
 Japanese "JST" brand -- 2mm pitch (there's a larger version as well.) Quite common.<br>
 <br>
@@ -42,7 +42,7 @@ Japanese "JST" brand -- 2mm pitch (there's a larger version as well.) Quite comm
 
 Inside the front section of the cabinet (main PCB removed).<br>
 <br>
-<img src='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/inside-ref1.jpg' width='600'>
+<img src='ReferenceImages.attach/inside-ref1.jpg' width='600'>
 
 
 <h2>Main PCB</h2>
@@ -53,17 +53,17 @@ My '9X is a Turnigy 9X from HobbyKing.com. This is the "V2" version. Note the ad
 
 NOTE: These images are fairly high resolution -- Right-Click, View Image (or Save as...) to see full size. WARNING: Perspective errors in the camera lens mean the reference lines are approximate only.<br>
 <br>
-<img src='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/pcb-ref-top.jpg' width='600'>
+<img src='ReferenceImages.attach/pcb-ref-top.jpg' width='600'>
 
 <h3>Bottom</h3>
 
 This is the bottom of my second unit (to match image above).<br>
 <br>
-<img src='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/pcb-ref-bottom.jpg' width='600'>
+<img src='ReferenceImages.attach/pcb-ref-bottom.jpg' width='600'>
 
 I removed the LCD screen's foam packer on my original unit to reveal all the traces. (Hi-res.)<br>
 <br>
-<img src='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/pcb-ref-bottom-clean.jpg' width='600'>
+<img src='ReferenceImages.attach/pcb-ref-bottom-clean.jpg' width='600'>
 
 <h3>PhotoShop Layered Originals</h3>
 
@@ -72,6 +72,6 @@ PhotoShop is one of, if not <i>the</i> most expensive pieces of software I've ev
 Here are the layered originals of the top and bottom images above -- at double the resolution, too. (Approx. 22MB each.)<br>
 <br>
 <br>
-<a href='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/pcb-ref-top.psd'>pcb-ref-top.psd</a>
+<a href='ReferenceImages.attach/pcb-ref-top.psd'>pcb-ref-top.psd</a>
 
-<a href='http://gruvin9x.googlecode.com/svn/wiki/ReferenceImages.attach/pcb-ref-bottom.psd'>pcb-ref-bottom.psd</a>
+<a href='ReferenceImages.attach/pcb-ref-bottom.psd'>pcb-ref-bottom.psd</a>
