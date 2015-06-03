@@ -97,7 +97,7 @@ To <b>submit bug reports</b> or <b>feature requests</b>, please use the <a href=
  * [Fr-Sky on your Mac](wiki/FrSkyTerminalOSX.md)
  * [Porting to ER9X](wiki/FrskyToER9X.md)
 * [Donator Recognition](wiki/Recognition.md)
- * [Random Notes](wiki/RandomNotes.md)
+* [Random Notes](wiki/RandomNotes.md)
  * [AoA / LRI Notes/Ideas](wiki/AoA.md)
  * [Backlight Information](wiki/BackLight.md)
  * [eePe EEPROM file manager](wiki/eePe.md)
