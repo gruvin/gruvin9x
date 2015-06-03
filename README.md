@@ -1,7 +1,7 @@
 # This project has been superseded by [openTx](https://github.com/opentx/opentx) and [Fr-Sky's Taranis](http://www.frsky-rc.com/product/pro.php?pro_id=113) RC Transmitter
 
-# gruvin9x
-Recreated from code.google.com/p/gruvin9x
+## gruvin9x
+### This outdated archive was recreated from [https://gruvin9x.googlecode.com/](https://gruvin9x.googlecode.com/) for historical reference and for the many still running gruvin9x boards or its dirivitives. A friendly shout out to you all! :-)
 
 <h2>G9X v4.x BOARD (DISCONTINUED)</h2>
 
@@ -9,9 +9,9 @@ Recreated from code.google.com/p/gruvin9x
 
 We simply don't know if demand for the G9X system will continue -- or not. Whilst orders seem to still be trickling in -- now even for blank boards (wow!) -- we don't expect that to last. Right or wrong, Gruvin made the choice, not to risk funds on another batch of G9X v4.2 boards. Was it the right choice? Have your say at <a href='http://9xforums.com/forum/viewforum.php?f=66'>9xforums.com</a>.<br>
 
-<h2>We recommend open9x firmware</h2>
+<h2>We recommend ~~open9x~~openTx firmware</h2>
 
-Please visit the open9x <a href='http://open9x.googlecode.com'>project site</a> for more information.<br>
+Please visit the [openTx website](http://open-tx.org) or the [openTx project on GitHub](https://github.com/opentx/opentx) for more information.
 
 Also highly recommended is the <a href='http://companion9x.googlecode.com'>companion9x</a> project -- the easiest way to obtain the latest release version of open9x firmware for your radio -- and much more. (Based on the original eePe from er9x.)
 
