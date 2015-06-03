@@ -61,13 +61,8 @@ For details on installing new firmware into you Turnigy/iMax/Eurgle/etc 9X RC Ra
 See the <a href='wiki/CompilingFromSource.md'>Compiling from Source</a> wiki page.<br>
 
 <h2>Get Involved!</h2>
+An independent group maintain an, 'all things 9X' forum over at <a href='http://openrcforums.com'>http://openrcforums.com</a>. The forum caters to several different firmware projects, has a documentation wiki attached and is probably the most popular hang-out for '9X enthusiasts and much more besides. Frankly, it's freaking AMAZING! Go check it out.
 
-An independent group maintain an, 'all things 9X' forum over at <a href='http://openrcforums.com'>http://openrcforums.com</a>. The forum caters to several different firmware projects, has a documentation wiki attached and is probably the most popular hang-out for '9X enthusiasts and much more besides.
-
-There is also the original <a href='http://groups.google.com/group/gruvin9x-discuss'>gruvin9x discussion group</a>. All you need to participate there is a valid Google account.
-
-To <b>submit bug reports</b> or <b>feature requests</b>, please use the <a href='http://code.google.com/p/gruvin9x/issues'>issues</a> menu link. The issues area lets you log bug reports and make feature requests in an organised and trackable manner. Don't be shy! Give it a go.<br>
-<br>
 ## Gruvin9X Project Wiki</a>
 (converted from old Google Code site)
 
