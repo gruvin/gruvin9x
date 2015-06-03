@@ -1,9 +1,15 @@
 <h1>Custom Main Board Development</h1>
 
-<i>Photo to the right is the v4.0 prototype (R.I.P). An image of the V4.1 board can be found below, in the 'Progress' section.</i>
+<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/pcbv4_photo.jpg' align='right' width='320'><i>Photo to the right is the v4.0 prototype (R.I.P). An image of the V4.1 board can be found below, in the 'Progress' section.</i>
+```
 
+
+
+
+
+```
 <h2>Update 2012-09-23</h2>
-<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PCB.attach/pcbv4_photo.jpg' align='right' width='320'>The second batch of <a href='http://gruvin9x.com/shop/gruvin9x/22-gruvin9x-v41-pcb-fully-assembled.html'>G9X v4.2 fully assembled and tested boards</a> have been on sale at gruvin9x.com for a few weeks now. Sales are progressing steadily, indicating continually expanding interest.<br>
+The second batch of <a href='http://gruvin9x.com/shop/gruvin9x/22-gruvin9x-v41-pcb-fully-assembled.html'>G9X v4.2 fully assembled and tested boards</a> have been on sale at gruvin9x.com for a few weeks now. Sales are progressing steadily, indicating continually expanding interest.<br>
 <br>
 Meanwhile, we are having the Chinese factory also do small runs of the RTC/SD-card and gProg boards, which should result in further resale price reductions. <i>Yay!</i> \o/ More to come on this, as information comes to hand.<br>
 <br>
