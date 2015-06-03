@@ -1,4 +1,5 @@
-# Table Of Contents
+# G9X Wiki
+## Table Of Contents
 
 * [About gruvin9x](About.md)
 * [G9X Features](Features.md)
