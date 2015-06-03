@@ -35,7 +35,7 @@ GitHub path: archive/pcb-v4.1a-frozen/assembly
 
 These parts were hand soldered in just minutes using an average soldering iron, with a typical hobbyist size tip, ordinary 0.7mm solder wire, no special flux and finally, some de-soldering braid. There's practically no challenge at all in reality, with similar results being easily repeated, time after time. You just need to know how! ...
 
-![](https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/PcbAssembly.attach/smd-parts-macro.jpg)
+![](../wiki/PcbAssembly.attach/smd-parts-macro.jpg)
 
 (The board was washed with eco-friendly PC board cleaning solution (available from most electronics supply stores) to remove all flux residues. HINT: Don't judge your work until the board has been cleaned!)
 
