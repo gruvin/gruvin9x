@@ -1,8 +1,6 @@
-<img src='http://gruvin9x.googlecode.com/svn/wiki/About.attach/s9xsplash-wiki.gif' align='right'>
-
 <h2>G9X v4.x BOARD (DISCONTINUED)</h2>
 
-Why? Because there's much better things on the horizon -- we think. Trusted sources confirm the ongoing development of a Fr-Sky X9D transmitter, which we understand will be supporting open9x firmware form launch. The board will be ARM 32-bit based and is rumoured to be targeting sub-USD$100 retail -- complete with Fr-Sky 16-channel transmitter module, built in. If this all turns out to be true, then the complete radio will cost less than the G9X board (in the small qty's we can manage) whilst having all the same features and more. So we wait.<br>
+<img hspace="20" src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/About.attach/s9xsplash-wiki.gif' align='right'>Why? Because there's much better things on the horizon -- we think. Trusted sources confirm the ongoing development of a Fr-Sky X9D transmitter, which we understand will be supporting open9x firmware form launch. The board will be ARM 32-bit based and is rumoured to be targeting sub-USD$100 retail -- complete with Fr-Sky 16-channel transmitter module, built in. If this all turns out to be true, then the complete radio will cost less than the G9X board (in the small qty's we can manage) whilst having all the same features and more. So we wait.<br>
 <br>
 We simply don't know if demand for the G9X system will continue -- or not. Whilst orders seem to still be trickling in -- now even for blank boards (wow!) -- we don't expect that to last. Right or wrong, Gruvin made the choice, not to risk funds on another batch of G9X v4.2 boards. Was it the right choice? Have your say at <a href='http://9xforums.com/forum/viewforum.php?f=66'>9xforums.com</a>.<br>
 <br>
@@ -24,8 +22,7 @@ The gruvin9x project was originally forked from <code>er9x v1.1 r262</code> (<a 
 </li><li><a href='PCB.md'>Custom Main Board Development</a> -- <b>upgrade your '9X controller board!</b></li></ul>
 
 <h2>But what <i>is</i> it?</h2>
-<img src='http://gruvin9x.googlecode.com/svn/wiki/About.attach/turnigy9x_v4.gif' align='right'>
-In short, this is an RC modeller/hacker's dream come true. We get to use your own custom firmware in our radios, adding features and making changes whenever we like and all (generally) at much lower cost than comparable commercial gear -- especially in terms of firmware features and programmability. We currently support any PPM transmitter module, with a focus on Fr-Sky two-way products, as well as DSM, DSM2 and DSMX 'retro-fitted' modules, usually salvaged from cheap 4-ch bind'n'fly models, as found on eBay.<br>
+<img src='https://raw.githubusercontent.com/gruvin/gruvin9x/master/wiki/About.attach/turnigy9x_v4.gif' align='right' hspace="20">In short, this is an RC modeller/hacker's dream come true. We get to use your own custom firmware in our radios, adding features and making changes whenever we like and all (generally) at much lower cost than comparable commercial gear -- especially in terms of firmware features and programmability. We currently support any PPM transmitter module, with a focus on Fr-Sky two-way products, as well as DSM, DSM2 and DSMX 'retro-fitted' modules, usually salvaged from cheap 4-ch bind'n'fly models, as found on eBay.<br>
 <br>
 Open9x firmware is written and maintained by active RC modellers. It is mature, stable and very powerful. Based on th9x's 'multiplexer' implementation, it is arguably a little difficult to learn compared to other systems -- but is much more flexible. Open9x firmware is a significantly more powerful replacement for the comparatively simple default factory firmware that comes with the '9X radios.<br>
 <br>
