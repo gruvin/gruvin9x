@@ -27,7 +27,7 @@ We believe the following are the main specifications of this display ...
 
 I've not personally owned a V1 '9X, but apparently the V2 changed from a 5V LCD screen to a 3.3V version. An additional 3.3V regulator and a bunch of voltage-divider resistors are used to interface this to the 5V ATmega64A MCU.
 
-![ReferenceImages.attach/lcd-ref.jpg](ReferenceImages.attach/lcd-ref.jpg)
+![](ReferenceImages.attach/lcd-ref.jpg)
 
 ## Connectors ##
 See the PCB reference images for approx. dimensions. (Ignore the strange looking coil of wire to the middle-left. It's not part of the stock hardware.)

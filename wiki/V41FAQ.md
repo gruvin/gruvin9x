@@ -194,14 +194,14 @@ Here are some images of Cam's nice and tidy installation ...
 
 (Please note that wire colours may differ ... so use the diagrams above as the definitive reference.)
 
-| ![V41FAQ.attach/rot-enc-inside1.jpg](V41FAQ.attach/rot-enc-inside1.jpg) | ![V41FAQ.attach/rot-enc-inside2.jpg](V41FAQ.attach/rot-enc-inside2.jpg) |
+| ![](V41FAQ.attach/rot-enc-inside2.jpg) |
 |:--------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ![V41FAQ.attach/rot-enc-outside.jpg](V41FAQ.attach/rot-enc-outside.jpg) | ![V41FAQ.attach/rot-enc-wiring.jpg](V41FAQ.attach/rot-enc-wiring.jpg) |
+| ![](V41FAQ.attach/rot-enc-wiring.jpg) |
 
 
 ---
 
-![V41FAQ.attach/sd-card_thm.jpg](V41FAQ.attach/sd-card_thm.jpg)
+![](V41FAQ.attach/sd-card_thm.jpg)
 
 **Q**. **How should I install the RTC/SD-card Board?**
 
@@ -223,17 +223,17 @@ Here are some images of Cam's nice and tidy installation ...
 
 **A**. You'll find the most conveniently located GND, BATT+ and PPM connections on the 9X's rear case PCB. Here's an image showing which pin is what ...
 
-![V41FAQ.attach/dht-wiring-guide.jpg](V41FAQ.attach/dht-wiring-guide.jpg)
+![](V41FAQ.attach/dht-wiring-guide.jpg)
 
 Use the 3-pin pseudo-RS232 (left hand one, at the lower right of the G9X board) to connect to GND, Txd and Rxd on the DHT module for telemetry, assuming you have the newer two-way version.
 
 The following images relate to the DJT, external module, but should suffice to add clarity for the DHT as well ...
 
-![V41FAQ.attach/telemetry-rs232.jpg](V41FAQ.attach/telemetry-rs232.jpg)
+![](V41FAQ.attach/telemetry-rs232.jpg)
 
 Gruvin uses an external DJT module, with two wire links added inside, to link pins 2 and 5 of the module socket to _Rxd_ and _Txd_ of the Fr-Sky data port, respectively. Inside the '9X case, on the rear PCB, things look like this ...
 
-![V41FAQ.attach/djt_modified1.jpg](V41FAQ.attach/djt_modified1.jpg)
+![](V41FAQ.attach/djt_modified1.jpg)
 
 **Note that pin 2 has to be broken from the ground plane on this PCB on BOTH sides of the PCB**, as noted in the above image. First, remove the board. On the under-side, where the pins protrude outside the case, temporarily slide the black plastic pin holder bar up the pins (it's quite tight, so ease it a little at a time from each end) then make the break on each side of the pin, then slide the bar back into place and re-fit the board.
 
