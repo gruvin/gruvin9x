@@ -4,7 +4,7 @@ The following data is likely obsolete, kept here for mostly just for historical 
 
 # Porting gruvin9x Fr-Sky features to ER9X #
 
-It was asked in an RC Groups [forum post](http://www.rcgroups.com/forums/showthread.php?t=1266162&page=237&highlight=gruvin9x#post16819009) if the gruvin9x features will be included in ER9X -- and conversely, if gruvin9x will keep up with feature and bug changes in ER9X. Hre's a copy of the answer I gave, including brief instructions for porting the gruvin9x Fr-Sky stuff over to ER9X, should anyone wish to do that at some point.
+It was asked in an RC Groups [forum post](http://www.rcgroups.com/forums/showthread.php?t=1266162&page=237&highlight=gruvin9x#post16819009) if the gruvin9x features will be included in ER9X -- and conversely, if gruvin9x will keep up with feature and bug changes in ER9X. Here's a copy of the answer I gave, including brief instructions for porting the gruvin9x Fr-Sky stuff over to ER9X, should anyone wish to do that at some point.
 
 > _This copy is here for instructional archive reasons. If you want to follow the conversation, you should start at the [forum post](http://www.rcgroups.com/forums/showthread.php?t=1266162&page=237&highlight=gruvin9x#post16819009)_
 
