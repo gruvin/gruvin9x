@@ -5,7 +5,13 @@
 The custom circuitry for Gruvin's '9X has gone through a number of versions, and continues to evolve.<br>
 <br>
 <h2>Current Design</h2>
-Ongoing schematic and PCB design currently takes place at <a href='http://gruvin9x.googlecode.com/svn/trunk/hrdware/pcb/'>http://gruvin9x.googlecode.com/svn/trunk/hrdware/pcb/</a>. There you'll find a <a href='http://kicad.sourceforge.net/wiki/Main_Page'>KiCAD</a> project file named <code>gruvin9x.pro</code>, with internal references to <a href='http://gruvin9x.googlecode.com/svn/trunk/pcbv4/gruvin9x.sch'>gruvin9x.sch</a> and <a href='http://gruvin9x.googlecode.com/svn/trunk/hardware/pcb/gruvin9x.pcb'>gruvin9x.pcb</a>.<br>
+The final version of the G9X board was v4.2d.
+
+- - - -
+
+Archival information ...
+
+Ongoing schematic and PCB design currently takes place at <a href='http://gruvin9x.googlecode.com/svn/trunk/hardware/pcb/'>http://gruvin9x.googlecode.com/svn/trunk/hrdware/pcb/</a>. There you'll find a <a href='http://kicad.sourceforge.net/wiki/Main_Page'>KiCAD</a> project file named <code>gruvin9x.pro</code>, with internal references to <a href='http://gruvin9x.googlecode.com/svn/trunk/pcbv4/gruvin9x.sch'>gruvin9x.sch</a> and <a href='http://gruvin9x.googlecode.com/svn/trunk/hardware/pcb/gruvin9x.pcb'>gruvin9x.pcb</a>.<br>
 <br>
 <b>As at 22 September 2011, we've progressed to v4.0</b> and are working hard to release a board for general consumption. It is our firm intention to finally do just that with v4.1, hopefully before December, 2011. Version 4.0, final prototypes have been assembled (x4) and are being tested and debugged. A number of beta testers are being lined up for the first few v4.1 production boards. Simply put, we're going as fast as we can.<br>
 <br>
