@@ -1,0 +1,5 @@
+# OS X nuisance files
+.DS_Store
+.Trashes
+.Spotlight*
+
